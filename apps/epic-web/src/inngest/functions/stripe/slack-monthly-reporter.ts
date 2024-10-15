@@ -169,128 +169,182 @@ export const slackMonthlyReporter = inngest.createFunction(
         >,
       )
 
-      const websiteAttachments = Object.entries(groupedProducts).map(
-        ([groupName, products]) => {
-          const groupProducts = Object.entries(products)
-          const groupSplit = groupSplits[groupName]
+      const monthYearText = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth() - 1,
+        1,
+      ).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})
 
-          let groupText
-          if (groupProducts.length === 1) {
-            const [key, stats] = groupProducts[0]
-            const productSplit = groupSplit?.products?.[key]
-            groupText = `• *${stats.productName}*
-${stats.count} transactions
-Gross: *${formatCurrency(stats.amount)}*
-Refunded: *${formatCurrency(stats.refunded)}*
-Fees: *${formatCurrency(stats.fee)}*
-Net: *${formatCurrency(stats.net)}*
-
-Split Totals:
-${
-  productSplit
-    ? `Skill Fee: *${formatCurrency(productSplit.skillFee)}*
-${Object.entries(productSplit.creatorSplits)
-  .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
-  .join('\n')}`
-    : 'Splits not found for this product'
-}`
-          } else {
-            const groupTotals = groupProducts.reduce(
-              (totals, [_, stats]) => ({
-                gross: totals.gross + stats.amount,
-                refunded: totals.refunded + stats.refunded,
-                fees: totals.fees + stats.fee,
-                net: totals.net + stats.net,
-              }),
-              {gross: 0, refunded: 0, fees: 0, net: 0},
-            )
-
-            groupText = `*Group Totals:*
-Gross: *${formatCurrency(groupTotals.gross)}*
-Refunded: *${formatCurrency(groupTotals.refunded)}*
-Fees: *${formatCurrency(groupTotals.fees)}*
-Net: *${formatCurrency(groupTotals.net)}*
-
-${
-  groupSplit
-    ? `*Split Totals:*
-Skill Fee: *${formatCurrency(groupSplit.skillFee)}*
-${Object.entries(groupSplit.creatorSplits)
-  .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
-  .join('\n')}`
-    : '*Splits not found for this group*'
-}
-
-*Individual Products:*
-${groupProducts
-  .map(([key, stats]) => {
-    const productSplit = groupSplit?.products?.[key]
-    return `• *${stats.productName}*
-${stats.count} transactions
-Gross: *${formatCurrency(stats.amount)}*
-Refunded: *${formatCurrency(stats.refunded)}*
-Fees: *${formatCurrency(stats.fee)}*
-Net: *${formatCurrency(stats.net)}*
-
-Split Totals:
-${
-  productSplit
-    ? `Skill Fee: *${formatCurrency(productSplit.skillFee)}*
-${Object.entries(productSplit.creatorSplits)
-  .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
-  .join('\n')}`
-    : 'Splits not found for this product'
-}`
-  })
-  .join('\n\n')}`
-          }
-
-          return {
-            mrkdwn_in: ['text'],
-            color: '#4893c9',
-            title: `${groupName}\n${'-'.repeat(groupName.length + 5)}`,
-            text: groupText,
-          }
+      const blocks: any[] = [
+        {
+          type: 'header',
+          text: {
+            type: 'plain_text',
+            text: "Last Month's Charge and Refund Report 💰",
+            emoji: true,
+          },
         },
-      )
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text:
+              `*Monthly Charge Report - ${monthYearText}*\n\n` +
+              `Transactions: *${allCharges.length}*\n` +
+              `Total Gross: *${formatCurrency(totalGross)}*\n` +
+              `Total Refunded: *${formatCurrency(totalRefunded)}*\n` +
+              `Total Fees: *${formatCurrency(totalFee)}*\n` +
+              `Total Net: *${formatCurrency(totalNet)}*`,
+          },
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text:
+              `*Refund Summary:*\n` +
+              `Total Refunds: *${refundTotals.refundCount}*\n` +
+              `Total Refund Amount: *${formatCurrency(
+                refundTotals.totalRefundAmount,
+              )}*`,
+          },
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text:
+              '*Revenue Splits Summary:*\n' +
+              Object.entries(totalSplits)
+                .filter(([name]) => name !== 'Subtotal')
+                .sort(([, a], [, b]) => b - a)
+                .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
+                .join('\n'),
+          },
+        },
+        {type: 'divider'},
+      ]
 
-      const summaryAttachment = {
-        mrkdwn_in: ['text'],
-        color: process.env.NODE_ENV === 'production' ? '#4893c9' : '#c97948',
-        title: `Monthly Charge Report - ${new Date(
-          new Date().getFullYear(),
-          new Date().getMonth() - 1,
-          1,
-        ).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}`,
-        text: `*${allCharges.length}* transactions
-Total Gross: *${formatCurrency(totalGross)}*
-Total Refunded: *${formatCurrency(totalRefunded)}*
-Total Fees: *${formatCurrency(totalFee)}*
-Total Net: *${formatCurrency(totalNet)}*
+      for (const [groupName, products] of Object.entries(groupedProducts)) {
+        const groupProducts = Object.entries(products)
+        const groupSplit = groupSplits[groupName]
 
-Refund Summary:
-Total Refunds: *${refundTotals.refundCount}*
-Total Refund Amount: *${formatCurrency(refundTotals.totalRefundAmount)}*
+        if (groupProducts.length === 1) {
+          const [key, stats] = groupProducts[0]
+          const productSplit = groupSplit?.products?.[key]
+          blocks.push({
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text:
+                `*${groupName}*\n\n` +
+                `• *${stats.productName}*\n` +
+                `${stats.count} transactions\n` +
+                `Gross: *${formatCurrency(stats.amount)}*\n` +
+                `Refunded: *${formatCurrency(stats.refunded)}*\n` +
+                `Fees: *${formatCurrency(stats.fee)}*\n` +
+                `Net: *${formatCurrency(stats.net)}*\n\n` +
+                `Split Totals:\n` +
+                (productSplit
+                  ? `Skill Fee: *${formatCurrency(productSplit.skillFee)}*\n` +
+                    Object.entries(productSplit.creatorSplits)
+                      .map(
+                        ([name, amount]) =>
+                          `${name}: *${formatCurrency(amount)}*`,
+                      )
+                      .join('\n')
+                  : 'Splits not found for this product'),
+            },
+          })
+        } else {
+          const groupTotals = groupProducts.reduce(
+            (totals, [_, stats]) => ({
+              gross: totals.gross + stats.amount,
+              refunded: totals.refunded + stats.refunded,
+              fees: totals.fees + stats.fee,
+              net: totals.net + stats.net,
+            }),
+            {gross: 0, refunded: 0, fees: 0, net: 0},
+          )
 
-Revenue Splits Summary:
-${Object.entries(totalSplits)
-  .filter(([name]) => name !== 'Subtotal')
-  .sort(([, a], [, b]) => b - a)
-  .map(([name, amount]) => {
-    const percentage = (amount / totalNet) * 100
-    return `${name}: *${formatCurrency(amount)}*`
-  })
-  .join('\n')}`,
+          blocks.push({
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text:
+                `*${groupName}*\n\n` +
+                `Gross: *${formatCurrency(groupTotals.gross)}*\n` +
+                `Refunded: *${formatCurrency(groupTotals.refunded)}*\n` +
+                `Fees: *${formatCurrency(groupTotals.fees)}*\n` +
+                `Net: *${formatCurrency(groupTotals.net)}*`,
+            },
+          })
+
+          if (groupSplit) {
+            blocks.push({
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text:
+                  '*Split Totals:*\n' +
+                  `Skill Fee: *${formatCurrency(groupSplit.skillFee)}*\n` +
+                  Object.entries(groupSplit.creatorSplits)
+                    .map(
+                      ([name, amount]) =>
+                        `${name}: *${formatCurrency(amount)}*`,
+                    )
+                    .join('\n'),
+              },
+            })
+          }
+
+          blocks.push({
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: '*Individual Products:*',
+            },
+          })
+
+          for (const [key, stats] of groupProducts) {
+            const productSplit = groupSplit?.products?.[key]
+            blocks.push({
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text:
+                  `*• ${stats.productName}*\n` +
+                  `${stats.count} transactions | Gross: *${formatCurrency(
+                    stats.amount,
+                  )}* | ` +
+                  `Refunded: *${formatCurrency(stats.refunded)}* | ` +
+                  `Fees: *${formatCurrency(
+                    stats.fee,
+                  )}* | Net: *${formatCurrency(stats.net)}*\n` +
+                  (productSplit
+                    ? `*Split Totals:* Skill Fee: *${formatCurrency(
+                        productSplit.skillFee,
+                      )}* | ` +
+                      Object.entries(productSplit.creatorSplits)
+                        .map(
+                          ([name, amount]) =>
+                            `${name}: *${formatCurrency(amount)}*`,
+                        )
+                        .join(' | ')
+                    : 'Splits not found for this product'),
+              },
+            })
+          }
+        }
+
+        blocks.push({type: 'divider'})
       }
-
-      const attachments = [summaryAttachment, ...websiteAttachments]
 
       return postToSlack({
         channel: ANNOUNCE_CHANNEL,
         webClient: new WebClient(process.env.SLACK_TOKEN),
-        text: `Last Months's Charge and Refund Report`,
-        // @ts-ignore
-        attachments,
+        text: `Last Month's Charge and Refund Report`,
+        blocks,
       })
     })
   },
