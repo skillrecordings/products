@@ -209,9 +209,6 @@ export async function receiveStripeWebhooks({
 
       const {handler, details} = determineEventProcessor(targetSiteName)
 
-      console.log('handler', handler)
-      console.log('details', details)
-
       if (handler !== 'self') {
         const {skillSecret, webhookEndpoint} = details
 

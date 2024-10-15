@@ -20,13 +20,16 @@ const WorkshopSchema = z.object({
   state: z.enum(['draft', 'published']),
   image: z.nullable(z.string()).optional(),
   ogImage: z.nullable(z.string()).optional(),
+  lessonCount: z.number().optional().nullable(),
   workshopApp: z
     .nullable(
       z.object({
         path: z.string().nullable().optional(),
-        localhost: z.object({
-          path: z.string().optional(),
-        }),
+        localhost: z
+          .object({
+            path: z.string().optional(),
+          })
+          .optional(),
         external: z.object({
           url: z.string().optional(),
         }),
@@ -84,7 +87,7 @@ const WorkshopSchema = z.object({
 export const WorkshopsSchema = z.array(WorkshopSchema)
 export type Workshop = z.infer<typeof WorkshopSchema>
 
-const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop' && state == 'published'] | order(_createdAt asc) {
+const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop' && state == 'published'] | order(_createdAt desc) {
   _id,
   _type,
   title,
@@ -97,6 +100,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop' && s
   state,
   github,
   workshopApp,
+  "lessonCount": count(resources[@->._type in ['lesson', 'exercise', 'explainer']] + resources[@->._type == 'section']->resources[@->._type in ['lesson', 'exercise', 'explainer']]),
   "instructor": contributors[@.role == 'instructor'][0].contributor->{
       _id,
       _type,

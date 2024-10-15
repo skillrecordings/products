@@ -20,11 +20,6 @@ const Footer = () => {
       href: '/newsletter',
       icon: () => {},
     },
-    {
-      label: 'Conf 2024',
-      href: '/conf',
-      icon: () => {},
-    },
   ]
 
   const contactLinks = [
@@ -49,6 +44,23 @@ const Footer = () => {
     },
   ]
 
+  const confLinks = [
+    {
+      label: (
+        <>
+          <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-orange-300 dark:to-yellow-200">
+            Epic Web Conf 2025
+          </span>
+        </>
+      ),
+      href: '/conf/2025',
+    },
+    {
+      label: "Talks from '24",
+      href: '/talks',
+    },
+  ]
+
   const router = useRouter()
   const {setOpen: setSearchBarOpen} = useSearchBar()
 
@@ -57,7 +69,7 @@ const Footer = () => {
       <div className="relative mx-auto flex w-full max-w-screen-lg flex-col items-start justify-between gap-16 px-5 pb-48 pt-14 sm:flex-row sm:px-10 sm:pt-16 lg:px-5">
         <div className="relative mx-auto flex w-full flex-col items-center gap-8 text-center sm:items-start sm:gap-16 sm:text-left md:flex-row">
           <div>
-            <strong className="font-mono text-xs uppercase tracking-wider opacity-60">
+            <strong className="font-mono text-xs uppercase tracking-wider text-indigo-900 opacity-60 dark:text-indigo-200">
               Learn
             </strong>
             <ul className="pt-3 text-sm font-medium">
@@ -80,7 +92,30 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <strong className="font-mono text-xs uppercase tracking-wider opacity-60">
+            <strong className="font-mono text-xs uppercase tracking-wider text-indigo-900 opacity-60 dark:text-indigo-200">
+              Conference
+            </strong>
+            <ul className="pt-3 text-sm font-medium">
+              {confLinks.map(({label, href}) => (
+                <li key={href}>
+                  <Link
+                    className={cn(
+                      'inline-block py-1 opacity-80 transition hover:opacity-100',
+                      {
+                        'underline [&_span]:underline':
+                          router.pathname.includes(href),
+                      },
+                    )}
+                    href={href}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <strong className="font-mono text-xs uppercase tracking-wider text-indigo-900 opacity-60 dark:text-indigo-200">
               Contact
             </strong>
             <ul className="pt-3 text-sm font-medium">
@@ -97,7 +132,7 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <strong className="font-mono text-xs uppercase tracking-wider opacity-60">
+            <strong className="font-mono text-xs uppercase tracking-wider text-indigo-900 opacity-60 dark:text-indigo-200">
               About
             </strong>
             <ul className="pt-3 text-sm font-medium">
@@ -120,9 +155,9 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="flex h-full w-full flex-col items-center gap-10 sm:items-end">
+        <div className="mx-auto flex h-full flex-col items-center gap-10 sm:items-end">
           <button
-            className="group relative flex w-full max-w-[200px] flex-shrink-0 items-center justify-between gap-2 rounded-md border border-gray-100 bg-gray-50 px-3 py-2.5 text-sm font-medium shadow-inner transition dark:border-white/5 dark:bg-gray-800/50 hover:dark:bg-gray-900"
+            className="group relative flex w-full min-w-[250px] flex-shrink-0 items-center justify-between gap-2 rounded-md border border-gray-100 bg-gray-50 px-3 py-2.5 text-sm font-medium shadow-inner transition dark:border-white/5 dark:bg-gray-800/50 hover:dark:bg-gray-900 sm:min-w-[200px]"
             type="button"
             onClick={() => {
               setSearchBarOpen(true)

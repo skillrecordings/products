@@ -7,11 +7,16 @@ export const LessonSchema = z
   .object({
     _id: z.string().optional(),
     _key: z.string().optional(),
+    visibility: z.enum(['public', 'paid', 'subscribed']).optional().nullable(),
     solution: z
       .nullable(
         z
           .object({
             _key: z.string(),
+            visibility: z
+              .enum(['public', 'paid', 'subscribed'])
+              .optional()
+              .nullable(),
           })
           .merge(ResourceSchema.omit({_id: true}))
           .optional(),
@@ -29,12 +34,14 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
       _type,
       _updatedAt,
       title,
+      visibility,
       description,
       "slug": slug.current,
       body,
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
+        visibility,
         "_updatedAt": ^._updatedAt,
         title,
         description,
@@ -57,6 +64,7 @@ export const getAllLessons = async (): Promise<Lesson[]> => {
       title,
       description,
       body,
+      visibility,
       "slug": slug.current,
       "videoResourceId": resources[@->._type == 'videoResource'][0],
       "solution": resources[@._type == 'solution'][0]{
@@ -64,6 +72,7 @@ export const getAllLessons = async (): Promise<Lesson[]> => {
         _type,
         _updatedAt,
         title,
+        visibility,
         description,
         body,
         "videoResourceId": resources[@->._type == 'videoResource'][0],

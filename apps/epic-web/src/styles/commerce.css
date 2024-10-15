@@ -15,6 +15,27 @@
       }
     }
   }
+  /* PRODUCTS/[SLUG] */
+  #buy {
+    [data-pricing-container] {
+      #main-pricing {
+        [data-pricing-product] {
+          [data-name-badge] {
+            @apply hidden;
+          }
+          [data-pricing-product-image] {
+            @apply relative mx-auto -mb-32 h-56 w-56 rounded-none border-none bg-transparent;
+            img {
+              @apply rounded-none;
+            }
+          }
+          [data-price-container='loading'] {
+            @apply h-[100px];
+          }
+        }
+      }
+    }
+  }
 
   [data-pricing-container] {
     @apply mx-auto flex w-full max-w-screen-lg flex-wrap items-start justify-center gap-5 pb-24;
@@ -723,6 +744,7 @@
           img {
           }
         }
+
         article {
           @apply w-full;
         }
@@ -743,7 +765,7 @@
         }
         [data-pricing-product-header] {
           [data-byline] {
-            @apply mt-3 text-center opacity-75;
+            @apply mt-2 text-center opacity-75;
           }
           [data-name-badge] {
             @apply pb-4 text-center text-sm font-extrabold uppercase opacity-75;
@@ -790,7 +812,7 @@
             @apply flex items-center justify-center;
           }
           [data-loading-price] {
-            @apply flex h-10 items-center justify-center;
+            @apply flex h-[72px] items-center justify-center;
           }
           [data-price-container='error'] {
             @apply hidden;
@@ -1001,8 +1023,7 @@
             }
           }
           [data-guarantee-image] {
-            @apply mx-auto flex w-28 items-center justify-center pt-8;
-            /* @apply hidden; */
+            @apply hidden;
           }
           [data-main] {
             @apply px-5 py-5 text-base;
@@ -1159,19 +1180,21 @@
 
   #video-overlay {
     [data-pricing-product] {
-      @apply min-h-[280px] w-full max-w-[350px];
+      @apply min-h-[280px] w-full max-w-[400px];
       [data-pricing-product-image] {
         @apply hidden;
       }
       article {
+        @apply w-full;
         /* @apply rounded-lg border border-gray-200/40 bg-white p-7 shadow-2xl shadow-gray-400/20; */
       }
 
       [data-pricing-product-header] {
         [data-byline] {
-          @apply hidden;
+          @apply pt-2 text-sm opacity-75;
         }
         [data-name-badge] {
+          @apply hidden;
         }
         [data-price-container] {
           @apply flex items-center justify-center gap-0.5;
@@ -1217,7 +1240,7 @@
         }
       }
       [data-price-container='loading'] {
-        @apply flex items-center py-3;
+        @apply flex h-[76px] items-center py-3;
         svg {
           @apply text-white;
         }

@@ -15,6 +15,8 @@ export const getAllTutorials = async (onlyPublished = true) => {
     _createdAt,
     description,
     moduleType,
+    workshopApp,
+    github,
     state,
     "instructor": contributors[@.role == 'instructor'][0].contributor->{
       _id,
@@ -72,6 +74,7 @@ export const getTutorial = async (slug: string) =>
       moduleType,
       _id,
       github,
+      workshopApp,
       ogImage,
       description,
       _updatedAt,
