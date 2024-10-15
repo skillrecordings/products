@@ -34,13 +34,13 @@ type Splits = Record<string, ProductSplits>
 
 type UserData = Record<string, string>
 
-export const slackDailyReporter = inngest.createFunction(
+export const slackMonthlyReporter = inngest.createFunction(
   {
-    id: 'stripe/slack-daily-reporter',
-    name: 'Stripe Slack Daily Reporter',
+    id: 'stripe/slack-monthly-reporter',
+    name: 'Stripe Slack Monthly Reporter',
   },
   {
-    cron: 'TZ=America/Los_Angeles 0 10 * * *',
+    cron: 'TZ=America/Los_Angeles 0 10 2 * *',
   },
   async ({step}) => {
     const allCharges: SimplifiedCharge[] = []
@@ -257,9 +257,11 @@ ${Object.entries(productSplit.creatorSplits)
       const summaryAttachment = {
         mrkdwn_in: ['text'],
         color: process.env.NODE_ENV === 'production' ? '#4893c9' : '#c97948',
-        title: `Daily Charge Report - ${new Date(
-          Date.now() - 86400000,
-        ).toLocaleDateString()}`,
+        title: `Monthly Charge Report - ${new Date(
+          new Date().getFullYear(),
+          new Date().getMonth() - 1,
+          1,
+        ).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}`,
         text: `*${allCharges.length}* transactions
 Total Gross: *${formatCurrency(totalGross)}*
 Total Refunded: *${formatCurrency(totalRefunded)}*
@@ -286,7 +288,7 @@ ${Object.entries(totalSplits)
       return postToSlack({
         channel: ANNOUNCE_CHANNEL,
         webClient: new WebClient(process.env.SLACK_TOKEN),
-        text: `Yesterday's Charge and Refund Report`,
+        text: `Last Months's Charge and Refund Report`,
         // @ts-ignore
         attachments,
       })
