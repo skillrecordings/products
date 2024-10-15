@@ -59,11 +59,7 @@ function simplifyRefund(refund: Stripe.Refund): SimplifiedRefund {
   let product = 'Unknown Product'
   let productId = null
 
-  console.log('Refund ID:', refund.id)
-  console.log('Refund Metadata:', JSON.stringify(refund.metadata))
-
   if (refund.charge && typeof refund.charge !== 'string') {
-    console.log('Charge Metadata:', JSON.stringify(refund.charge.metadata))
     product = refund.charge.metadata.product || product
     productId = refund.charge.metadata.productId || productId
   } else {
@@ -75,9 +71,6 @@ function simplifyRefund(refund: Stripe.Refund): SimplifiedRefund {
     product = refund.metadata?.product || product
     productId = refund.metadata?.productId || productId
   }
-
-  console.log('Final Product:', product)
-  console.log('Final ProductId:', productId)
 
   return SimplifiedRefundSchema.parse({
     id: refund.id,
@@ -257,7 +250,7 @@ export async function fetchCharges({
   }
 
   console.log(
-    `dateeee!!! Fetching charges for ${startDate.toISOString()} to ${endDate.toISOString()}`,
+    `Fetching charges for ${startDate.toISOString()} to ${endDate.toISOString()}`,
   )
 
   const charges: Stripe.ApiList<Stripe.Charge> = await fetchChargesWithRetry({
