@@ -23,9 +23,11 @@
   },
   "dependencies": {
     "inngest": "3.22.13",
+    "@skillrecordings/stripe-sdk": "workspace:*",
     "@prisma/client": "5.2.0",
     "decimal.js": "^10.4.3",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "stripe": "^8.186.1"
   },
   "devDependencies": {
     "@skillrecordings/tsconfig": "workspace:*",
