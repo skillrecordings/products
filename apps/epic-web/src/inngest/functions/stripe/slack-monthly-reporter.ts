@@ -188,39 +188,73 @@ export const slackMonthlyReporter = inngest.createFunction(
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text:
-              `*Monthly Charge Report - ${monthYearText}*\n\n` +
-              `Transactions: *${allCharges.length}*\n` +
-              `Total Gross: *${formatCurrency(totalGross)}*\n` +
-              `Total Refunded: *${formatCurrency(totalRefunded)}*\n` +
-              `Total Fees: *${formatCurrency(totalFee)}*\n` +
-              `Total Net: *${formatCurrency(totalNet)}*`,
+            text: `*Monthly Charge Report - ${monthYearText}*`,
           },
         },
         {
           type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text:
-              `*Refund Summary:*\n` +
-              `Total Refunds: *${refundTotals.refundCount}*\n` +
-              `Total Refund Amount: *${formatCurrency(
+          fields: [
+            {
+              type: 'mrkdwn',
+              text: `*Transactions:* ${allCharges.length}`,
+            },
+            {
+              type: 'mrkdwn',
+              text: `*Total Gross:* ${formatCurrency(totalGross)}`,
+            },
+            {
+              type: 'mrkdwn',
+              text: `*Total Refunded:* ${formatCurrency(totalRefunded)}`,
+            },
+            {
+              type: 'mrkdwn',
+              text: `*Total Fees:* ${formatCurrency(totalFee)}`,
+            },
+            {
+              type: 'mrkdwn',
+              text: `*Total Net:* ${formatCurrency(totalNet)}`,
+            },
+          ],
+        },
+        {
+          type: 'section',
+          fields: [
+            {type: 'mrkdwn', text: `*Refund Summary:*`},
+            {
+              type: 'mrkdwn',
+              text: `Total Refunds: *${refundTotals.refundCount}*\n`,
+            },
+            {
+              type: 'mrkdwn',
+              text: '\u200B',
+            },
+            {
+              type: 'mrkdwn',
+              text: `Total Refund Amount: *${formatCurrency(
                 refundTotals.totalRefundAmount,
               )}*`,
-          },
+            },
+          ],
         },
         {
           type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text:
-              '*Revenue Splits Summary:*\n' +
-              Object.entries(totalSplits)
-                .filter(([name]) => name !== 'Subtotal')
-                .sort(([, a], [, b]) => b - a)
-                .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
-                .join('\n'),
-          },
+          fields: [
+            {
+              type: 'mrkdwn',
+              text: '*Revenue Splits Summary:*',
+            },
+            {
+              type: 'mrkdwn',
+              text: '\u200B',
+            },
+            ...Object.entries(totalSplits)
+              .filter(([name]) => name !== 'Subtotal')
+              .sort(([, a], [, b]) => b - a)
+              .map(([name, amount]) => ({
+                type: 'mrkdwn',
+                text: `${name}: *${formatCurrency(amount)}*`,
+              })),
+          ],
         },
         {type: 'divider'},
       ]
