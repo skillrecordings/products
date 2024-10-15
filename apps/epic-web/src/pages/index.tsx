@@ -45,7 +45,7 @@ export default Index
 const Header = () => {
   return (
     <header className="relative mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#FFF6E7_0%,transparent_65%)] px-5 pb-16 pt-24 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)] sm:pt-28">
-      <h1 className="relative z-10 pt-10 text-3xl font-bold sm:text-4xl lg:text-5xl">
+      <h1 className="relative z-10 text-3xl font-bold sm:pt-10 sm:text-4xl lg:text-5xl">
         <span className="inline-flex pb-4 text-xs font-semibold uppercase tracking-widest text-amber-600 shadow-cyan-200/50 dark:text-cyan-300 dark:brightness-110 dark:drop-shadow-xl sm:text-sm">
           Start your journey to becoming an Epic Web Developer
         </span>
