@@ -169,102 +169,130 @@ export const slackDailyReporter = inngest.createFunction(
         >,
       )
 
-      const websiteAttachments = Object.entries(groupedProducts).map(
-        ([groupName, products]) => {
-          const groupProducts = Object.entries(products)
-          const groupSplit = groupSplits[groupName]
-
-          let groupText
-          if (groupProducts.length === 1) {
-            const [key, stats] = groupProducts[0]
-            const productSplit = groupSplit?.products?.[key]
-            groupText = `• *${stats.productName}*
-${stats.count} transactions
-
-${
-  productSplit
-    ? `Skill Fee: *${formatCurrency(productSplit.skillFee)}*
-${Object.entries(productSplit.creatorSplits)
-  .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
-  .join('\n')}`
-    : 'Splits not found for this product'
-}`
-          } else {
-            const groupTotals = groupProducts.reduce(
-              (totals, [_, stats]) => ({
-                gross: totals.gross + stats.amount,
-                refunded: totals.refunded + stats.refunded,
-                fees: totals.fees + stats.fee,
-                net: totals.net + stats.net,
-              }),
-              {gross: 0, refunded: 0, fees: 0, net: 0},
-            )
-
-            groupText = `
-${
-  groupSplit
-    ? `
-Skill Fee: *${formatCurrency(groupSplit.skillFee)}*
-${Object.entries(groupSplit.creatorSplits)
-  .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
-  .join('\n')}`
-    : '*Splits not found for this group*'
-}
-
-*Individual Products:*
-${groupProducts
-  .map(([key, stats]) => {
-    const productSplit = groupSplit?.products?.[key]
-    return `• *${stats.productName}*
-${stats.count} transactions
-
-${
-  productSplit
-    ? `Skill Fee: *${formatCurrency(productSplit.skillFee)}*
-${Object.entries(productSplit.creatorSplits)
-  .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
-  .join('\n')}`
-    : 'Splits not found for this product'
-}`
-  })
-  .join('\n\n')}`
-          }
-
-          return {
-            mrkdwn_in: ['text'],
-            color: '#4893c9',
-            title: `${groupName}\n${'-'.repeat(groupName.length + 5)}`,
-            text: groupText,
-          }
+      const blocks: any[] = [
+        {
+          type: 'header',
+          text: {
+            type: 'plain_text',
+            text: "Yesterday's Charge and Refund Report 💰",
+            emoji: true,
+          },
         },
-      )
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `Daily Report - ${new Date(
+              Date.now() - 86400000,
+            ).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}`,
+          },
+        },
+        {
+          type: 'section',
+          fields: [
+            {
+              type: 'mrkdwn',
+              text: `${allCharges.length} Transactions`,
+            },
+          ],
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: '*Revenue Splits Summary:*',
+          },
+          fields: Object.entries(totalSplits)
+            .filter(([name]) => name !== 'Subtotal')
+            .sort(([, a], [, b]) => b - a)
+            .map(([name, amount]) => ({
+              type: 'mrkdwn',
+              text: `${name}: *${formatCurrency(amount)}*`,
+            })),
+        },
+        {
+          type: 'divider',
+        },
+      ]
 
-      const summaryAttachment = {
-        mrkdwn_in: ['text'],
-        color: process.env.NODE_ENV === 'production' ? '#4893c9' : '#c97948',
-        title: `Daily Charge Report - ${new Date(
-          Date.now() - 86400000,
-        ).toLocaleDateString()}`,
-        text: `*${allCharges.length}* transactions
-Revenue Splits Summary:
-${Object.entries(totalSplits)
-  .filter(([name]) => name !== 'Subtotal')
-  .sort(([, a], [, b]) => b - a)
-  .map(([name, amount]) => {
-    const percentage = (amount / totalNet) * 100
-    return `${name}: *${formatCurrency(amount)}*`
-  })
-  .join('\n')}`,
-      }
+      Object.entries(groupedProducts).forEach(([groupName, products]) => {
+        blocks.push({
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `*${groupName}*`,
+          },
+        })
 
-      const attachments = [summaryAttachment, ...websiteAttachments]
+        const groupSplit = groupSplits[groupName]
+        if (groupSplit) {
+          blocks.push({
+            type: 'section',
+            fields: [
+              {
+                type: 'mrkdwn',
+                text: `Skill Fee: *${formatCurrency(groupSplit.skillFee)}*`,
+              },
+              ...Object.entries(groupSplit.creatorSplits).map(
+                ([name, amount]) => ({
+                  type: 'mrkdwn',
+                  text: `${name}: *${formatCurrency(amount)}*`,
+                }),
+              ),
+            ],
+          })
+        } else {
+          blocks.push({
+            type: 'context',
+            elements: [
+              {
+                type: 'mrkdwn',
+                text: 'Splits not found for this group',
+              },
+            ],
+          })
+        }
+
+        blocks.push({
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: '*Individual Products:*',
+          },
+        })
+
+        Object.entries(products).forEach(([key, stats]) => {
+          const productSplit = groupSplit?.products?.[key]
+          blocks.push({
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: `• *${stats.productName}*\n${stats.count} transactions | ${
+                productSplit
+                  ? `Skill Fee: ${formatCurrency(
+                      productSplit.skillFee,
+                    )} | ${Object.entries(productSplit.creatorSplits)
+                      .map(
+                        ([name, amount]) =>
+                          `${name}: ${formatCurrency(amount)}`,
+                      )
+                      .join(' | ')}`
+                  : 'Splits not found for this product'
+              }`,
+            },
+          })
+        })
+
+        blocks.push({
+          type: 'divider',
+        })
+      })
 
       return postToSlack({
         channel: ANNOUNCE_CHANNEL,
         webClient: new WebClient(process.env.SLACK_TOKEN),
         text: `Yesterday's Charge and Refund Report`,
-        // @ts-ignore
-        attachments,
+        blocks,
       })
     })
   },
