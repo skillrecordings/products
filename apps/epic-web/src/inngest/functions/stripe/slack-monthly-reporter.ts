@@ -180,7 +180,7 @@ export const slackMonthlyReporter = inngest.createFunction(
           type: 'header',
           text: {
             type: 'plain_text',
-            text: "Last Month's Charge and Refund Report 💰",
+            text: "Last Month's Charge  💰",
             emoji: true,
           },
         },
@@ -377,7 +377,7 @@ export const slackMonthlyReporter = inngest.createFunction(
       return postToSlack({
         channel: ANNOUNCE_CHANNEL,
         webClient: new WebClient(process.env.SLACK_TOKEN),
-        text: `Last Month's Charge and Refund Report`,
+        text: `Last Month's Charge `,
         blocks,
       })
     })

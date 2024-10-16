@@ -10,6 +10,8 @@ import {
 import {prisma} from '@skillrecordings/database'
 import {calculateTotals} from 'components/calculations/calculate-totals'
 import {calculateSplits} from 'components/calculations/calculate-splits'
+import {image} from 'd3'
+import {al} from '@upstash/redis/zmscore-a4ec4c2a'
 
 const ANNOUNCE_CHANNEL = 'C07RDAMQ7PG'
 
@@ -143,9 +145,79 @@ export const slackDailyReporter = inngest.createFunction(
       calculateSplits(totals, splits, users),
     )
 
+    const generateChartUrl = (totalSplits: Record<string, number>) => {
+      const labels = Object.keys(totalSplits).filter(
+        (name) => name !== 'Subtotal',
+      )
+      const data = labels.map((name) => totalSplits[name])
+      const formattedLabels = labels.map(
+        (name) => `${name}: ${formatCurrency(totalSplits[name])}`,
+      )
+
+      // Calculate the total
+      const total = data.reduce((sum, value) => sum + value, 0)
+      const formattedTotal = formatCurrency(total)
+
+      const chartData = {
+        type: 'doughnut',
+        data: {
+          labels: formattedLabels,
+          datasets: [
+            {
+              data: data,
+              backgroundColor: [
+                '#FF6384',
+                '#36A2EB',
+                '#FFCE56',
+                '#4BC0C0',
+                '#9966FF',
+                '#FF9F40',
+              ],
+            },
+          ],
+        },
+        options: {
+          title: {
+            display: true,
+            text: 'Revenue Distribution',
+            fontColor: 'black',
+          },
+          legend: {
+            position: 'bottom',
+            labels: {
+              boxWidth: 15,
+              padding: 15,
+              fontColor: 'black',
+            },
+          },
+          plugins: {
+            datalabels: {
+              display: false,
+            },
+            doughnutlabel: {
+              labels: [
+                {
+                  text: formattedTotal,
+                  font: {size: 16, weight: 'bold'},
+                  color: 'black',
+                },
+                {
+                  text: 'total',
+                  font: {size: 12},
+                  color: 'black',
+                },
+              ],
+            },
+          },
+        },
+      }
+
+      const encodedChartData = encodeURIComponent(JSON.stringify(chartData))
+      return `https://quickchart.io/chart?c=${encodedChartData}&backgroundColor=white`
+    }
+
     await step.run('announce in slack', async () => {
-      const {totalGross, totalRefunded, totalNet, totalFee, productGroups} =
-        totals
+      const {productGroups} = totals
       const {totalSplits, groupSplits} = calculatedSplits
 
       function getWebsiteGroup(productName: string): string {
@@ -169,12 +241,14 @@ export const slackDailyReporter = inngest.createFunction(
         >,
       )
 
+      const chartUrl = generateChartUrl(totalSplits)
+
       const blocks: any[] = [
         {
           type: 'header',
           text: {
             type: 'plain_text',
-            text: "Yesterday's Charge and Refund Report 💰",
+            text: "Yesterday's Charge  💰",
             emoji: true,
           },
         },
@@ -200,6 +274,15 @@ export const slackDailyReporter = inngest.createFunction(
               .map(([name, amount]) => `${name}: ${formatCurrency(amount)}`)
               .join(' | ')}`,
           },
+        },
+        {
+          type: 'image',
+          title: {
+            type: 'plain_text',
+            text: 'Revenue Distribution',
+          },
+          image_url: chartUrl,
+          alt_text: 'Revenue Distribution Chart',
         },
         {
           type: 'divider',
@@ -305,12 +388,23 @@ export const slackDailyReporter = inngest.createFunction(
         blocks.push({
           type: 'divider',
         })
+
+        // blocks.push({
+        //   type: 'image',
+        //   title: {
+        //     type: 'plain_text',
+        //     text: 'Graph Revenue Distribution',
+        //   },
+        //   image_url:
+        //     'https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[2012,2013,2014,2015,2016],datasets:[{label:%27Users%27,data:[120,60,50,180,120]}]}}',
+        //   alt_text: 'notifications',
+        // })
       })
 
       return postToSlack({
         channel: ANNOUNCE_CHANNEL,
         webClient: new WebClient(process.env.SLACK_TOKEN),
-        text: `Yesterday's Charge and Refund Report`,
+        text: `Yesterday's Charge `,
         blocks,
       })
     })
