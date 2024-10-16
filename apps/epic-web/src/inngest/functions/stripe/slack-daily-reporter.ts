@@ -13,8 +13,6 @@ import {calculateSplits} from 'components/calculations/calculate-splits'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 
-const ANNOUNCE_CHANNEL = 'C07RDAMQ7PG'
-
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -56,7 +54,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-charges${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchCharges({
-              range: 'october-10',
+              range: 'yesterday',
               starting_after: startingAfter,
             })
           },
@@ -76,7 +74,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchRefunds({
-              range: 'october-10',
+              range: 'yesterday',
               starting_after: startingAfter,
             })
           },
@@ -207,16 +205,36 @@ export const slackDailyReporter = inngest.createFunction(
       },
     )
 
-    const generateChartUrl = (totalSplits: Record<string, number>) => {
-      const labels = Object.keys(totalSplits).filter(
-        (name) => name !== 'Subtotal',
-      )
-      const data = labels.map((name) => totalSplits[name])
+    const generateChartUrl = (
+      userProducts: Record<string, Record<string, ProductGroup>>,
+      userSplits: Record<
+        string,
+        {
+          creatorSplits: Record<string, number>
+          products: Record<string, {creatorSplits: Record<string, number>}>
+        }
+      >,
+      userName: string,
+    ): string => {
+      const productData: {[productName: string]: number} = {}
+
+      for (const [groupName, groupProducts] of Object.entries(userProducts)) {
+        for (const [productKey, product] of Object.entries(groupProducts)) {
+          const creatorShare =
+            userSplits[groupName]?.products[productKey]?.creatorSplits[
+              userName
+            ] || 0
+          productData[product.productName] =
+            (productData[product.productName] || 0) + creatorShare
+        }
+      }
+
+      const labels = Object.keys(productData)
+      const data = Object.values(productData)
       const formattedLabels = labels.map(
-        (name) => `${name}: ${formatCurrency(totalSplits[name])}`,
+        (name, index) => `${name}: ${formatCurrency(data[index])}`,
       )
 
-      // Calculate the total
       const total = data.reduce((sum, value) => sum + value, 0)
       const formattedTotal = formatCurrency(total)
 
@@ -241,7 +259,7 @@ export const slackDailyReporter = inngest.createFunction(
         options: {
           title: {
             display: true,
-            text: 'Revenue Distribution',
+            text: 'Revenue Distribution by Product',
             fontColor: 'black',
           },
           legend: {
@@ -280,7 +298,7 @@ export const slackDailyReporter = inngest.createFunction(
 
     await step.run('announce in slack', async () => {
       const {productGroups} = totals
-      const {totalSplits, groupSplits} = calculatedSplits
+      const {groupSplits} = calculatedSplits
 
       const webClient = new WebClient(process.env.SLACK_TOKEN)
       const sentMessages: Record<string, boolean> = {}
@@ -355,7 +373,7 @@ export const slackDailyReporter = inngest.createFunction(
             }
           }
 
-          const chartUrl = generateChartUrl(userTotalSplits)
+          const chartUrl = generateChartUrl(userProducts, userSplits, userName)
 
           const blocks: any[] = [
             {
@@ -379,7 +397,7 @@ export const slackDailyReporter = inngest.createFunction(
               type: 'section',
               text: {
                 type: 'mrkdwn',
-                text: `${userTotalTransactions} Transactions | Your Total Revenue: ${formatCurrency(
+                text: `${userTotalTransactions} Transactions | ${formatCurrency(
                   userTotalRevenue,
                 )}`,
               },
@@ -422,7 +440,7 @@ export const slackDailyReporter = inngest.createFunction(
                     type: 'mrkdwn',
                     text: `• *${stats.productName}*\n${
                       stats.count
-                    } transactions | Your Share: ${formatCurrency(
+                    } transactions | ${formatCurrency(
                       productSplit.creatorSplits[userName],
                     )}`,
                   },
@@ -439,7 +457,7 @@ export const slackDailyReporter = inngest.createFunction(
                   type: 'section',
                   text: {
                     type: 'mrkdwn',
-                    text: `${totalGroupTransactions} Transactions | Your Share: ${formatCurrency(
+                    text: `${totalGroupTransactions} Transactions | ${formatCurrency(
                       groupData.creatorSplits[userName],
                     )}`,
                   },
@@ -462,7 +480,7 @@ export const slackDailyReporter = inngest.createFunction(
                         type: 'mrkdwn',
                         text: `• *${stats.productName}*\n${
                           stats.count
-                        } transactions | Your Share: ${formatCurrency(
+                        } transactions | ${formatCurrency(
                           productSplit.creatorSplits[userName],
                         )}`,
                       },
