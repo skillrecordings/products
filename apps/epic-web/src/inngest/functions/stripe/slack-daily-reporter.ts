@@ -182,33 +182,22 @@ export const slackDailyReporter = inngest.createFunction(
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `Daily Report - ${new Date(
+            text: `*Daily Report - ${new Date(
               Date.now() - 86400000,
-            ).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}`,
+            ).toLocaleDateString()}*`,
           },
-        },
-        {
-          type: 'section',
-          fields: [
-            {
-              type: 'mrkdwn',
-              text: `${allCharges.length} Transactions`,
-            },
-          ],
         },
         {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: '*Revenue Splits Summary:*',
+            text: `Transactions: ${allCharges.length} | ${Object.entries(
+              totalSplits,
+            )
+              .filter(([name]) => name !== 'Subtotal' && name !== 'Skill Fee')
+              .map(([name, amount]) => `${name}: ${formatCurrency(amount)}`)
+              .join(' | ')}`,
           },
-          fields: Object.entries(totalSplits)
-            .filter(([name]) => name !== 'Subtotal')
-            .sort(([, a], [, b]) => b - a)
-            .map(([name, amount]) => ({
-              type: 'mrkdwn',
-              text: `${name}: *${formatCurrency(amount)}*`,
-            })),
         },
         {
           type: 'divider',
@@ -216,60 +205,28 @@ export const slackDailyReporter = inngest.createFunction(
       ]
 
       Object.entries(groupedProducts).forEach(([groupName, products]) => {
-        blocks.push({
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text: `*${groupName}*`,
-          },
-        })
-
+        const groupProducts = Object.entries(products)
         const groupSplit = groupSplits[groupName]
-        if (groupSplit) {
-          blocks.push({
-            type: 'section',
-            fields: [
-              {
-                type: 'mrkdwn',
-                text: `Skill Fee: *${formatCurrency(groupSplit.skillFee)}*`,
-              },
-              ...Object.entries(groupSplit.creatorSplits).map(
-                ([name, amount]) => ({
-                  type: 'mrkdwn',
-                  text: `${name}: *${formatCurrency(amount)}*`,
-                }),
-              ),
-            ],
-          })
-        } else {
-          blocks.push({
-            type: 'context',
-            elements: [
-              {
-                type: 'mrkdwn',
-                text: 'Splits not found for this group',
-              },
-            ],
-          })
-        }
 
         blocks.push({
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: '*Individual Products:*',
+            text: groupName,
           },
         })
 
-        Object.entries(products).forEach(([key, stats]) => {
+        if (groupProducts.length === 1) {
+          const [key, stats] = groupProducts[0]
           const productSplit = groupSplit?.products?.[key]
+
           blocks.push({
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `• *${stats.productName}*\n${stats.count} transactions | ${
+              text: `• ${stats.productName}\n${stats.count} transactions | ${
                 productSplit
-                  ? `Skill Fee: ${formatCurrency(
+                  ? `Skill Totals: Skill Fee: ${formatCurrency(
                       productSplit.skillFee,
                     )} | ${Object.entries(productSplit.creatorSplits)
                       .map(
@@ -281,7 +238,67 @@ export const slackDailyReporter = inngest.createFunction(
               }`,
             },
           })
-        })
+        } else {
+          if (groupSplit) {
+            const totalTransactions = groupProducts.reduce(
+              (sum, [_, stats]) => sum + stats.count,
+              0,
+            )
+            blocks.push({
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: `Transactions: ${totalTransactions} | ${Object.entries(
+                  groupSplit.creatorSplits,
+                )
+                  .map(([name, amount]) => `${name}: ${formatCurrency(amount)}`)
+                  .join(' | ')}`,
+              },
+            })
+
+            blocks.push({
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: 'Individual Products:',
+              },
+            })
+
+            groupProducts.forEach(([key, stats]) => {
+              const productSplit = groupSplit.products[key]
+              blocks.push({
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: `• ${stats.productName}\n${
+                    stats.count
+                  } transactions | ${
+                    productSplit
+                      ? `Skill Totals: Skill Fee: ${formatCurrency(
+                          productSplit.skillFee,
+                        )} | ${Object.entries(productSplit.creatorSplits)
+                          .map(
+                            ([name, amount]) =>
+                              `${name}: ${formatCurrency(amount)}`,
+                          )
+                          .join(' | ')}`
+                      : 'Splits not found for this product'
+                  }`,
+                },
+              })
+            })
+          } else {
+            blocks.push({
+              type: 'context',
+              elements: [
+                {
+                  type: 'mrkdwn',
+                  text: 'Splits not found for this group',
+                },
+              ],
+            })
+          }
+        }
 
         blocks.push({
           type: 'divider',
