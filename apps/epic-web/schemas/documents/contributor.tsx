@@ -42,6 +42,12 @@ export default defineType({
       description: 'the contributors work group in slack',
     }),
     defineField({
+      name: 'userId',
+      title: 'User ID',
+      type: 'string',
+      description: 'the contributors id in our database',
+    }),
+    defineField({
       name: 'bio',
       title: 'Bio',
       description: 'A short bio about the author.',

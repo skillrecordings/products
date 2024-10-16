@@ -10,6 +10,8 @@ import {
 import {prisma} from '@skillrecordings/database'
 import {calculateTotals} from 'components/calculations/calculate-totals'
 import {calculateSplits} from 'components/calculations/calculate-splits'
+import {sanityClient} from 'utils/sanity-client'
+import groq from 'groq'
 
 const ANNOUNCE_CHANNEL = 'C07RDAMQ7PG'
 
@@ -54,7 +56,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-charges${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchCharges({
-              range: 'yesterday',
+              range: 'october-10',
               starting_after: startingAfter,
             })
           },
@@ -74,7 +76,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchRefunds({
-              range: 'yesterday',
+              range: 'october-10',
               starting_after: startingAfter,
             })
           },
@@ -141,6 +143,61 @@ export const slackDailyReporter = inngest.createFunction(
 
     const calculatedSplits = await step.run('calculate splits', async () =>
       calculateSplits(totals, splits, users),
+    )
+
+    interface UserData {
+      [userId: string]: string
+    }
+
+    interface SlackChannelIds {
+      [userId: string]: string | null
+    }
+
+    interface Contributor {
+      userId: string
+      saleAnnounceChannel: string
+    }
+
+    const OWNER_USER_ID = '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b'
+
+    const slackChannelIds = await step.run(
+      'load slack channel ids for all users',
+      async (): Promise<SlackChannelIds> => {
+        const userIds = Object.keys(users)
+
+        const query = groq`*[_type == "contributor" && userId in $userIds] {
+      userId,
+      saleAnnounceChannel
+    }`
+
+        const contributors: Contributor[] = await sanityClient.fetch(query, {
+          userIds,
+        })
+
+        const slackChannelMap = contributors.reduce<SlackChannelIds>(
+          (acc, contributor) => {
+            if (contributor.userId && contributor.saleAnnounceChannel) {
+              acc[contributor.userId] = contributor.saleAnnounceChannel
+            }
+            return acc
+          },
+          {},
+        )
+
+        const slackIds: SlackChannelIds = userIds.reduce<SlackChannelIds>(
+          (acc, userId) => {
+            if (userId === OWNER_USER_ID) {
+              acc[userId] = process.env.SLACK_ANNOUNCE_CHANNEL_ID || null
+            } else {
+              acc[userId] = slackChannelMap[userId] || null
+            }
+            return acc
+          },
+          {},
+        )
+
+        return slackIds
+      },
     )
 
     const generateChartUrl = (totalSplits: Record<string, number>) => {
@@ -399,12 +456,46 @@ export const slackDailyReporter = inngest.createFunction(
         // })
       })
 
-      return postToSlack({
-        channel: ANNOUNCE_CHANNEL,
-        webClient: new WebClient(process.env.SLACK_TOKEN),
-        text: `Yesterday's Charge `,
-        blocks,
-      })
+      const webClient = new WebClient(process.env.SLACK_TOKEN)
+      const sentMessages: Record<string, boolean> = {}
+      const results: Array<{
+        userId: string
+        channelId: string
+        success: boolean
+        error?: string
+      }> = []
+
+      for (const [userId, channelId] of Object.entries(slackChannelIds)) {
+        if (channelId && !sentMessages[channelId]) {
+          try {
+            await postToSlack({
+              channel: channelId,
+              webClient,
+              text: "Yesterday's Charge",
+              blocks,
+            })
+            sentMessages[channelId] = true
+            results.push({userId, channelId, success: true})
+          } catch (error) {
+            console.error(
+              `Failed to send message to channel ${channelId} for user ${userId}:`,
+              error,
+            )
+            results.push({
+              userId,
+              channelId,
+              success: false,
+              error: error instanceof Error ? error.message : String(error),
+            })
+          }
+        }
+      }
+
+      return {
+        totalSent: results.filter((r) => r.success).length,
+        totalFailed: results.filter((r) => !r.success).length,
+        details: results,
+      }
     })
   },
 )
