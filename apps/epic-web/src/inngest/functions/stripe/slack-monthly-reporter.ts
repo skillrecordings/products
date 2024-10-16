@@ -222,11 +222,11 @@ export const slackMonthlyReporter = inngest.createFunction(
             {type: 'mrkdwn', text: `*Refund Summary:*`},
             {
               type: 'mrkdwn',
-              text: `Total Refunds: *${refundTotals.refundCount}*\n`,
+              text: '\u200B',
             },
             {
               type: 'mrkdwn',
-              text: '\u200B',
+              text: `Total Refunds: *${refundTotals.refundCount}*\n`,
             },
             {
               type: 'mrkdwn',
