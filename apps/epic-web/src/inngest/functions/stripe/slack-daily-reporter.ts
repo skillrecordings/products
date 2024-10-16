@@ -191,9 +191,11 @@ export const slackDailyReporter = inngest.createFunction(
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `Transactions: ${allCharges.length} | ${Object.entries(
-              totalSplits,
-            )
+            text: ` ${
+              allCharges.length
+            } Transactions | Skill Fee: ${formatCurrency(
+              totalSplits['Skill Fee'] || 0,
+            )} | ${Object.entries(totalSplits)
               .filter(([name]) => name !== 'Subtotal' && name !== 'Skill Fee')
               .map(([name, amount]) => `${name}: ${formatCurrency(amount)}`)
               .join(' | ')}`,
@@ -212,7 +214,7 @@ export const slackDailyReporter = inngest.createFunction(
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: groupName,
+            text: `*${groupName}*`,
           },
         })
 
@@ -224,9 +226,9 @@ export const slackDailyReporter = inngest.createFunction(
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `• ${stats.productName}\n${stats.count} transactions | ${
+              text: `• *${stats.productName}*\n${stats.count} transactions | ${
                 productSplit
-                  ? `Skill Totals: Skill Fee: ${formatCurrency(
+                  ? `Skill Fee: ${formatCurrency(
                       productSplit.skillFee,
                     )} | ${Object.entries(productSplit.creatorSplits)
                       .map(
@@ -248,9 +250,9 @@ export const slackDailyReporter = inngest.createFunction(
               type: 'section',
               text: {
                 type: 'mrkdwn',
-                text: `Transactions: ${totalTransactions} | ${Object.entries(
-                  groupSplit.creatorSplits,
-                )
+                text: `Transactions: ${totalTransactions} | Skill Fee: ${formatCurrency(
+                  groupSplit.skillFee,
+                )} | ${Object.entries(groupSplit.creatorSplits)
                   .map(([name, amount]) => `${name}: ${formatCurrency(amount)}`)
                   .join(' | ')}`,
               },
@@ -260,7 +262,7 @@ export const slackDailyReporter = inngest.createFunction(
               type: 'section',
               text: {
                 type: 'mrkdwn',
-                text: 'Individual Products:',
+                text: '*Individual Products:*',
               },
             })
 
@@ -270,11 +272,11 @@ export const slackDailyReporter = inngest.createFunction(
                 type: 'section',
                 text: {
                   type: 'mrkdwn',
-                  text: `• ${stats.productName}\n${
+                  text: `• *${stats.productName}*\n${
                     stats.count
                   } transactions | ${
                     productSplit
-                      ? `Skill Totals: Skill Fee: ${formatCurrency(
+                      ? `Skill Fee: ${formatCurrency(
                           productSplit.skillFee,
                         )} | ${Object.entries(productSplit.creatorSplits)
                           .map(
