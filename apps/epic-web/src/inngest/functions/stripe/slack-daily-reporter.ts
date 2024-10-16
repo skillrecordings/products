@@ -10,8 +10,6 @@ import {
 import {prisma} from '@skillrecordings/database'
 import {calculateTotals} from 'components/calculations/calculate-totals'
 import {calculateSplits} from 'components/calculations/calculate-splits'
-import {image} from 'd3'
-import {al} from '@upstash/redis/zmscore-a4ec4c2a'
 
 const ANNOUNCE_CHANNEL = 'C07RDAMQ7PG'
 
