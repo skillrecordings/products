@@ -250,7 +250,7 @@ export const slackDailyReporter = inngest.createFunction(
               type: 'section',
               text: {
                 type: 'mrkdwn',
-                text: `Transactions: ${totalTransactions} | Skill Fee: ${formatCurrency(
+                text: `${totalTransactions} Transactions | Skill Fee: ${formatCurrency(
                   groupSplit.skillFee,
                 )} | ${Object.entries(groupSplit.creatorSplits)
                   .map(([name, amount]) => `${name}: ${formatCurrency(amount)}`)
