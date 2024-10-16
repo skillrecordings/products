@@ -13,7 +13,7 @@ import pluralize from 'pluralize'
 
 export type PostToSlackOptions = {
   blocks?: Block[]
-  attachments: MessageAttachment[]
+  attachments?: MessageAttachment[]
   channel: string
   webClient: WebClient
   icon_emoji?: string
