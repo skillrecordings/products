@@ -333,22 +333,30 @@ export const slackDailyReporter = inngest.createFunction(
             }
           }
 
-          // Calculate user-specific total splits
-          const userTotalSplits: Record<string, number> = Object.values(
-            userSplits,
-          ).reduce((acc, groupSplit) => {
-            const userName = users[userId]
-            if (userName) {
-              acc[userName] =
-                (acc[userName] || 0) + (groupSplit.creatorSplits[userName] || 0)
-            }
-            return acc
-          }, {} as Record<string, number>)
+          // Calculate user-specific total splits and transaction count
+          const userName = users[userId]
+          let userTotalRevenue = 0
+          let userTotalTransactions = 0
+          const userTotalSplits: Record<string, number> = {}
 
-          // Generate user-specific chart
+          for (const groupSplit of Object.values(userSplits)) {
+            if (userName) {
+              userTotalRevenue += groupSplit.creatorSplits[userName] || 0
+              userTotalSplits[userName] =
+                (userTotalSplits[userName] || 0) +
+                (groupSplit.creatorSplits[userName] || 0)
+            }
+          }
+
+          // count all transactions
+          for (const groupProducts of Object.values(userProducts)) {
+            for (const product of Object.values(groupProducts)) {
+              userTotalTransactions += product.count
+            }
+          }
+
           const chartUrl = generateChartUrl(userTotalSplits)
 
-          // Generate user-specific Slack message blocks
           const blocks: any[] = [
             {
               type: 'header',
@@ -362,9 +370,18 @@ export const slackDailyReporter = inngest.createFunction(
               type: 'section',
               text: {
                 type: 'mrkdwn',
-                text: `*Daily Report for ${users[userId]} - ${new Date(
+                text: `*Daily Report for ${userName} - ${new Date(
                   Date.now() - 86400000,
                 ).toLocaleDateString()}*`,
+              },
+            },
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: `${userTotalTransactions} Transactions | Your Total Revenue: ${formatCurrency(
+                  userTotalRevenue,
+                )}`,
               },
             },
             {
@@ -394,7 +411,6 @@ export const slackDailyReporter = inngest.createFunction(
             if (groupProducts.length === 1) {
               const [key, stats] = groupProducts[0]
               const productSplit = groupData.products[key]
-              const userName = users[userId]
 
               if (
                 userName &&
@@ -406,25 +422,24 @@ export const slackDailyReporter = inngest.createFunction(
                     type: 'mrkdwn',
                     text: `• *${stats.productName}*\n${
                       stats.count
-                    } transactions | ${formatCurrency(
+                    } transactions | Your Share: ${formatCurrency(
                       productSplit.creatorSplits[userName],
                     )}`,
                   },
                 })
               }
             } else {
-              const totalTransactions = groupProducts.reduce(
+              const totalGroupTransactions = groupProducts.reduce(
                 (sum, [_, stats]) => sum + stats.count,
                 0,
               )
-              const userName = users[userId]
 
               if (userName && groupData.creatorSplits[userName] !== undefined) {
                 blocks.push({
                   type: 'section',
                   text: {
                     type: 'mrkdwn',
-                    text: `${totalTransactions} Transactions | ${formatCurrency(
+                    text: `${totalGroupTransactions} Transactions | Your Share: ${formatCurrency(
                       groupData.creatorSplits[userName],
                     )}`,
                   },
@@ -447,7 +462,7 @@ export const slackDailyReporter = inngest.createFunction(
                         type: 'mrkdwn',
                         text: `• *${stats.productName}*\n${
                           stats.count
-                        } transactions | ${formatCurrency(
+                        } transactions | Your Share: ${formatCurrency(
                           productSplit.creatorSplits[userName],
                         )}`,
                       },
@@ -462,7 +477,6 @@ export const slackDailyReporter = inngest.createFunction(
             })
           }
 
-          // Send the message to Slack
           try {
             await postToSlack({
               channel: channelId,
