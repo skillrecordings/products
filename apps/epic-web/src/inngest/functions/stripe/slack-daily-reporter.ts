@@ -160,6 +160,13 @@ export const slackDailyReporter = inngest.createFunction(
 
     const OWNER_USER_ID = '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b'
 
+    type ProductGroup = {
+      productId: string
+      productName: string
+      count: number
+      amount: number
+    }
+
     const slackChannelIds = await step.run(
       'load slack channel ids for all users',
       async (): Promise<SlackChannelIds> => {
@@ -275,187 +282,6 @@ export const slackDailyReporter = inngest.createFunction(
       const {productGroups} = totals
       const {totalSplits, groupSplits} = calculatedSplits
 
-      function getWebsiteGroup(productName: string): string {
-        if (productName.includes('Epic React')) return 'Epic React'
-        if (productName.includes('Testing JavaScript'))
-          return 'Testing JavaScript'
-        if (productName === 'Unknown Product') return 'Other Products'
-        return 'Epic Web'
-      }
-
-      const groupedProducts = Object.entries(productGroups).reduce(
-        (acc, [key, product]) => {
-          const group = getWebsiteGroup(product.productName)
-          if (!acc[group]) acc[group] = {}
-          acc[group][key] = product
-          return acc
-        },
-        {} as Record<
-          string,
-          Record<string, (typeof productGroups)[keyof typeof productGroups]>
-        >,
-      )
-
-      const chartUrl = generateChartUrl(totalSplits)
-
-      const blocks: any[] = [
-        {
-          type: 'header',
-          text: {
-            type: 'plain_text',
-            text: "Yesterday's Charge  💰",
-            emoji: true,
-          },
-        },
-        {
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text: `*Daily Report - ${new Date(
-              Date.now() - 86400000,
-            ).toLocaleDateString()}*`,
-          },
-        },
-        {
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text: ` ${
-              allCharges.length
-            } Transactions | Skill Fee: ${formatCurrency(
-              totalSplits['Skill Fee'] || 0,
-            )} | ${Object.entries(totalSplits)
-              .filter(([name]) => name !== 'Subtotal' && name !== 'Skill Fee')
-              .map(([name, amount]) => `${name}: ${formatCurrency(amount)}`)
-              .join(' | ')}`,
-          },
-        },
-        {
-          type: 'image',
-          title: {
-            type: 'plain_text',
-            text: 'Revenue Distribution',
-          },
-          image_url: chartUrl,
-          alt_text: 'Revenue Distribution Chart',
-        },
-        {
-          type: 'divider',
-        },
-      ]
-
-      Object.entries(groupedProducts).forEach(([groupName, products]) => {
-        const groupProducts = Object.entries(products)
-        const groupSplit = groupSplits[groupName]
-
-        blocks.push({
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text: `*${groupName}*`,
-          },
-        })
-
-        if (groupProducts.length === 1) {
-          const [key, stats] = groupProducts[0]
-          const productSplit = groupSplit?.products?.[key]
-
-          blocks.push({
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: `• *${stats.productName}*\n${stats.count} transactions | ${
-                productSplit
-                  ? `Skill Fee: ${formatCurrency(
-                      productSplit.skillFee,
-                    )} | ${Object.entries(productSplit.creatorSplits)
-                      .map(
-                        ([name, amount]) =>
-                          `${name}: ${formatCurrency(amount)}`,
-                      )
-                      .join(' | ')}`
-                  : 'Splits not found for this product'
-              }`,
-            },
-          })
-        } else {
-          if (groupSplit) {
-            const totalTransactions = groupProducts.reduce(
-              (sum, [_, stats]) => sum + stats.count,
-              0,
-            )
-            blocks.push({
-              type: 'section',
-              text: {
-                type: 'mrkdwn',
-                text: `${totalTransactions} Transactions | Skill Fee: ${formatCurrency(
-                  groupSplit.skillFee,
-                )} | ${Object.entries(groupSplit.creatorSplits)
-                  .map(([name, amount]) => `${name}: ${formatCurrency(amount)}`)
-                  .join(' | ')}`,
-              },
-            })
-
-            blocks.push({
-              type: 'section',
-              text: {
-                type: 'mrkdwn',
-                text: '*Individual Products:*',
-              },
-            })
-
-            groupProducts.forEach(([key, stats]) => {
-              const productSplit = groupSplit.products[key]
-              blocks.push({
-                type: 'section',
-                text: {
-                  type: 'mrkdwn',
-                  text: `• *${stats.productName}*\n${
-                    stats.count
-                  } transactions | ${
-                    productSplit
-                      ? `Skill Fee: ${formatCurrency(
-                          productSplit.skillFee,
-                        )} | ${Object.entries(productSplit.creatorSplits)
-                          .map(
-                            ([name, amount]) =>
-                              `${name}: ${formatCurrency(amount)}`,
-                          )
-                          .join(' | ')}`
-                      : 'Splits not found for this product'
-                  }`,
-                },
-              })
-            })
-          } else {
-            blocks.push({
-              type: 'context',
-              elements: [
-                {
-                  type: 'mrkdwn',
-                  text: 'Splits not found for this group',
-                },
-              ],
-            })
-          }
-        }
-
-        blocks.push({
-          type: 'divider',
-        })
-
-        // blocks.push({
-        //   type: 'image',
-        //   title: {
-        //     type: 'plain_text',
-        //     text: 'Graph Revenue Distribution',
-        //   },
-        //   image_url:
-        //     'https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[2012,2013,2014,2015,2016],datasets:[{label:%27Users%27,data:[120,60,50,180,120]}]}}',
-        //   alt_text: 'notifications',
-        // })
-      })
-
       const webClient = new WebClient(process.env.SLACK_TOKEN)
       const sentMessages: Record<string, boolean> = {}
       const results: Array<{
@@ -467,11 +293,181 @@ export const slackDailyReporter = inngest.createFunction(
 
       for (const [userId, channelId] of Object.entries(slackChannelIds)) {
         if (channelId && !sentMessages[channelId]) {
+          // Filter data for the specific user
+          const userSplits: Record<
+            string,
+            {
+              creatorSplits: Record<string, number>
+              products: Record<
+                string,
+                {
+                  creatorSplits: Record<string, number>
+                }
+              >
+            }
+          > = {}
+          const userProducts: Record<string, Record<string, ProductGroup>> = {}
+
+          for (const [groupName, groupSplit] of Object.entries(groupSplits)) {
+            const userName = users[userId]
+            if (userName && groupSplit.creatorSplits[userName]) {
+              userSplits[groupName] = {
+                creatorSplits: {[userName]: groupSplit.creatorSplits[userName]},
+                products: {},
+              }
+
+              userProducts[groupName] = {}
+              for (const [productKey, productSplit] of Object.entries(
+                groupSplit.products,
+              )) {
+                if (productSplit.creatorSplits[userName]) {
+                  userProducts[groupName][productKey] =
+                    productGroups[productKey]
+                  userSplits[groupName].products[productKey] = {
+                    creatorSplits: {
+                      [userName]: productSplit.creatorSplits[userName],
+                    },
+                  }
+                }
+              }
+            }
+          }
+
+          // Calculate user-specific total splits
+          const userTotalSplits: Record<string, number> = Object.values(
+            userSplits,
+          ).reduce((acc, groupSplit) => {
+            const userName = users[userId]
+            if (userName) {
+              acc[userName] =
+                (acc[userName] || 0) + (groupSplit.creatorSplits[userName] || 0)
+            }
+            return acc
+          }, {} as Record<string, number>)
+
+          // Generate user-specific chart
+          const chartUrl = generateChartUrl(userTotalSplits)
+
+          // Generate user-specific Slack message blocks
+          const blocks: any[] = [
+            {
+              type: 'header',
+              text: {
+                type: 'plain_text',
+                text: 'Your Daily Revenue Report 💰',
+                emoji: true,
+              },
+            },
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: `*Daily Report for ${users[userId]} - ${new Date(
+                  Date.now() - 86400000,
+                ).toLocaleDateString()}*`,
+              },
+            },
+            {
+              type: 'image',
+              title: {
+                type: 'plain_text',
+                text: 'Your Revenue Distribution',
+              },
+              image_url: chartUrl,
+              alt_text: 'Revenue Distribution Chart',
+            },
+            {
+              type: 'divider',
+            },
+          ]
+
+          for (const [groupName, groupData] of Object.entries(userSplits)) {
+            blocks.push({
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: `*${groupName}*`,
+              },
+            })
+
+            const groupProducts = Object.entries(userProducts[groupName])
+            if (groupProducts.length === 1) {
+              const [key, stats] = groupProducts[0]
+              const productSplit = groupData.products[key]
+              const userName = users[userId]
+
+              if (
+                userName &&
+                productSplit.creatorSplits[userName] !== undefined
+              ) {
+                blocks.push({
+                  type: 'section',
+                  text: {
+                    type: 'mrkdwn',
+                    text: `• *${stats.productName}*\n${
+                      stats.count
+                    } transactions | ${formatCurrency(
+                      productSplit.creatorSplits[userName],
+                    )}`,
+                  },
+                })
+              }
+            } else {
+              const totalTransactions = groupProducts.reduce(
+                (sum, [_, stats]) => sum + stats.count,
+                0,
+              )
+              const userName = users[userId]
+
+              if (userName && groupData.creatorSplits[userName] !== undefined) {
+                blocks.push({
+                  type: 'section',
+                  text: {
+                    type: 'mrkdwn',
+                    text: `${totalTransactions} Transactions | ${formatCurrency(
+                      groupData.creatorSplits[userName],
+                    )}`,
+                  },
+                })
+
+                blocks.push({
+                  type: 'section',
+                  text: {
+                    type: 'mrkdwn',
+                    text: '*Individual Products:*',
+                  },
+                })
+
+                for (const [key, stats] of groupProducts) {
+                  const productSplit = groupData.products[key]
+                  if (productSplit.creatorSplits[userName] !== undefined) {
+                    blocks.push({
+                      type: 'section',
+                      text: {
+                        type: 'mrkdwn',
+                        text: `• *${stats.productName}*\n${
+                          stats.count
+                        } transactions | ${formatCurrency(
+                          productSplit.creatorSplits[userName],
+                        )}`,
+                      },
+                    })
+                  }
+                }
+              }
+            }
+
+            blocks.push({
+              type: 'divider',
+            })
+          }
+
+          // Send the message to Slack
           try {
             await postToSlack({
               channel: channelId,
               webClient,
-              text: "Yesterday's Charge",
+              text: 'Your Daily Revenue Report',
               blocks,
             })
             sentMessages[channelId] = true
