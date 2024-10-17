@@ -2,6 +2,7 @@ import {
   ChatPostMessageResponse,
   MessageAttachment,
   WebClient,
+  Block,
 } from '@slack/web-api'
 import {getSdk, Purchase, User} from '@skillrecordings/database'
 import {SlackConfig} from '../next'
@@ -11,7 +12,8 @@ import {isEmpty} from 'lodash'
 import pluralize from 'pluralize'
 
 export type PostToSlackOptions = {
-  attachments: MessageAttachment[]
+  blocks?: Block[]
+  attachments?: MessageAttachment[]
   channel: string
   webClient: WebClient
   icon_emoji?: string
@@ -29,12 +31,14 @@ export async function postToSlack(
     text,
     icon_emoji = ':robot_face:',
     username = 'Announce Bot',
+    blocks,
   } = options
   try {
     return await webClient.chat.postMessage({
       icon_emoji,
       username,
       attachments,
+      blocks,
       channel,
       text,
     })
