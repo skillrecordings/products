@@ -12,7 +12,7 @@ const CheatSheetPage = () => {
   return (
     <Layout
       meta={{
-        title: 'Vitest Mocking Techniques Cheat Sheet',
+        title: 'Vitest Mocking Cheat Sheet',
         ogImage: {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1729176143/vitest-cheatsheet-card_2x.jpg',
           alt: 'Mocking Techniques with Vitest Cheat Sheet',
@@ -23,10 +23,11 @@ const CheatSheetPage = () => {
       <main className="mx-auto flex max-w-screen-xl flex-col items-center justify-center p-5 py-16">
         <div className="mb-4 flex w-full flex-col items-center justify-between gap-5 md:flex-row">
           <h1 className="text-center text-3xl font-semibold tracking-tight sm:text-left sm:text-2xl lg:text-3xl">
-            Vitest Mocking Techniques Cheat Sheet
+            Vitest Mocking Cheat Sheet
           </h1>
           <div className="flex items-center gap-3">
             <Share
+              contentType=""
               className="hidden bg-white dark:bg-gray-800 lg:flex"
               title="Vitest Mocking Techniques Cheat Sheet"
               shareButtonClassName="w-full flex items-center justify-center h-full px-3 py-3 dark:hover:bg-white/5 hover:bg-gray-900/5 transition"

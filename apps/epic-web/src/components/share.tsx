@@ -59,7 +59,7 @@ const Share: React.FC<{
             className={shareButtonClassName}
             svgClassName="w-4 h-4"
             link={url}
-            message={`${title}, ${contentType ? contentType : ''}${
+            message={`${title}${contentType ? `, ${contentType}` : ''}${
               contributorTwitterHandle ? ` by @${contributorTwitterHandle}` : ''
             }`}
           />
