@@ -16,11 +16,19 @@ const Share: React.FC<{
   contentType?: string
   contributor?: Pick<Contributor, 'name' | 'twitterHandle'> | null
   className?: string
-}> = ({title, contentType = 'article', contributor, className}) => {
+  children?: React.ReactNode
+  shareButtonClassName?: string
+}> = ({
+  title,
+  contentType = 'article',
+  contributor,
+  className,
+  children,
+  shareButtonClassName = 'w-full flex items-center justify-center h-full px-7 py-7 hover:bg-foreground/5 transition',
+}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
-  const shareButtonClassName =
-    'w-full flex items-center justify-center h-full px-7 py-7 hover:bg-foreground/5 transition'
+
   const contributorTwitterHandle = contributor?.twitterHandle
 
   return (
@@ -31,17 +39,21 @@ const Share: React.FC<{
       )}
     >
       <div className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-between gap-5 sm:flex-row">
-        <div>
-          <p className="flex items-center text-lg font-medium">
-            <HeartIcon
-              aria-hidden="true"
-              className="mr-4 inline-block h-5 w-5 flex-shrink-0 animate-heartbeat text-rose-400/90"
-            />
-            <span className="leading-tight">
-              Share this {contentType} with your friends
-            </span>
-          </p>
-        </div>
+        {children ? (
+          children
+        ) : (
+          <div>
+            <p className="flex items-center text-lg font-medium">
+              <HeartIcon
+                aria-hidden="true"
+                className="mr-2 inline-block h-5 w-5 flex-shrink-0 text-rose-400/90"
+              />
+              <span className="leading-tight">
+                Share this {contentType} with your friends
+              </span>
+            </p>
+          </div>
+        )}
         <div className="flex w-full items-center justify-center divide-x divide-gray-200 border-t border-gray-200 pt-0 dark:divide-background dark:border-background sm:w-auto sm:border-t-0 dark:sm:border-t-0">
           <Twitter
             className={shareButtonClassName}
