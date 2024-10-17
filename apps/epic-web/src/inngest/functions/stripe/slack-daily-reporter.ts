@@ -281,12 +281,12 @@ export const slackDailyReporter = inngest.createFunction(
               labels: [
                 {
                   text: formattedTotal,
-                  font: {size: 16, weight: 'bold'},
+                  font: {size: 14, weight: 'bold'},
                   color: 'black',
                 },
                 {
                   text: 'total',
-                  font: {size: 12},
+                  font: {size: 10},
                   color: 'black',
                 },
               ],
