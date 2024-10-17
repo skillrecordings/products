@@ -13,6 +13,9 @@ import {calculateSplits} from 'components/calculations/calculate-splits'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 
+const SEND_SINGLE_CHANNEL = true
+const LC_CHANNEL_ID = 'C07RDAMQ7PG'
+
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -301,7 +304,6 @@ export const slackDailyReporter = inngest.createFunction(
       const {groupSplits} = calculatedSplits
 
       const webClient = new WebClient(process.env.SLACK_TOKEN)
-      const sentMessages: Record<string, boolean> = {}
       const results: Array<{
         userId: string
         channelId: string
@@ -310,7 +312,10 @@ export const slackDailyReporter = inngest.createFunction(
       }> = []
 
       for (const [userId, channelId] of Object.entries(slackChannelIds)) {
-        if (channelId && !sentMessages[channelId]) {
+        // Determine the channel to use
+        const targetChannelId = SEND_SINGLE_CHANNEL ? LC_CHANNEL_ID : channelId
+
+        if (targetChannelId) {
           // Filter data for the specific user
           const userSplits: Record<
             string,
@@ -380,7 +385,7 @@ export const slackDailyReporter = inngest.createFunction(
               type: 'header',
               text: {
                 type: 'plain_text',
-                text: 'Your Daily Revenue Report 💰',
+                text: `Daily Revenue Report for ${userName} 💰`,
                 emoji: true,
               },
             },
@@ -388,7 +393,7 @@ export const slackDailyReporter = inngest.createFunction(
               type: 'section',
               text: {
                 type: 'mrkdwn',
-                text: `*Daily Report for ${userName} - ${new Date(
+                text: `*Report Date: ${new Date(
                   Date.now() - 86400000,
                 ).toLocaleDateString()}*`,
               },
@@ -406,7 +411,7 @@ export const slackDailyReporter = inngest.createFunction(
               type: 'image',
               title: {
                 type: 'plain_text',
-                text: 'Your Revenue Distribution',
+                text: 'Revenue Distribution',
               },
               image_url: chartUrl,
               alt_text: 'Revenue Distribution Chart',
@@ -497,21 +502,20 @@ export const slackDailyReporter = inngest.createFunction(
 
           try {
             await postToSlack({
-              channel: channelId,
+              channel: targetChannelId,
               webClient,
-              text: 'Your Daily Revenue Report',
+              text: `Daily Revenue Report for ${userName}`,
               blocks,
             })
-            sentMessages[channelId] = true
-            results.push({userId, channelId, success: true})
+            results.push({userId, channelId: targetChannelId, success: true})
           } catch (error) {
             console.error(
-              `Failed to send message to channel ${channelId} for user ${userId}:`,
+              `Failed to send message to channel ${targetChannelId} for user ${userId}:`,
               error,
             )
             results.push({
               userId,
-              channelId,
+              channelId: targetChannelId,
               success: false,
               error: error instanceof Error ? error.message : String(error),
             })
