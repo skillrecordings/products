@@ -312,44 +312,47 @@ export const slackDailyReporter = inngest.createFunction(
       }> = []
 
       for (const [userId, channelId] of Object.entries(slackChannelIds)) {
-        // Determine the channel to use
         const targetChannelId = SEND_SINGLE_CHANNEL ? LC_CHANNEL_ID : channelId
 
         if (targetChannelId) {
-          // Filter data for the specific user
+          const userName = users[userId]
           const userSplits: Record<
             string,
             {
               creatorSplits: Record<string, number>
-              products: Record<
-                string,
-                {
-                  creatorSplits: Record<string, number>
-                }
-              >
+              products: Record<string, {creatorSplits: Record<string, number>}>
             }
           > = {}
           const userProducts: Record<string, Record<string, ProductGroup>> = {}
 
+          // Filter data for the specific user
           for (const [groupName, groupSplit] of Object.entries(groupSplits)) {
-            const userName = users[userId]
-            if (userName && groupSplit.creatorSplits[userName]) {
+            if (
+              userName &&
+              groupSplit.creatorSplits &&
+              groupSplit.creatorSplits[userName]
+            ) {
               userSplits[groupName] = {
                 creatorSplits: {[userName]: groupSplit.creatorSplits[userName]},
                 products: {},
               }
 
               userProducts[groupName] = {}
-              for (const [productKey, productSplit] of Object.entries(
-                groupSplit.products,
-              )) {
-                if (productSplit.creatorSplits[userName]) {
-                  userProducts[groupName][productKey] =
-                    productGroups[productKey]
-                  userSplits[groupName].products[productKey] = {
-                    creatorSplits: {
-                      [userName]: productSplit.creatorSplits[userName],
-                    },
+              if (groupSplit.products) {
+                for (const [productKey, productSplit] of Object.entries(
+                  groupSplit.products,
+                )) {
+                  if (
+                    productSplit.creatorSplits &&
+                    productSplit.creatorSplits[userName]
+                  ) {
+                    userProducts[groupName][productKey] =
+                      productGroups[productKey]
+                    userSplits[groupName].products[productKey] = {
+                      creatorSplits: {
+                        [userName]: productSplit.creatorSplits[userName],
+                      },
+                    }
                   }
                 }
               }
@@ -357,168 +360,124 @@ export const slackDailyReporter = inngest.createFunction(
           }
 
           // Calculate user-specific total splits and transaction count
-          const userName = users[userId]
           let userTotalRevenue = 0
           let userTotalTransactions = 0
-          const userTotalSplits: Record<string, number> = {}
+          const soldProducts: Array<{name: string; count: number}> = []
 
-          for (const groupSplit of Object.values(userSplits)) {
-            if (userName) {
-              userTotalRevenue += groupSplit.creatorSplits[userName] || 0
-              userTotalSplits[userName] =
-                (userTotalSplits[userName] || 0) +
-                (groupSplit.creatorSplits[userName] || 0)
-            }
-          }
-
-          // count all transactions
-          for (const groupProducts of Object.values(userProducts)) {
-            for (const product of Object.values(groupProducts)) {
-              userTotalTransactions += product.count
-            }
-          }
-
-          const chartUrl = generateChartUrl(userProducts, userSplits, userName)
-
-          const blocks: any[] = [
-            {
-              type: 'header',
-              text: {
-                type: 'plain_text',
-                text: `Daily Revenue Report for ${userName} 💰`,
-                emoji: true,
-              },
-            },
-            {
-              type: 'section',
-              text: {
-                type: 'mrkdwn',
-                text: `*Report Date: ${new Date(
-                  Date.now() - 86400000,
-                ).toLocaleDateString()}*`,
-              },
-            },
-            {
-              type: 'section',
-              text: {
-                type: 'mrkdwn',
-                text: `${userTotalTransactions} Transactions | ${formatCurrency(
-                  userTotalRevenue,
-                )}`,
-              },
-            },
-            {
-              type: 'image',
-              title: {
-                type: 'plain_text',
-                text: 'Revenue Distribution',
-              },
-              image_url: chartUrl,
-              alt_text: 'Revenue Distribution Chart',
-            },
-            {
-              type: 'divider',
-            },
-          ]
-
-          for (const [groupName, groupData] of Object.entries(userSplits)) {
-            blocks.push({
-              type: 'section',
-              text: {
-                type: 'mrkdwn',
-                text: `*${groupName}*`,
-              },
-            })
-
-            const groupProducts = Object.entries(userProducts[groupName])
-            if (groupProducts.length === 1) {
-              const [key, stats] = groupProducts[0]
-              const productSplit = groupData.products[key]
-
+          for (const [groupName, groupProducts] of Object.entries(
+            userProducts,
+          )) {
+            for (const [productName, product] of Object.entries(
+              groupProducts,
+            )) {
+              if (product && product.count) {
+                userTotalTransactions += product.count
+                soldProducts.push({name: productName, count: product.count})
+              }
               if (
-                userName &&
-                productSplit.creatorSplits[userName] !== undefined
+                userSplits[groupName] &&
+                userSplits[groupName].products[productName] &&
+                userSplits[groupName].products[productName].creatorSplits[
+                  userName
+                ]
               ) {
-                blocks.push({
-                  type: 'section',
-                  text: {
-                    type: 'mrkdwn',
-                    text: `• *${stats.productName}*\n${
-                      stats.count
-                    } transactions | ${formatCurrency(
-                      productSplit.creatorSplits[userName],
-                    )}`,
-                  },
-                })
-              }
-            } else {
-              const totalGroupTransactions = groupProducts.reduce(
-                (sum, [_, stats]) => sum + stats.count,
-                0,
-              )
-
-              if (userName && groupData.creatorSplits[userName] !== undefined) {
-                blocks.push({
-                  type: 'section',
-                  text: {
-                    type: 'mrkdwn',
-                    text: `${totalGroupTransactions} Transactions | ${formatCurrency(
-                      groupData.creatorSplits[userName],
-                    )}`,
-                  },
-                })
-
-                blocks.push({
-                  type: 'section',
-                  text: {
-                    type: 'mrkdwn',
-                    text: '*Individual Products:*',
-                  },
-                })
-
-                for (const [key, stats] of groupProducts) {
-                  const productSplit = groupData.products[key]
-                  if (productSplit.creatorSplits[userName] !== undefined) {
-                    blocks.push({
-                      type: 'section',
-                      text: {
-                        type: 'mrkdwn',
-                        text: `• *${stats.productName}*\n${
-                          stats.count
-                        } transactions | ${formatCurrency(
-                          productSplit.creatorSplits[userName],
-                        )}`,
-                      },
-                    })
-                  }
-                }
+                userTotalRevenue +=
+                  userSplits[groupName].products[productName].creatorSplits[
+                    userName
+                  ]
               }
             }
-
-            blocks.push({
-              type: 'divider',
-            })
           }
 
-          try {
-            await postToSlack({
-              channel: targetChannelId,
-              webClient,
-              text: `Daily Revenue Report for ${userName}`,
-              blocks,
-            })
-            results.push({userId, channelId: targetChannelId, success: true})
-          } catch (error) {
-            console.error(
-              `Failed to send message to channel ${targetChannelId} for user ${userId}:`,
-              error,
+          if (soldProducts.length > 0) {
+            const chartUrl = generateChartUrl(
+              userProducts,
+              userSplits,
+              userName,
             )
-            results.push({
-              userId,
-              channelId: targetChannelId,
-              success: false,
-              error: error instanceof Error ? error.message : String(error),
-            })
+
+            let summaryMessage = 'Yesterday you sold '
+            const productStrings = soldProducts.map(
+              (product) =>
+                `${product.count} license${product.count > 1 ? 's' : ''} of ${
+                  product.name
+                }`,
+            )
+
+            if (productStrings.length === 1) {
+              summaryMessage += productStrings[0]
+            } else if (productStrings.length === 2) {
+              summaryMessage += `${productStrings[0]} and ${productStrings[1]}`
+            } else if (productStrings.length > 2) {
+              const lastProduct = productStrings.pop()
+              summaryMessage += `${productStrings.join(
+                ', ',
+              )}, and ${lastProduct}`
+            }
+
+            summaryMessage += ` for an estimated royalty of ${formatCurrency(
+              userTotalRevenue,
+            )}.`
+
+            const blocks: any[] = [
+              {
+                type: 'header',
+                text: {
+                  type: 'plain_text',
+                  text: `Daily Revenue Report for ${userName} 💰`,
+                  emoji: true,
+                },
+              },
+              {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: `*Report Date: ${new Date(
+                    Date.now() - 86400000,
+                  ).toLocaleDateString()}*`,
+                },
+              },
+              {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: summaryMessage,
+                },
+              },
+            ]
+
+            if (chartUrl) {
+              blocks.push({
+                type: 'image',
+                title: {
+                  type: 'plain_text',
+                  text: 'Revenue Distribution',
+                },
+                image_url: chartUrl,
+                alt_text: 'Revenue Distribution Chart',
+              })
+            }
+
+            try {
+              await postToSlack({
+                channel: targetChannelId,
+                webClient,
+                text: `Daily Revenue Report for ${userName}`,
+                blocks,
+              })
+              results.push({userId, channelId: targetChannelId, success: true})
+            } catch (error) {
+              console.error(
+                `Failed to send message to channel ${targetChannelId} for user ${userId}:`,
+                error,
+              )
+              results.push({
+                userId,
+                channelId: targetChannelId,
+                success: false,
+                error: error instanceof Error ? error.message : String(error),
+              })
+            }
           }
         }
       }
