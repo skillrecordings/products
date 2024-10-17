@@ -66,6 +66,7 @@
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/skill-lesson": "workspace:*",
+    "@skillrecordings/stripe-sdk": "workspace:*",
     "@skillrecordings/ui": "workspace:*",
     "@slack/web-api": "^6.7.2",
     "@tanstack/react-query": "4.35.7",

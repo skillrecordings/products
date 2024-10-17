@@ -579,6 +579,9 @@ importers:
       '@skillrecordings/skill-lesson':
         specifier: workspace:*
         version: link:../../packages/skill-lesson
+      '@skillrecordings/stripe-sdk':
+        specifier: workspace:*
+        version: link:../../packages/stripe-sdk
       '@skillrecordings/ui':
         specifier: workspace:*
         version: link:../../packages/ui

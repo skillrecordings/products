@@ -10,6 +10,8 @@ import {syncDiscordRoles} from '@/inngest/functions/discord/sync-discord-roles'
 import {discordAccountLinked} from '@/inngest/functions/discord/discord-account-linked'
 import {sendWelcomeEmail} from '@/inngest/functions/post-purchase-automation/send-welcome-email'
 import {syncConvertkitPurchases} from '@/inngest/functions/sync-convertkit-purchases'
+import {syncStripeCharges} from './functions/sync-stripe-charge'
+import {updateMerchantCharges} from './functions/update-merchant-charges'
 
 export const inngestConfig = {
   client: inngest,
@@ -24,6 +26,8 @@ export const inngestConfig = {
     discordAccountLinked,
     sendWelcomeEmail,
     syncConvertkitPurchases,
+    syncStripeCharges,
+    updateMerchantCharges,
     ...sanityProductFunctions,
   ],
 }

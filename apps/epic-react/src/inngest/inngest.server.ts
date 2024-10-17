@@ -35,6 +35,14 @@ import {
   SYNC_CONVERTKIT_PURCHASE_TAGS_EVENT,
   SyncConvertkitPurchaseTags,
 } from '@/inngest/functions/sync-convertkit-purchases'
+import {
+  SYNC_STRIPE_CHARGES,
+  SyncStripeCharges,
+} from './functions/sync-stripe-charge'
+import {
+  UPDATE_MERCHANT_CHARGES,
+  UpdateMerchantCharges,
+} from './functions/update-merchant-charges'
 
 export type IngestEvents = {
   [CONVERTKIT_WEBHOOK_EVENT]: ConvertkitWebhookEvent
@@ -51,6 +59,8 @@ export type IngestEvents = {
   [SYNC_CONVERTKIT_PURCHASE_TAGS_EVENT]: SyncConvertkitPurchaseTags
   'user/login': {}
   'user/created': {}
+  [SYNC_STRIPE_CHARGES]: SyncStripeCharges
+  [UPDATE_MERCHANT_CHARGES]: UpdateMerchantCharges
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,
