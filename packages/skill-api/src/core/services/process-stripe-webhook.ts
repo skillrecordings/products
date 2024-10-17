@@ -1,5 +1,5 @@
 import {SkillRecordingsHandlerParams} from '../types'
-import {OutgoingResponse} from '../index'
+import {IncomingRequest, OutgoingResponse} from '../index'
 import {getSdk, prisma} from '@skillrecordings/database'
 import {
   recordNewPurchase,
@@ -144,7 +144,7 @@ export async function receiveStripeWebhooks({
   try {
     const {
       req,
-      options: {nextAuthOptions},
+      options: {nextAuthOptions, onPurchase},
       rawReq,
     } = params
     if (!rawReq) {
@@ -233,6 +233,7 @@ export async function receiveStripeWebhooks({
         return await processStripeWebhook(event, {
           nextAuthOptions,
           paymentOptions: _paymentOptions,
+          onPurchase,
         })
       }
     } catch (err: any) {
@@ -267,9 +268,10 @@ export const processStripeWebhook = async (
   options: {
     nextAuthOptions: NextAuthOptions
     paymentOptions: PaymentOptions
+    onPurchase?: (purchaseId: string) => any
   },
 ) => {
-  const {paymentOptions, nextAuthOptions} = options
+  const {paymentOptions, nextAuthOptions, onPurchase} = options
 
   const stripeProvider = paymentOptions.providers.stripe
 
@@ -327,6 +329,13 @@ export const processStripeWebhook = async (
           productId: purchase.productId,
           created: purchase.createdAt.getTime(),
         },
+      })
+    }
+
+    if (onPurchase) {
+      await onPurchase(purchase.id).catch((e: any) => {
+        console.error('Error calling onPurchase', e)
+        return null
       })
     }
 
