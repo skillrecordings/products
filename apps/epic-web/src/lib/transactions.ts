@@ -55,6 +55,150 @@ const SimplifiedRefundSchema = z.object({
 
 export type SimplifiedRefund = z.infer<typeof SimplifiedRefundSchema>
 
+const SimplifiedBalanceTransactionSchema = z.object({
+  id: z.string(),
+  amount: z.number(),
+  available_on: z.number(),
+  created: z.number(),
+  currency: z.string(),
+  description: z.string().nullable(),
+  fee: z.number(),
+  net: z.number(),
+  reporting_category: z.string(),
+  status: z.string(),
+  type: z.string(),
+  // New fields are now optional
+  chargeId: z.string().nullable().optional(),
+  product: z.string().nullable().optional(),
+  productId: z.string().nullable().optional(),
+})
+
+export type SimplifiedBalanceTransaction = z.infer<
+  typeof SimplifiedBalanceTransactionSchema
+>
+
+const FetchBalanceTransactionsSchema = z.object({
+  range: z.string().optional(),
+  start: z.string().optional(),
+  end: z.string().optional(),
+  limit: z.number().optional(),
+  starting_after: z.string().optional(),
+  type: z.string().optional(),
+  currency: z.string().optional(),
+})
+
+interface PaginatedBalanceTransactions {
+  transactions: SimplifiedBalanceTransaction[]
+  has_more: boolean
+  next_page_cursor: string | null
+}
+
+function simplifyBalanceTransaction(
+  transaction: Stripe.BalanceTransaction,
+): SimplifiedBalanceTransaction {
+  return SimplifiedBalanceTransactionSchema.parse({
+    id: transaction.id,
+    amount: transaction.amount,
+    available_on: transaction.available_on,
+    created: transaction.created,
+    currency: transaction.currency,
+    description: transaction.description,
+    fee: transaction.fee,
+    net: transaction.net,
+    reporting_category: transaction.reporting_category,
+    status: transaction.status,
+    type: transaction.type,
+    // New fields are not included here, they will be added later if a matching charge is found
+  })
+}
+
+async function fetchBalanceTransactionsWithRetry(
+  params: Stripe.BalanceTransactionListParams,
+  maxRetries = 3,
+): Promise<Stripe.ApiList<Stripe.BalanceTransaction>> {
+  let retries = 0
+  while (retries < maxRetries) {
+    try {
+      console.log(
+        `Fetching balance transactions with params: ${JSON.stringify(params)}`,
+      )
+      return await stripe.balanceTransactions.list(params)
+    } catch (error) {
+      if (error instanceof Stripe.errors.StripeRateLimitError) {
+        retries++
+        console.log(`Rate limit hit, retrying (${retries}/${maxRetries})...`)
+        await new Promise((resolve) =>
+          setTimeout(resolve, Math.pow(2, retries) * 1000),
+        )
+      } else {
+        throw error
+      }
+    }
+  }
+  throw new Error('Max retries reached when fetching balance transactions')
+}
+
+export async function fetchBalanceTransactions({
+  range,
+  start,
+  end,
+  limit = 100,
+  starting_after,
+  type,
+  currency,
+}: z.infer<
+  typeof FetchBalanceTransactionsSchema
+>): Promise<PaginatedBalanceTransactions> {
+  let startDate: Date
+  let endDate: Date
+
+  if (start && end) {
+    startDate = new Date(start)
+    endDate = new Date(end)
+    startDate.setUTCHours(0, 0, 0, 0)
+    endDate.setUTCHours(23, 59, 59, 999)
+  } else if (range) {
+    const dateRange = getDateRange(range)
+    startDate = dateRange.start
+    endDate = dateRange.end
+  } else {
+    const dateRange = getDateRange('today')
+    startDate = dateRange.start
+    endDate = dateRange.end
+  }
+
+  console.log(
+    `Fetching balance transactions for ${startDate.toISOString()} to ${endDate.toISOString()}`,
+  )
+
+  const params: Stripe.BalanceTransactionListParams = {
+    created: {
+      gte: Math.floor(startDate.getTime() / 1000),
+      lte: Math.floor(endDate.getTime() / 1000),
+    },
+    limit,
+    ...(starting_after ? {starting_after} : {}),
+    ...(type ? {type} : {}),
+    ...(currency ? {currency} : {}),
+  }
+
+  const transactions: Stripe.ApiList<Stripe.BalanceTransaction> =
+    await fetchBalanceTransactionsWithRetry(params)
+
+  console.log(`Fetched ${transactions.data.length} balance transactions`)
+
+  const simplifiedTransactions = transactions.data.map(
+    simplifyBalanceTransaction,
+  )
+
+  return {
+    transactions: simplifiedTransactions,
+    has_more: transactions.has_more,
+    next_page_cursor:
+      transactions.data[transactions.data.length - 1]?.id || null,
+  }
+}
+
 function simplifyRefund(refund: Stripe.Refund): SimplifiedRefund {
   let product = 'Unknown Product'
   let productId = null
@@ -192,8 +336,8 @@ function getDateRange(range: string): {start: Date; end: Date} {
       end.setUTCMonth(Math.floor(end.getUTCMonth() / 3) * 3, 0)
       break
     case 'this-year':
-      start.setUTCMonth(0, 1)
-      end.setUTCMonth(11, 31)
+      start.setUTCMonth(9, 2)
+      end.setUTCMonth(9, 2)
       break
     case 'last-year':
       start.setUTCFullYear(start.getUTCFullYear() - 1, 0, 1)
@@ -341,5 +485,109 @@ export async function fetchRefunds({
     next_page_cursor: refunds.data.length
       ? refunds.data[refunds.data.length - 1].id
       : null,
+  }
+}
+
+const FetchCombinedFinancialDataSchema = z.object({
+  range: z.string().optional(),
+  start: z.string().optional(),
+  end: z.string().optional(),
+  limit: z.number().optional(),
+  starting_after_transaction: z.string().optional(),
+  starting_after_charge: z.string().optional(),
+})
+
+export async function fetchCombinedFinancialData({
+  range,
+  start,
+  end,
+  limit = 100,
+  starting_after_transaction,
+  starting_after_charge,
+}: z.infer<typeof FetchCombinedFinancialDataSchema>): Promise<{
+  transactions: SimplifiedBalanceTransaction[]
+  charges: SimplifiedCharge[]
+  has_more: boolean
+  next_page_cursor_transaction: string | null
+  next_page_cursor_charge: string | null
+}> {
+  let startDate: Date
+  let endDate: Date
+
+  if (start && end) {
+    startDate = new Date(start)
+    endDate = new Date(end)
+    startDate.setUTCHours(0, 0, 0, 0)
+    endDate.setUTCHours(23, 59, 59, 999)
+  } else if (range) {
+    const dateRange = getDateRange(range)
+    startDate = dateRange.start
+    endDate = dateRange.end
+  } else {
+    const dateRange = getDateRange('today')
+    startDate = dateRange.start
+    endDate = dateRange.end
+  }
+
+  console.log(
+    `Fetching combined financial data for ${startDate.toISOString()} to ${endDate.toISOString()}`,
+  )
+
+  // Fetch balance transactions
+  const balanceTransactions = await fetchBalanceTransactionsWithRetry({
+    created: {
+      gte: Math.floor(startDate.getTime() / 1000),
+      lte: Math.floor(endDate.getTime() / 1000),
+    },
+    limit,
+    ...(starting_after_transaction
+      ? {starting_after: starting_after_transaction}
+      : {}),
+  })
+
+  // Fetch charges
+  const charges = await fetchChargesWithRetry({
+    created: {
+      gte: Math.floor(startDate.getTime() / 1000),
+      lte: Math.floor(endDate.getTime() / 1000),
+    },
+    limit,
+    ...(starting_after_charge ? {starting_after: starting_after_charge} : {}),
+  })
+
+  const simplifiedCharges = charges.data.map(simplifyCharge)
+
+  // Create a map of charges for efficient lookup
+  const chargeMap = new Map(
+    simplifiedCharges.map((charge) => [
+      `${charge.amount}-${charge.created}-${charge.currency}`,
+      charge,
+    ]),
+  )
+
+  const simplifiedTransactions = balanceTransactions.data.map((transaction) => {
+    const simplifiedTransaction = simplifyBalanceTransaction(transaction)
+
+    // Try to find a matching charge
+    const matchingCharge = chargeMap.get(
+      `${transaction.amount}-${transaction.created}-${transaction.currency}`,
+    )
+
+    if (matchingCharge && transaction.type === 'charge') {
+      simplifiedTransaction.chargeId = matchingCharge.id
+      simplifiedTransaction.product = matchingCharge.product
+      simplifiedTransaction.productId = matchingCharge.productId
+    }
+
+    return simplifiedTransaction
+  })
+
+  return {
+    transactions: simplifiedTransactions,
+    charges: simplifiedCharges,
+    has_more: balanceTransactions.has_more || charges.has_more,
+    next_page_cursor_transaction:
+      balanceTransactions.data[balanceTransactions.data.length - 1]?.id || null,
+    next_page_cursor_charge: charges.data[charges.data.length - 1]?.id || null,
   }
 }
