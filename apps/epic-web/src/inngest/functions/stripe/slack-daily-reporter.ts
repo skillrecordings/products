@@ -14,7 +14,7 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 
 const SEND_SINGLE_CHANNEL = true
-const LC_CHANNEL_ID = 'C03QFFWHT7D'
+const LC_CHANNEL_ID = 'C07RDAMQ7PG'
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-US', {
@@ -57,7 +57,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-charges${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchCharges({
-              range: 'yesterday',
+              range: 'month-so-far',
               starting_after: startingAfter,
             })
           },
@@ -77,7 +77,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchRefunds({
-              range: 'yesterday',
+              range: 'month-so-far',
               starting_after: startingAfter,
             })
           },
@@ -86,6 +86,17 @@ export const slackDailyReporter = inngest.createFunction(
       hasMore = fetchRefundPage.has_more
       startingAfter = fetchRefundPage.next_page_cursor || undefined
     }
+
+    const epicReactProCharges = await step.run(
+      'fetch-epic-react-pro-charges',
+      async () => {
+        const epicReactProCharges = allCharges.filter(
+          (charge) => charge.product === 'Epic React Pro',
+        )
+
+        return epicReactProCharges
+      },
+    )
 
     const {totals, refundTotals} = await step.run(
       'calculate-totals',
