@@ -343,3 +343,132 @@ export async function fetchRefunds({
       : null,
   }
 }
+
+const SimplifiedBalanceTransactionSchema = z.object({
+  id: z.string(),
+  amount: z.number(),
+  net: z.number(),
+  fee: z.number(),
+  currency: z.string(),
+  type: z.string(),
+  created: z.number(),
+  available_on: z.number(),
+  status: z.string(),
+  description: z.string().nullable(),
+})
+
+export type SimplifiedBalanceTransaction = z.infer<
+  typeof SimplifiedBalanceTransactionSchema
+>
+
+function simplifyBalanceTransaction(
+  transaction: Stripe.BalanceTransaction,
+): SimplifiedBalanceTransaction {
+  return SimplifiedBalanceTransactionSchema.parse({
+    id: transaction.id,
+    amount: transaction.amount,
+    net: transaction.net,
+    fee: transaction.fee,
+    currency: transaction.currency,
+    type: transaction.type,
+    created: transaction.created,
+    available_on: transaction.available_on,
+    status: transaction.status,
+    description: transaction.description,
+  })
+}
+
+async function fetchBalanceTransactionsWithRetry(
+  params: Stripe.BalanceTransactionListParams,
+  maxRetries = 3,
+): Promise<Stripe.ApiList<Stripe.BalanceTransaction>> {
+  let retries = 0
+  while (retries < maxRetries) {
+    try {
+      console.log(
+        `Fetching balance transactions with params: ${JSON.stringify(params)}`,
+      )
+      return await stripe.balanceTransactions.list(params)
+    } catch (error) {
+      if (error instanceof Stripe.errors.StripeRateLimitError) {
+        retries++
+        console.log(`Rate limit hit, retrying (${retries}/${maxRetries})...`)
+        await new Promise((resolve) =>
+          setTimeout(resolve, Math.pow(2, retries) * 1000),
+        )
+      } else {
+        throw error
+      }
+    }
+  }
+  throw new Error('Max retries reached when fetching balance transactions')
+}
+
+export const FetchBalanceTransactionsSchema = z.object({
+  range: z.string().optional(),
+  start: z.string().optional(),
+  end: z.string().optional(),
+  limit: z.number().optional(),
+  starting_after: z.string().optional(),
+})
+
+export interface PaginatedBalanceTransactions {
+  transactions: SimplifiedBalanceTransaction[]
+  has_more: boolean
+  next_page_cursor: string | null
+}
+
+export async function fetchBalanceTransactions({
+  range,
+  start,
+  end,
+  limit = 100,
+  starting_after,
+}: z.infer<
+  typeof FetchBalanceTransactionsSchema
+>): Promise<PaginatedBalanceTransactions> {
+  let startDate: Date
+  let endDate: Date
+
+  if (start && end) {
+    startDate = new Date(start)
+    endDate = new Date(end)
+    startDate.setUTCHours(0, 0, 0, 0)
+    endDate.setUTCHours(23, 59, 59, 999)
+  } else if (range) {
+    const dateRange = getDateRange(range)
+    startDate = dateRange.start
+    endDate = dateRange.end
+  } else {
+    const dateRange = getDateRange('today')
+    startDate = dateRange.start
+    endDate = dateRange.end
+  }
+
+  console.log(
+    `Fetching balance transactions for ${startDate.toISOString()} to ${endDate.toISOString()}`,
+  )
+
+  const transactions: Stripe.ApiList<Stripe.BalanceTransaction> =
+    await fetchBalanceTransactionsWithRetry({
+      created: {
+        gte: Math.floor(startDate.getTime() / 1000),
+        lte: Math.floor(endDate.getTime() / 1000),
+      },
+      limit,
+      ...(starting_after ? {starting_after} : {}),
+    })
+
+  console.log(`Fetched ${transactions.data.length} balance transactions`)
+
+  const simplifiedTransactions = transactions.data.map(
+    simplifyBalanceTransaction,
+  )
+
+  return {
+    transactions: simplifiedTransactions,
+    has_more: transactions.has_more,
+    next_page_cursor:
+      transactions.data[transactions.data.length - 1]?.id || null,
+  }
+}
