@@ -6,6 +6,8 @@ import {
   fetchRefunds,
   SimplifiedCharge,
   SimplifiedRefund,
+  fetchBalanceTransactions,
+  SimplifiedBalanceTransaction,
 } from 'lib/transactions'
 import {prisma} from '@skillrecordings/database'
 import {calculateTotals} from 'components/calculations/calculate-totals'
@@ -14,7 +16,7 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 
 const SEND_SINGLE_CHANNEL = true
-const LC_CHANNEL_ID = 'C03QFFWHT7D'
+const LC_CHANNEL_ID = 'C07RDAMQ7PG'
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-US', {
@@ -48,6 +50,7 @@ export const slackDailyReporter = inngest.createFunction(
   async ({step}) => {
     const allCharges: SimplifiedCharge[] = []
     const allRefunds: SimplifiedRefund[] = []
+    const allBalanceTransactions: SimplifiedBalanceTransaction[] = []
     let hasMore = true
     let startingAfter: string | undefined = undefined
 
@@ -85,6 +88,26 @@ export const slackDailyReporter = inngest.createFunction(
       allRefunds.push(...fetchRefundPage.refunds)
       hasMore = fetchRefundPage.has_more
       startingAfter = fetchRefundPage.next_page_cursor || undefined
+    }
+
+    // Fetch refunds
+    hasMore = true
+    startingAfter = undefined
+    while (hasMore) {
+      const fetchBalancePage: Awaited<
+        ReturnType<typeof fetchBalanceTransactions>
+      > = await step.run(
+        `fetch-transactions${startingAfter ? `-${startingAfter}` : ''}`,
+        async () => {
+          return fetchBalanceTransactions({
+            range: 'yesterday',
+            starting_after: startingAfter,
+          })
+        },
+      )
+      allBalanceTransactions.push(...fetchBalancePage.transactions)
+      hasMore = fetchBalancePage.has_more
+      startingAfter = fetchBalancePage.next_page_cursor || undefined
     }
 
     const {totals, refundTotals} = await step.run(
