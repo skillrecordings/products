@@ -14,7 +14,6 @@ export const SimplifiedChargeSchema = z.object({
   product: z.string().nullable(),
   productId: z.string().nullable(),
   siteName: z.string().nullable(),
-  country: z.string().nullable(),
   net: z.number(),
   fee: z.number(),
 })
@@ -34,7 +33,6 @@ function simplifyCharge(charge: Stripe.Charge): SimplifiedCharge {
     product: charge.metadata.product || null,
     productId: charge.metadata.productId || null,
     siteName: charge.metadata.siteName || null,
-    country: charge.metadata.country || null,
     net: balanceTransaction?.net || 0,
     fee: balanceTransaction?.fee || 0,
   })
@@ -192,8 +190,8 @@ function getDateRange(range: string): {start: Date; end: Date} {
       end.setUTCMonth(Math.floor(end.getUTCMonth() / 3) * 3, 0)
       break
     case 'this-year':
-      start.setUTCMonth(0, 1)
-      end.setUTCMonth(11, 31)
+      start.setUTCMonth(9, 2)
+      end.setUTCMonth(9, 2)
       break
     case 'last-year':
       start.setUTCFullYear(start.getUTCFullYear() - 1, 0, 1)
@@ -344,7 +342,7 @@ export async function fetchRefunds({
   }
 }
 
-const SimplifiedBalanceTransactionSchema = z.object({
+export const SimplifiedBalanceTransactionSchema = z.object({
   id: z.string(),
   amount: z.number(),
   net: z.number(),
@@ -355,12 +353,14 @@ const SimplifiedBalanceTransactionSchema = z.object({
   available_on: z.number(),
   status: z.string(),
   description: z.string().nullable(),
+  source: z.string().nullable(), // Add this line
 })
 
 export type SimplifiedBalanceTransaction = z.infer<
   typeof SimplifiedBalanceTransactionSchema
 >
 
+// Update the simplifyBalanceTransaction function
 function simplifyBalanceTransaction(
   transaction: Stripe.BalanceTransaction,
 ): SimplifiedBalanceTransaction {
@@ -375,6 +375,7 @@ function simplifyBalanceTransaction(
     available_on: transaction.available_on,
     status: transaction.status,
     description: transaction.description,
+    source: transaction.source, // Add this line
   })
 }
 
@@ -471,4 +472,113 @@ export async function fetchBalanceTransactions({
     next_page_cursor:
       transactions.data[transactions.data.length - 1]?.id || null,
   }
+}
+
+// enricnhes?
+
+// Update the EnrichedBalanceTransactionSchema
+export const EnrichedBalanceTransactionSchema =
+  SimplifiedBalanceTransactionSchema.extend({
+    productId: z.string().nullable(),
+    product: z.string().nullable(),
+    siteName: z.string().nullable(),
+    chargeId: z.string().nullable(),
+    amountRefunded: z.number().nullable(),
+  })
+
+export type EnrichedBalanceTransaction = z.infer<
+  typeof EnrichedBalanceTransactionSchema
+>
+
+// Update the fetchEnrichedBalanceTransactions function
+export async function fetchEnrichedBalanceTransactions({
+  range,
+  start,
+  end,
+  limit = 100,
+}: z.infer<typeof FetchBalanceTransactionsSchema>): Promise<
+  EnrichedBalanceTransaction[]
+> {
+  console.log('Fetching enriched balance transactions...')
+
+  const [balanceTransactionsResult, chargesResult, refundsResult] =
+    await Promise.all([
+      fetchBalanceTransactions({range, start, end, limit}),
+      fetchCharges({range, start, end, limit}),
+      fetchRefunds({range, start, end, limit}),
+    ])
+
+  console.log(
+    `Fetched ${balanceTransactionsResult.transactions.length} balance transactions`,
+  )
+  console.log(`Fetched ${chargesResult.charges.length} charges`)
+  console.log(`Fetched ${refundsResult.refunds.length} refunds`)
+
+  const chargeMap = new Map(
+    chargesResult.charges.map((charge) => [charge.id, charge]),
+  )
+  const refundMap = new Map(
+    refundsResult.refunds.map((refund) => [refund.id, refund]),
+  )
+
+  const enrichedTransactions = balanceTransactionsResult.transactions.map(
+    (transaction): EnrichedBalanceTransaction => {
+      console.log(
+        `Processing transaction: ${transaction.id}, type: ${transaction.type}, source: ${transaction.source}`,
+      )
+
+      if (transaction.type === 'charge' && transaction.source) {
+        const charge = chargeMap.get(transaction.source)
+
+        if (charge) {
+          console.log(`Found matching charge: ${transaction.source}`)
+        } else {
+          console.log(`No matching charge found for: ${transaction.source}`)
+        }
+
+        return EnrichedBalanceTransactionSchema.parse({
+          ...transaction,
+          productId: charge?.productId || null,
+          product: charge?.product || null,
+          siteName: charge?.siteName || null,
+          chargeId: charge?.id || null,
+          amountRefunded: charge?.amountRefunded || null,
+        })
+      } else if (transaction.type === 'refund' && transaction.source) {
+        const refund = refundMap.get(transaction.source)
+
+        if (refund) {
+          console.log(`Found matching refund: ${transaction.source}`)
+        } else {
+          console.log(`No matching refund found for: ${transaction.source}`)
+        }
+
+        return EnrichedBalanceTransactionSchema.parse({
+          ...transaction,
+          productId: refund?.productId || null,
+          product: refund?.product || null,
+          siteName: null,
+          chargeId: refund?.chargeId || null,
+          amountRefunded: null,
+        })
+      }
+
+      console.log(
+        `Transaction ${transaction.id} is neither charge nor refund, or has no source`,
+      )
+
+      return EnrichedBalanceTransactionSchema.parse({
+        ...transaction,
+        productId: null,
+        product: null,
+        siteName: null,
+        chargeId: null,
+        amountRefunded: null,
+      })
+    },
+  )
+
+  console.log(`Enriched ${enrichedTransactions.length} transactions`)
+
+  return enrichedTransactions
 }

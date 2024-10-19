@@ -8,6 +8,7 @@ import {
   SimplifiedRefund,
   fetchBalanceTransactions,
   SimplifiedBalanceTransaction,
+  fetchEnrichedBalanceTransactions,
 } from 'lib/transactions'
 import {prisma} from '@skillrecordings/database'
 import {calculateTotals} from 'components/calculations/calculate-totals'
@@ -60,7 +61,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-charges${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchCharges({
-              range: 'yesterday',
+              range: 'this-year',
               starting_after: startingAfter,
             })
           },
@@ -80,7 +81,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchRefunds({
-              range: 'yesterday',
+              range: 'this-year',
               starting_after: startingAfter,
             })
           },
@@ -100,7 +101,7 @@ export const slackDailyReporter = inngest.createFunction(
         `fetch-transactions${startingAfter ? `-${startingAfter}` : ''}`,
         async () => {
           return fetchBalanceTransactions({
-            range: 'yesterday',
+            range: 'this-year',
             starting_after: startingAfter,
           })
         },
@@ -109,6 +110,15 @@ export const slackDailyReporter = inngest.createFunction(
       hasMore = fetchBalancePage.has_more
       startingAfter = fetchBalancePage.next_page_cursor || undefined
     }
+
+    const enrichedTransactions = await step.run(
+      'fetch-enriched-transactions',
+      async () => {
+        return fetchEnrichedBalanceTransactions({
+          range: 'this-year',
+        })
+      },
+    )
 
     const {totals, refundTotals} = await step.run(
       'calculate-totals',
