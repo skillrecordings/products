@@ -547,6 +547,27 @@ export async function fetchEnrichedBalanceTransactions({
       refunds.map((refund) => [refund.id, simplifyRefund(refund)]),
     )
 
+    // Fetch associated charges for refunds
+    const refundCharges = await Promise.all(
+      refunds.map((refund) =>
+        refund.charge && typeof refund.charge === 'string'
+          ? stripe.charges.retrieve(refund.charge)
+          : null,
+      ),
+    )
+
+    // Update refundMap with charge information
+    refunds.forEach((refund, index) => {
+      const charge = refundCharges[index]
+      if (charge) {
+        const updatedRefund = simplifyRefund({
+          ...refund,
+          charge: charge as Stripe.Charge,
+        })
+        refundMap.set(refund.id, updatedRefund)
+      }
+    })
+
     // Enrich balance transactions with charge and refund data
     const enrichedTransactions = balanceTransactionsResult.transactions.map(
       (transaction): EnrichedBalanceTransaction => {
@@ -569,9 +590,9 @@ export async function fetchEnrichedBalanceTransactions({
             ...transaction,
             productId: refund?.productId || null,
             product: refund?.product || null,
-            siteName: null,
+            siteName: null, // Refunds don't have siteName in your current setup
             chargeId: refund?.chargeId || null,
-            amountRefunded: null,
+            amountRefunded: refund?.amount || null,
           })
         }
 

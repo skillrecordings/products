@@ -1,10 +1,11 @@
-import {SimplifiedCharge, SimplifiedRefund} from 'lib/transactions'
+import {EnrichedBalanceTransaction} from 'lib/transactions' // Adjust import path as needed
 
 type ProductGroup = {
   productName: string
   productId: string
   count: number
   amount: number
+  gross: number
   net: number
   fee: number
   refunded: number
@@ -21,36 +22,38 @@ type Totals = {
 type RefundTotals = {
   totalRefundAmount: number
   refundCount: number
-  refundsByProduct: Record<
-    string,
-    {
-      count: number
-      amount: number
-    }
-  >
+  refundsByProduct: Record<string, {count: number; amount: number}>
 }
 
 export function calculateTotals(
-  allCharges: SimplifiedCharge[],
-  allRefunds: SimplifiedRefund[],
+  allBalanceTransactions: EnrichedBalanceTransaction[],
 ) {
+  const charges = allBalanceTransactions.filter(
+    (transaction) =>
+      transaction.type === 'charge' || transaction.type === 'payment',
+  )
+  const refunds = allBalanceTransactions.filter(
+    (transaction) => transaction.type === 'refund',
+  )
+
   const refundTotals: RefundTotals = {
-    totalRefundAmount: allRefunds.reduce(
-      (sum, refund) => sum + refund.amount,
+    totalRefundAmount: refunds.reduce(
+      (sum, refund) => sum + Math.abs(refund.amount),
       0,
     ),
-    refundCount: allRefunds.length,
-    refundsByProduct: allRefunds.reduce((acc, refund) => {
-      if (!acc[refund.product]) {
-        acc[refund.product] = {count: 0, amount: 0}
+    refundCount: refunds.length,
+    refundsByProduct: refunds.reduce((acc, refund) => {
+      const product = refund.product || 'Unknown Product'
+      if (!acc[product]) {
+        acc[product] = {count: 0, amount: 0}
       }
-      acc[refund.product].count++
-      acc[refund.product].amount += refund.amount
+      acc[product].count++
+      acc[product].amount += Math.abs(refund.amount)
       return acc
     }, {} as Record<string, {count: number; amount: number}>),
   }
 
-  const productGroups = allCharges.reduce((groups, charge) => {
+  const productGroups = charges.reduce((groups, charge) => {
     const product = charge.product || 'Unknown Product'
     const productId = charge.productId || 'unknown-id'
     if (!groups[product]) {
@@ -59,6 +62,7 @@ export function calculateTotals(
         productId: productId,
         count: 0,
         amount: 0,
+        gross: 0,
         net: 0,
         fee: 0,
         refunded: 0,
@@ -66,43 +70,43 @@ export function calculateTotals(
     }
     groups[product].count++
     groups[product].amount += charge.amount
+    groups[product].gross += charge.amount
+    groups[product].net += charge.net
     groups[product].fee += charge.fee
     return groups
   }, {} as Record<string, ProductGroup>)
 
-  // Add products that only have refunds to the productGroups
+  // Apply refunds to product groups
   Object.entries(refundTotals.refundsByProduct).forEach(
-    ([product, {amount}]) => {
-      if (!productGroups[product]) {
+    ([product, {amount, count}]) => {
+      if (productGroups[product]) {
+        productGroups[product].refunded += amount
+        productGroups[product].gross -= amount
+        productGroups[product].amount -= amount // Subtract refund from amount
+        productGroups[product].net -= amount // Subtract refund from net
+        productGroups[product].count -= count // Decrease count by refund count
+      } else {
+        // If a product only has refunds, create a new entry
         productGroups[product] = {
           productName: product,
           productId: 'unknown-id',
-          count: 0,
-          amount: 0,
-          net: 0,
+          count: -count,
+          amount: -amount,
+          gross: -amount,
+          net: -amount,
           fee: 0,
-          refunded: 0,
+          refunded: amount,
         }
       }
     },
   )
 
-  // Apply refunds to all products
-  Object.entries(refundTotals.refundsByProduct).forEach(
-    ([product, {amount}]) => {
-      if (productGroups[product]) {
-        productGroups[product].refunded += amount
-      }
-    },
-  )
-
-  // Calculate net and adjust gross for each product
-  Object.values(productGroups).forEach((group) => {
-    group.amount -= group.refunded
-    group.net = group.amount - group.fee
-  })
-
+  // Calculate totals
   const totalGross = Object.values(productGroups).reduce(
+    (sum, group) => sum + group.gross,
+    0,
+  )
+  const totalAmount = Object.values(productGroups).reduce(
     (sum, group) => sum + group.amount,
     0,
   )
@@ -118,6 +122,7 @@ export function calculateTotals(
   return {
     totals: {
       totalGross,
+      totalAmount,
       totalRefunded: refundTotals.totalRefundAmount,
       totalNet,
       totalFee,

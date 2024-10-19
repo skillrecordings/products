@@ -8,6 +8,7 @@ import {
   SimplifiedRefund,
   SimplifiedBalanceTransaction,
   fetchEnrichedBalanceTransactions,
+  EnrichedBalanceTransaction,
 } from 'lib/transactions'
 import {prisma} from '@skillrecordings/database'
 import {calculateTotals} from 'components/calculations/calculate-totals'
@@ -50,7 +51,7 @@ export const slackDailyReporter = inngest.createFunction(
   async ({step}) => {
     const allCharges: SimplifiedCharge[] = []
     const allRefunds: SimplifiedRefund[] = []
-    const allBalanceTransactions: SimplifiedBalanceTransaction[] = []
+    const allBalanceTransactions: EnrichedBalanceTransaction[] = []
     let hasMore = true
     let startingAfter: string | undefined = undefined
 
@@ -60,7 +61,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-charges${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchCharges({
-              range: 'last-month',
+              range: 'this-year',
               starting_after: startingAfter,
             })
           },
@@ -80,7 +81,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchRefunds({
-              range: 'last-month',
+              range: 'this-year',
               starting_after: startingAfter,
             })
           },
@@ -102,7 +103,7 @@ export const slackDailyReporter = inngest.createFunction(
         }`,
         async () => {
           return fetchEnrichedBalanceTransactions({
-            range: 'last-month',
+            range: 'this-year',
             starting_after: startingAfter,
           })
         },
@@ -114,7 +115,7 @@ export const slackDailyReporter = inngest.createFunction(
 
     const {totals, refundTotals} = await step.run(
       'calculate-totals',
-      async () => calculateTotals(allCharges, allRefunds),
+      async () => calculateTotals(allBalanceTransactions),
     )
 
     const splits: Splits = await step.run('load splits', async () => {
