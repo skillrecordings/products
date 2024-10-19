@@ -6,7 +6,6 @@ import {
   fetchRefunds,
   SimplifiedCharge,
   SimplifiedRefund,
-  fetchBalanceTransactions,
   SimplifiedBalanceTransaction,
   fetchEnrichedBalanceTransactions,
 } from 'lib/transactions'
@@ -61,7 +60,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-charges${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchCharges({
-              range: 'this-year',
+              range: 'last-month',
               starting_after: startingAfter,
             })
           },
@@ -81,7 +80,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchRefunds({
-              range: 'this-year',
+              range: 'last-month',
               starting_after: startingAfter,
             })
           },
@@ -103,7 +102,7 @@ export const slackDailyReporter = inngest.createFunction(
         }`,
         async () => {
           return fetchEnrichedBalanceTransactions({
-            range: 'this-year',
+            range: 'last-month',
             starting_after: startingAfter,
           })
         },

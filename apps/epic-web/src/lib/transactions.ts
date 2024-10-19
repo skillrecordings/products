@@ -507,91 +507,94 @@ export async function fetchEnrichedBalanceTransactions({
 >): Promise<PaginatedEnrichedBalanceTransactions> {
   console.log('Fetching enriched balance transactions...')
 
-  const [balanceTransactionsResult, chargesResult, refundsResult] =
-    await Promise.all([
-      fetchBalanceTransactions({range, start, end, limit, starting_after}),
-      fetchCharges({range, start, end, limit: 1000}), // Fetch more charges and refunds to ensure we have enough data for enrichment
-      fetchRefunds({range, start, end, limit: 1000}),
+  try {
+    // Fetch balance transactions with pagination
+    const balanceTransactionsResult = await fetchBalanceTransactions({
+      range,
+      start,
+      end,
+      limit,
+      starting_after,
+    })
+
+    // Get unique charge and refund IDs from the current page of balance transactions
+    const chargeIds = new Set<string>()
+    const refundIds = new Set<string>()
+
+    balanceTransactionsResult.transactions.forEach((transaction) => {
+      if (transaction.type === 'charge' || transaction.type === 'payment') {
+        if (transaction.source) chargeIds.add(transaction.source)
+      } else if (transaction.type === 'refund') {
+        if (transaction.source) refundIds.add(transaction.source)
+      }
+    })
+
+    // Fetch charges and refunds for the current page
+    const [charges, refunds] = await Promise.all([
+      Promise.all(
+        Array.from(chargeIds).map((id) => stripe.charges.retrieve(id)),
+      ),
+      Promise.all(
+        Array.from(refundIds).map((id) => stripe.refunds.retrieve(id)),
+      ),
     ])
 
-  console.log(
-    `Fetched ${balanceTransactionsResult.transactions.length} balance transactions`,
-  )
-  console.log(`Fetched ${chargesResult.charges.length} charges`)
-  console.log(`Fetched ${refundsResult.refunds.length} refunds`)
+    // Create maps for quick lookup
+    const chargeMap = new Map(
+      charges.map((charge) => [charge.id, simplifyCharge(charge)]),
+    )
+    const refundMap = new Map(
+      refunds.map((refund) => [refund.id, simplifyRefund(refund)]),
+    )
 
-  const chargeMap = new Map(
-    chargesResult.charges.map((charge) => [charge.id, charge]),
-  )
-  const refundMap = new Map(
-    refundsResult.refunds.map((refund) => [refund.id, refund]),
-  )
-
-  const enrichedTransactions = balanceTransactionsResult.transactions.map(
-    (transaction): EnrichedBalanceTransaction => {
-      console.log(
-        `Processing transaction: ${transaction.id}, type: ${transaction.type}, source: ${transaction.source}`,
-      )
-
-      if (
-        (transaction.type === 'charge' && transaction.source) ||
-        (transaction.type === 'payment' && transaction.source)
-      ) {
-        const charge = chargeMap.get(transaction.source)
-
-        if (charge) {
-          console.log(`Found matching charge: ${transaction.source}`)
-        } else {
-          console.log(`No matching charge found for: ${transaction.source}`)
+    // Enrich balance transactions with charge and refund data
+    const enrichedTransactions = balanceTransactionsResult.transactions.map(
+      (transaction): EnrichedBalanceTransaction => {
+        if (
+          (transaction.type === 'charge' || transaction.type === 'payment') &&
+          transaction.source
+        ) {
+          const charge = chargeMap.get(transaction.source)
+          return EnrichedBalanceTransactionSchema.parse({
+            ...transaction,
+            productId: charge?.productId || null,
+            product: charge?.product || null,
+            siteName: charge?.siteName || null,
+            chargeId: charge?.id || null,
+            amountRefunded: charge?.amountRefunded || null,
+          })
+        } else if (transaction.type === 'refund' && transaction.source) {
+          const refund = refundMap.get(transaction.source)
+          return EnrichedBalanceTransactionSchema.parse({
+            ...transaction,
+            productId: refund?.productId || null,
+            product: refund?.product || null,
+            siteName: null,
+            chargeId: refund?.chargeId || null,
+            amountRefunded: null,
+          })
         }
 
         return EnrichedBalanceTransactionSchema.parse({
           ...transaction,
-          productId: charge?.productId || null,
-          product: charge?.product || null,
-          siteName: charge?.siteName || null,
-          chargeId: charge?.id || null,
-          amountRefunded: charge?.amountRefunded || null,
-        })
-      } else if (transaction.type === 'refund' && transaction.source) {
-        const refund = refundMap.get(transaction.source)
-
-        if (refund) {
-          console.log(`Found matching refund: ${transaction.source}`)
-        } else {
-          console.log(`No matching refund found for: ${transaction.source}`)
-        }
-
-        return EnrichedBalanceTransactionSchema.parse({
-          ...transaction,
-          productId: refund?.productId || null,
-          product: refund?.product || null,
+          productId: null,
+          product: null,
           siteName: null,
-          chargeId: refund?.chargeId || null,
+          chargeId: null,
           amountRefunded: null,
         })
-      }
+      },
+    )
 
-      console.log(
-        `Transaction ${transaction.id} is neither charge nor refund, or has no source`,
-      )
+    console.log(`Enriched ${enrichedTransactions.length} transactions`)
 
-      return EnrichedBalanceTransactionSchema.parse({
-        ...transaction,
-        productId: null,
-        product: null,
-        siteName: null,
-        chargeId: null,
-        amountRefunded: null,
-      })
-    },
-  )
-
-  console.log(`Enriched ${enrichedTransactions.length} transactions`)
-
-  return {
-    transactions: enrichedTransactions,
-    has_more: balanceTransactionsResult.has_more,
-    next_page_cursor: balanceTransactionsResult.next_page_cursor,
+    return {
+      transactions: enrichedTransactions,
+      has_more: balanceTransactionsResult.has_more,
+      next_page_cursor: balanceTransactionsResult.next_page_cursor,
+    }
+  } catch (error) {
+    console.error('Error fetching enriched balance transactions:', error)
+    throw error // Re-throw the error for the caller to handle
   }
 }
