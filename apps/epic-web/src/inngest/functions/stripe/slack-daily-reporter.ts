@@ -91,16 +91,18 @@ export const slackDailyReporter = inngest.createFunction(
       startingAfter = fetchRefundPage.next_page_cursor || undefined
     }
 
-    // Fetch refunds
+    // Fetch balance transactions
     hasMore = true
     startingAfter = undefined
     while (hasMore) {
       const fetchBalancePage: Awaited<
-        ReturnType<typeof fetchBalanceTransactions>
+        ReturnType<typeof fetchEnrichedBalanceTransactions>
       > = await step.run(
-        `fetch-transactions${startingAfter ? `-${startingAfter}` : ''}`,
+        `fetch-enriched-transactions${
+          startingAfter ? `-${startingAfter}` : ''
+        }`,
         async () => {
-          return fetchBalanceTransactions({
+          return fetchEnrichedBalanceTransactions({
             range: 'this-year',
             starting_after: startingAfter,
           })
@@ -110,15 +112,6 @@ export const slackDailyReporter = inngest.createFunction(
       hasMore = fetchBalancePage.has_more
       startingAfter = fetchBalancePage.next_page_cursor || undefined
     }
-
-    const enrichedTransactions = await step.run(
-      'fetch-enriched-transactions',
-      async () => {
-        return fetchEnrichedBalanceTransactions({
-          range: 'this-year',
-        })
-      },
-    )
 
     const {totals, refundTotals} = await step.run(
       'calculate-totals',

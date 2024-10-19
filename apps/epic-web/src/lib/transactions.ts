@@ -490,22 +490,28 @@ export type EnrichedBalanceTransaction = z.infer<
   typeof EnrichedBalanceTransactionSchema
 >
 
-// Update the fetchEnrichedBalanceTransactions function
+export interface PaginatedEnrichedBalanceTransactions {
+  transactions: EnrichedBalanceTransaction[]
+  has_more: boolean
+  next_page_cursor: string | null
+}
+
 export async function fetchEnrichedBalanceTransactions({
   range,
   start,
   end,
   limit = 100,
-}: z.infer<typeof FetchBalanceTransactionsSchema>): Promise<
-  EnrichedBalanceTransaction[]
-> {
+  starting_after,
+}: z.infer<
+  typeof FetchBalanceTransactionsSchema
+>): Promise<PaginatedEnrichedBalanceTransactions> {
   console.log('Fetching enriched balance transactions...')
 
   const [balanceTransactionsResult, chargesResult, refundsResult] =
     await Promise.all([
-      fetchBalanceTransactions({range, start, end, limit}),
-      fetchCharges({range, start, end, limit}),
-      fetchRefunds({range, start, end, limit}),
+      fetchBalanceTransactions({range, start, end, limit, starting_after}),
+      fetchCharges({range, start, end, limit: 1000}), // Fetch more charges and refunds to ensure we have enough data for enrichment
+      fetchRefunds({range, start, end, limit: 1000}),
     ])
 
   console.log(
@@ -527,7 +533,10 @@ export async function fetchEnrichedBalanceTransactions({
         `Processing transaction: ${transaction.id}, type: ${transaction.type}, source: ${transaction.source}`,
       )
 
-      if (transaction.type === 'charge' && transaction.source) {
+      if (
+        (transaction.type === 'charge' && transaction.source) ||
+        (transaction.type === 'payment' && transaction.source)
+      ) {
         const charge = chargeMap.get(transaction.source)
 
         if (charge) {
@@ -580,5 +589,9 @@ export async function fetchEnrichedBalanceTransactions({
 
   console.log(`Enriched ${enrichedTransactions.length} transactions`)
 
-  return enrichedTransactions
+  return {
+    transactions: enrichedTransactions,
+    has_more: balanceTransactionsResult.has_more,
+    next_page_cursor: balanceTransactionsResult.next_page_cursor,
+  }
 }
