@@ -9,6 +9,7 @@ type ProductGroup = {
   net: number
   fee: number
   refunded: number
+  refundCount: number // Added refund count
 }
 
 type Totals = {
@@ -16,6 +17,7 @@ type Totals = {
   totalRefunded: number
   totalNet: number
   totalFee: number
+  totalCount: number // Added total count
   productGroups: Record<string, ProductGroup>
 }
 
@@ -66,6 +68,7 @@ export function calculateTotals(
         net: 0,
         fee: 0,
         refunded: 0,
+        refundCount: 0,
       }
     }
     groups[product].count++
@@ -82,20 +85,21 @@ export function calculateTotals(
       if (productGroups[product]) {
         productGroups[product].refunded += amount
         productGroups[product].gross -= amount
-        productGroups[product].amount -= amount // Subtract refund from amount
-        productGroups[product].net -= amount // Subtract refund from net
-        productGroups[product].count -= count // Decrease count by refund count
+        productGroups[product].amount -= amount
+        productGroups[product].net -= amount
+        productGroups[product].refundCount += count // Track refund count
       } else {
         // If a product only has refunds, create a new entry
         productGroups[product] = {
           productName: product,
           productId: 'unknown-id',
-          count: -count,
+          count: 0,
           amount: -amount,
           gross: -amount,
           net: -amount,
           fee: 0,
           refunded: amount,
+          refundCount: count,
         }
       }
     },
@@ -118,6 +122,10 @@ export function calculateTotals(
     (sum, group) => sum + group.net,
     0,
   )
+  const totalCount = Object.values(productGroups).reduce(
+    (sum, group) => sum + group.count - group.refundCount,
+    0,
+  )
 
   return {
     totals: {
@@ -126,6 +134,7 @@ export function calculateTotals(
       totalRefunded: refundTotals.totalRefundAmount,
       totalNet,
       totalFee,
+      totalCount,
       productGroups,
     },
     refundTotals,
