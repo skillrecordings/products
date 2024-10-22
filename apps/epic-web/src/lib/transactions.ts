@@ -166,6 +166,7 @@ function getDateRange(range: string): {start: Date; end: Date} {
       break
     case 'month-so-far':
       start.setUTCDate(1)
+      end.setUTCDate(end.getUTCDate() - 1)
       break
     case 'last-month':
       start.setUTCMonth(start.getUTCMonth() - 1, 1)
@@ -190,8 +191,8 @@ function getDateRange(range: string): {start: Date; end: Date} {
       end.setUTCMonth(Math.floor(end.getUTCMonth() / 3) * 3, 0)
       break
     case 'this-year':
-      start.setUTCMonth(9, 2)
-      end.setUTCMonth(9, 2)
+      start.setUTCMonth(0, 11)
+      end.setUTCMonth(11, 31)
       break
     case 'last-year':
       start.setUTCFullYear(start.getUTCFullYear() - 1, 0, 1)

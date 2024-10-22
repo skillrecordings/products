@@ -38,7 +38,29 @@ type ProductSplits = Record<string, SplitData>
 
 type Splits = Record<string, ProductSplits>
 
-type UserData = Record<string, string>
+// type UserData = Record<string, string>
+
+interface UserData {
+  [userId: string]: string
+}
+
+interface SlackChannelIds {
+  [userId: string]: string | null
+}
+
+interface Contributor {
+  userId: string
+  saleAnnounceChannel: string
+}
+
+const OWNER_USER_ID = '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b'
+
+type ProductGroup = {
+  productId: string
+  productName: string
+  count: number
+  amount: number
+}
 
 export const slackDailyReporter = inngest.createFunction(
   {
@@ -49,7 +71,8 @@ export const slackDailyReporter = inngest.createFunction(
     cron: 'TZ=America/Los_Angeles 0 10 * * *',
   },
   async ({step}) => {
-    const allBalanceTransactions: EnrichedBalanceTransaction[] = []
+    const allBalanceTransactionsYesterday: EnrichedBalanceTransaction[] = []
+    const allBalanceTransactionsThisMonth: EnrichedBalanceTransaction[] = []
     let hasMore = true
     let startingAfter: string | undefined = undefined
 
@@ -60,53 +83,110 @@ export const slackDailyReporter = inngest.createFunction(
       const fetchBalancePage: Awaited<
         ReturnType<typeof fetchEnrichedBalanceTransactions>
       > = await step.run(
-        `fetch-enriched-transactions${
+        `fetch-combined-transactions-yesterday${
           startingAfter ? `-${startingAfter}` : ''
         }`,
         async () => {
           return fetchEnrichedBalanceTransactions({
-            range: 'this-year',
+            range: 'yesterday',
             starting_after: startingAfter,
           })
         },
       )
-      allBalanceTransactions.push(...fetchBalancePage.transactions)
+      allBalanceTransactionsYesterday.push(...fetchBalancePage.transactions)
       hasMore = fetchBalancePage.has_more
       startingAfter = fetchBalancePage.next_page_cursor || undefined
     }
 
-    const {totals, refundTotals} = await step.run(
-      'calculate-totals',
-      async () => calculateTotals(allBalanceTransactions),
+    // Fetch balance transactions
+    hasMore = true
+    startingAfter = undefined
+    while (hasMore) {
+      const fetchBalancePage: Awaited<
+        ReturnType<typeof fetchEnrichedBalanceTransactions>
+      > = await step.run(
+        `fetch-combined-transactions-this-month${
+          startingAfter ? `-${startingAfter}` : ''
+        }`,
+        async () => {
+          return fetchEnrichedBalanceTransactions({
+            range: 'month-so-far',
+            starting_after: startingAfter,
+          })
+        },
+      )
+      allBalanceTransactionsThisMonth.push(...fetchBalancePage.transactions)
+      hasMore = fetchBalancePage.has_more
+      startingAfter = fetchBalancePage.next_page_cursor || undefined
+    }
+
+    const {totals: totalsYesterday, refundTotals: refundTotalsYesterday} =
+      await step.run('calculate-totals-yesterday', async () =>
+        calculateTotals(allBalanceTransactionsYesterday),
+      )
+
+    const {totals: totalsThisMonth, refundTotals: refundTotalsThisMonth} =
+      await step.run('calculate-totals-this-month', async () =>
+        calculateTotals(allBalanceTransactionsThisMonth),
+      )
+
+    const splitsYesterday: Splits = await step.run(
+      'load-splits-yesterday',
+      async () => {
+        const dbSplits = await prisma.productRevenueSplit.findMany({
+          where: {
+            productId: {
+              in: Object.values(totalsYesterday.productGroups).map(
+                (group) => group.productId,
+              ),
+            },
+          },
+        })
+
+        return dbSplits.reduce<Splits>((acc: any, split: any) => {
+          if (!acc[split.productId]) {
+            acc[split.productId] = {}
+          }
+          acc[split.productId][split.id] = {
+            percent: split.percent,
+            userId: split.userId,
+            type: split.type,
+          }
+          return acc
+        }, {})
+      },
     )
 
-    const splits: Splits = await step.run('load splits', async () => {
-      const dbSplits = await prisma.productRevenueSplit.findMany({
-        where: {
-          productId: {
-            in: Object.values(totals.productGroups).map(
-              (group) => group.productId,
-            ),
+    const splitsThisMonth: Splits = await step.run(
+      'load-splits-this-month',
+      async () => {
+        const dbSplits = await prisma.productRevenueSplit.findMany({
+          where: {
+            productId: {
+              in: Object.values(totalsYesterday.productGroups).map(
+                (group) => group.productId,
+              ),
+            },
           },
-        },
-      })
+        })
 
-      return dbSplits.reduce<Splits>((acc: any, split: any) => {
-        if (!acc[split.productId]) {
-          acc[split.productId] = {}
-        }
-        acc[split.productId][split.id] = {
-          percent: split.percent,
-          userId: split.userId,
-          type: split.type,
-        }
-        return acc
-      }, {})
-    })
+        return dbSplits.reduce<Splits>((acc: any, split: any) => {
+          if (!acc[split.productId]) {
+            acc[split.productId] = {}
+          }
+          acc[split.productId][split.id] = {
+            percent: split.percent,
+            userId: split.userId,
+            type: split.type,
+          }
+          return acc
+        }, {})
+      },
+    )
 
-    const users: UserData = await step.run('fetch users', async () => {
+    const users: UserData = await step.run('fetch-users', async () => {
       const userIds = new Set<string>()
-      Object.values(splits).forEach((productSplits) => {
+      Object.values(splitsYesterday).forEach((productSplits) => {
         Object.values(productSplits).forEach((split) => {
           if (split.userId) userIds.add(split.userId)
         })
@@ -130,31 +210,10 @@ export const slackDailyReporter = inngest.createFunction(
       }, {} as UserData)
     })
 
-    const calculatedSplits = await step.run('calculate splits', async () =>
-      calculateSplits(totals, splits, users),
+    const calculatedSplits = await step.run(
+      'calculate-splits-yesterday',
+      async () => calculateSplits(totalsYesterday, splitsYesterday, users),
     )
-
-    interface UserData {
-      [userId: string]: string
-    }
-
-    interface SlackChannelIds {
-      [userId: string]: string | null
-    }
-
-    interface Contributor {
-      userId: string
-      saleAnnounceChannel: string
-    }
-
-    const OWNER_USER_ID = '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b'
-
-    type ProductGroup = {
-      productId: string
-      productName: string
-      count: number
-      amount: number
-    }
 
     const slackChannelIds = await step.run(
       'load slack channel ids for all users',
@@ -288,7 +347,7 @@ export const slackDailyReporter = inngest.createFunction(
     }
 
     await step.run('announce in slack', async () => {
-      const {productGroups} = totals
+      const {productGroups} = totalsYesterday
       const {groupSplits} = calculatedSplits
 
       const webClient = new WebClient(process.env.SLACK_TOKEN)
