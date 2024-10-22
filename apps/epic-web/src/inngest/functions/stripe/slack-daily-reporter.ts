@@ -322,9 +322,10 @@ export const slackDailyReporter = inngest.createFunction(
       const filteredEntries = entries.filter(([_, value]) => value > 0)
       const formattedLabels = filteredEntries.map(([name]) => name)
       const data = filteredEntries.map(([_, value]) => value / 100)
-
-      const total = data.reduce((sum, value) => sum + value, 0)
+      const total = filteredEntries.reduce((sum, value) => sum + value[1], 0)
       const formattedTotal = formatCurrency(total)
+
+      const currentMonth = new Date().toLocaleString('default', {month: 'long'})
 
       const chartData = {
         type: 'bar',
@@ -340,9 +341,9 @@ export const slackDailyReporter = inngest.createFunction(
                 '#4BC0C0',
                 '#9966FF',
                 '#FF9F40',
-                '#00FF00',
-                '#FFA500',
-                '#800080',
+                '#FF0000',
+                '#008B8B',
+                '#8B4513',
                 '#FFFF00',
                 '#008080',
                 '#FF00FF',
@@ -355,7 +356,6 @@ export const slackDailyReporter = inngest.createFunction(
                 '#A52A2A',
                 '#40E0D0',
               ],
-              borderWidth: 1,
               maxBarThickness: 50,
               minBarLength: 2,
             },
@@ -369,10 +369,22 @@ export const slackDailyReporter = inngest.createFunction(
             },
             title: {
               display: true,
-              text: 'Revenue Distribution by Product So Far This Month',
+              text: `Revenue Breakdown by Product for ${currentMonth} to Date (Excluding Expenses)`,
               color: 'black',
               font: {
                 size: 10,
+              },
+            },
+            subtitle: {
+              display: true,
+              text: 'Estimated royalty: ' + formattedTotal,
+              color: 'black',
+              font: {
+                size: 10,
+                weight: 'bold',
+              },
+              padding: {
+                bottom: 10,
               },
             },
             datalabels: {
@@ -628,7 +640,7 @@ export const slackDailyReporter = inngest.createFunction(
                 type: 'image',
                 title: {
                   type: 'plain_text',
-                  text: 'Revenue Distribution So Far',
+                  text: 'Revenue Distribution To Date (Excluding Expenses)',
                 },
                 image_url: chartUrl,
                 alt_text: 'Revenue Distribution Chart',
