@@ -163,7 +163,7 @@ export const slackDailyReporter = inngest.createFunction(
         const dbSplits = await prisma.productRevenueSplit.findMany({
           where: {
             productId: {
-              in: Object.values(totalsYesterday.productGroups).map(
+              in: Object.values(totalsThisMonth.productGroups).map(
                 (group) => group.productId,
               ),
             },
@@ -210,9 +210,44 @@ export const slackDailyReporter = inngest.createFunction(
       }, {} as UserData)
     })
 
+    const usersThisMonth: UserData = await step.run(
+      'fetch-users-this-month',
+      async () => {
+        const userIds = new Set<string>()
+        Object.values(splitsThisMonth).forEach((productSplits) => {
+          Object.values(productSplits).forEach((split) => {
+            if (split.userId) userIds.add(split.userId)
+          })
+        })
+
+        const dbUsers = await prisma.user.findMany({
+          where: {
+            id: {
+              in: Array.from(userIds),
+            },
+          },
+          select: {
+            id: true,
+            name: true,
+          },
+        })
+
+        return dbUsers.reduce((acc, user) => {
+          acc[user.id] = user.name || 'Unnamed User'
+          return acc
+        }, {} as UserData)
+      },
+    )
+
     const calculatedSplits = await step.run(
       'calculate-splits-yesterday',
       async () => calculateSplits(totalsYesterday, splitsYesterday, users),
+    )
+
+    const calculatedSplitsThisMonth = await step.run(
+      'calculate-splits-this-month',
+      async () =>
+        calculateSplits(totalsThisMonth, splitsThisMonth, usersThisMonth),
     )
 
     const slackChannelIds = await step.run(
@@ -309,7 +344,7 @@ export const slackDailyReporter = inngest.createFunction(
         options: {
           title: {
             display: true,
-            text: 'Revenue Distribution by Product',
+            text: 'Revenue Distribution by Product So Far This Month',
             fontColor: 'black',
           },
           legend: {
@@ -498,7 +533,7 @@ export const slackDailyReporter = inngest.createFunction(
                 type: 'image',
                 title: {
                   type: 'plain_text',
-                  text: 'Revenue Distribution',
+                  text: 'Revenue Distribution So Far',
                 },
                 image_url: chartUrl,
                 alt_text: 'Revenue Distribution Chart',
