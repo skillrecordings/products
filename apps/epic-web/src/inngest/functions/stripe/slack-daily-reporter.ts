@@ -15,6 +15,7 @@ import {calculateTotals} from 'components/calculations/calculate-totals'
 import {calculateSplits} from 'components/calculations/calculate-splits'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
+import {RxFontSize} from 'react-icons/rx'
 
 const SEND_SINGLE_CHANNEL = true
 const LC_CHANNEL_ID = 'C07RDAMQ7PG'
@@ -184,31 +185,34 @@ export const slackDailyReporter = inngest.createFunction(
       },
     )
 
-    const users: UserData = await step.run('fetch-users', async () => {
-      const userIds = new Set<string>()
-      Object.values(splitsYesterday).forEach((productSplits) => {
-        Object.values(productSplits).forEach((split) => {
-          if (split.userId) userIds.add(split.userId)
+    const users: UserData = await step.run(
+      'fetch-users-yesterday',
+      async () => {
+        const userIds = new Set<string>()
+        Object.values(splitsYesterday).forEach((productSplits) => {
+          Object.values(productSplits).forEach((split) => {
+            if (split.userId) userIds.add(split.userId)
+          })
         })
-      })
 
-      const dbUsers = await prisma.user.findMany({
-        where: {
-          id: {
-            in: Array.from(userIds),
+        const dbUsers = await prisma.user.findMany({
+          where: {
+            id: {
+              in: Array.from(userIds),
+            },
           },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      })
+          select: {
+            id: true,
+            name: true,
+          },
+        })
 
-      return dbUsers.reduce((acc, user) => {
-        acc[user.id] = user.name || 'Unnamed User'
-        return acc
-      }, {} as UserData)
-    })
+        return dbUsers.reduce((acc, user) => {
+          acc[user.id] = user.name || 'Unnamed User'
+          return acc
+        }, {} as UserData)
+      },
+    )
 
     const usersThisMonth: UserData = await step.run(
       'fetch-users-this-month',
@@ -314,17 +318,16 @@ export const slackDailyReporter = inngest.createFunction(
         }
       }
 
-      const labels = Object.keys(productData)
-      const data = Object.values(productData)
-      const formattedLabels = labels.map(
-        (name, index) => `${name}: ${formatCurrency(data[index])}`,
-      )
+      const entries = Object.entries(productData)
+      const filteredEntries = entries.filter(([_, value]) => value > 0)
+      const formattedLabels = filteredEntries.map(([name]) => name)
+      const data = filteredEntries.map(([_, value]) => value / 100)
 
       const total = data.reduce((sum, value) => sum + value, 0)
       const formattedTotal = formatCurrency(total)
 
       const chartData = {
-        type: 'doughnut',
+        type: 'bar',
         data: {
           labels: formattedLabels,
           datasets: [
@@ -337,53 +340,95 @@ export const slackDailyReporter = inngest.createFunction(
                 '#4BC0C0',
                 '#9966FF',
                 '#FF9F40',
+                '#00FF00',
+                '#FFA500',
+                '#800080',
+                '#FFFF00',
+                '#008080',
+                '#FF00FF',
+                '#800000',
+                '#00FFFF',
+                '#006400',
+                '#FFC0CB',
+                '#808000',
+                '#4B0082',
+                '#A52A2A',
+                '#40E0D0',
               ],
+              borderWidth: 1,
+              maxBarThickness: 50,
+              minBarLength: 2,
             },
           ],
         },
         options: {
-          title: {
-            display: true,
-            text: 'Revenue Distribution by Product So Far This Month',
-            fontColor: 'black',
-          },
-          legend: {
-            position: 'bottom',
-            labels: {
-              boxWidth: 15,
-              padding: 15,
-              fontColor: 'black',
-            },
-          },
+          indexAxis: 'y',
           plugins: {
-            datalabels: {
+            legend: {
               display: false,
             },
-            doughnutlabel: {
-              labels: [
-                {
-                  text: formattedTotal,
-                  font: {size: 14, weight: 'bold'},
-                  color: 'black',
+            title: {
+              display: true,
+              text: 'Revenue Distribution by Product So Far This Month',
+              color: 'black',
+              font: {
+                size: 10,
+              },
+            },
+            datalabels: {
+              formatter: function (value: any) {
+                return '$' + value
+              },
+              align: 'right',
+              anchor: 'end',
+              color: 'black',
+              font: {
+                size: 8,
+                weight: 'bold',
+              },
+              padding: 4,
+            },
+          },
+          scales: {
+            x: {
+              display: false,
+              min: 0,
+              max: Math.max(...data) * 1.1,
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              grid: {
+                display: true,
+              },
+              ticks: {
+                color: 'black',
+                font: {
+                  size: 8,
+                  style: 'normal',
                 },
-                {
-                  text: 'total',
-                  font: {size: 10},
-                  color: 'black',
-                },
-              ],
+              },
+            },
+          },
+          layout: {
+            padding: {
+              right: 30,
             },
           },
         },
       }
 
       const encodedChartData = encodeURIComponent(JSON.stringify(chartData))
-      return `https://quickchart.io/chart?c=${encodedChartData}&backgroundColor=white`
+      return `https://quickchart.io/chart?c=${encodedChartData}&backgroundColor=white&version=4`
     }
 
     await step.run('announce in slack', async () => {
+      // Get both yesterday and monthly data
       const {productGroups} = totalsYesterday
       const {groupSplits} = calculatedSplits
+      const monthlyProductGroups = totalsThisMonth.productGroups
+      const monthlyGroupSplits = calculatedSplitsThisMonth.groupSplits
 
       const webClient = new WebClient(process.env.SLACK_TOKEN)
       const results: Array<{
@@ -407,7 +452,20 @@ export const slackDailyReporter = inngest.createFunction(
           > = {}
           const userProducts: Record<string, Record<string, ProductGroup>> = {}
 
-          // Filter data for the specific user
+          // Monthly data structures
+          const monthlyUserSplits: Record<
+            string,
+            {
+              creatorSplits: Record<string, number>
+              products: Record<string, {creatorSplits: Record<string, number>}>
+            }
+          > = {}
+          const monthlyUserProducts: Record<
+            string,
+            Record<string, ProductGroup>
+          > = {}
+
+          // Filter yesterday's data for the text summary
           for (const [groupName, groupSplit] of Object.entries(groupSplits)) {
             if (
               userName &&
@@ -441,7 +499,43 @@ export const slackDailyReporter = inngest.createFunction(
             }
           }
 
-          // Calculate user-specific total splits and transaction count
+          // Filter monthly data for the chart
+          for (const [groupName, groupSplit] of Object.entries(
+            monthlyGroupSplits,
+          )) {
+            if (
+              userName &&
+              groupSplit.creatorSplits &&
+              groupSplit.creatorSplits[userName]
+            ) {
+              monthlyUserSplits[groupName] = {
+                creatorSplits: {[userName]: groupSplit.creatorSplits[userName]},
+                products: {},
+              }
+
+              monthlyUserProducts[groupName] = {}
+              if (groupSplit.products) {
+                for (const [productKey, productSplit] of Object.entries(
+                  groupSplit.products,
+                )) {
+                  if (
+                    productSplit.creatorSplits &&
+                    productSplit.creatorSplits[userName]
+                  ) {
+                    monthlyUserProducts[groupName][productKey] =
+                      monthlyProductGroups[productKey]
+                    monthlyUserSplits[groupName].products[productKey] = {
+                      creatorSplits: {
+                        [userName]: productSplit.creatorSplits[userName],
+                      },
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          // Calculate user-specific total splits and transaction count for yesterday
           let userTotalRevenue = 0
           let userTotalTransactions = 0
           const soldProducts: Array<{name: string; count: number}> = []
@@ -472,9 +566,10 @@ export const slackDailyReporter = inngest.createFunction(
           }
 
           if (soldProducts.length > 0) {
+            // Generate chart using monthly data
             const chartUrl = generateChartUrl(
-              userProducts,
-              userSplits,
+              monthlyUserProducts,
+              monthlyUserSplits,
               userName,
             )
 
