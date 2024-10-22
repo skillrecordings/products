@@ -49,47 +49,9 @@ export const slackDailyReporter = inngest.createFunction(
     cron: 'TZ=America/Los_Angeles 0 10 * * *',
   },
   async ({step}) => {
-    const allCharges: SimplifiedCharge[] = []
-    const allRefunds: SimplifiedRefund[] = []
     const allBalanceTransactions: EnrichedBalanceTransaction[] = []
     let hasMore = true
     let startingAfter: string | undefined = undefined
-
-    while (hasMore) {
-      const fetchChargePage: Awaited<ReturnType<typeof fetchCharges>> =
-        await step.run(
-          `fetch-charges${startingAfter ? `-${startingAfter}` : ''}`,
-          async () => {
-            return fetchCharges({
-              range: 'this-year',
-              starting_after: startingAfter,
-            })
-          },
-        )
-
-      allCharges.push(...fetchChargePage.charges)
-      hasMore = fetchChargePage.has_more
-      startingAfter = fetchChargePage.next_page_cursor || undefined
-    }
-
-    // Fetch refunds
-    hasMore = true
-    startingAfter = undefined
-    while (hasMore) {
-      const fetchRefundPage: Awaited<ReturnType<typeof fetchRefunds>> =
-        await step.run(
-          `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
-          async () => {
-            return fetchRefunds({
-              range: 'this-year',
-              starting_after: startingAfter,
-            })
-          },
-        )
-      allRefunds.push(...fetchRefundPage.refunds)
-      hasMore = fetchRefundPage.has_more
-      startingAfter = fetchRefundPage.next_page_cursor || undefined
-    }
 
     // Fetch balance transactions
     hasMore = true
