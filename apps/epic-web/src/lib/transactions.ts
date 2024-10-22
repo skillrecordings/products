@@ -525,7 +525,10 @@ export async function fetchEnrichedBalanceTransactions({
     balanceTransactionsResult.transactions.forEach((transaction) => {
       if (transaction.type === 'charge' || transaction.type === 'payment') {
         if (transaction.source) chargeIds.add(transaction.source)
-      } else if (transaction.type === 'refund') {
+      } else if (
+        transaction.type === 'refund' ||
+        transaction.type === 'payment_refund'
+      ) {
         if (transaction.source) refundIds.add(transaction.source)
       }
     })
@@ -585,7 +588,11 @@ export async function fetchEnrichedBalanceTransactions({
             chargeId: charge?.id || null,
             amountRefunded: charge?.amountRefunded || null,
           })
-        } else if (transaction.type === 'refund' && transaction.source) {
+        } else if (
+          (transaction.type === 'refund' ||
+            transaction.type === 'payment_refund') &&
+          transaction.source
+        ) {
           const refund = refundMap.get(transaction.source)
           return EnrichedBalanceTransactionSchema.parse({
             ...transaction,

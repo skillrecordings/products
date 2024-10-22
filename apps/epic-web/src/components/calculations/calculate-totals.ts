@@ -35,7 +35,8 @@ export function calculateTotals(
       transaction.type === 'charge' || transaction.type === 'payment',
   )
   const refunds = allBalanceTransactions.filter(
-    (transaction) => transaction.type === 'refund',
+    (transaction) =>
+      transaction.type === 'refund' || transaction.type === 'payment_refund',
   )
 
   const refundTotals: RefundTotals = {
