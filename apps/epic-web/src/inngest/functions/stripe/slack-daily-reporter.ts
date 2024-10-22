@@ -39,8 +39,6 @@ type ProductSplits = Record<string, SplitData>
 
 type Splits = Record<string, ProductSplits>
 
-// type UserData = Record<string, string>
-
 interface UserData {
   [userId: string]: string
 }
@@ -377,7 +375,7 @@ export const slackDailyReporter = inngest.createFunction(
             },
             subtitle: {
               display: true,
-              text: 'Estimated royalty: ' + formattedTotal,
+              text: 'Estimated Royalty: ' + formattedTotal,
               color: 'black',
               font: {
                 size: 10,
@@ -577,14 +575,46 @@ export const slackDailyReporter = inngest.createFunction(
             }
           }
 
-          if (soldProducts.length > 0) {
-            // Generate chart using monthly data
-            const chartUrl = generateChartUrl(
-              monthlyUserProducts,
-              monthlyUserSplits,
-              userName,
-            )
+          // Calculate user-specific total splits and transaction count for this month
+          let userTotalRevenueThisMonth = 0
+          let userTotalTransactionsThisMonth = 0
+          const soldProductsThisMonth: Array<{name: string; count: number}> = []
 
+          for (const [groupName, groupProducts] of Object.entries(
+            monthlyUserProducts,
+          )) {
+            for (const [productName, product] of Object.entries(
+              groupProducts,
+            )) {
+              if (product && product.count) {
+                userTotalTransactionsThisMonth += product.count
+                soldProductsThisMonth.push({
+                  name: productName,
+                  count: product.count,
+                })
+              }
+              if (
+                monthlyUserSplits[groupName] &&
+                monthlyUserSplits[groupName].products[productName] &&
+                monthlyUserSplits[groupName].products[productName]
+                  .creatorSplits[userName]
+              ) {
+                userTotalRevenueThisMonth +=
+                  monthlyUserSplits[groupName].products[productName]
+                    .creatorSplits[userName]
+              }
+            }
+          }
+
+          if (soldProducts.length > 0) {
+            let chartUrl = null
+            if (soldProducts.length > 1) {
+              chartUrl = generateChartUrl(
+                monthlyUserProducts,
+                monthlyUserSplits,
+                userName,
+              )
+            }
             let summaryMessage = 'Yesterday you sold '
             const productStrings = soldProducts.map(
               (product) =>
@@ -595,9 +625,7 @@ export const slackDailyReporter = inngest.createFunction(
 
             if (productStrings.length === 1) {
               summaryMessage += productStrings[0]
-            } else if (productStrings.length === 2) {
-              summaryMessage += `${productStrings[0]} and ${productStrings[1]}`
-            } else if (productStrings.length > 2) {
+            } else if (productStrings.length > 1) {
               const lastProduct = productStrings.pop()
               summaryMessage += `${productStrings.join(
                 ', ',
@@ -644,6 +672,19 @@ export const slackDailyReporter = inngest.createFunction(
                 },
                 image_url: chartUrl,
                 alt_text: 'Revenue Distribution Chart',
+              })
+            } else {
+              const currentMonth = new Date().toLocaleString('default', {
+                month: 'long',
+              })
+              blocks.push({
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: `*Estimated Royalty For ${currentMonth} to Date (Before Expenses): ${formatCurrency(
+                    userTotalRevenueThisMonth,
+                  )}*`,
+                },
               })
             }
 
