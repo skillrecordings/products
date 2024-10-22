@@ -2,11 +2,6 @@ import {postToSlack} from '@skillrecordings/skill-api'
 import {WebClient} from '@slack/web-api'
 import {inngest} from 'inngest/inngest.server'
 import {
-  fetchCharges,
-  fetchRefunds,
-  SimplifiedCharge,
-  SimplifiedRefund,
-  SimplifiedBalanceTransaction,
   fetchEnrichedBalanceTransactions,
   EnrichedBalanceTransaction,
 } from 'lib/transactions'
@@ -76,8 +71,6 @@ export const slackDailyReporter = inngest.createFunction(
     let startingAfter: string | undefined = undefined
 
     // Fetch balance transactions
-    hasMore = true
-    startingAfter = undefined
     while (hasMore) {
       const fetchBalancePage: Awaited<
         ReturnType<typeof fetchEnrichedBalanceTransactions>
@@ -545,7 +538,7 @@ export const slackDailyReporter = inngest.createFunction(
             }
           }
 
-          // Calculate user-specific total splits and transaction count for yesterday
+          // Calculate user-specific total splits and licenses sold count for yesterday
           let userTotalRevenue = 0
           let userTotalTransactions = 0
           const soldProducts: Array<{name: string; count: number}> = []
@@ -575,7 +568,7 @@ export const slackDailyReporter = inngest.createFunction(
             }
           }
 
-          // Calculate user-specific total splits and transaction count for this month
+          // Calculate user-specific total splits and licenses sold count for this month
           let userTotalRevenueThisMonth = 0
           let userTotalTransactionsThisMonth = 0
           const soldProductsThisMonth: Array<{name: string; count: number}> = []
