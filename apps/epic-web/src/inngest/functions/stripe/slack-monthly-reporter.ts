@@ -2,10 +2,8 @@ import {postToSlack} from '@skillrecordings/skill-api'
 import {WebClient} from '@slack/web-api'
 import {inngest} from 'inngest/inngest.server'
 import {
-  fetchCharges,
-  fetchRefunds,
-  SimplifiedCharge,
-  SimplifiedRefund,
+  fetchEnrichedBalanceTransactions,
+  EnrichedBalanceTransaction,
 } from 'lib/transactions'
 import {prisma} from '@skillrecordings/database'
 import {calculateTotals} from 'components/calculations/calculate-totals'
@@ -43,50 +41,32 @@ export const slackMonthlyReporter = inngest.createFunction(
     cron: 'TZ=America/Los_Angeles 0 10 2 * *',
   },
   async ({step}) => {
-    const allCharges: SimplifiedCharge[] = []
-    const allRefunds: SimplifiedRefund[] = []
+    const allBalanceTransactionsLastMonth: EnrichedBalanceTransaction[] = []
     let hasMore = true
     let startingAfter: string | undefined = undefined
 
     while (hasMore) {
-      const fetchChargePage: Awaited<ReturnType<typeof fetchCharges>> =
-        await step.run(
-          `fetch-charges${startingAfter ? `-${startingAfter}` : ''}`,
-          async () => {
-            return fetchCharges({
-              range: 'last-month',
-              starting_after: startingAfter,
-            })
-          },
-        )
-
-      allCharges.push(...fetchChargePage.charges)
-      hasMore = fetchChargePage.has_more
-      startingAfter = fetchChargePage.next_page_cursor || undefined
-    }
-
-    // Fetch refunds
-    hasMore = true
-    startingAfter = undefined
-    while (hasMore) {
-      const fetchRefundPage: Awaited<ReturnType<typeof fetchRefunds>> =
-        await step.run(
-          `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
-          async () => {
-            return fetchRefunds({
-              range: 'last-month',
-              starting_after: startingAfter,
-            })
-          },
-        )
-      allRefunds.push(...fetchRefundPage.refunds)
-      hasMore = fetchRefundPage.has_more
-      startingAfter = fetchRefundPage.next_page_cursor || undefined
+      const fetchBalancePage: Awaited<
+        ReturnType<typeof fetchEnrichedBalanceTransactions>
+      > = await step.run(
+        `fetch-combined-transactions-last-month${
+          startingAfter ? `-${startingAfter}` : ''
+        }`,
+        async () => {
+          return fetchEnrichedBalanceTransactions({
+            range: 'last-month',
+            starting_after: startingAfter,
+          })
+        },
+      )
+      allBalanceTransactionsLastMonth.push(...fetchBalancePage.transactions)
+      hasMore = fetchBalancePage.has_more
+      startingAfter = fetchBalancePage.next_page_cursor || undefined
     }
 
     const {totals, refundTotals} = await step.run(
       'calculate-totals',
-      async () => calculateTotals(allCharges, allRefunds),
+      async () => calculateTotals(allBalanceTransactionsLastMonth),
     )
 
     const splits: Splits = await step.run('load splits', async () => {
@@ -196,7 +176,7 @@ export const slackMonthlyReporter = inngest.createFunction(
           fields: [
             {
               type: 'mrkdwn',
-              text: `*Transactions:* ${allCharges.length}`,
+              text: `*Transactions:* ${allBalanceTransactionsLastMonth.length}`,
             },
             {
               type: 'mrkdwn',
