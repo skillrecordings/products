@@ -83,6 +83,8 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified, withLinks}) => {
 
   const {subscriber, loadingSubscriber} = useConvertkit()
 
+  const isRoot = usePathname() === '/'
+
   return (
     <div className={cx('hidden w-full items-center justify-end md:flex')}>
       {withLinks && (
@@ -194,14 +196,24 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified, withLinks}) => {
               label="Log in"
               className="min-w-full sm:min-w-full lg:min-w-full lg:text-sm"
             />
-            {!loadingSubscriber && !subscriber && (
+            {isRoot ? (
+              <NavLink
+                className="min-w-full rounded bg-primary font-semibold text-primary-foreground sm:h-8 sm:min-w-full lg:min-w-full lg:text-sm"
+                path={'/#buy'}
+                label={'Get Access'}
+              />
+            ) : (
               <>
-                <div className="px-1.5" aria-hidden="true" />
-                <NavLink
-                  className="min-w-full rounded bg-primary font-semibold text-primary-foreground sm:h-8 sm:min-w-full lg:min-w-full lg:text-sm"
-                  path={'/newsletter'}
-                  label={'Sign Up'}
-                />
+                {!loadingSubscriber && !subscriber && (
+                  <>
+                    <div className="px-1.5" aria-hidden="true" />
+                    <NavLink
+                      className="min-w-full rounded bg-primary font-semibold text-primary-foreground sm:h-8 sm:min-w-full lg:min-w-full lg:text-sm"
+                      path={'/newsletter'}
+                      label={'Sign Up'}
+                    />
+                  </>
+                )}
               </>
             )}
           </>
