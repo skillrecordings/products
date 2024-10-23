@@ -73,7 +73,13 @@ export const useSurveyPopupOfferMachine = (offerId: string = 'ask') => {
         if (!offerFound) sendToMachine('NO_CURRENT_OFFER_FOUND')
         break
     }
-  }, [subscriber, loadingSubscriber, machineState, sendToMachine])
+  }, [
+    subscriber,
+    loadingSubscriber,
+    machineState,
+    sendToMachine,
+    availableQuestions,
+  ])
 
   return {
     currentOfferId: machineState.context.currentOfferId,

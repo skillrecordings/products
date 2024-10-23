@@ -17,6 +17,7 @@ import {OfferMachineEvent} from '../offer-machine'
 
 type SurveyPageProps = {
   currentQuestion: QuestionResource
+  currentQuestionId: string
   handleSubmitAnswer: (context: SurveyMachineContext) => Promise<any>
   surveyConfig: SurveyConfig
   sendToMachine: (event: OfferMachineEvent) => void
@@ -27,6 +28,7 @@ type SurveyPageProps = {
 
 export const SurveyPage: React.FC<SurveyPageProps> = ({
   currentQuestion,
+  currentQuestionId,
   handleSubmitAnswer,
   surveyConfig,
   sendToMachine,
@@ -64,6 +66,7 @@ export const SurveyPage: React.FC<SurveyPageProps> = ({
         isLast={false}
         handleSubmitAnswer={handleAnswerSubmit}
         currentQuestion={currentQuestion}
+        currentQuestionId={currentQuestionId}
       >
         <SurveyQuestionHeader />
         <SurveyQuestionBody>

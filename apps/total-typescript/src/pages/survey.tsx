@@ -10,6 +10,7 @@ import {QuestionResource} from '@skillrecordings/types'
 const SurveyPageWrapper: React.FC = () => {
   const {
     currentQuestion,
+    currentQuestionId,
     isLoading,
     isComplete,
     isPresenting,
@@ -38,6 +39,7 @@ const SurveyPageWrapper: React.FC = () => {
   return (
     <div id="ask">
       <SurveyPage
+        currentQuestionId={currentQuestionId}
         currentQuestion={currentQuestion as QuestionResource}
         handleSubmitAnswer={handleSubmitAnswer}
         surveyConfig={typescript2024SurveyConfig}

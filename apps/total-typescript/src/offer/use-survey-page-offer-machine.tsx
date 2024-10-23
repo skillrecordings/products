@@ -80,7 +80,9 @@ export const useSurveyPageOfferMachine = (offerId: string) => {
       answer = context.answer
     }
 
-    setAnswers((prev) => ({...prev, [context.currentQuestionId]: answer}))
+    setAnswers((prev) => {
+      return {...prev, [context.currentQuestionId]: answer}
+    })
   }
 
   return {
