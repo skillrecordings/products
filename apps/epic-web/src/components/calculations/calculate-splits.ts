@@ -1,20 +1,4 @@
-type ProductGroup = {
-  productName: string
-  productId: string
-  count: number
-  amount: number
-  net: number
-  fee: number
-  refunded: number
-}
-
-type Totals = {
-  totalGross: number
-  totalRefunded: number
-  totalNet: number
-  totalFee: number
-  productGroups: Record<string, ProductGroup>
-}
+import {Totals, ProductGroup} from './calculate-totals'
 
 type SplitData = {
   percent: number
