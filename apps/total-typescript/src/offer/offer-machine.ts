@@ -25,6 +25,7 @@ export type OfferContext = {
   eligibility?: StateMachine<any, any, any> | null
   canSurveyAnon?: boolean
   askAllQuestions?: boolean
+  bypassNagProtection?: boolean
 }
 
 export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
@@ -137,10 +138,11 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
             new Date(),
             DAYS_TO_WAIT_BETWEEN_QUESTIONS,
           )
+
           const canSurvey =
-            isBefore(lastSurveyDate, thresholdDate) &&
-            subscriber?.fields.do_not_survey !== 'true' &&
-            subscriber?.state === 'active'
+            context.bypassNagProtection ||
+            (isBefore(lastSurveyDate, thresholdDate) &&
+              subscriber?.fields.do_not_survey !== 'true')
 
           if (canSurvey) {
             resolve(true)
