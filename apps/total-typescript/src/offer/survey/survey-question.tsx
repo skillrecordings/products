@@ -47,6 +47,7 @@ type InternalQuestionContextValue = {
 type SurveyQuestionProps = {
   config: SurveyConfig
   currentQuestion: QuestionResource
+  currentQuestionId: string
   isLast?: boolean
   currentAnswer?: string | string[]
   syntaxHighlighterTheme?: any
@@ -67,27 +68,28 @@ const SurveyQuestion = React.forwardRef(function Question(
     context: props,
   })
   const hasMultipleCorrectAnswers = isArray(props.currentQuestion.correct)
-  const {currentQuestion} = props
+  const {currentQuestion, currentQuestionId} = props
 
   React.useEffect(() => {
     if (currentQuestion) {
-      sentToSurveyMachine('LOAD_QUESTION', {currentQuestion})
+      sentToSurveyMachine('LOAD_QUESTION', {currentQuestion, currentQuestionId})
     }
   }, [currentQuestion, sentToSurveyMachine])
 
   const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
     initialValues: {answer: null},
     validationSchema: Yup.object({
-      answer: props.currentQuestion.correct
-        ? hasMultipleCorrectAnswers
-          ? Yup.array()
-              .required('Pick at least one option.')
-              .label('Options')
+      answer:
+        props.currentQuestion.correct || props.currentQuestion.allowMultiple
+          ? hasMultipleCorrectAnswers || props.currentQuestion.allowMultiple
+            ? Yup.array()
+                .required('Pick at least one option.')
+                .label('Options')
+                .nullable()
+            : Yup.string().required('Pick an option.').nullable()
+          : Yup.string()
               .nullable()
-          : Yup.string().required('Pick an option.').nullable()
-        : Yup.string()
-            .nullable()
-            .required(`Can't stay empty. Mind to elaborate? :)`),
+              .required(`Can't stay empty. Mind to elaborate? :)`),
     }),
     onSubmit: async (values) => {
       console.log('formik on submit', values)
@@ -196,7 +198,8 @@ const SurveyQuestionChoice = React.forwardRef(function QuestionChoice(
   const alpha = Array.from(Array(26)).map((_, i) => i + 65)
   const alphabet = alpha.map((x) => String.fromCharCode(x))
 
-  const hasMultipleCorrectAnswers = isArray(currentQuestion.correct)
+  const hasMultipleCorrectAnswers =
+    isArray(currentQuestion.correct) || currentQuestion.allowMultiple
   const hasCorrectAnswer = !isEmpty(currentQuestion.correct)
 
   function isCorrectChoice(choice: Choice): boolean {
