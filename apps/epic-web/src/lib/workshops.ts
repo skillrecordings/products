@@ -355,6 +355,7 @@ export const getWorkshop = async (slug: string) =>
         // get product that includes current workshop and has
         // the largest number of modules so we can assume it's a bundle
         'product': *[_type == 'product' && references(^._id)] | order(count(modules) asc)[0]{
+          _id,
           "name": title,
           "slug": slug.current,
           productId,

@@ -83,7 +83,9 @@ const WorkshopTemplate: React.FC<{
         title: pageTitle,
         description,
         ogImage: {
-          url: ogImage,
+          url: `${
+            process.env.NEXT_PUBLIC_URL
+          }/api/og/default?resource=${encodeURI(workshop.slug.current)}`,
           alt: pageTitle,
         },
       }}

@@ -182,15 +182,6 @@ const Navigation: React.FC<NavigationProps> = ({
             relative: !isNavigationFixed,
           },
         )}
-        style={{
-          translateY: isShowingSiteBanner
-            ? enableScrollAnimation
-              ? scrollDirection === 'up' || !scrollDirection
-                ? bannerHeight
-                : 0
-              : bannerHeight
-            : 0,
-        }}
       >
         <motion.nav
           aria-label="top"
@@ -832,11 +823,15 @@ export const Banner: React.FC<{
       style={{
         height: bannerHeight,
       }}
-      className={cn(`fixed left-0 top-0 z-[60] w-full transition`, className, {
-        '-translate-y-full':
-          scrollDirection === 'down' && enableScrollAnimation,
-        'translate-y-0': scrollDirection === 'up' && enableScrollAnimation,
-      })}
+      className={cn(
+        `fixed left-0 top-[49px] z-40 w-full transition`,
+        className,
+        {
+          '-translate-y-full opacity-0':
+            scrollDirection === 'down' && enableScrollAnimation,
+          'translate-y-0': scrollDirection === 'up' && enableScrollAnimation,
+        },
+      )}
     >
       {currentSale && productOnSale ? (
         <Link

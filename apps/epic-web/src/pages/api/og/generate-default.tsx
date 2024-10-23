@@ -26,32 +26,50 @@ export default async function handler(req: NextRequest) {
     const image = searchParams.get('image')
     const hasType = searchParams.has('type')
     const type = hasType ? searchParams.get('type') : ''
+    const productName = searchParams.get('productName')
 
     if (hasPercentageDiscount) {
+      const productName = searchParams.get('productName')
       const percentageDiscount = searchParams.get('percentageDiscount')
-      const backgroundImageUrl =
-        'https://res.cloudinary.com/epic-web/image/upload/v1696939073/default-gen-share-card-bg_2x.png'
+      const backgroundImageUrl = image
+        ? image
+        : 'https://res.cloudinary.com/epic-web/image/upload/v1729601045/card-root-sale_2x.jpg'
 
       return new ImageResponse(
         (
           <div
-            tw="flex w-full relative justify-center text-white items-center h-full pl-16 justify-between"
+            tw="flex w-full relative text-white items-center h-full justify-center"
             style={{
               fontFamily: 'DM Sans',
               backgroundImage: `url(${backgroundImageUrl})`,
             }}
           >
-            <div
-              tw="flex text-black items-center absolute justify-center"
-              style={{
-                fontSize: 40,
-                bottom: 95,
-                left: 117,
-                fontFamily: 'DM Sans Bold',
-              }}
-            >
-              Save {percentageDiscount * 100}%
-            </div>
+            {image ? (
+              <div
+                tw="flex px-3 rounded text-black bg-orange-300 items-center absolute justify-center"
+                style={{
+                  fontSize: 38,
+                  top: 50,
+                  right: 50,
+                  fontFamily: 'DM Sans Bold',
+                }}
+              >
+                Special Offer ・ Save {percentageDiscount * 100}%
+              </div>
+            ) : (
+              <div
+                tw="flex text-black items-center rounded px-4 py-2 bg-[#BFFDF7] absolute justify-center"
+                style={{
+                  fontSize: productName ? 35 : 40,
+                  bottom: 95,
+
+                  fontFamily: 'DM Sans Bold',
+                }}
+              >
+                Save {percentageDiscount * 100}%
+                {productName && ` on ${productName}`}
+              </div>
+            )}
           </div>
         ),
         {
@@ -74,7 +92,7 @@ export default async function handler(req: NextRequest) {
         <div
           tw="flex w-full relative h-full"
           style={{
-            backgroundImage: `url(${process.env.NEXT_PUBLIC_URL}/card@2x.png)`,
+            backgroundImage: `url(https://res.cloudinary.com/epic-web/image/upload/v1729600372/card-root-oct-24_2x.jpg)`,
           }}
         />
       ),

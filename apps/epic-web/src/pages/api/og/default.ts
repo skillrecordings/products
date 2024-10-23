@@ -1,6 +1,9 @@
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {getSdk} from '@skillrecordings/database'
 import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
+import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getProduct, type Product} from 'lib/products'
+import {getWorkshop} from 'lib/workshops'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 const contextualShareCard = async (
@@ -8,18 +11,55 @@ const contextualShareCard = async (
   res: NextApiResponse,
 ) => {
   try {
+    const searchParams = new URLSearchParams(req.query as any)
+    const hasResource = searchParams.has('resource')
+    const resourceSlugOrId = searchParams.get('resource')
+    let resource
+
+    if (resourceSlugOrId) {
+      resource = await getWorkshop(resourceSlugOrId)
+    }
+
+    const productId = resource ? resource.product.productId : undefined
+
+    let products
+    let defaultCoupon
+
     const {getDefaultCoupon} = getSdk()
-    const pricing = await getPricing('primary')
-    const products = pricing.products
-    const defaultCoupons = await getDefaultCoupon(
-      products.map((product: SanityProduct) => product.productId),
-    )
-    const currentProduct = products[0]
-    const defaultCoupon = defaultCoupons?.defaultCoupon
+
+    if (productId) {
+      // if we have a productId, we only need to
+      // fetch that product and its default coupon
+      products = [await getProduct(productId)]
+      const defaultCoupons = await getDefaultCoupon(
+        products.map((product: Product) => {
+          return product.upgradableTo?.[0].productId
+        }),
+      )
+      defaultCoupon = defaultCoupons?.defaultCoupon
+    } else {
+      products = await getAllProducts()
+      const defaultCoupons = await getDefaultCoupon(
+        products.map((product: Product) => product.productId),
+      )
+      defaultCoupon = defaultCoupons?.defaultCoupon
+    }
+
+    // const defaultCoupon = {
+    //   percentageDiscount: 0.25,
+    //   expires: '2024-11-26T00:00:00.000Z',
+    // }
+
     const url = defaultCoupon
-      ? currentProduct.state === 'active'
-        ? `${process.env.NEXT_PUBLIC_URL}/api/og/generate-default?percentageDiscount=${defaultCoupon.percentageDiscount}`
-        : `${process.env.NEXT_PUBLIC_URL}/api/og/generate-default`
+      ? `${
+          process.env.NEXT_PUBLIC_URL
+        }/api/og/generate-default?percentageDiscount=${
+          defaultCoupon.percentageDiscount
+        }${resource ? `&image=${resource.ogImage}` : ''}${
+          defaultCoupon?.product?.name
+            ? `&productName=${defaultCoupon.product.name}`
+            : ''
+        }`
       : `${process.env.NEXT_PUBLIC_URL}/api/og/generate-default`
 
     const response = await fetch(url, {
