@@ -71,10 +71,6 @@ export const useSurveyPageOfferMachine = (offerId: string) => {
   const currentQuestion = machineState.context.currentOffer as QuestionResource
   const currentQuestionId = machineState.context.currentOfferId
 
-  const moveToNextQuestion = () => {
-    sendToMachine('NEXT_QUESTION')
-  }
-
   const handleSubmitAnswer = async (context: SurveyMachineContext) => {
     let answer = context.answer
 
@@ -85,7 +81,6 @@ export const useSurveyPageOfferMachine = (offerId: string) => {
     }
 
     setAnswers((prev) => ({...prev, [context.currentQuestionId]: answer}))
-    // moveToNextQuestion()
   }
 
   return {
@@ -97,7 +92,6 @@ export const useSurveyPageOfferMachine = (offerId: string) => {
     isComplete: machineState.matches('offerComplete'),
     isPresenting: machineState.matches('presentingCurrentOffer'),
     sendToMachine,
-    moveToNextQuestion,
     handleSubmitAnswer,
     machineState,
     subscriber,
