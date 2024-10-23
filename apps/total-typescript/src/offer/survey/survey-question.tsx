@@ -16,6 +16,7 @@ import {
   SurveyMachineEvent,
 } from './survey-machine'
 import {State} from 'xstate'
+import {useState} from 'react'
 
 export type FormikValues = {
   answer: string | string[] | null
@@ -401,6 +402,50 @@ const SurveyQuestionEssay = React.forwardRef(function QuestionEssay(
   )
 }) as Polymorphic.ForwardRefComponent<'div', {}>
 
+// Add this new component
+const SurveyQuestionEmail = React.forwardRef(function QuestionEmail(
+  {onSubmit, as: Comp = 'div', ...props},
+  forwardRef,
+) {
+  const [email, setEmail] = useState('')
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    onSubmit(email)
+  }
+
+  return (
+    <Comp {...props} ref={forwardRef} data-sr-quiz-question-email="">
+      <h2 className="mb-4 text-2xl font-bold">
+        Thank you for completing the survey!
+      </h2>
+      <p className="mb-4">
+        Please enter your email to receive updates and insights based on the
+        survey results:
+      </p>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="mb-4 w-full rounded border p-2"
+          placeholder="Your email"
+        />
+        <button
+          type="submit"
+          className="w-full rounded bg-blue-500 p-2 text-white"
+        >
+          Submit
+        </button>
+      </form>
+    </Comp>
+  )
+}) as Polymorphic.ForwardRefComponent<
+  'div',
+  {onSubmit: (email: string) => void}
+>
+
 export type {
   SurveyQuestionProps,
   SurveyQuestionHeaderProps,
@@ -424,4 +469,5 @@ export {
   SurveyQuestionFooter,
   SurveyQuestionSubmit,
   SurveyQuestionEssay,
+  SurveyQuestionEmail,
 }

@@ -17,8 +17,7 @@ export type OfferMachineEvent =
   | {type: 'DISMISSAL_ACKNOWLEDGED'}
   | {type: 'OFFER_COMPLETE'}
   | {type: 'SUBSCRIBED'}
-  | {type: 'NEXT_QUESTION'}
-
+  | {type: 'EMAIL_COLLECTED'}
 export type OfferContext = {
   subscriber?: Subscriber
   currentOffer: Offer
@@ -78,9 +77,15 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
               },
             }),
           },
-          NO_CURRENT_OFFER_FOUND: {
-            target: 'offerComplete',
-          },
+          NO_CURRENT_OFFER_FOUND: [
+            {
+              target: 'offerComplete',
+              cond: (context) => Boolean(context.subscriber),
+            },
+            {
+              target: 'collectEmail',
+            },
+          ],
         },
       },
       presentingCurrentOffer: {
@@ -100,8 +105,12 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
           OFFER_CLOSED: {
             target: 'offerComplete',
           },
-          NEXT_QUESTION: {
-            target: 'loadingCurrentOffer',
+        },
+      },
+      collectEmail: {
+        on: {
+          EMAIL_COLLECTED: {
+            target: 'offerComplete',
           },
         },
       },
