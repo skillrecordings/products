@@ -12,6 +12,7 @@ import {discordAccountLinked} from 'inngest/functions/discord/discord-account-li
 import {syncDiscordRoles} from 'inngest/functions/discord/sync-discord-roles'
 import {slackDailyReporter} from './functions/stripe/slack-daily-reporter'
 import {slackMonthlyReporter} from './functions/stripe/slack-monthly-reporter'
+import {syncConversions} from 'inngest/functions/sync-conversions'
 
 export const inngestConfig = {
   client: inngest,
@@ -30,6 +31,7 @@ export const inngestConfig = {
     syncDiscordRoles,
     slackDailyReporter,
     slackMonthlyReporter,
+    syncConversions,
     ...sanityProductFunctions,
   ],
 }
