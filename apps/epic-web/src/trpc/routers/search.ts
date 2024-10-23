@@ -40,7 +40,7 @@ export const searchRouter = router({
           contributor
             ? ` && contributors[@.role == 'instructor'][0].contributor->slug.current == "${contributor}"`
             : ''
-        }]
+        } && state == 'published']
     | score(
       title match $searchQuery 
       || _type match "module"

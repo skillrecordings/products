@@ -43,6 +43,7 @@ export default defineType({
         list: [
           {title: 'draft', value: 'draft'},
           {title: 'published', value: 'published'},
+          {title: 'list only', value: 'list-only'},
         ],
       },
     }),
