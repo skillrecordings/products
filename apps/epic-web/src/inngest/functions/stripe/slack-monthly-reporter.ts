@@ -9,7 +9,7 @@ import {prisma} from '@skillrecordings/database'
 import {calculateTotals} from 'components/calculations/calculate-totals'
 import {calculateSplits} from 'components/calculations/calculate-splits'
 
-const ANNOUNCE_CHANNEL = 'C07RDAMQ7PG'
+const ANNOUNCE_CHANNEL = 'C03QFFWHT7D'
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-US', {
