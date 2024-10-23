@@ -64,8 +64,6 @@ export const Survey = ({
     identity.set(currentOfferId, context.answer)
     identify(identity)
 
-    console.log('handleSubmitAnswer', context)
-
     sendToMachine('RESPONDED_TO_OFFER')
   }
 

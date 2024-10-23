@@ -2,13 +2,15 @@ import {z} from 'zod'
 import {answerSurvey, markLessonComplete} from '../../lib/convertkit'
 import {
   fetchSubscriber,
+  formatDate,
   setConvertkitSubscriberFields,
+  subscribeToEndpoint,
   updateSubscriber,
 } from '@skillrecordings/convertkit-sdk'
 import {serialize} from 'cookie'
 import {SubscriberSchema} from '../../schemas/subscriber'
 import {publicProcedure, router} from '../trpc.server'
-import {snakeCase} from 'lodash'
+import {isArray, snakeCase} from 'lodash'
 
 export const convertkitRouter = router({
   updateName: publicProcedure
@@ -95,6 +97,98 @@ export const convertkitRouter = router({
       )
 
       ctx.res.setHeader('Set-Cookie', convertkitCookie)
+
+      return updatedSubscriber
+    }),
+  answerSurveyMultiple: publicProcedure
+    .input(
+      z.object({
+        answers: z.record(z.string(), z.any()),
+        email: z.string().optional(),
+        surveyId: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
+      let subscriber
+      const convertkitId =
+        ctx.req.cookies?.[
+          process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY ||
+            'ck_subscriber_id'
+        ]
+
+      const subscriberCookie = ctx.req.cookies['ck_subscriber']
+
+      let fields: Record<string, string> = {
+        last_surveyed_on: formatDate(new Date()),
+        ...(input.surveyId && {
+          [`completed_${input.surveyId}_survey_on`]: formatDate(new Date()),
+        }),
+      }
+
+      for (const answer in input.answers) {
+        fields[answer] = isArray(input.answers[answer])
+          ? input.answers[answer].join(', ')
+          : input.answers[answer]
+      }
+
+      console.log('answerSurveyMultiple fields', fields)
+
+      if (convertkitId) {
+        subscriber = SubscriberSchema.parse(await fetchSubscriber(convertkitId))
+      } else if (subscriberCookie) {
+        subscriber = SubscriberSchema.parse(JSON.parse(subscriberCookie))
+      }
+
+      if (!subscriber && input.email) {
+        //subscribe user
+        subscriber = await subscribeToEndpoint(
+          `/forms/${process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM}/subscribe`,
+          {
+            email: input.email,
+            fields,
+          },
+        )
+      }
+
+      if (!subscriber) {
+        return {error: 'no subscriber found'}
+      }
+
+      let updatedSubscriber = await fetchSubscriber(subscriber.id.toString())
+
+      if (fields) {
+        updatedSubscriber = await setConvertkitSubscriberFields(
+          updatedSubscriber,
+          fields,
+        )
+      }
+
+      console.log(JSON.stringify(updatedSubscriber.subscriber))
+
+      const convertkitCookie = serialize(
+        `ck_subscriber`,
+        JSON.stringify(updatedSubscriber.subscriber),
+        {
+          secure: process.env.NODE_ENV === 'production',
+          path: '/',
+          httpOnly: true,
+          sameSite: 'lax',
+          maxAge: 31556952,
+        },
+      )
+      const convertkitCookieId = serialize(
+        `ck_subscriber_id`,
+        JSON.stringify(updatedSubscriber.subscriber.id),
+        {
+          secure: process.env.NODE_ENV === 'production',
+          path: '/',
+          httpOnly: true,
+          sameSite: 'lax',
+          maxAge: 31556952,
+        },
+      )
+
+      ctx.res.setHeader('Set-Cookie', [convertkitCookie, convertkitCookieId])
 
       return updatedSubscriber
     }),

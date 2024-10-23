@@ -12,6 +12,7 @@ export const useSurveyPageOfferMachine = (offerId: string) => {
     context: {
       canSurveyAnon: true,
       askAllQuestions: true,
+      bypassNagProtection: true,
     },
   })
 

@@ -6,6 +6,7 @@ import {
   TYPESCRIPT_2024_SURVEY_ID,
 } from '../offer/survey/survey-config'
 import {QuestionResource} from '@skillrecordings/types'
+import {trpc} from '@/trpc/trpc.client'
 
 const SurveyPageWrapper: React.FC = () => {
   const {
@@ -21,12 +22,25 @@ const SurveyPageWrapper: React.FC = () => {
     machineState,
   } = useSurveyPageOfferMachine(TYPESCRIPT_2024_SURVEY_ID)
 
+  const answerSurveyMutation =
+    trpc.convertkit.answerSurveyMultiple.useMutation()
+  const [email, setEmail] = React.useState<string | null>(null)
+
   const handleEmailSubmit = async (email: string) => {
     // Here you would typically send the email and answers to your backend
-    console.log('Submitting email and answers:', email, answers)
-    // After successful submission, you might want to show a final thank you message
+    setEmail(email)
     sendToMachine('EMAIL_COLLECTED')
   }
+
+  React.useEffect(() => {
+    if (isComplete && machineState.matches('offerComplete')) {
+      answerSurveyMutation.mutate({
+        email: email || subscriber?.email_address,
+        answers,
+        surveyId: TYPESCRIPT_2024_SURVEY_ID,
+      })
+    }
+  }, [isComplete])
 
   if (isLoading) {
     return <div>Loading survey...</div>
