@@ -84,9 +84,15 @@ const QuestionHeader = React.forwardRef(function QuestionHeader(
   {children, as: Comp = 'legend', ...props},
   forwardRef,
 ) {
-  const {currentQuestion, syntaxHighlighterTheme, config} =
-    React.useContext(QuestionContext)
+  const {
+    currentQuestion,
+    syntaxHighlighterTheme,
+    config,
+    answer,
+    currentQuestionId,
+  } = React.useContext(QuestionContext)
   const {questionBodyRenderer} = config
+
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-header="">
       <>
@@ -95,7 +101,13 @@ const QuestionHeader = React.forwardRef(function QuestionHeader(
           questionBodyRenderer(currentQuestion?.question)
         ) : (
           <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
-            {currentQuestion?.question}
+            {typeof currentQuestion?.question === 'function'
+              ? currentQuestion.question({
+                  [String(currentQuestionId)]: isArray(answer)
+                    ? answer.join(', ')
+                    : answer,
+                })
+              : currentQuestion?.question}
           </Markdown>
         )}
       </>
