@@ -109,6 +109,7 @@ export type QuestionResource = {
   answer?: string
   choices?: Choice[]
   template?: string
+  shuffleChoices?: boolean
   code?: {
     filename: string
     active: boolean

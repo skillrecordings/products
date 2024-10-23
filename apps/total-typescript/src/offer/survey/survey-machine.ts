@@ -49,9 +49,13 @@ const loadQuestion = (
   context: SurveyMachineContext,
 ) => {
   const question = evaluateQuestion(event.currentQuestion, context.allAnswers)
-  const shuffledChoices = question.correct
-    ? shuffle(question.choices)
-    : question.choices
+  console.log('question loading', {question})
+  const shuffledChoices =
+    question.correct || question.shuffleChoices
+      ? shuffle(question.choices)
+      : question.choices
+
+  console.log('shuffledChoices', {shuffledChoices})
   return {...question, choices: shuffledChoices}
 }
 
