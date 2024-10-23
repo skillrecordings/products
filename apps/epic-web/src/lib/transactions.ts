@@ -354,14 +354,13 @@ export const SimplifiedBalanceTransactionSchema = z.object({
   available_on: z.number(),
   status: z.string(),
   description: z.string().nullable(),
-  source: z.string().nullable(), // Add this line
+  source: z.string().nullable(),
 })
 
 export type SimplifiedBalanceTransaction = z.infer<
   typeof SimplifiedBalanceTransactionSchema
 >
 
-// Update the simplifyBalanceTransaction function
 function simplifyBalanceTransaction(
   transaction: Stripe.BalanceTransaction,
 ): SimplifiedBalanceTransaction {
@@ -376,7 +375,7 @@ function simplifyBalanceTransaction(
     available_on: transaction.available_on,
     status: transaction.status,
     description: transaction.description,
-    source: transaction.source, // Add this line
+    source: transaction.source,
   })
 }
 
@@ -475,10 +474,7 @@ export async function fetchBalanceTransactions({
   }
 }
 
-// enricnhes?
-
-// Update the EnrichedBalanceTransactionSchema
-export const EnrichedBalanceTransactionSchema =
+export const CombinedBalanceTransactionSchema =
   SimplifiedBalanceTransactionSchema.extend({
     productId: z.string().nullable(),
     product: z.string().nullable(),
@@ -487,17 +483,17 @@ export const EnrichedBalanceTransactionSchema =
     amountRefunded: z.number().nullable(),
   })
 
-export type EnrichedBalanceTransaction = z.infer<
-  typeof EnrichedBalanceTransactionSchema
+export type CombinedBalanceTransaction = z.infer<
+  typeof CombinedBalanceTransactionSchema
 >
 
-export interface PaginatedEnrichedBalanceTransactions {
-  transactions: EnrichedBalanceTransaction[]
+export interface PaginatedCombinedBalanceTransactions {
+  transactions: CombinedBalanceTransaction[]
   has_more: boolean
   next_page_cursor: string | null
 }
 
-export async function fetchEnrichedBalanceTransactions({
+export async function fetchCombinedBalanceTransactions({
   range,
   start,
   end,
@@ -505,9 +501,7 @@ export async function fetchEnrichedBalanceTransactions({
   starting_after,
 }: z.infer<
   typeof FetchBalanceTransactionsSchema
->): Promise<PaginatedEnrichedBalanceTransactions> {
-  console.log('Fetching enriched balance transactions...')
-
+>): Promise<PaginatedCombinedBalanceTransactions> {
   try {
     // Fetch balance transactions with pagination
     const balanceTransactionsResult = await fetchBalanceTransactions({
@@ -572,15 +566,15 @@ export async function fetchEnrichedBalanceTransactions({
       }
     })
 
-    // Enrich balance transactions with charge and refund data
-    const enrichedTransactions = balanceTransactionsResult.transactions.map(
-      (transaction): EnrichedBalanceTransaction => {
+    // Combined data balance transactions with charge and refund data
+    const combinedTransactions = balanceTransactionsResult.transactions.map(
+      (transaction): CombinedBalanceTransaction => {
         if (
           (transaction.type === 'charge' || transaction.type === 'payment') &&
           transaction.source
         ) {
           const charge = chargeMap.get(transaction.source)
-          return EnrichedBalanceTransactionSchema.parse({
+          return CombinedBalanceTransactionSchema.parse({
             ...transaction,
             productId: charge?.productId || null,
             product: charge?.product || null,
@@ -594,17 +588,17 @@ export async function fetchEnrichedBalanceTransactions({
           transaction.source
         ) {
           const refund = refundMap.get(transaction.source)
-          return EnrichedBalanceTransactionSchema.parse({
+          return CombinedBalanceTransactionSchema.parse({
             ...transaction,
             productId: refund?.productId || null,
             product: refund?.product || null,
-            siteName: null, // Refunds don't have siteName in your current setup
+            siteName: null,
             chargeId: refund?.chargeId || null,
             amountRefunded: refund?.amount || null,
           })
         }
 
-        return EnrichedBalanceTransactionSchema.parse({
+        return CombinedBalanceTransactionSchema.parse({
           ...transaction,
           productId: null,
           product: null,
@@ -615,15 +609,12 @@ export async function fetchEnrichedBalanceTransactions({
       },
     )
 
-    console.log(`Enriched ${enrichedTransactions.length} transactions`)
-
     return {
-      transactions: enrichedTransactions,
+      transactions: combinedTransactions,
       has_more: balanceTransactionsResult.has_more,
       next_page_cursor: balanceTransactionsResult.next_page_cursor,
     }
   } catch (error) {
-    console.error('Error fetching enriched balance transactions:', error)
-    throw error // Re-throw the error for the caller to handle
+    throw error
   }
 }

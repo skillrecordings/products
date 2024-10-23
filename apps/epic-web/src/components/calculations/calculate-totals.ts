@@ -1,4 +1,4 @@
-import {EnrichedBalanceTransaction} from 'lib/transactions' // Adjust import path as needed
+import {CombinedBalanceTransaction} from 'lib/transactions' // Adjust import path as needed
 
 type ProductGroup = {
   productName: string
@@ -28,7 +28,7 @@ type RefundTotals = {
 }
 
 export function calculateTotals(
-  allBalanceTransactions: EnrichedBalanceTransaction[],
+  allBalanceTransactions: CombinedBalanceTransaction[],
 ) {
   const charges = allBalanceTransactions.filter(
     (transaction) =>

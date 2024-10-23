@@ -2,8 +2,8 @@ import {postToSlack} from '@skillrecordings/skill-api'
 import {WebClient} from '@slack/web-api'
 import {inngest} from 'inngest/inngest.server'
 import {
-  fetchEnrichedBalanceTransactions,
-  EnrichedBalanceTransaction,
+  fetchCombinedBalanceTransactions,
+  CombinedBalanceTransaction,
 } from 'lib/transactions'
 import {prisma} from '@skillrecordings/database'
 import {calculateTotals} from 'components/calculations/calculate-totals'
@@ -65,21 +65,21 @@ export const slackDailyReporter = inngest.createFunction(
     cron: 'TZ=America/Los_Angeles 0 10 * * *',
   },
   async ({step}) => {
-    const allBalanceTransactionsYesterday: EnrichedBalanceTransaction[] = []
-    const allBalanceTransactionsThisMonth: EnrichedBalanceTransaction[] = []
+    const allBalanceTransactionsYesterday: CombinedBalanceTransaction[] = []
+    const allBalanceTransactionsThisMonth: CombinedBalanceTransaction[] = []
     let hasMore = true
     let startingAfter: string | undefined = undefined
 
-    // Fetch balance transactions
+    // Fetch balance transactions yesterday
     while (hasMore) {
       const fetchBalancePage: Awaited<
-        ReturnType<typeof fetchEnrichedBalanceTransactions>
+        ReturnType<typeof fetchCombinedBalanceTransactions>
       > = await step.run(
         `fetch-combined-transactions-yesterday${
           startingAfter ? `-${startingAfter}` : ''
         }`,
         async () => {
-          return fetchEnrichedBalanceTransactions({
+          return fetchCombinedBalanceTransactions({
             range: 'yesterday',
             starting_after: startingAfter,
           })
@@ -90,18 +90,18 @@ export const slackDailyReporter = inngest.createFunction(
       startingAfter = fetchBalancePage.next_page_cursor || undefined
     }
 
-    // Fetch balance transactions
+    // Fetch balance transactions this month
     hasMore = true
     startingAfter = undefined
     while (hasMore) {
       const fetchBalancePage: Awaited<
-        ReturnType<typeof fetchEnrichedBalanceTransactions>
+        ReturnType<typeof fetchCombinedBalanceTransactions>
       > = await step.run(
         `fetch-combined-transactions-this-month${
           startingAfter ? `-${startingAfter}` : ''
         }`,
         async () => {
-          return fetchEnrichedBalanceTransactions({
+          return fetchCombinedBalanceTransactions({
             range: 'month-so-far',
             starting_after: startingAfter,
           })
@@ -427,7 +427,6 @@ export const slackDailyReporter = inngest.createFunction(
     }
 
     await step.run('announce in slack', async () => {
-      // Get both yesterday and monthly data
       const {productGroups} = totalsYesterday
       const {groupSplits} = calculatedSplits
       const monthlyProductGroups = totalsThisMonth.productGroups
