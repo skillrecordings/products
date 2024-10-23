@@ -191,7 +191,7 @@ function getDateRange(range: string): {start: Date; end: Date} {
       end.setUTCMonth(Math.floor(end.getUTCMonth() / 3) * 3, 0)
       break
     case 'this-year':
-      start.setUTCMonth(0, 11)
+      start.setUTCMonth(0, 1)
       end.setUTCMonth(11, 31)
       break
     case 'last-year':
