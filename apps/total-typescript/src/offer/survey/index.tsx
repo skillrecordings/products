@@ -73,6 +73,7 @@ export const Survey = ({
     <SurveyPopup
       surveyConfig={surveyConfig}
       currentQuestion={currentOffer as QuestionResource}
+      currentQuestionId={currentOfferId}
       isPopupOpen={isPopupOpen}
       handlePopupDismissed={handlePopupDismissed}
       handlePopupClosed={handlePopupClosed}
