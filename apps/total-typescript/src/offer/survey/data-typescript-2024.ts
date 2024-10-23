@@ -47,6 +47,7 @@ export const dataTypescript2024: QuizResource = {
     skill_level: {
       question: "👋 What's your current TypeScript skill level?",
       type: 'multiple-choice',
+      shuffleChoices: true,
       choices: [
         {
           answer: 'beginner',
@@ -73,6 +74,7 @@ export const dataTypescript2024: QuizResource = {
     development_focus: {
       question: 'What type of TypeScript development do you primarily do?',
       type: 'multiple-choice',
+      shuffleChoices: true,
       choices: [
         {
           answer: 'frontend',
@@ -95,6 +97,7 @@ export const dataTypescript2024: QuizResource = {
     role: {
       question: 'Which best describes your role on the team?',
       type: 'multiple-choice',
+      shuffleChoices: true,
       choices: [
         {
           answer: 'individual',
@@ -118,6 +121,7 @@ export const dataTypescript2024: QuizResource = {
       question:
         'Which tools are you using with TypeScript? (Choose all that apply)',
       type: 'multiple-choice',
+      shuffleChoices: true,
       choices: [
         {
           answer: 'react',
@@ -152,6 +156,7 @@ export const dataTypescript2024: QuizResource = {
     current_challenge: {
       question: "What's your biggest TypeScript challenge right now?",
       type: 'multiple-choice',
+      shuffleChoices: true,
       choices: [
         {
           answer: 'types',
@@ -182,6 +187,7 @@ export const dataTypescript2024: QuizResource = {
     learning_priority: {
       question: 'What would help you most with TypeScript right now?',
       type: 'multiple-choice',
+      shuffleChoices: true,
       choices: [
         {
           answer: 'fundamentals',

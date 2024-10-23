@@ -103,6 +103,7 @@ const SurveyQuestion = React.forwardRef(function Question(
     formik,
     surveyMachineState,
     ...props,
+    currentQuestion: surveyMachineState.context.currentQuestion,
   }
 
   return (
@@ -158,9 +159,11 @@ const SurveyQuestionChoices = React.forwardRef(function QuestionChoices(
   forwardRef,
 ) {
   const {
-    currentQuestion,
+    surveyMachineState,
     formik: {errors},
   } = React.useContext(SurveyQuestionContext)
+
+  const currentQuestion = surveyMachineState.context.currentQuestion
 
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-choices="">
