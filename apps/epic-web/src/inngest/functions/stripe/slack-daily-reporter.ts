@@ -6,11 +6,13 @@ import {
   CombinedBalanceTransaction,
 } from 'lib/transactions'
 import {prisma} from '@skillrecordings/database'
-import {calculateTotals} from 'components/calculations/calculate-totals'
+import {
+  calculateTotals,
+  ProductGroup,
+} from 'components/calculations/calculate-totals'
 import {calculateSplits} from 'components/calculations/calculate-splits'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
-import {RxFontSize} from 'react-icons/rx'
 
 const SEND_SINGLE_CHANNEL = true
 const LC_CHANNEL_ID = 'C07RDAMQ7PG'
@@ -48,13 +50,6 @@ interface Contributor {
 }
 
 const OWNER_USER_ID = '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b'
-
-type ProductGroup = {
-  productId: string
-  productName: string
-  count: number
-  amount: number
-}
 
 export const slackDailyReporter = inngest.createFunction(
   {

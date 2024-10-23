@@ -1,6 +1,6 @@
-import {CombinedBalanceTransaction} from 'lib/transactions' // Adjust import path as needed
+import {CombinedBalanceTransaction} from 'lib/transactions'
 
-type ProductGroup = {
+export type ProductGroup = {
   productName: string
   productId: string
   count: number
@@ -9,15 +9,15 @@ type ProductGroup = {
   net: number
   fee: number
   refunded: number
-  refundCount: number // Added refund count
+  refundCount: number
 }
 
-type Totals = {
+export type Totals = {
   totalGross: number
   totalRefunded: number
   totalNet: number
   totalFee: number
-  totalCount: number // Added total count
+  totalCount: number
   productGroups: Record<string, ProductGroup>
 }
 
@@ -88,7 +88,7 @@ export function calculateTotals(
         productGroups[product].gross -= amount
         productGroups[product].amount -= amount
         productGroups[product].net -= amount
-        productGroups[product].refundCount += count // Track refund count
+        productGroups[product].refundCount += count
       } else {
         // If a product only has refunds, create a new entry
         productGroups[product] = {
