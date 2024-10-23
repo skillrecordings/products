@@ -14,7 +14,6 @@ export const SimplifiedChargeSchema = z.object({
   product: z.string().nullable(),
   productId: z.string().nullable(),
   siteName: z.string().nullable(),
-  country: z.string().nullable(),
   net: z.number(),
   fee: z.number(),
 })
@@ -34,7 +33,6 @@ function simplifyCharge(charge: Stripe.Charge): SimplifiedCharge {
     product: charge.metadata.product || null,
     productId: charge.metadata.productId || null,
     siteName: charge.metadata.siteName || null,
-    country: charge.metadata.country || null,
     net: balanceTransaction?.net || 0,
     fee: balanceTransaction?.fee || 0,
   })
@@ -168,6 +166,7 @@ function getDateRange(range: string): {start: Date; end: Date} {
       break
     case 'month-so-far':
       start.setUTCDate(1)
+      end.setUTCDate(end.getUTCDate() - 1)
       break
     case 'last-month':
       start.setUTCMonth(start.getUTCMonth() - 1, 1)
@@ -341,5 +340,281 @@ export async function fetchRefunds({
     next_page_cursor: refunds.data.length
       ? refunds.data[refunds.data.length - 1].id
       : null,
+  }
+}
+
+export const SimplifiedBalanceTransactionSchema = z.object({
+  id: z.string(),
+  amount: z.number(),
+  net: z.number(),
+  fee: z.number(),
+  currency: z.string(),
+  type: z.string(),
+  created: z.number(),
+  available_on: z.number(),
+  status: z.string(),
+  description: z.string().nullable(),
+  source: z.string().nullable(),
+})
+
+export type SimplifiedBalanceTransaction = z.infer<
+  typeof SimplifiedBalanceTransactionSchema
+>
+
+function simplifyBalanceTransaction(
+  transaction: Stripe.BalanceTransaction,
+): SimplifiedBalanceTransaction {
+  return SimplifiedBalanceTransactionSchema.parse({
+    id: transaction.id,
+    amount: transaction.amount,
+    net: transaction.net,
+    fee: transaction.fee,
+    currency: transaction.currency,
+    type: transaction.type,
+    created: transaction.created,
+    available_on: transaction.available_on,
+    status: transaction.status,
+    description: transaction.description,
+    source: transaction.source,
+  })
+}
+
+async function fetchBalanceTransactionsWithRetry(
+  params: Stripe.BalanceTransactionListParams,
+  maxRetries = 3,
+): Promise<Stripe.ApiList<Stripe.BalanceTransaction>> {
+  let retries = 0
+  while (retries < maxRetries) {
+    try {
+      console.log(
+        `Fetching balance transactions with params: ${JSON.stringify(params)}`,
+      )
+      return await stripe.balanceTransactions.list(params)
+    } catch (error) {
+      if (error instanceof Stripe.errors.StripeRateLimitError) {
+        retries++
+        console.log(`Rate limit hit, retrying (${retries}/${maxRetries})...`)
+        await new Promise((resolve) =>
+          setTimeout(resolve, Math.pow(2, retries) * 1000),
+        )
+      } else {
+        throw error
+      }
+    }
+  }
+  throw new Error('Max retries reached when fetching balance transactions')
+}
+
+export const FetchBalanceTransactionsSchema = z.object({
+  range: z.string().optional(),
+  start: z.string().optional(),
+  end: z.string().optional(),
+  limit: z.number().optional(),
+  starting_after: z.string().optional(),
+})
+
+export interface PaginatedBalanceTransactions {
+  transactions: SimplifiedBalanceTransaction[]
+  has_more: boolean
+  next_page_cursor: string | null
+}
+
+export async function fetchBalanceTransactions({
+  range,
+  start,
+  end,
+  limit = 100,
+  starting_after,
+}: z.infer<
+  typeof FetchBalanceTransactionsSchema
+>): Promise<PaginatedBalanceTransactions> {
+  let startDate: Date
+  let endDate: Date
+
+  if (start && end) {
+    startDate = new Date(start)
+    endDate = new Date(end)
+    startDate.setUTCHours(0, 0, 0, 0)
+    endDate.setUTCHours(23, 59, 59, 999)
+  } else if (range) {
+    const dateRange = getDateRange(range)
+    startDate = dateRange.start
+    endDate = dateRange.end
+  } else {
+    const dateRange = getDateRange('today')
+    startDate = dateRange.start
+    endDate = dateRange.end
+  }
+
+  console.log(
+    `Fetching balance transactions for ${startDate.toISOString()} to ${endDate.toISOString()}`,
+  )
+
+  const transactions: Stripe.ApiList<Stripe.BalanceTransaction> =
+    await fetchBalanceTransactionsWithRetry({
+      created: {
+        gte: Math.floor(startDate.getTime() / 1000),
+        lte: Math.floor(endDate.getTime() / 1000),
+      },
+      limit,
+      ...(starting_after ? {starting_after} : {}),
+    })
+
+  console.log(`Fetched ${transactions.data.length} balance transactions`)
+
+  const simplifiedTransactions = transactions.data.map(
+    simplifyBalanceTransaction,
+  )
+
+  return {
+    transactions: simplifiedTransactions,
+    has_more: transactions.has_more,
+    next_page_cursor:
+      transactions.data[transactions.data.length - 1]?.id || null,
+  }
+}
+
+export const CombinedBalanceTransactionSchema =
+  SimplifiedBalanceTransactionSchema.extend({
+    productId: z.string().nullable(),
+    product: z.string().nullable(),
+    siteName: z.string().nullable(),
+    chargeId: z.string().nullable(),
+    amountRefunded: z.number().nullable(),
+  })
+
+export type CombinedBalanceTransaction = z.infer<
+  typeof CombinedBalanceTransactionSchema
+>
+
+export interface PaginatedCombinedBalanceTransactions {
+  transactions: CombinedBalanceTransaction[]
+  has_more: boolean
+  next_page_cursor: string | null
+}
+
+export async function fetchCombinedBalanceTransactions({
+  range,
+  start,
+  end,
+  limit = 100,
+  starting_after,
+}: z.infer<
+  typeof FetchBalanceTransactionsSchema
+>): Promise<PaginatedCombinedBalanceTransactions> {
+  try {
+    // Fetch balance transactions with pagination
+    const balanceTransactionsResult = await fetchBalanceTransactions({
+      range,
+      start,
+      end,
+      limit,
+      starting_after,
+    })
+
+    // Get unique charge and refund IDs from the current page of balance transactions
+    const chargeIds = new Set<string>()
+    const refundIds = new Set<string>()
+
+    balanceTransactionsResult.transactions.forEach((transaction) => {
+      if (transaction.type === 'charge' || transaction.type === 'payment') {
+        if (transaction.source) chargeIds.add(transaction.source)
+      } else if (
+        transaction.type === 'refund' ||
+        transaction.type === 'payment_refund'
+      ) {
+        if (transaction.source) refundIds.add(transaction.source)
+      }
+    })
+
+    // Fetch charges and refunds for the current page
+    const [charges, refunds] = await Promise.all([
+      Promise.all(
+        Array.from(chargeIds).map((id) => stripe.charges.retrieve(id)),
+      ),
+      Promise.all(
+        Array.from(refundIds).map((id) => stripe.refunds.retrieve(id)),
+      ),
+    ])
+
+    // Create maps for quick lookup
+    const chargeMap = new Map(
+      charges.map((charge) => [charge.id, simplifyCharge(charge)]),
+    )
+    const refundMap = new Map(
+      refunds.map((refund) => [refund.id, simplifyRefund(refund)]),
+    )
+
+    // Fetch associated charges for refunds
+    const refundCharges = await Promise.all(
+      refunds.map((refund) =>
+        refund.charge && typeof refund.charge === 'string'
+          ? stripe.charges.retrieve(refund.charge)
+          : null,
+      ),
+    )
+
+    // Update refundMap with charge information
+    refunds.forEach((refund, index) => {
+      const charge = refundCharges[index]
+      if (charge) {
+        const updatedRefund = simplifyRefund({
+          ...refund,
+          charge: charge as Stripe.Charge,
+        })
+        refundMap.set(refund.id, updatedRefund)
+      }
+    })
+
+    // Combined data balance transactions with charge and refund data
+    const combinedTransactions = balanceTransactionsResult.transactions.map(
+      (transaction): CombinedBalanceTransaction => {
+        if (
+          (transaction.type === 'charge' || transaction.type === 'payment') &&
+          transaction.source
+        ) {
+          const charge = chargeMap.get(transaction.source)
+          return CombinedBalanceTransactionSchema.parse({
+            ...transaction,
+            productId: charge?.productId || null,
+            product: charge?.product || null,
+            siteName: charge?.siteName || null,
+            chargeId: charge?.id || null,
+            amountRefunded: charge?.amountRefunded || null,
+          })
+        } else if (
+          (transaction.type === 'refund' ||
+            transaction.type === 'payment_refund') &&
+          transaction.source
+        ) {
+          const refund = refundMap.get(transaction.source)
+          return CombinedBalanceTransactionSchema.parse({
+            ...transaction,
+            productId: refund?.productId || null,
+            product: refund?.product || null,
+            siteName: null,
+            chargeId: refund?.chargeId || null,
+            amountRefunded: refund?.amount || null,
+          })
+        }
+
+        return CombinedBalanceTransactionSchema.parse({
+          ...transaction,
+          productId: null,
+          product: null,
+          siteName: null,
+          chargeId: null,
+          amountRefunded: null,
+        })
+      },
+    )
+
+    return {
+      transactions: combinedTransactions,
+      has_more: balanceTransactionsResult.has_more,
+      next_page_cursor: balanceTransactionsResult.next_page_cursor,
+    }
+  } catch (error) {
+    throw error
   }
 }

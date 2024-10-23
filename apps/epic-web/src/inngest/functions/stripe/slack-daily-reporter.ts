@@ -2,13 +2,14 @@ import {postToSlack} from '@skillrecordings/skill-api'
 import {WebClient} from '@slack/web-api'
 import {inngest} from 'inngest/inngest.server'
 import {
-  fetchCharges,
-  fetchRefunds,
-  SimplifiedCharge,
-  SimplifiedRefund,
+  fetchCombinedBalanceTransactions,
+  CombinedBalanceTransaction,
 } from 'lib/transactions'
 import {prisma} from '@skillrecordings/database'
-import {calculateTotals} from 'components/calculations/calculate-totals'
+import {
+  calculateTotals,
+  ProductGroup,
+} from 'components/calculations/calculate-totals'
 import {calculateSplits} from 'components/calculations/calculate-splits'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
@@ -35,7 +36,20 @@ type ProductSplits = Record<string, SplitData>
 
 type Splits = Record<string, ProductSplits>
 
-type UserData = Record<string, string>
+interface UserData {
+  [userId: string]: string
+}
+
+interface SlackChannelIds {
+  [userId: string]: string | null
+}
+
+interface Contributor {
+  userId: string
+  saleAnnounceChannel: string
+}
+
+const OWNER_USER_ID = '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b'
 
 export const slackDailyReporter = inngest.createFunction(
   {
@@ -46,127 +60,185 @@ export const slackDailyReporter = inngest.createFunction(
     cron: 'TZ=America/Los_Angeles 0 10 * * *',
   },
   async ({step}) => {
-    const allCharges: SimplifiedCharge[] = []
-    const allRefunds: SimplifiedRefund[] = []
+    const allBalanceTransactionsYesterday: CombinedBalanceTransaction[] = []
+    const allBalanceTransactionsThisMonth: CombinedBalanceTransaction[] = []
     let hasMore = true
     let startingAfter: string | undefined = undefined
 
+    // Fetch balance transactions yesterday
     while (hasMore) {
-      const fetchChargePage: Awaited<ReturnType<typeof fetchCharges>> =
-        await step.run(
-          `fetch-charges${startingAfter ? `-${startingAfter}` : ''}`,
-          async () => {
-            return fetchCharges({
-              range: 'yesterday',
-              starting_after: startingAfter,
-            })
-          },
-        )
-
-      allCharges.push(...fetchChargePage.charges)
-      hasMore = fetchChargePage.has_more
-      startingAfter = fetchChargePage.next_page_cursor || undefined
+      const fetchBalancePage: Awaited<
+        ReturnType<typeof fetchCombinedBalanceTransactions>
+      > = await step.run(
+        `fetch-combined-transactions-yesterday${
+          startingAfter ? `-${startingAfter}` : ''
+        }`,
+        async () => {
+          return fetchCombinedBalanceTransactions({
+            range: 'yesterday',
+            starting_after: startingAfter,
+          })
+        },
+      )
+      allBalanceTransactionsYesterday.push(...fetchBalancePage.transactions)
+      hasMore = fetchBalancePage.has_more
+      startingAfter = fetchBalancePage.next_page_cursor || undefined
     }
 
-    // Fetch refunds
+    // Fetch balance transactions this month
     hasMore = true
     startingAfter = undefined
     while (hasMore) {
-      const fetchRefundPage: Awaited<ReturnType<typeof fetchRefunds>> =
-        await step.run(
-          `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
-          async () => {
-            return fetchRefunds({
-              range: 'yesterday',
-              starting_after: startingAfter,
-            })
-          },
-        )
-      allRefunds.push(...fetchRefundPage.refunds)
-      hasMore = fetchRefundPage.has_more
-      startingAfter = fetchRefundPage.next_page_cursor || undefined
+      const fetchBalancePage: Awaited<
+        ReturnType<typeof fetchCombinedBalanceTransactions>
+      > = await step.run(
+        `fetch-combined-transactions-this-month${
+          startingAfter ? `-${startingAfter}` : ''
+        }`,
+        async () => {
+          return fetchCombinedBalanceTransactions({
+            range: 'month-so-far',
+            starting_after: startingAfter,
+          })
+        },
+      )
+      allBalanceTransactionsThisMonth.push(...fetchBalancePage.transactions)
+      hasMore = fetchBalancePage.has_more
+      startingAfter = fetchBalancePage.next_page_cursor || undefined
     }
 
-    const {totals, refundTotals} = await step.run(
-      'calculate-totals',
-      async () => calculateTotals(allCharges, allRefunds),
-    )
+    const {totals: totalsYesterday, refundTotals: refundTotalsYesterday} =
+      await step.run('calculate-totals-yesterday', async () =>
+        calculateTotals(allBalanceTransactionsYesterday),
+      )
 
-    const splits: Splits = await step.run('load splits', async () => {
-      const dbSplits = await prisma.productRevenueSplit.findMany({
-        where: {
-          productId: {
-            in: Object.values(totals.productGroups).map(
-              (group) => group.productId,
-            ),
+    const {totals: totalsThisMonth, refundTotals: refundTotalsThisMonth} =
+      await step.run('calculate-totals-this-month', async () =>
+        calculateTotals(allBalanceTransactionsThisMonth),
+      )
+
+    const splitsYesterday: Splits = await step.run(
+      'load-splits-yesterday',
+      async () => {
+        const dbSplits = await prisma.productRevenueSplit.findMany({
+          where: {
+            productId: {
+              in: Object.values(totalsYesterday.productGroups).map(
+                (group) => group.productId,
+              ),
+            },
           },
-        },
-      })
-
-      return dbSplits.reduce<Splits>((acc: any, split: any) => {
-        if (!acc[split.productId]) {
-          acc[split.productId] = {}
-        }
-        acc[split.productId][split.id] = {
-          percent: split.percent,
-          userId: split.userId,
-          type: split.type,
-        }
-        return acc
-      }, {})
-    })
-
-    const users: UserData = await step.run('fetch users', async () => {
-      const userIds = new Set<string>()
-      Object.values(splits).forEach((productSplits) => {
-        Object.values(productSplits).forEach((split) => {
-          if (split.userId) userIds.add(split.userId)
         })
-      })
 
-      const dbUsers = await prisma.user.findMany({
-        where: {
-          id: {
-            in: Array.from(userIds),
-          },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      })
-
-      return dbUsers.reduce((acc, user) => {
-        acc[user.id] = user.name || 'Unnamed User'
-        return acc
-      }, {} as UserData)
-    })
-
-    const calculatedSplits = await step.run('calculate splits', async () =>
-      calculateSplits(totals, splits, users),
+        return dbSplits.reduce<Splits>((acc: any, split: any) => {
+          if (!acc[split.productId]) {
+            acc[split.productId] = {}
+          }
+          acc[split.productId][split.id] = {
+            percent: split.percent,
+            userId: split.userId,
+            type: split.type,
+          }
+          return acc
+        }, {})
+      },
     )
 
-    interface UserData {
-      [userId: string]: string
-    }
+    const splitsThisMonth: Splits = await step.run(
+      'load-splits-this-month',
+      async () => {
+        const dbSplits = await prisma.productRevenueSplit.findMany({
+          where: {
+            productId: {
+              in: Object.values(totalsThisMonth.productGroups).map(
+                (group) => group.productId,
+              ),
+            },
+          },
+        })
 
-    interface SlackChannelIds {
-      [userId: string]: string | null
-    }
+        return dbSplits.reduce<Splits>((acc: any, split: any) => {
+          if (!acc[split.productId]) {
+            acc[split.productId] = {}
+          }
+          acc[split.productId][split.id] = {
+            percent: split.percent,
+            userId: split.userId,
+            type: split.type,
+          }
+          return acc
+        }, {})
+      },
+    )
 
-    interface Contributor {
-      userId: string
-      saleAnnounceChannel: string
-    }
+    const users: UserData = await step.run(
+      'fetch-users-yesterday',
+      async () => {
+        const userIds = new Set<string>()
+        Object.values(splitsYesterday).forEach((productSplits) => {
+          Object.values(productSplits).forEach((split) => {
+            if (split.userId) userIds.add(split.userId)
+          })
+        })
 
-    const OWNER_USER_ID = '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b'
+        const dbUsers = await prisma.user.findMany({
+          where: {
+            id: {
+              in: Array.from(userIds),
+            },
+          },
+          select: {
+            id: true,
+            name: true,
+          },
+        })
 
-    type ProductGroup = {
-      productId: string
-      productName: string
-      count: number
-      amount: number
-    }
+        return dbUsers.reduce((acc, user) => {
+          acc[user.id] = user.name || 'Unnamed User'
+          return acc
+        }, {} as UserData)
+      },
+    )
+
+    const usersThisMonth: UserData = await step.run(
+      'fetch-users-this-month',
+      async () => {
+        const userIds = new Set<string>()
+        Object.values(splitsThisMonth).forEach((productSplits) => {
+          Object.values(productSplits).forEach((split) => {
+            if (split.userId) userIds.add(split.userId)
+          })
+        })
+
+        const dbUsers = await prisma.user.findMany({
+          where: {
+            id: {
+              in: Array.from(userIds),
+            },
+          },
+          select: {
+            id: true,
+            name: true,
+          },
+        })
+
+        return dbUsers.reduce((acc, user) => {
+          acc[user.id] = user.name || 'Unnamed User'
+          return acc
+        }, {} as UserData)
+      },
+    )
+
+    const calculatedSplits = await step.run(
+      'calculate-splits-yesterday',
+      async () => calculateSplits(totalsYesterday, splitsYesterday, users),
+    )
+
+    const calculatedSplitsThisMonth = await step.run(
+      'calculate-splits-this-month',
+      async () =>
+        calculateSplits(totalsThisMonth, splitsThisMonth, usersThisMonth),
+    )
 
     const slackChannelIds = await step.run(
       'load slack channel ids for all users',
@@ -232,17 +304,17 @@ export const slackDailyReporter = inngest.createFunction(
         }
       }
 
-      const labels = Object.keys(productData)
-      const data = Object.values(productData)
-      const formattedLabels = labels.map(
-        (name, index) => `${name}: ${formatCurrency(data[index])}`,
-      )
-
-      const total = data.reduce((sum, value) => sum + value, 0)
+      const entries = Object.entries(productData)
+      const filteredEntries = entries.filter(([_, value]) => value > 0)
+      const formattedLabels = filteredEntries.map(([name]) => name)
+      const data = filteredEntries.map(([_, value]) => value / 100)
+      const total = filteredEntries.reduce((sum, value) => sum + value[1], 0)
       const formattedTotal = formatCurrency(total)
 
+      const currentMonth = new Date().toLocaleString('default', {month: 'long'})
+
       const chartData = {
-        type: 'doughnut',
+        type: 'bar',
         data: {
           labels: formattedLabels,
           datasets: [
@@ -255,53 +327,105 @@ export const slackDailyReporter = inngest.createFunction(
                 '#4BC0C0',
                 '#9966FF',
                 '#FF9F40',
+                '#FF0000',
+                '#008B8B',
+                '#8B4513',
+                '#FFFF00',
+                '#008080',
+                '#FF00FF',
+                '#800000',
+                '#00FFFF',
+                '#006400',
+                '#FFC0CB',
+                '#808000',
+                '#4B0082',
+                '#A52A2A',
+                '#40E0D0',
               ],
+              maxBarThickness: 50,
+              minBarLength: 2,
             },
           ],
         },
         options: {
-          title: {
-            display: true,
-            text: 'Revenue Distribution by Product',
-            fontColor: 'black',
-          },
-          legend: {
-            position: 'bottom',
-            labels: {
-              boxWidth: 15,
-              padding: 15,
-              fontColor: 'black',
-            },
-          },
+          indexAxis: 'y',
           plugins: {
-            datalabels: {
+            legend: {
               display: false,
             },
-            doughnutlabel: {
-              labels: [
-                {
-                  text: formattedTotal,
-                  font: {size: 14, weight: 'bold'},
-                  color: 'black',
+            title: {
+              display: true,
+              text: `Revenue Breakdown by Product for ${currentMonth} to Date (Excluding Expenses)`,
+              color: 'black',
+              font: {
+                size: 10,
+              },
+            },
+            subtitle: {
+              display: true,
+              text: 'Estimated Royalty: ' + formattedTotal,
+              color: 'black',
+              font: {
+                size: 10,
+                weight: 'bold',
+              },
+              padding: {
+                bottom: 10,
+              },
+            },
+            datalabels: {
+              formatter: function (value: any) {
+                return '$' + value
+              },
+              align: 'right',
+              anchor: 'end',
+              color: 'black',
+              font: {
+                size: 8,
+                weight: 'bold',
+              },
+              padding: 4,
+            },
+          },
+          scales: {
+            x: {
+              display: false,
+              min: 0,
+              max: Math.max(...data) * 1.1,
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              grid: {
+                display: true,
+              },
+              ticks: {
+                color: 'black',
+                font: {
+                  size: 8,
+                  style: 'normal',
                 },
-                {
-                  text: 'total',
-                  font: {size: 10},
-                  color: 'black',
-                },
-              ],
+              },
+            },
+          },
+          layout: {
+            padding: {
+              right: 30,
             },
           },
         },
       }
 
       const encodedChartData = encodeURIComponent(JSON.stringify(chartData))
-      return `https://quickchart.io/chart?c=${encodedChartData}&backgroundColor=white`
+      return `https://quickchart.io/chart?c=${encodedChartData}&backgroundColor=white&version=4`
     }
 
     await step.run('announce in slack', async () => {
-      const {productGroups} = totals
+      const {productGroups} = totalsYesterday
       const {groupSplits} = calculatedSplits
+      const monthlyProductGroups = totalsThisMonth.productGroups
+      const monthlyGroupSplits = calculatedSplitsThisMonth.groupSplits
 
       const webClient = new WebClient(process.env.SLACK_TOKEN)
       const results: Array<{
@@ -325,7 +449,20 @@ export const slackDailyReporter = inngest.createFunction(
           > = {}
           const userProducts: Record<string, Record<string, ProductGroup>> = {}
 
-          // Filter data for the specific user
+          // Monthly data structures
+          const monthlyUserSplits: Record<
+            string,
+            {
+              creatorSplits: Record<string, number>
+              products: Record<string, {creatorSplits: Record<string, number>}>
+            }
+          > = {}
+          const monthlyUserProducts: Record<
+            string,
+            Record<string, ProductGroup>
+          > = {}
+
+          // Filter yesterday's data for the text summary
           for (const [groupName, groupSplit] of Object.entries(groupSplits)) {
             if (
               userName &&
@@ -359,7 +496,43 @@ export const slackDailyReporter = inngest.createFunction(
             }
           }
 
-          // Calculate user-specific total splits and transaction count
+          // Filter monthly data for the chart
+          for (const [groupName, groupSplit] of Object.entries(
+            monthlyGroupSplits,
+          )) {
+            if (
+              userName &&
+              groupSplit.creatorSplits &&
+              groupSplit.creatorSplits[userName]
+            ) {
+              monthlyUserSplits[groupName] = {
+                creatorSplits: {[userName]: groupSplit.creatorSplits[userName]},
+                products: {},
+              }
+
+              monthlyUserProducts[groupName] = {}
+              if (groupSplit.products) {
+                for (const [productKey, productSplit] of Object.entries(
+                  groupSplit.products,
+                )) {
+                  if (
+                    productSplit.creatorSplits &&
+                    productSplit.creatorSplits[userName]
+                  ) {
+                    monthlyUserProducts[groupName][productKey] =
+                      monthlyProductGroups[productKey]
+                    monthlyUserSplits[groupName].products[productKey] = {
+                      creatorSplits: {
+                        [userName]: productSplit.creatorSplits[userName],
+                      },
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          // Calculate user-specific total splits and licenses sold count for yesterday
           let userTotalRevenue = 0
           let userTotalTransactions = 0
           const soldProducts: Array<{name: string; count: number}> = []
@@ -389,13 +562,46 @@ export const slackDailyReporter = inngest.createFunction(
             }
           }
 
-          if (soldProducts.length > 0) {
-            const chartUrl = generateChartUrl(
-              userProducts,
-              userSplits,
-              userName,
-            )
+          // Calculate user-specific total splits and licenses sold count for this month
+          let userTotalRevenueThisMonth = 0
+          let userTotalTransactionsThisMonth = 0
+          const soldProductsThisMonth: Array<{name: string; count: number}> = []
 
+          for (const [groupName, groupProducts] of Object.entries(
+            monthlyUserProducts,
+          )) {
+            for (const [productName, product] of Object.entries(
+              groupProducts,
+            )) {
+              if (product && product.count) {
+                userTotalTransactionsThisMonth += product.count
+                soldProductsThisMonth.push({
+                  name: productName,
+                  count: product.count,
+                })
+              }
+              if (
+                monthlyUserSplits[groupName] &&
+                monthlyUserSplits[groupName].products[productName] &&
+                monthlyUserSplits[groupName].products[productName]
+                  .creatorSplits[userName]
+              ) {
+                userTotalRevenueThisMonth +=
+                  monthlyUserSplits[groupName].products[productName]
+                    .creatorSplits[userName]
+              }
+            }
+          }
+
+          if (soldProducts.length > 0) {
+            let chartUrl = null
+            if (soldProducts.length > 1) {
+              chartUrl = generateChartUrl(
+                monthlyUserProducts,
+                monthlyUserSplits,
+                userName,
+              )
+            }
             let summaryMessage = 'Yesterday you sold '
             const productStrings = soldProducts.map(
               (product) =>
@@ -406,9 +612,7 @@ export const slackDailyReporter = inngest.createFunction(
 
             if (productStrings.length === 1) {
               summaryMessage += productStrings[0]
-            } else if (productStrings.length === 2) {
-              summaryMessage += `${productStrings[0]} and ${productStrings[1]}`
-            } else if (productStrings.length > 2) {
+            } else if (productStrings.length > 1) {
               const lastProduct = productStrings.pop()
               summaryMessage += `${productStrings.join(
                 ', ',
@@ -451,10 +655,23 @@ export const slackDailyReporter = inngest.createFunction(
                 type: 'image',
                 title: {
                   type: 'plain_text',
-                  text: 'Revenue Distribution',
+                  text: 'Revenue Distribution To Date (Excluding Expenses)',
                 },
                 image_url: chartUrl,
                 alt_text: 'Revenue Distribution Chart',
+              })
+            } else {
+              const currentMonth = new Date().toLocaleString('default', {
+                month: 'long',
+              })
+              blocks.push({
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: `*Estimated Royalty For ${currentMonth} to Date (Before Expenses): ${formatCurrency(
+                    userTotalRevenueThisMonth,
+                  )}*`,
+                },
               })
             }
 
