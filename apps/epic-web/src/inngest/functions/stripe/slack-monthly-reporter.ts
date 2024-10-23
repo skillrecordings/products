@@ -2,8 +2,8 @@ import {postToSlack} from '@skillrecordings/skill-api'
 import {WebClient} from '@slack/web-api'
 import {inngest} from 'inngest/inngest.server'
 import {
-  fetchEnrichedBalanceTransactions,
-  EnrichedBalanceTransaction,
+  fetchCombinedBalanceTransactions,
+  CombinedBalanceTransaction,
 } from 'lib/transactions'
 import {prisma} from '@skillrecordings/database'
 import {calculateTotals} from 'components/calculations/calculate-totals'
@@ -41,19 +41,19 @@ export const slackMonthlyReporter = inngest.createFunction(
     cron: 'TZ=America/Los_Angeles 0 10 2 * *',
   },
   async ({step}) => {
-    const allBalanceTransactionsLastMonth: EnrichedBalanceTransaction[] = []
+    const allBalanceTransactionsLastMonth: CombinedBalanceTransaction[] = []
     let hasMore = true
     let startingAfter: string | undefined = undefined
 
     while (hasMore) {
       const fetchBalancePage: Awaited<
-        ReturnType<typeof fetchEnrichedBalanceTransactions>
+        ReturnType<typeof fetchCombinedBalanceTransactions>
       > = await step.run(
         `fetch-combined-transactions-last-month${
           startingAfter ? `-${startingAfter}` : ''
         }`,
         async () => {
-          return fetchEnrichedBalanceTransactions({
+          return fetchCombinedBalanceTransactions({
             range: 'last-month',
             starting_after: startingAfter,
           })
