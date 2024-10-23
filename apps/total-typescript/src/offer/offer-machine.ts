@@ -17,12 +17,15 @@ export type OfferMachineEvent =
   | {type: 'DISMISSAL_ACKNOWLEDGED'}
   | {type: 'OFFER_COMPLETE'}
   | {type: 'SUBSCRIBED'}
+  | {type: 'NEXT_QUESTION'}
 
 export type OfferContext = {
   subscriber?: Subscriber
   currentOffer: Offer
   currentOfferId: string
   eligibility?: StateMachine<any, any, any> | null
+  canSurveyAnon?: boolean
+  askAllQuestions?: boolean
 }
 
 export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
@@ -41,7 +44,7 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
             }),
           },
           NO_SUBSCRIBER_FOUND: {
-            target: 'offerComplete',
+            target: 'verifyingOfferEligibility',
           },
         },
       },
@@ -66,9 +69,11 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
             target: 'presentingCurrentOffer',
             actions: assign({
               currentOffer: (_, event) => {
+                console.log('set currentOffer', event.currentOffer)
                 return event.currentOffer
               },
               currentOfferId: (_, event) => {
+                console.log('set currentOfferId', event.currentOfferId)
                 return event.currentOfferId
               },
             }),
@@ -80,14 +85,23 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
       },
       presentingCurrentOffer: {
         on: {
-          RESPONDED_TO_OFFER: {
-            target: 'offerComplete',
-          },
+          RESPONDED_TO_OFFER: [
+            {
+              target: 'loadingCurrentOffer',
+              cond: (context) => context.askAllQuestions === true,
+            },
+            {
+              target: 'offerComplete',
+            },
+          ],
           OFFER_DISMISSED: {
             target: 'offerComplete',
           },
           OFFER_CLOSED: {
             target: 'offerComplete',
+          },
+          NEXT_QUESTION: {
+            target: 'loadingCurrentOffer',
           },
         },
       },
@@ -101,6 +115,11 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
       verifyEligibility: (context, _) =>
         new Promise((resolve, reject) => {
           const {subscriber} = context
+
+          if (!subscriber && context.canSurveyAnon) {
+            resolve(true)
+          }
+
           const lastSurveyDate = new Date(
             subscriber?.fields.last_surveyed_on || 0,
           )

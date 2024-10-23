@@ -102,7 +102,7 @@ export type QuizResource = {
 }
 
 export type QuestionResource = {
-  question: string
+  question: string | ((answers: Record<string, string>) => string)
   type: 'multiple-choice' | 'multiple-image-choice' | 'essay' | 'code'
   tagId?: number
   correct?: string[] | string

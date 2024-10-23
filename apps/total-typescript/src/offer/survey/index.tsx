@@ -64,7 +64,9 @@ export const Survey = ({
     identity.set(currentOfferId, context.answer)
     identify(identity)
 
-    setTimeout(() => sendToMachine('RESPONDED_TO_OFFER'), 750)
+    console.log('handleSubmitAnswer', context)
+
+    sendToMachine('RESPONDED_TO_OFFER')
   }
 
   return pathIsValid && currentOffer ? (

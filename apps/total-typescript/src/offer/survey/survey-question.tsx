@@ -89,6 +89,7 @@ const SurveyQuestion = React.forwardRef(function Question(
             .required(`Can't stay empty. Mind to elaborate? :)`),
     }),
     onSubmit: async (values) => {
+      console.log('formik on submit', values)
       return sentToSurveyMachine('ANSWER', {answer: values.answer})
     },
     validateOnChange: true,
@@ -123,9 +124,11 @@ const SurveyQuestionHeader = React.forwardRef(function QuestionHeader(
   {children, as: Comp = 'legend', ...props},
   forwardRef,
 ) {
-  const {currentQuestion, syntaxHighlighterTheme, config} = React.useContext(
-    SurveyQuestionContext,
-  )
+  const {currentQuestion, syntaxHighlighterTheme, config, surveyMachineState} =
+    React.useContext(SurveyQuestionContext)
+
+  const answers = surveyMachineState.context.allAnswers
+
   const {questionBodyRenderer} = config
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-header="">
@@ -135,7 +138,9 @@ const SurveyQuestionHeader = React.forwardRef(function QuestionHeader(
           questionBodyRenderer(currentQuestion?.question)
         ) : (
           <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
-            {currentQuestion?.question}
+            {typeof currentQuestion?.question === 'function'
+              ? currentQuestion.question(answers)
+              : currentQuestion?.question}
           </Markdown>
         )}
       </>
@@ -368,6 +373,34 @@ const SurveyQuestionFooter = React.forwardRef(function QuestionFooter(
   ) : null
 }) as Polymorphic.ForwardRefComponent<'footer', SurveyQuestionFooterProps>
 
+// Add this new component
+const SurveyQuestionEssay = React.forwardRef(function QuestionEssay(
+  {children, as: Comp = 'div', ...props},
+  forwardRef,
+) {
+  const {formik, surveyMachineState} = React.useContext(SurveyQuestionContext)
+  const isAnswered = surveyMachineState.matches('answered')
+
+  return (
+    <Comp {...props} ref={forwardRef} data-sr-quiz-question-essay="">
+      <textarea
+        name="answer"
+        value={formik.values.answer || ''}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        disabled={isAnswered}
+        rows={6}
+        className="w-full rounded border p-2"
+        placeholder="Type your answer here..."
+      />
+      {formik.errors.answer && formik.touched.answer && (
+        <div className="text-red-500">{formik.errors.answer}</div>
+      )}
+      {children}
+    </Comp>
+  )
+}) as Polymorphic.ForwardRefComponent<'div', {}>
+
 export type {
   SurveyQuestionProps,
   SurveyQuestionHeaderProps,
@@ -390,4 +423,5 @@ export {
   SurveyQuestionAnswer,
   SurveyQuestionFooter,
   SurveyQuestionSubmit,
+  SurveyQuestionEssay,
 }
