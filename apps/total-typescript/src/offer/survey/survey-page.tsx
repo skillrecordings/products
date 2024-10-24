@@ -60,26 +60,24 @@ export const SurveyPage: React.FC<SurveyPageProps> = ({
   }
 
   return (
-    <div className="mx-auto max-w-2xl p-6">
-      <SurveyQuestion
-        config={surveyConfig}
-        isLast={false}
-        handleSubmitAnswer={handleAnswerSubmit}
-        currentQuestion={currentQuestion}
-        currentQuestionId={currentQuestionId}
-      >
-        <SurveyQuestionHeader />
-        <SurveyQuestionBody>
-          {currentQuestion.type === 'essay' ? (
-            <SurveyQuestionEssay />
-          ) : (
-            <SurveyQuestionChoices />
-          )}
-          <SurveyQuestionSubmit>Submit</SurveyQuestionSubmit>
-          <SurveyQuestionAnswer />
-        </SurveyQuestionBody>
-        <SurveyQuestionFooter />
-      </SurveyQuestion>
-    </div>
+    <SurveyQuestion
+      config={surveyConfig}
+      isLast={false}
+      handleSubmitAnswer={handleAnswerSubmit}
+      currentQuestion={currentQuestion}
+      currentQuestionId={currentQuestionId}
+    >
+      <SurveyQuestionHeader />
+      <SurveyQuestionBody>
+        {currentQuestion.type === 'essay' ? (
+          <SurveyQuestionEssay />
+        ) : (
+          <SurveyQuestionChoices />
+        )}
+        <SurveyQuestionSubmit>Submit</SurveyQuestionSubmit>
+        <SurveyQuestionAnswer />
+      </SurveyQuestionBody>
+      <SurveyQuestionFooter />
+    </SurveyQuestion>
   )
 }
