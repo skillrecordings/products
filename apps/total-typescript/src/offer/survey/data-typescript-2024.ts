@@ -33,6 +33,7 @@ export const dataTypescript2024: QuizResource = {
     ts_at_work: {
       question: 'Do you use TypeScript at work?',
       type: 'multiple-choice',
+      shuffleChoices: false,
       choices: [
         {
           answer: 'true',
