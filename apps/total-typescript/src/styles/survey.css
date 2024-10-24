@@ -1,8 +1,7 @@
 #ask {
   /* ——— QUIZ ——— */
-  [data-sr-quiz] {
-    @apply flex w-full flex-col items-center justify-center p-4 sm:p-5;
-  }
+
+  @apply flex h-full flex-grow items-center justify-center px-5 py-24;
 
   [data-sr-quiz='answered'] {
     [data-sr-quiz-question-body] {
@@ -26,7 +25,7 @@
 
     /* ——— HEADER ——— */
     [data-sr-quiz-question-header] {
-      @apply prose prose-lg w-full max-w-none pb-6 font-medium leading-normal sm:prose-xl lg:prose-2xl;
+      @apply prose prose-lg w-full max-w-none pb-6 font-medium leading-normal sm:prose-xl lg:prose-2xl prose-p:first-of-type:my-0;
 
       pre {
         @apply p-0;

@@ -7,6 +7,7 @@ import {
 } from '../offer/survey/survey-config'
 import {QuestionResource} from '@skillrecordings/types'
 import {trpc} from '@/trpc/trpc.client'
+import Layout from '@/components/app/layout'
 
 const SurveyPageWrapper: React.FC = () => {
   const {
@@ -51,18 +52,24 @@ const SurveyPageWrapper: React.FC = () => {
   }
 
   return (
-    <div id="ask">
-      <SurveyPage
-        currentQuestionId={currentQuestionId}
-        currentQuestion={currentQuestion as QuestionResource}
-        handleSubmitAnswer={handleSubmitAnswer}
-        surveyConfig={typescript2024SurveyConfig}
-        sendToMachine={sendToMachine}
-        isComplete={isComplete}
-        showEmailQuestion={machineState.matches('collectEmail')}
-        onEmailSubmit={handleEmailSubmit}
-      />
-    </div>
+    <Layout
+      meta={{
+        title: 'Survey',
+      }}
+    >
+      <div id="ask">
+        <SurveyPage
+          currentQuestionId={currentQuestionId}
+          currentQuestion={currentQuestion as QuestionResource}
+          handleSubmitAnswer={handleSubmitAnswer}
+          surveyConfig={typescript2024SurveyConfig}
+          sendToMachine={sendToMachine}
+          isComplete={isComplete}
+          showEmailQuestion={machineState.matches('collectEmail')}
+          onEmailSubmit={handleEmailSubmit}
+        />
+      </div>
+    </Layout>
   )
 }
 
