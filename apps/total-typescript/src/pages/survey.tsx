@@ -43,14 +43,6 @@ const SurveyPageWrapper: React.FC = () => {
     }
   }, [isComplete])
 
-  if (isLoading) {
-    return <div>Loading survey...</div>
-  }
-
-  if (!currentQuestion && !isPresenting) {
-    return <div>No survey available at this time.</div>
-  }
-
   return (
     <Layout
       meta={{
@@ -58,16 +50,24 @@ const SurveyPageWrapper: React.FC = () => {
       }}
     >
       <div id="ask">
-        <SurveyPage
-          currentQuestionId={currentQuestionId}
-          currentQuestion={currentQuestion as QuestionResource}
-          handleSubmitAnswer={handleSubmitAnswer}
-          surveyConfig={typescript2024SurveyConfig}
-          sendToMachine={sendToMachine}
-          isComplete={isComplete}
-          showEmailQuestion={machineState.matches('collectEmail')}
-          onEmailSubmit={handleEmailSubmit}
-        />
+        {isLoading ? (
+          <div className="text-center text-2xl">Loading survey...</div>
+        ) : !currentQuestion && !isPresenting ? (
+          <div className="text-center text-2xl">
+            No survey available at this time.
+          </div>
+        ) : (
+          <SurveyPage
+            currentQuestionId={currentQuestionId}
+            currentQuestion={currentQuestion as QuestionResource}
+            handleSubmitAnswer={handleSubmitAnswer}
+            surveyConfig={typescript2024SurveyConfig}
+            sendToMachine={sendToMachine}
+            isComplete={isComplete}
+            showEmailQuestion={machineState.matches('collectEmail')}
+            onEmailSubmit={handleEmailSubmit}
+          />
+        )}
       </div>
     </Layout>
   )
