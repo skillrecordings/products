@@ -1,6 +1,13 @@
-export const Companies = () => {
+import {cn} from '@skillrecordings/ui/utils/cn'
+
+export const Companies = ({className}: {className?: string}) => {
   return (
-    <section className="not-prose mx-auto mb-0 flex w-full flex-col items-center justify-center bg-transparent px-5 pt-10 md:pt-16">
+    <section
+      className={cn(
+        'not-prose mx-auto mb-0 flex w-full flex-col items-center justify-center bg-transparent px-5',
+        className,
+      )}
+    >
       <h2 className="font-text text-lg text-foreground opacity-75">
         Trusted by developers from
       </h2>

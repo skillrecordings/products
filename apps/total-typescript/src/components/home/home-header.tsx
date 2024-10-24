@@ -25,13 +25,14 @@ export const Header = ({level}: {level?: SkillLevel}) => {
   const Title = level && level.rank > 3 ? ExpertTitle : DefaultTitle
   return (
     <header className="relative -mt-16 flex flex-col items-center justify-center overflow-hidden px-5 pt-24 sm:pt-0 lg:mt-0">
-      <div className="relative z-10 flex w-full max-w-screen-lg flex-col-reverse items-center text-center lg:min-h-[80vh] lg:flex-row lg:text-left">
+      <div className="relative z-10 flex w-full max-w-screen-lg flex-col-reverse items-center text-center  lg:flex-row lg:text-left">
         <div className="relative z-10 -mt-8 flex w-full max-w-2xl flex-col items-center bg-gradient-to-b from-transparent via-background to-background pb-10 lg:mt-0 lg:items-start lg:via-transparent lg:to-transparent lg:py-48 lg:pb-48">
           <h1 className="mt-16 w-full max-w-[14ch] font-heading text-4xl font-normal leading-[1.25] drop-shadow-md sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15]">
             <Title />
           </h1>
-          <h2 className="max-w-[28ch] text-balance bg-gradient-to-bl from-teal-200 to-cyan-200 bg-clip-text pb-8 pt-2 font-text text-lg font-normal text-transparent sm:text-2xl">
-            A comprehensive production-grade TypeScript training
+          <h2 className="mt-3 max-w-[35ch] text-balance bg-gradient-to-bl from-teal-200 to-cyan-200 bg-clip-text pb-8 font-text text-lg font-normal text-transparent sm:text-2xl">
+            Master the deep magic of types with bite-sized challenges that
+            stretch your brain
           </h2>
           <div className="flex items-center gap-3 sm:text-lg">
             <Image
@@ -58,13 +59,13 @@ export const Header = ({level}: {level?: SkillLevel}) => {
           />
         </div>
       </div>
-      <Image
+      {/* <Image
         src={require('../../../public/assets/landing/bg-divider-1.png')}
         fill
         className="pointer-events-none translate-y-48 select-none object-contain object-bottom"
         alt=""
         aria-hidden="true"
-      />
+      /> */}
     </header>
   )
 }

@@ -26,6 +26,7 @@ export const MDXComponents = {
   Module: (props) => <Module {...props} />,
   Editor: (props) => <MDXEditor {...props} />,
   TranspilePreview: (props) => <MDXTranspilePreview {...props} />,
+  TypeErrorSection: (props) => <TypeErrorSection {...props} />,
 } satisfies Record<string, React.FC<any>>
 
 type TypeErrorProps = {
@@ -167,15 +168,10 @@ const Testimonial: React.FC<
   }>
 > = ({children, className, author}) => {
   return (
-    <div
-      className={cn(
-        'not-prose -mx-5 border-t px-5 py-5 sm:border-0 sm:py-0',
-        className,
-      )}
-    >
+    <div className={cn('not-prose -mx-5 px-5 py-5 sm:py-0', className)}>
       <blockquote className="relative flex h-full flex-col justify-between">
         <div
-          className="text-base font-normal sm:text-balance sm:text-lg"
+          className="text-base font-normal leading-relaxed text-foreground sm:text-balance sm:text-lg sm:leading-relaxed lg:text-xl lg:leading-relaxed [&_strong]:font-semibold [&_strong]:text-white"
           // before:absolute before:bottom-9 before:right-8 before:flex before:items-center before:justify-center before:font-heading before:text-3xl before:font-extrabold before:leading-none before:text-cyan-300 before:content-['”']
         >
           {children}
@@ -191,7 +187,7 @@ const Testimonial: React.FC<
                 className="rounded-full"
               />
             )}
-            <span className="font-heading text-sm">{author.name}</span>
+            <span className="text-sm sm:text-base">{author.name}</span>
           </div>
         )}
       </blockquote>
@@ -209,24 +205,24 @@ const Module: React.FC<React.PropsWithChildren<any>> = ({
 }) => {
   return (
     <div className="not-prose">
-      <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-5 md:flex-row">
+      <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-5 md:flex-row md:items-start">
         <Link
           href={`/workshops/${slug}`}
           className="flex flex-shrink-0 items-center justify-center md:items-start"
         >
-          <Image src={image} alt={title} width={400} height={400} />
+          <Image src={image} alt={title} width={300} height={300} />
         </Link>
-        <div className="px-5">
+        <div className="px-5 md:pt-5">
           <Link href={`/workshops/${slug}`}>
-            <h3 className="text-center font-text text-3xl font-semibold sm:text-4xl md:text-left">
+            <h3 className="text-balance text-center font-text text-3xl font-semibold sm:text-4xl md:text-left">
               {title}
             </h3>
           </Link>
           {/* {metaLabel && <p className="text-center md:text-left">{metaLabel}</p>} */}
-          <h4 className="pt-2 text-center text-lg font-normal text-primary sm:text-xl sm:font-medium md:pt-3 md:text-left">
+          <h4 className="text-balance pt-2 text-center text-lg font-normal text-primary sm:text-xl sm:font-medium md:pt-3 md:text-left lg:text-2xl">
             {sub}
           </h4>
-          <div className="flex flex-col space-y-3 pt-5 text-foreground sm:text-lg md:pt-8">
+          <div className="flex flex-col space-y-5 pt-5 leading-relaxed text-foreground sm:text-lg sm:leading-relaxed md:pt-8 lg:text-xl lg:leading-relaxed">
             {children}
           </div>
         </div>
@@ -277,6 +273,68 @@ export const ShareImageMDX: React.FC<{src: string}> = ({src}) => {
       </div>
     </section>
   ) : null
+}
+
+const TypeErrorSection = () => {
+  return (
+    <section className="relative bg-gradient-to-t from-background via-[#191427] to-[#191427] selection:bg-[#CC5344] selection:text-white">
+      <div className="relative z-10 overflow-x-hidden">
+        <div className="pb-16 pt-0 md:pb-64 md:pt-32">
+          <div className="not-prose flex flex-col gap-8 bg-gradient-to-b from-[#866583] to-white bg-clip-text text-center font-heading font-normal text-transparent md:scale-150">
+            <p className="text-lg">The feature’s working.</p>
+            <p className="text-xl">The tests are passing.</p>
+            <p className="text-2xl">But your IDE is a sea of red lines.</p>
+            <p className="text-balance text-3xl font-semibold">
+              TypeScript’s not happy again.
+            </p>
+          </div>
+        </div>
+
+        <div className="not-prose flex flex-col items-center gap-5 text-center text-[#CCC4E0]">
+          <p>You move on to the next error:</p>
+          <p className="text-balance font-heading text-3xl font-semibold text-white md:text-5xl">
+            “What on earth is this?”
+          </p>
+          <p>you think to yourself.</p>
+        </div>
+
+        <ErrorFromHell>
+          {`Element implicitly has an ‘any’ type because expression of type ‘string’ can’t be used to index type ‘{ string: string | undefined; }’`}
+          <br />
+          <br />
+          {`No index signature with a parameter of type ‘string’ was found on type ‘{ string: string | undefined; }’`}
+        </ErrorFromHell>
+
+        <div className="not-prose mx-auto mt-16 flex w-full flex-col items-center justify-center gap-5 text-center text-white">
+          <p className="max-w-2xl text-balance [&_strong]:font-semibold">
+            <strong>It’s impossible to Google.</strong> Every search result is
+            either <strong>"here’s 100 lines of complex code"</strong> or{' '}
+            <strong>"here's a solution that doesn't work”</strong>
+          </p>
+          <p className="text-balance py-3 italic text-[#CCC4E0]">
+            You contemplate the absurd amount of hours you spend solving these
+            problems.
+          </p>
+          <p className="">You'd rather give up than deal with another:</p>
+        </div>
+
+        <Image
+          src={require('../../../public/assets/landing/ts-errors@2x.png')}
+          width={756}
+          height={483}
+          className="relative mx-auto mb-0 -translate-y-10 md:-translate-y-16"
+          alt="TypeScript Error: The intersection 'User & PublicUser' was reduced to 'never' because property 'email' has conflicting types in some constituents."
+        />
+      </div>
+      <Image
+        alt="sea of red lines"
+        aria-hidden="true"
+        src={require('../../../public/assets/landing/bg-sea-of-red-lines@2x.png')}
+        fill
+        className="z-0 object-contain object-top mix-blend-lighten"
+      />
+    </section>
+  )
 }
 
 interface LinkedHeadingProps extends React.HTMLProps<HTMLHeadingElement> {

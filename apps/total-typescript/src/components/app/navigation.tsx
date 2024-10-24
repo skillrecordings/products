@@ -26,12 +26,14 @@ type Props = {
   className?: string
   containerClassName?: string
   isMinified?: boolean
+  withLinks?: boolean
 }
 
 const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   className,
   containerClassName = 'flex items-stretch justify-between w-full h-full',
   isMinified = false,
+  withLinks = true,
 }) => {
   return (
     <>
@@ -49,7 +51,7 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
       >
         <div className={containerClassName}>
           <NavLogo isMinified={isMinified} />
-          <DesktopNav isMinified={isMinified} />
+          <DesktopNav isMinified={isMinified} withLinks={withLinks} />
           <MobileNav />
         </div>
       </nav>
@@ -65,9 +67,10 @@ const useAbilities = () => {
 
 type DesktopNavProps = {
   isMinified?: boolean
+  withLinks?: boolean
 }
 
-const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
+const DesktopNav: React.FC<DesktopNavProps> = ({isMinified, withLinks}) => {
   const ability = useAbilities()
   const {status} = useSession()
   const {setIsFeedbackDialogOpen} = useFeedback()
@@ -80,76 +83,82 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
 
   const {subscriber, loadingSubscriber} = useConvertkit()
 
+  const isRoot = usePathname() === '/'
+
   return (
     <div className={cx('hidden w-full items-center justify-end md:flex')}>
-      <ul
-        className={cn(
-          ' left-0 top-0 flex h-full w-full items-center justify-start  ',
-          {
-            'absolute pl-16 lg:justify-center lg:pl-0': !isMinified,
-            'pl-4': isMinified,
-          },
-        )}
-      >
-        {/* <hr
+      {withLinks && (
+        <>
+          <ul
+            className={cn(
+              ' left-0 top-0 flex h-full w-full items-center justify-start  ',
+              {
+                'absolute pl-16 lg:justify-center lg:pl-0': !isMinified,
+                'pl-4': isMinified,
+              },
+            )}
+          >
+            {/* <hr
           className="ml-4 mr-1 h-1/4 w-px border-transparent bg-gray-700 lg:ml-5 lg:mr-2"
           aria-hidden="true"
         /> */}
-        <NavLink
-          path="/workshops"
-          title="Workshops"
-          className="font-medium text-white"
-          labelString="Pro Workshops"
-          label={
-            <>
-              <span
-                className={cx('hidden', {
-                  'xl:inline-block': isMinified,
-                  'lg:inline-block': !isMinified,
-                })}
-              >
-                Pro
-              </span>{' '}
-              Workshops {/* NEW INDICATOR */}
-              {/* <div className="absolute right-1 h-1 w-1 -translate-y-5 animate-pulse rounded-full bg-primary" /> */}
-            </>
-          }
-          // icon={KeyIcon}
-        />
-        <NavLink
-          path="/tutorials"
-          title="Tutorials"
-          className="font-medium text-white"
-          labelString="Tutorials"
-          label="Tutorials"
-          // icon={PlayIcon}
-        />
-        <NavLink
-          path="/tips"
-          label="Tips"
-          className="font-medium text-white"
-          // icon={FireIcon}
-        />
-        <NavLink
-          path="/articles"
-          label="Articles"
-          className="font-medium text-white"
-          // icon={BookIcon}
-        />
-        <NavLink
-          path="/books/total-typescript-essentials"
-          labelString="Book"
-          label={
-            <>
-              Book{' '}
-              <span className="absolute inline-block -translate-y-1 scale-75 rounded bg-white/5 px-1 py-0.5 text-xs font-semibold uppercase tracking-wide text-primary">
-                New
-              </span>
-            </>
-          }
-          className="font-medium text-white"
-        />
-      </ul>
+            <NavLink
+              path="/workshops"
+              title="Workshops"
+              className="font-medium text-white"
+              labelString="Pro Workshops"
+              label={
+                <>
+                  <span
+                    className={cx('hidden', {
+                      'xl:inline-block': isMinified,
+                      'lg:inline-block': !isMinified,
+                    })}
+                  >
+                    Pro
+                  </span>{' '}
+                  Workshops {/* NEW INDICATOR */}
+                  {/* <div className="absolute right-1 h-1 w-1 -translate-y-5 animate-pulse rounded-full bg-primary" /> */}
+                </>
+              }
+              // icon={KeyIcon}
+            />
+            <NavLink
+              path="/tutorials"
+              title="Tutorials"
+              className="font-medium text-white"
+              labelString="Tutorials"
+              label="Tutorials"
+              // icon={PlayIcon}
+            />
+            <NavLink
+              path="/tips"
+              label="Tips"
+              className="font-medium text-white"
+              // icon={FireIcon}
+            />
+            <NavLink
+              path="/articles"
+              label="Articles"
+              className="font-medium text-white"
+              // icon={BookIcon}
+            />
+            <NavLink
+              path="/books/total-typescript-essentials"
+              labelString="Book"
+              label={
+                <>
+                  Book{' '}
+                  <span className="absolute inline-block -translate-y-1 scale-75 rounded bg-white/5 px-1 py-0.5 text-xs font-semibold uppercase tracking-wide text-primary">
+                    New
+                  </span>
+                </>
+              }
+              className="font-medium text-white"
+            />
+          </ul>
+        </>
+      )}
       <ul className="flex h-full flex-shrink-0 items-center justify-center">
         {status === 'loading' ? null : <SearchBar isMinified={isMinified} />}
         {status === 'unauthenticated' && (
@@ -187,14 +196,24 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
               label="Log in"
               className="min-w-full sm:min-w-full lg:min-w-full lg:text-sm"
             />
-            {!loadingSubscriber && !subscriber && (
+            {isRoot ? (
+              <NavLink
+                className="min-w-full rounded bg-primary font-semibold text-primary-foreground sm:h-8 sm:min-w-full lg:min-w-full lg:text-sm"
+                path={'/#buy'}
+                label={'Get Access'}
+              />
+            ) : (
               <>
-                <div className="px-1.5" aria-hidden="true" />
-                <NavLink
-                  className="min-w-full rounded bg-primary font-semibold text-primary-foreground sm:h-8 sm:min-w-full lg:min-w-full lg:text-sm"
-                  path={'/newsletter'}
-                  label={'Sign Up'}
-                />
+                {!loadingSubscriber && !subscriber && (
+                  <>
+                    <div className="px-1.5" aria-hidden="true" />
+                    <NavLink
+                      className="min-w-full rounded bg-primary font-semibold text-primary-foreground sm:h-8 sm:min-w-full lg:min-w-full lg:text-sm"
+                      path={'/newsletter'}
+                      label={'Sign Up'}
+                    />
+                  </>
+                )}
               </>
             )}
           </>
