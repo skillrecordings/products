@@ -23,7 +23,8 @@ const SurveyPageWrapper: React.FC = () => {
     machineState,
   } = useSurveyPageOfferMachine(TYPESCRIPT_2024_SURVEY_ID)
 
-  const answerSurveyMutation =
+  const answerSurveyMutation = trpc.convertkit.answerSurvey.useMutation()
+  const answerSurveyMultipleMutation =
     trpc.convertkit.answerSurveyMultiple.useMutation()
   const [email, setEmail] = React.useState<string | null>(null)
 
@@ -35,7 +36,7 @@ const SurveyPageWrapper: React.FC = () => {
 
   React.useEffect(() => {
     if (isComplete && machineState.matches('offerComplete')) {
-      answerSurveyMutation.mutate({
+      answerSurveyMultipleMutation.mutate({
         email: email || subscriber?.email_address,
         answers,
         surveyId: TYPESCRIPT_2024_SURVEY_ID,
@@ -60,7 +61,15 @@ const SurveyPageWrapper: React.FC = () => {
           <SurveyPage
             currentQuestionId={currentQuestionId}
             currentQuestion={currentQuestion as QuestionResource}
-            handleSubmitAnswer={handleSubmitAnswer}
+            handleSubmitAnswer={async (context) => {
+              if (email || subscriber?.email_address) {
+                answerSurveyMutation.mutate({
+                  answer: context.answer,
+                  question: context.currentQuestionId,
+                })
+              }
+              await handleSubmitAnswer(context)
+            }}
             surveyConfig={typescript2024SurveyConfig}
             sendToMachine={sendToMachine}
             isComplete={isComplete}
