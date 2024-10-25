@@ -14,7 +14,7 @@ import {calculateSplits} from 'components/calculations/calculate-splits'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 
-const SEND_SINGLE_CHANNEL = true
+const SEND_SINGLE_CHANNEL = false
 const LC_CHANNEL_ID = 'C07RDAMQ7PG'
 
 const formatCurrency = (amount: number) => {
