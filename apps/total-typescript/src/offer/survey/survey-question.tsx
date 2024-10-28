@@ -87,9 +87,11 @@ const SurveyQuestion = React.forwardRef(function Question(
                 .label('Options')
                 .nullable()
             : Yup.string().required('Pick an option.').nullable()
-          : Yup.string()
+          : props.currentQuestion.required
+          ? Yup.string()
               .nullable()
-              .required(`Can't stay empty. Mind to elaborate? :)`),
+              .required(`Can't stay empty. Please elaborate!`)
+          : Yup.string().nullable(),
     }),
     onSubmit: async (values) => {
       console.log('formik on submit', values)

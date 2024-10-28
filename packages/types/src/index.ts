@@ -111,6 +111,7 @@ export type QuestionResource = {
   template?: string
   shuffleChoices?: boolean
   allowMultiple?: boolean
+  required?: boolean
   code?: {
     filename: string
     active: boolean
