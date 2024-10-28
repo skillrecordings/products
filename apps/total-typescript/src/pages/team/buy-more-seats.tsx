@@ -142,6 +142,7 @@ const BuyMoreSeatsPage: React.FC<
       meta={{
         title: `Buy more seats`,
       }}
+      survey={false}
     >
       <div
         id="buy-more-seats"

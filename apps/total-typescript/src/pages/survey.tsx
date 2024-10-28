@@ -47,8 +47,9 @@ const SurveyPageWrapper: React.FC = () => {
   return (
     <Layout
       meta={{
-        title: 'Survey',
+        title: 'Total TypeScript 2024 Survey',
       }}
+      survey={false}
     >
       <div id="ask">
         {isLoading ? (

@@ -88,6 +88,7 @@ const Invoice: React.FC<
       meta={{title: `Invoice for ${productName}`}}
       footer={null}
       className="print:bg-white print:text-black"
+      survey={false}
     >
       <main className="mx-auto max-w-screen-md">
         <div className="flex flex-col items-center justify-between px-5 pb-8 pt-20 text-center sm:pt-28 md:text-left print:hidden">
