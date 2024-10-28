@@ -15,7 +15,7 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 
 const SEND_SINGLE_CHANNEL = false
-const LC_CHANNEL_ID = 'C03QFFWHT7D'
+const LC_CHANNEL_ID = 'C07RDAMQ7PG'
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-US', {
@@ -46,10 +46,8 @@ interface SlackChannelIds {
 
 interface Contributor {
   userId: string
-  saleAnnounceChannel: string
+  slackChannel: string
 }
-
-const OWNER_USER_ID = '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b'
 
 export const slackDailyReporter = inngest.createFunction(
   {
@@ -157,29 +155,19 @@ export const slackDailyReporter = inngest.createFunction(
 
         const query = groq`*[_type == "contributor" && userId in $userIds] {
       userId,
-      saleAnnounceChannel
+      slackChannel
     }`
 
         const contributors: Contributor[] = await sanityClient.fetch(query, {
           userIds,
         })
 
-        const slackChannelMap = contributors.reduce<SlackChannelIds>(
+        const slackIds: SlackChannelIds = contributors.reduce<SlackChannelIds>(
           (acc, contributor) => {
-            if (contributor.userId && contributor.saleAnnounceChannel) {
-              acc[contributor.userId] = contributor.saleAnnounceChannel
-            }
-            return acc
-          },
-          {},
-        )
-
-        const slackIds: SlackChannelIds = userIds.reduce<SlackChannelIds>(
-          (acc, userId) => {
-            if (userId === OWNER_USER_ID) {
-              acc[userId] = process.env.SLACK_ANNOUNCE_CHANNEL_ID || null
+            if (contributor.userId && contributor.slackChannel) {
+              acc[contributor.userId] = contributor.slackChannel
             } else {
-              acc[userId] = slackChannelMap[userId] || null
+              acc[contributor.userId] = null
             }
             return acc
           },
