@@ -157,6 +157,7 @@ const Welcome: React.FC<
     <Layout
       meta={{title: `Welcome to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
       footer={null}
+      survey={false}
     >
       <main
         className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 pb-32 pt-24"

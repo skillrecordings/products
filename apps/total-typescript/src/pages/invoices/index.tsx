@@ -36,7 +36,7 @@ const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
   purchases = [],
 }) => {
   return (
-    <Layout meta={{title: 'Invoices'}}>
+    <Layout meta={{title: 'Invoices'}} survey={false}>
       <main className="mx-auto flex h-full w-full max-w-2xl flex-grow flex-col px-5 py-24 sm:py-32">
         <h1 className="pb-4 font-text text-3xl font-medium text-white">
           Your Invoices

@@ -11,7 +11,7 @@ function getFinalQuestion(answers: Record<string, string>): string {
     (challenge === 'team_adoption' ||
       answers.learning_priority === 'team_adoption')
   ) {
-    return "We love working with technical leaders who are helping their teams level up with TypeScript! Could you tell us more about your team's TypeScript journey? What specific challenges are you facing with adoption, and what would make the biggest impact for your team right now?"
+    return "Tell us more about your team's TypeScript journey? What specific challenges are you facing with adoption, and what would make the biggest impact for your team right now?"
   }
 
   // Learning Journey variant
@@ -20,11 +20,11 @@ function getFinalQuestion(answers: Record<string, string>): string {
     skillLevel === 'advanced-beginner' ||
     challenge === 'fundamentals'
   ) {
-    return "Everyone's TypeScript learning journey is unique! Could you tell us about what motivated you to learn TypeScript and what specific concepts or patterns you're most eager to master? What would help you feel more confident using TypeScript in your projects?"
+    return "Tell us about what motivated you to learn TypeScript and what specific concepts or patterns you're most excited to master? What would help you feel more confident using TypeScript in your projects?"
   }
 
   // Individual Developer variant (default)
-  return "It sounds like you're diving deep into TypeScript's technical challenges! Could you share more about the specific problems you're trying to solve? What kinds of TypeScript patterns or solutions would make the biggest difference in your day-to-day work?"
+  return "Share more about the specific problems you're trying to solve? What kinds of TypeScript patterns or solutions would make the biggest difference in your day-to-day work?"
 }
 
 export const dataTypescript2024: QuizResource = {
@@ -89,10 +89,6 @@ export const dataTypescript2024: QuizResource = {
           answer: 'fullstack',
           label: 'Full-stack (both frontend and backend)',
         },
-        {
-          answer: 'none',
-          label: "I don't use TypeScript",
-        },
       ],
     },
     role: {
@@ -130,24 +126,36 @@ export const dataTypescript2024: QuizResource = {
           label: 'React',
         },
         {
-          answer: 'nextjs',
-          label: 'Next.js',
+          answer: 'vue',
+          label: 'Vue',
+        },
+        {
+          answer: 'svelte',
+          label: 'Svelte',
+        },
+        {
+          answer: 'solid',
+          label: 'Solid',
         },
         {
           answer: 'nodejs',
           label: 'Node.js',
         },
         {
-          answer: 'express',
-          label: 'Express',
+          answer: 'bun',
+          label: 'Bun',
         },
         {
-          answer: 'nestjs',
-          label: 'NestJS',
+          answer: 'deno',
+          label: 'Deno',
         },
         {
-          answer: 'vanilla',
-          label: 'Vanilla TypeScript',
+          answer: 'zod',
+          label: 'Zod',
+        },
+        {
+          answer: 'trpc',
+          label: 'tRPC',
         },
         {
           answer: 'other',
@@ -156,21 +164,25 @@ export const dataTypescript2024: QuizResource = {
       ],
     },
     current_challenge: {
-      question: "What's your biggest TypeScript challenge right now?",
+      question: 'What is your biggest TypeScript challenge right now?',
       type: 'multiple-choice',
       shuffleChoices: true,
       choices: [
         {
-          answer: 'types',
+          answer: 'debugging',
+          label: 'Debugging type errors',
+        },
+        {
+          answer: 'speed',
+          label: 'Not moving fast enough',
+        },
+        {
+          answer: 'better_types',
           label: 'Writing better types for my code',
         },
         {
-          answer: 'complex_types',
-          label: 'Managing complex type systems',
-        },
-        {
-          answer: 'setup',
-          label: 'Setting up and configuring TypeScript projects',
+          answer: 'config',
+          label: 'Configuring TypeScript projects',
         },
         {
           answer: 'team_adoption',
@@ -181,8 +193,8 @@ export const dataTypescript2024: QuizResource = {
           label: 'Understanding advanced TypeScript features',
         },
         {
-          answer: 'debugging',
-          label: 'Debugging type-related issues',
+          answer: 'migration',
+          label: 'Migrating to TypeScript',
         },
       ],
     },
