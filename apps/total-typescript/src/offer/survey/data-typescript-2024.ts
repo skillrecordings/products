@@ -227,6 +227,7 @@ export const dataTypescript2024: QuizResource = {
     },
     final_story: {
       question: getFinalQuestion,
+      required: false,
       type: 'essay',
     },
   },
