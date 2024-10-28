@@ -190,103 +190,6 @@ export const slackDailyReporter = inngest.createFunction(
       },
     )
 
-    const generateChartUrl = (
-      userProducts: Record<string, Record<string, ProductGroup>>,
-      userSplits: Record<
-        string,
-        {
-          creatorSplits: Record<string, number>
-          products: Record<string, {creatorSplits: Record<string, number>}>
-        }
-      >,
-      userName: string,
-    ): string => {
-      const productData: {[productName: string]: number} = {}
-      for (const [groupName, groupProducts] of Object.entries(userProducts)) {
-        for (const [productKey, product] of Object.entries(groupProducts)) {
-          const creatorShare =
-            userSplits[groupName]?.products[productKey]?.creatorSplits[
-              userName
-            ] || 0
-          productData[product.productName] =
-            (productData[product.productName] || 0) + creatorShare
-        }
-      }
-
-      const labels = Object.keys(productData)
-      const data = Object.values(productData).filter((value) => value > 0)
-      const formattedLabels = labels.map(
-        (name, index) => `${name}: ${formatCurrency(data[index])}`,
-      )
-
-      const total = data.reduce((sum, value) => sum + value, 0)
-      const formattedTotal = formatCurrency(total)
-
-      const chartData = {
-        type: 'doughnut',
-        data: {
-          labels: formattedLabels,
-          datasets: [
-            {
-              data: data,
-              backgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56',
-                '#4BC0C0',
-                '#9966FF',
-                '#FF9F40',
-                '#9966FF',
-                '#FF9F40',
-                '#FF0000',
-                '#008B8B',
-                '#8B4513',
-                '#FFFF00',
-              ],
-            },
-          ],
-        },
-        options: {
-          title: {
-            display: true,
-            text: 'Revenue Distribution by Product',
-            fontColor: 'black',
-          },
-          legend: {
-            position: 'bottom',
-            labels: {
-              boxWidth: 15,
-              padding: 15,
-              fontColor: 'black',
-              fontSize: 10,
-            },
-          },
-          plugins: {
-            datalabels: {
-              display: false,
-            },
-            doughnutlabel: {
-              labels: [
-                {
-                  text: formattedTotal,
-                  font: {size: 14, weight: 'bold'},
-                  color: 'black',
-                },
-                {
-                  text: 'total',
-                  font: {size: 10},
-                  color: 'black',
-                },
-              ],
-            },
-          },
-        },
-      }
-
-      const encodedChartData = encodeURIComponent(JSON.stringify(chartData))
-      return `https://quickchart.io/chart?c=${encodedChartData}&backgroundColor=white`
-    }
-
     await step.run('announce in slack', async () => {
       const {productGroups} = totalsYesterday
       const {groupSplits} = calculatedSplits
@@ -379,9 +282,6 @@ export const slackDailyReporter = inngest.createFunction(
 
           if (soldProducts.length > 0) {
             let chartUrl = null
-            if (soldProducts.length > 1) {
-              chartUrl = generateChartUrl(userProducts, userSplits, userName)
-            }
             let summaryMessage = 'Yesterday you sold '
             const productStrings = soldProducts.map(
               (product) =>

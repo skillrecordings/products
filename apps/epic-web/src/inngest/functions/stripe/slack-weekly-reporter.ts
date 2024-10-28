@@ -15,7 +15,7 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 
 const SEND_SINGLE_CHANNEL = false
-const LC_CHANNEL_ID = 'C07RDAMQ7PG'
+const LC_CHANNEL_ID = 'C03QFFWHT7D'
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-US', {
@@ -192,147 +192,6 @@ export const slackWeeklyReporter = inngest.createFunction(
       },
     )
 
-    const generateChartUrl = (
-      userProducts: Record<string, Record<string, ProductGroup>>,
-      userSplits: Record<
-        string,
-        {
-          creatorSplits: Record<string, number>
-          products: Record<string, {creatorSplits: Record<string, number>}>
-        }
-      >,
-      userName: string,
-    ): string => {
-      const productData: {[productName: string]: number} = {}
-
-      for (const [groupName, groupProducts] of Object.entries(userProducts)) {
-        for (const [productKey, product] of Object.entries(groupProducts)) {
-          const creatorShare =
-            userSplits[groupName]?.products[productKey]?.creatorSplits[
-              userName
-            ] || 0
-          productData[product.productName] =
-            (productData[product.productName] || 0) + creatorShare
-        }
-      }
-
-      const entries = Object.entries(productData)
-      const filteredEntries = entries.filter(([_, value]) => value > 0)
-      const formattedLabels = filteredEntries.map(([name]) => name)
-      const data = filteredEntries.map(([_, value]) => value / 100)
-      const total = filteredEntries.reduce((sum, value) => sum + value[1], 0)
-      const formattedTotal = formatCurrency(total)
-
-      const currentMonth = new Date().toLocaleString('default', {month: 'long'})
-
-      const chartData = {
-        type: 'bar',
-        data: {
-          labels: formattedLabels,
-          datasets: [
-            {
-              data: data,
-              backgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56',
-                '#4BC0C0',
-                '#9966FF',
-                '#FF9F40',
-                '#FF0000',
-                '#008B8B',
-                '#8B4513',
-                '#FFFF00',
-                '#008080',
-                '#FF00FF',
-                '#800000',
-                '#00FFFF',
-                '#006400',
-                '#FFC0CB',
-                '#808000',
-                '#4B0082',
-                '#A52A2A',
-                '#40E0D0',
-              ],
-              maxBarThickness: 50,
-              minBarLength: 2,
-            },
-          ],
-        },
-        options: {
-          indexAxis: 'y',
-          plugins: {
-            legend: {
-              display: false,
-            },
-            title: {
-              display: true,
-              text: `Revenue Breakdown by Product for ${currentMonth} to Date (Before Expenses)`,
-              color: 'black',
-              font: {
-                size: 10,
-              },
-            },
-            subtitle: {
-              display: true,
-              text: 'Estimated Royalty: ' + formattedTotal,
-              color: 'black',
-              font: {
-                size: 10,
-                weight: 'bold',
-              },
-              padding: {
-                bottom: 10,
-              },
-            },
-            datalabels: {
-              formatter: function (value: any) {
-                return '$' + value
-              },
-              align: 'right',
-              anchor: 'end',
-              color: 'black',
-              font: {
-                size: 8,
-                weight: 'bold',
-              },
-              padding: 4,
-            },
-          },
-          scales: {
-            x: {
-              display: false,
-              min: 0,
-              max: Math.max(...data) * 1.1,
-              grid: {
-                display: false,
-              },
-            },
-            y: {
-              grid: {
-                display: true,
-              },
-              ticks: {
-                color: 'black',
-                font: {
-                  size: 8,
-                  style: 'normal',
-                },
-              },
-            },
-          },
-          layout: {
-            padding: {
-              right: 30,
-            },
-          },
-        },
-      }
-
-      const encodedChartData = encodeURIComponent(JSON.stringify(chartData))
-      return `https://quickchart.io/chart?c=${encodedChartData}&backgroundColor=white&version=4`
-    }
-
     await step.run('announce in slack', async () => {
       const monthlyProductGroups = totalsThisMonth.productGroups
       const monthlyGroupSplits = calculatedSplitsThisMonth.groupSplits
@@ -441,13 +300,6 @@ export const slackWeeklyReporter = inngest.createFunction(
 
           if (soldProductsThisMonth.length > 0) {
             let chartUrl = null
-            if (soldProductsThisMonth.length > 1) {
-              chartUrl = generateChartUrl(
-                monthlyUserProducts,
-                monthlyUserSplits,
-                userName,
-              )
-            }
             let summaryMessage = 'So far this month, you have sold '
             const productStrings = soldProductsThisMonth.map(
               (product) =>
