@@ -45,6 +45,32 @@ export const dataTypescript2024: QuizResource = {
         },
       ],
     },
+    devs_on_team: {
+      question: `How many TypeScript developers are on your team?`,
+      type: 'multiple-choice',
+      dependsOn: {
+        question: 'ts_at_work',
+        answer: 'true',
+      },
+      choices: [
+        {
+          answer: '1',
+          label: 'Just me!',
+        },
+        {
+          answer: '2-5',
+          label: '2-5',
+        },
+        {
+          answer: '6-10',
+          label: '6-10',
+        },
+        {
+          answer: '10+',
+          label: 'more than 10',
+        },
+      ],
+    },
     skill_level: {
       question: "👋 What's your current TypeScript skill level?",
       type: 'multiple-choice',
