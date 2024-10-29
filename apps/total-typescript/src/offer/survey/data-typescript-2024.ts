@@ -145,8 +145,12 @@ export const dataTypescript2024: QuizResource = {
         'Which tools are you using with TypeScript? (Choose all that apply)',
       type: 'multiple-choice',
       allowMultiple: true,
-      shuffleChoices: false,
+      shuffleChoices: true,
       choices: [
+        {
+          answer: 'angular',
+          label: 'Angular',
+        },
         {
           answer: 'react',
           label: 'React',
