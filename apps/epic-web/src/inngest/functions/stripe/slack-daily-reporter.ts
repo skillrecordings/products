@@ -434,12 +434,6 @@ export const slackDailyReporter = inngest.createFunction(
               userTotalRevenue,
             )}*.`
 
-            const monthYearText = new Date(
-              new Date().getFullYear(),
-              new Date().getMonth(),
-              1,
-            ).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})
-
             let summaryMonthMessage = `So far this month your estimated royalty is *${formatCurrency(
               userTotalRevenueThisMonth,
             )}* (before expenses)`
@@ -449,15 +443,8 @@ export const slackDailyReporter = inngest.createFunction(
                 type: 'header',
                 text: {
                   type: 'plain_text',
-                  text: `Daily Revenue Report for ${userName}`,
+                  text: `Yesterday's Estimated Royalties `,
                   emoji: true,
-                },
-              },
-              {
-                type: 'section',
-                text: {
-                  type: 'mrkdwn',
-                  text: `*Yesterday's Estimated Royalties*`,
                 },
               },
               {
@@ -479,9 +466,10 @@ export const slackDailyReporter = inngest.createFunction(
             try {
               await postToSlack({
                 channel: targetChannelId,
+                username: 'Epic Web Bot',
                 icon_emoji: ':dollar:',
                 webClient,
-                text: `Daily Revenue Report for ${userName}`,
+                text: `Yesterday's Estimated Royalties `,
                 blocks,
               })
               results.push({userId, channelId: targetChannelId, success: true})
