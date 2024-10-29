@@ -15,7 +15,7 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 
 const SEND_SINGLE_CHANNEL = false
-const LC_CHANNEL_ID = 'C03QFFWHT7D'
+const LC_CHANNEL_ID = 'C07RDAMQ7PG'
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-US', {
@@ -59,6 +59,8 @@ export const slackDailyReporter = inngest.createFunction(
   },
   async ({step}) => {
     const allBalanceTransactionsYesterday: CombinedBalanceTransaction[] = []
+    const allBalanceTransactionsThisMonth: CombinedBalanceTransaction[] = []
+
     let hasMore = true
     let startingAfter: string | undefined = undefined
 
@@ -82,9 +84,36 @@ export const slackDailyReporter = inngest.createFunction(
       startingAfter = fetchBalancePage.next_page_cursor || undefined
     }
 
+    // Fetch balance transactions this month
+    hasMore = true
+    startingAfter = undefined
+    while (hasMore) {
+      const fetchBalancePage: Awaited<
+        ReturnType<typeof fetchCombinedBalanceTransactions>
+      > = await step.run(
+        `fetch-combined-transactions-this-month${
+          startingAfter ? `-${startingAfter}` : ''
+        }`,
+        async () => {
+          return fetchCombinedBalanceTransactions({
+            range: 'month-so-far',
+            starting_after: startingAfter,
+          })
+        },
+      )
+      allBalanceTransactionsThisMonth.push(...fetchBalancePage.transactions)
+      hasMore = fetchBalancePage.has_more
+      startingAfter = fetchBalancePage.next_page_cursor || undefined
+    }
+
     const {totals: totalsYesterday, refundTotals: refundTotalsYesterday} =
       await step.run('calculate-totals-yesterday', async () =>
         calculateTotals(allBalanceTransactionsYesterday),
+      )
+
+    const {totals: totalsThisMonth, refundTotals: refundTotalsThisMonth} =
+      await step.run('calculate-totals-this-month', async () =>
+        calculateTotals(allBalanceTransactionsThisMonth),
       )
 
     const splitsYesterday: Splits = await step.run(
@@ -94,6 +123,33 @@ export const slackDailyReporter = inngest.createFunction(
           where: {
             productId: {
               in: Object.values(totalsYesterday.productGroups).map(
+                (group) => group.productId,
+              ),
+            },
+          },
+        })
+
+        return dbSplits.reduce<Splits>((acc: any, split: any) => {
+          if (!acc[split.productId]) {
+            acc[split.productId] = {}
+          }
+          acc[split.productId][split.id] = {
+            percent: split.percent,
+            userId: split.userId,
+            type: split.type,
+          }
+          return acc
+        }, {})
+      },
+    )
+
+    const splitsThisMonth: Splits = await step.run(
+      'load-splits-this-month',
+      async () => {
+        const dbSplits = await prisma.productRevenueSplit.findMany({
+          where: {
+            productId: {
+              in: Object.values(totalsThisMonth.productGroups).map(
                 (group) => group.productId,
               ),
             },
@@ -148,6 +204,11 @@ export const slackDailyReporter = inngest.createFunction(
       async () => calculateSplits(totalsYesterday, splitsYesterday, users),
     )
 
+    const calculatedSplitsThisMonth = await step.run(
+      'calculate-splits-this-month',
+      async () => calculateSplits(totalsThisMonth, splitsThisMonth, users),
+    )
+
     const slackChannelIds = await step.run(
       'load slack channel ids for all users',
       async (): Promise<SlackChannelIds> => {
@@ -181,6 +242,8 @@ export const slackDailyReporter = inngest.createFunction(
     await step.run('announce in slack', async () => {
       const {productGroups} = totalsYesterday
       const {groupSplits} = calculatedSplits
+      const monthlyProductGroups = totalsThisMonth.productGroups
+      const monthlyGroupSplits = calculatedSplitsThisMonth.groupSplits
 
       const webClient = new WebClient(process.env.SLACK_TOKEN)
       const results: Array<{
@@ -268,6 +331,86 @@ export const slackDailyReporter = inngest.createFunction(
             }
           }
 
+          // Monthly data structures
+          const monthlyUserSplits: Record<
+            string,
+            {
+              creatorSplits: Record<string, number>
+              products: Record<string, {creatorSplits: Record<string, number>}>
+            }
+          > = {}
+          const monthlyUserProducts: Record<
+            string,
+            Record<string, ProductGroup>
+          > = {}
+
+          // Filter monthly data for the chart
+          for (const [groupName, groupSplit] of Object.entries(
+            monthlyGroupSplits,
+          )) {
+            if (
+              userName &&
+              groupSplit.creatorSplits &&
+              groupSplit.creatorSplits[userName]
+            ) {
+              monthlyUserSplits[groupName] = {
+                creatorSplits: {[userName]: groupSplit.creatorSplits[userName]},
+                products: {},
+              }
+
+              monthlyUserProducts[groupName] = {}
+              if (groupSplit.products) {
+                for (const [productKey, productSplit] of Object.entries(
+                  groupSplit.products,
+                )) {
+                  if (
+                    productSplit.creatorSplits &&
+                    productSplit.creatorSplits[userName]
+                  ) {
+                    monthlyUserProducts[groupName][productKey] =
+                      monthlyProductGroups[productKey]
+                    monthlyUserSplits[groupName].products[productKey] = {
+                      creatorSplits: {
+                        [userName]: productSplit.creatorSplits[userName],
+                      },
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          // Calculate user-specific total splits and licenses sold count for this month
+          let userTotalRevenueThisMonth = 0
+          let userTotalTransactionsThisMonth = 0
+          const soldProductsThisMonth: Array<{name: string; count: number}> = []
+
+          for (const [groupName, groupProducts] of Object.entries(
+            monthlyUserProducts,
+          )) {
+            for (const [productName, product] of Object.entries(
+              groupProducts,
+            )) {
+              if (product && product.count) {
+                userTotalTransactionsThisMonth += product.count
+                soldProductsThisMonth.push({
+                  name: productName,
+                  count: product.count,
+                })
+              }
+              if (
+                monthlyUserSplits[groupName] &&
+                monthlyUserSplits[groupName].products[productName] &&
+                monthlyUserSplits[groupName].products[productName]
+                  .creatorSplits[userName]
+              ) {
+                userTotalRevenueThisMonth +=
+                  monthlyUserSplits[groupName].products[productName]
+                    .creatorSplits[userName]
+              }
+            }
+          }
+
           if (soldProducts.length > 0) {
             let chartUrl = null
             let summaryMessage = 'Yesterday you sold '
@@ -287,16 +430,26 @@ export const slackDailyReporter = inngest.createFunction(
               )}, and ${lastProduct}`
             }
 
-            summaryMessage += ` for an estimated royalty of ${formatCurrency(
+            summaryMessage += ` for an estimated royalty of *${formatCurrency(
               userTotalRevenue,
-            )}.`
+            )}*.`
+
+            const monthYearText = new Date(
+              new Date().getFullYear(),
+              new Date().getMonth(),
+              1,
+            ).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})
+
+            let summaryMonthMessage = `So far this month your estimated royalty is *${formatCurrency(
+              userTotalRevenueThisMonth,
+            )}* (before expenses)`
 
             const blocks: any[] = [
               {
                 type: 'header',
                 text: {
                   type: 'plain_text',
-                  text: `Daily Revenue Report for ${userName} 💰`,
+                  text: `Daily Revenue Report for ${userName}`,
                   emoji: true,
                 },
               },
@@ -304,9 +457,7 @@ export const slackDailyReporter = inngest.createFunction(
                 type: 'section',
                 text: {
                   type: 'mrkdwn',
-                  text: `*Report Date: ${new Date(
-                    Date.now() - 86400000,
-                  ).toLocaleDateString()}*`,
+                  text: `*Yesterday's Estimated Royalties*`,
                 },
               },
               {
@@ -316,23 +467,19 @@ export const slackDailyReporter = inngest.createFunction(
                   text: summaryMessage,
                 },
               },
-            ]
-
-            if (chartUrl) {
-              blocks.push({
-                type: 'image',
-                title: {
-                  type: 'plain_text',
-                  text: 'Revenue Distribution From Yesterday (Before Expenses)',
+              {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: summaryMonthMessage,
                 },
-                image_url: chartUrl,
-                alt_text: 'Revenue Distribution Chart',
-              })
-            }
+              },
+            ]
 
             try {
               await postToSlack({
                 channel: targetChannelId,
+                icon_emoji: ':dollar:',
                 webClient,
                 text: `Daily Revenue Report for ${userName}`,
                 blocks,
