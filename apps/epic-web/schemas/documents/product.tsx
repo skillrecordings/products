@@ -65,30 +65,7 @@ export default defineType({
       name: 'contributors',
       type: 'contributors',
       title: 'Contributors',
-    }),
-    defineField({
-      name: 'revenueSplits',
-      title: 'Revenue Splits',
-      type: 'array',
-      of: [{type: 'productRevenueSplit'}],
-      validation: (Rule) =>
-        Rule.custom((revenueSplits) => {
-          if (!revenueSplits || !Array.isArray(revenueSplits)) return true
-
-          const total = revenueSplits.reduce(
-            (sum, split) => sum + (split.percentage || 0),
-            0,
-          )
-
-          if (total > 1) {
-            return 'The total of all revenue splits cannot exceed 100% (1.0)'
-          }
-
-          return true
-        }),
-      options: {
-        layout: 'tags',
-      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'state',

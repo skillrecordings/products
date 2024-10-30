@@ -122,7 +122,6 @@ export const sanityProductCreated = inngest.createFunction(
             splits.skill.percent = 0.4
             splits.owner.percent = 0.6
           } else {
-            // live course
             splits.skill.percent = 0.15
             splits.owner.percent = 0.85
           }
@@ -153,7 +152,6 @@ export const sanityProductCreated = inngest.createFunction(
     const createSplits = await step.run(
       'create splits in database',
       async () => {
-        // Create skill split
         const skillSplit = await prisma.productRevenueSplit.create({
           data: {
             id: v4(),
@@ -280,6 +278,7 @@ export const sanityProductCreated = inngest.createFunction(
         price,
         stripeProduct,
         stripePrice,
+        createSplits,
       }
     } else {
       throw new Error('No merchant account found')
