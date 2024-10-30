@@ -995,6 +995,9 @@ export function getSdk(
         where: {
           userId: userId,
           productId: {in: upgradableFrom},
+          status: {
+            in: ['Valid', 'Restricted'],
+          },
         },
       })
 

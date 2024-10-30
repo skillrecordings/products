@@ -30,34 +30,41 @@ export const useSurveyPageOfferMachine = (offerId: string) => {
         break
       case machineState.matches('loadingCurrentOffer'):
         const questionKeys = Object.keys(availableQuestions)
-        const currentIndex = questionKeys.indexOf(
+        let currentIndex = questionKeys.indexOf(
           machineState.context.currentOfferId,
         )
-        const nextIndex = currentIndex === -1 ? 0 : currentIndex + 1
+        let nextIndex = currentIndex === -1 ? 0 : currentIndex + 1
 
-        console.log({questionKeys, currentIndex, nextIndex})
-        if (nextIndex < questionKeys.length) {
+        // Find next valid question
+        while (nextIndex < questionKeys.length) {
           const nextQuestionId = questionKeys[nextIndex]
-          let nextQuestion = availableQuestions[nextQuestionId]
+          const nextQuestion = availableQuestions[nextQuestionId]
 
-          // Handle dynamic question
-          if (typeof nextQuestion.question === 'function') {
-            nextQuestion = {
-              ...nextQuestion,
-              question: nextQuestion.question(answers),
-            }
+          const dependencyMet =
+            !nextQuestion.dependsOn ||
+            answers[nextQuestion.dependsOn.question] ===
+              nextQuestion.dependsOn.answer
+
+          if (dependencyMet) {
+            const processedQuestion =
+              typeof nextQuestion.question === 'function'
+                ? {
+                    ...nextQuestion,
+                    question: nextQuestion.question(answers),
+                  }
+                : nextQuestion
+
+            sendToMachine('CURRENT_OFFER_READY', {
+              currentOffer: processedQuestion,
+              currentOfferId: nextQuestionId,
+            })
+            return
           }
 
-          console.log('nextQuestion', {nextQuestion})
-
-          sendToMachine('CURRENT_OFFER_READY', {
-            currentOffer: nextQuestion,
-            currentOfferId: nextQuestionId,
-          })
-        } else {
-          console.log('no current offer found')
-          sendToMachine('NO_CURRENT_OFFER_FOUND')
+          nextIndex++
         }
+
+        sendToMachine('NO_CURRENT_OFFER_FOUND')
         break
     }
   }, [

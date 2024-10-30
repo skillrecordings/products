@@ -1,5 +1,6 @@
 import {QuizResource} from '@skillrecordings/types'
 import {dataTypescript2024} from './data-typescript-2024'
+
 export const surveyConfig = {
   answerSubmitUrl: process.env.NEXT_PUBLIC_CONVERTKIT_ANSWER_URL,
   afterCompletionMessages: {
@@ -19,9 +20,7 @@ export const typescript2024SurveyConfig: SurveyConfig = {
     },
   },
 }
-
 export type SurveyConfig = typeof surveyConfig
-
 export const TYPESCRIPT_2024_SURVEY_ID = 'typescript_2024'
 
 export const surveyData: {[SURVEY_ID: string]: QuizResource} = {

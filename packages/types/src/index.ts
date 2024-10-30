@@ -112,6 +112,10 @@ export type QuestionResource = {
   shuffleChoices?: boolean
   allowMultiple?: boolean
   required?: boolean
+  dependsOn?: {
+    question: string
+    answer: string
+  }
   code?: {
     filename: string
     active: boolean
