@@ -38,8 +38,6 @@ export const sanityProductCreated = inngest.createFunction(
       instructor,
     } = sanityProduct
 
-    console.log('sanityProduct', sanityProduct)
-
     const productStatus = state === 'active' ? 1 : 0
 
     const purchasedTag = await step.run(
