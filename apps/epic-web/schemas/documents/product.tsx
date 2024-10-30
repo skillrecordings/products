@@ -62,6 +62,11 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'contributors',
+      type: 'contributors',
+      title: 'Contributors',
+    }),
+    defineField({
       name: 'revenueSplits',
       title: 'Revenue Splits',
       type: 'array',

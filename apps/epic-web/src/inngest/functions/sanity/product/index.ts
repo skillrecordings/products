@@ -32,7 +32,11 @@ export const loadSanityProduct = async (
           },
           image{
             url
-          }
+          }, 
+           "instructor": contributors[0].contributor->{
+            userId,
+            name,    
+          },
     }`,
 ) => {
   const sanityProductData = await sanityWriteClient.fetch(query, {id})
@@ -67,6 +71,10 @@ export const BaseSanityProductSchema = z.object({
     })
     .nullable()
     .optional(),
+  instructor: z
+    .object({userId: z.string(), name: z.string()})
+    .optional()
+    .nullable(),
 })
 
 export type BaseSanityProduct = z.infer<typeof BaseSanityProductSchema>

@@ -35,7 +35,10 @@ export const sanityProductCreated = inngest.createFunction(
       upgradableTo,
       state,
       type,
+      instructor,
     } = sanityProduct
+
+    console.log('sanityProduct', sanityProduct)
 
     const productStatus = state === 'active' ? 1 : 0
 
@@ -81,6 +84,116 @@ export const sanityProductCreated = inngest.createFunction(
         },
       })
     })
+
+    type SplitInfo = {
+      type: string
+      percent: number
+      userId: string | undefined | null
+    }
+
+    type Splits = {
+      skill: SplitInfo
+      owner: SplitInfo
+      contributor?: SplitInfo
+    }
+
+    const defineSplits = await step.run(
+      'define splits',
+      async (): Promise<Splits> => {
+        const OWNER_ID = '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b'
+        const isOwnerInstructor = instructor?.userId === OWNER_ID
+        const isSelfPaced = type === 'self-paced'
+
+        let splits: Splits = {
+          skill: {
+            type: 'skill',
+            percent: 0,
+            userId: null,
+          },
+          owner: {
+            type: 'owner',
+            percent: 0,
+            userId: OWNER_ID,
+          },
+        }
+
+        if (isOwnerInstructor) {
+          if (isSelfPaced) {
+            splits.skill.percent = 0.4
+            splits.owner.percent = 0.6
+          } else {
+            // live course
+            splits.skill.percent = 0.15
+            splits.owner.percent = 0.85
+          }
+        } else {
+          if (isSelfPaced) {
+            splits.skill.percent = 0.5
+            splits.owner.percent = 0.2
+            splits.contributor = {
+              type: 'contributor',
+              percent: 0.3,
+              userId: instructor?.userId,
+            }
+          } else {
+            splits.skill.percent = 0.15
+            splits.owner.percent = 0.15
+            splits.contributor = {
+              type: 'contributor',
+              percent: 0.7,
+              userId: instructor?.userId,
+            }
+          }
+        }
+
+        return splits
+      },
+    )
+
+    const createSplits = await step.run(
+      'create splits in database',
+      async () => {
+        // Create skill split
+        const skillSplit = await prisma.productRevenueSplit.create({
+          data: {
+            id: v4(),
+            type: defineSplits.skill.type,
+            productId: product.id,
+            percent: defineSplits.skill.percent,
+            userId: defineSplits.skill.userId,
+          },
+        })
+
+        const ownerSplit = await prisma.productRevenueSplit.create({
+          data: {
+            id: v4(),
+            type: defineSplits.owner.type,
+            productId: product.id,
+            percent: defineSplits.owner.percent,
+            userId: defineSplits.owner.userId,
+          },
+        })
+
+        let contributorSplit = null
+        if (defineSplits.contributor) {
+          contributorSplit = await prisma.productRevenueSplit.create({
+            data: {
+              id: v4(),
+              type: defineSplits.contributor.type,
+              productId: product.id,
+              percent: defineSplits.contributor.percent,
+              userId: defineSplits.contributor.userId,
+            },
+          })
+        }
+
+        return {
+          skillSplit,
+          ownerSplit,
+          contributorSplit,
+        }
+      },
+    )
 
     const merchantAccount = await step.run('get merchant account', async () => {
       return await prisma.merchantAccount.findFirst({
