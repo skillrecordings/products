@@ -155,5 +155,13 @@ export const sanityProductDeleted = inngest.createFunction(
         }),
       )
     })
+
+    await step.run('delete current splits', async () => {
+      return await prisma.productRevenueSplit.deleteMany({
+        where: {
+          productId: product.id,
+        },
+      })
+    })
   },
 )

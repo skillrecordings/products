@@ -41,6 +41,7 @@ export const sanityProductUpdated = inngest.createFunction(
       upgradableTo,
       state,
       type,
+      instructor,
     } = sanityProduct
 
     if (!productId) {
@@ -256,6 +257,169 @@ export const sanityProductUpdated = inngest.createFunction(
         })
       },
     )
+
+    const currentSplits = await step.run('get current splits', async () => {
+      return await prisma.productRevenueSplit.findMany({
+        where: {
+          productId: product.id,
+        },
+      })
+    })
+
+    const splitsNeedUpdate = (
+      currentSplits: any[],
+      instructor: any,
+      type: string,
+    ): boolean => {
+      const OWNER_ID = '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b'
+
+      const currentContributorSplit = currentSplits.find(
+        (split) => split.type === 'contributor',
+      )
+
+      const isOwnerInstructor = instructor?.userId === OWNER_ID
+      const wasOwnerInstructor = !currentContributorSplit
+
+      if (isOwnerInstructor !== wasOwnerInstructor) {
+        return true
+      }
+
+      if (
+        currentContributorSplit &&
+        instructor?.userId !== currentContributorSplit.userId
+      ) {
+        return true
+      }
+
+      const currentProductType =
+        currentSplits.length > 0 ? (currentSplits[0] as any).productType : null
+
+      if (currentProductType !== type) {
+        return true
+      }
+
+      return false
+    }
+
+    const needsSplitUpdate = await step.run(
+      'check if splits need update',
+      async () => {
+        return splitsNeedUpdate(currentSplits, instructor, type)
+      },
+    )
+
+    type SplitInfo = {
+      type: string
+      percent: number
+      userId: string | undefined | null
+    }
+
+    type Splits = {
+      skill: SplitInfo
+      owner: SplitInfo
+      contributor?: SplitInfo
+    }
+
+    if (needsSplitUpdate) {
+      const defineSplits = await step.run(
+        'define splits',
+        async (): Promise<Splits> => {
+          const OWNER_ID = '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b'
+          const isOwnerInstructor = instructor?.userId === OWNER_ID
+          const isSelfPaced = type === 'self-paced'
+
+          let splits: Splits = {
+            skill: {
+              type: 'skill',
+              percent: 0,
+              userId: null,
+            },
+            owner: {
+              type: 'owner',
+              percent: 0,
+              userId: OWNER_ID,
+            },
+          }
+
+          if (isOwnerInstructor) {
+            if (isSelfPaced) {
+              splits.skill.percent = 0.4
+              splits.owner.percent = 0.6
+            } else {
+              splits.skill.percent = 0.15
+              splits.owner.percent = 0.85
+            }
+          } else {
+            if (isSelfPaced) {
+              splits.skill.percent = 0.5
+              splits.owner.percent = 0.2
+              splits.contributor = {
+                type: 'contributor',
+                percent: 0.3,
+                userId: instructor?.userId,
+              }
+            } else {
+              splits.skill.percent = 0.15
+              splits.owner.percent = 0.15
+              splits.contributor = {
+                type: 'contributor',
+                percent: 0.7,
+                userId: instructor?.userId,
+              }
+            }
+          }
+
+          return splits
+        },
+      )
+
+      await step.run('update splits in database', async () => {
+        await prisma.productRevenueSplit.deleteMany({
+          where: {
+            productId: product.id,
+          },
+        })
+
+        const skillSplit = await prisma.productRevenueSplit.create({
+          data: {
+            id: v4(),
+            type: defineSplits.skill.type,
+            productId: product.id,
+            percent: defineSplits.skill.percent,
+            userId: defineSplits.skill.userId,
+          },
+        })
+
+        const ownerSplit = await prisma.productRevenueSplit.create({
+          data: {
+            id: v4(),
+            type: defineSplits.owner.type,
+            productId: product.id,
+            percent: defineSplits.owner.percent,
+            userId: defineSplits.owner.userId,
+          },
+        })
+
+        let contributorSplit = null
+        if (defineSplits.contributor) {
+          contributorSplit = await prisma.productRevenueSplit.create({
+            data: {
+              id: v4(),
+              type: defineSplits.contributor.type,
+              productId: product.id,
+              percent: defineSplits.contributor.percent,
+              userId: defineSplits.contributor.userId,
+            },
+          })
+        }
+
+        return {
+          skillSplit,
+          ownerSplit,
+          contributorSplit,
+        }
+      })
+    }
 
     return {updatedProduct, updatedStripeProduct}
   },
