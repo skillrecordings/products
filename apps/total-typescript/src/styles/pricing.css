@@ -231,7 +231,7 @@
       }
 
       [data-pricing-product-checkout-button] {
-        @apply flex w-full items-center justify-center rounded-md bg-gradient-to-b from-green-300 to-green-400 px-5 py-4 text-center text-lg font-semibold text-gray-950 brightness-105 transition ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-green-700/40 hover:brightness-110 focus-visible:ring-white disabled:cursor-wait;
+        @apply flex w-full items-center justify-center rounded-md bg-gradient-to-b from-green-300 to-green-600 px-5 py-4 text-center text-lg font-semibold text-gray-950 brightness-105 transition ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-green-700/40 hover:brightness-110 focus-visible:ring-white disabled:cursor-wait;
 
         span {
           @apply relative z-10;
