@@ -39,9 +39,9 @@
         }
       }
 
-      [data-pricing-product-checkout-button] {
+      /* [data-pricing-product-checkout-button] {
         @apply from-amber-400 to-amber-500 text-amber-950 hover:shadow-amber-700/20 !important;
-      }
+      } */
     }
     [data-pricing-product='0'] {
       [data-pricing-product-checkout-button] {
@@ -231,11 +231,15 @@
       }
 
       [data-pricing-product-checkout-button] {
-        @apply flex w-full items-center justify-center rounded-md bg-gradient-to-b from-cyan-300 to-cyan-400 px-5 py-4 text-center text-lg font-semibold text-gray-900 brightness-105 transition ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-cyan-700/40 hover:brightness-110 focus-visible:ring-white disabled:cursor-wait;
+        @apply flex w-full items-center justify-center rounded-md bg-gradient-to-b from-green-300 to-green-400 px-5 py-4 text-center text-lg font-semibold text-gray-950 brightness-105 transition ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-green-700/40 hover:brightness-110 focus-visible:ring-white disabled:cursor-wait;
 
         span {
           @apply relative z-10;
         }
+      }
+
+      [data-pricing-product-checkout-button='typescript-pro-essentials'] {
+        @apply bg-gradient-to-b from-emerald-600 to-emerald-800  text-gray-950  hover:shadow-emerald-950/30;
       }
 
       [data-pricing-product-checkout-button]:disabled {

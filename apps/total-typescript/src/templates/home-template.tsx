@@ -19,6 +19,9 @@ import {trpc} from '@/trpc/trpc.client'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {Companies} from '@/components/companies'
 import Head from 'next/head'
+import {QueryStatus} from '@tanstack/react-query'
+import {NextRouter} from 'next/router'
+import {totalTypescriptPurchaseButtonRenderer} from '@/utils/purchase-button-renderer'
 
 export const HomeTemplate: React.FC<
   React.PropsWithChildren<CommerceProps & {level?: string}>
@@ -146,6 +149,9 @@ export const HomeTemplate: React.FC<
                                     withImage: true,
                                   }}
                                   allowPurchase={allowPurchase}
+                                  purchaseButtonRenderer={
+                                    totalTypescriptPurchaseButtonRenderer
+                                  }
                                 />
                               </div>
                             </PriceCheckProvider>

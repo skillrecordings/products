@@ -21,7 +21,7 @@ import {redirectUrlBuilder, SubscribeToConvertkitForm} from '../convertkit'
 import {useConvertkit} from '../hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '../utils/analytics'
-import {useRouter} from 'next/router'
+import {NextRouter, useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
@@ -75,6 +75,9 @@ type PricingProps = {
     product: SanityProduct,
     status: QueryStatus,
     quantity: number,
+    canPurchaseTier: boolean,
+    router?: NextRouter,
+    buttonCtaLabel?: string,
   ) => React.ReactNode
   options?: {
     withImage?: boolean
@@ -178,6 +181,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     status: QueryStatus,
     quantity: number,
     canPurchaseTier: boolean,
+    router?: NextRouter,
+    buttonCtaLabel: string = 'Buy Now',
   ) => {
     const isContactUs = quantity >= 30
 
@@ -190,7 +195,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         }
         onClick={() => {
           if (isContactUs) {
-            router.push('/for-teams')
+            router?.push('/for-teams')
           }
         }}
       >
@@ -614,6 +619,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       status,
                       quantity,
                       canPurchaseTier,
+                      router,
+                      buttonCtaLabel,
                     )}
                     {withGuaranteeBadge && (
                       <span data-guarantee="">30-Day Money-Back Guarantee</span>
