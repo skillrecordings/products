@@ -165,22 +165,7 @@ const WorkshopTemplate: React.FC<{
                     </Link>
                   </>
                 )}
-              {!canView && product && ALLOW_PURCHASE && (
-                <>
-                  {upgradableTo && (
-                    <h3 className="mb-3 text-xl font-medium">
-                      Individual Workshop
-                    </h3>
-                  )}
-                  <PriceCheckProvider
-                    purchasedProductIds={commerceProps?.purchases?.map(
-                      (p) => p.id,
-                    )}
-                  >
-                    <WorkshopPricingWidget product={product as SanityProduct} />
-                  </PriceCheckProvider>
-                </>
-              )}
+
               {canView && product && (
                 <div className="mb-8 flex w-full items-center justify-center gap-2 rounded-lg bg-gray-800 p-5 text-lg text-cyan-300">
                   <Icon name="Checkmark" />

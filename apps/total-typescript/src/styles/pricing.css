@@ -39,13 +39,13 @@
         }
       }
 
-      /* [data-pricing-product-checkout-button] {
-        @apply from-amber-400 to-amber-500 text-amber-950 hover:shadow-amber-700/20 !important;
-      } */
-    }
-    [data-pricing-product='0'] {
       [data-pricing-product-checkout-button] {
-        @apply from-gray-400 to-gray-500 text-gray-950 brightness-125 hover:shadow-gray-700/20 hover:brightness-150 !important;
+        @apply from-amber-400 to-amber-500 text-amber-950 hover:shadow-amber-700/20 !important;
+      }
+    }
+    [data-pricing-product] {
+      [data-pricing-product-checkout-button='typescript-pro-essentials'] {
+        @apply from-gray-500 to-gray-700 text-gray-950 brightness-125 hover:shadow-gray-700/20 hover:brightness-150 !important;
       }
     }
 
