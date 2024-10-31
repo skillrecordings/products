@@ -18,6 +18,7 @@ type LayoutProps = {
   className?: string
   nav?: React.ReactElement | null
   footer?: React.ReactElement | null
+  survey?: boolean
   children?: any
   withNavLinks?: boolean
 }
@@ -30,6 +31,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
   nav,
   withNavLinks = true,
   footer,
+  survey = true,
 }) => {
   const router = useRouter()
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
@@ -105,7 +107,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         {children}
       </div>
       {footer ? footer : isNull(footer) ? null : <Footer />}
-      <Survey />
+      {survey && <Survey />}
     </div>
   )
 }

@@ -76,7 +76,7 @@ export function getConvertkitSubscriberCookie(subscriber: any): Cookie[] {
 
 export async function subscribeToEndpoint(
   endPoint: string,
-  params: Record<string, string>,
+  params: Record<string, any>,
 ) {
   return await fetch(`${convertkitBaseUrl}${endPoint}`, {
     method: 'POST',
@@ -134,6 +134,7 @@ export async function setConvertkitSubscriberFields(
   subscriber: {id: string | number; fields?: Record<string, string | null>},
   fields: Record<string, string>,
 ) {
+  console.log('setConvertkitSubscriberFields', subscriber, fields)
   for (const field in fields) {
     await createConvertkitCustomField(field, subscriber)
   }
@@ -146,7 +147,7 @@ export async function setConvertkitSubscriberFields(
       api_secret: process.env.CONVERTKIT_API_SECRET,
       fields,
     }),
-  })
+  }).then((res) => res.json())
 }
 
 export async function createConvertkitCustomField(
@@ -159,6 +160,8 @@ export async function createConvertkitCustomField(
       return
     }
 
+    console.log('create fields subscriber', subscriber)
+    console.log('create fields customField', customField)
     subscriber = await fetchSubscriber(subscriber.id)
 
     const fieldExists = subscriber?.fields

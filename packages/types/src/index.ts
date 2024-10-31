@@ -102,13 +102,20 @@ export type QuizResource = {
 }
 
 export type QuestionResource = {
-  question: string
+  question: string | ((answers: Record<string, string>) => string)
   type: 'multiple-choice' | 'multiple-image-choice' | 'essay' | 'code'
   tagId?: number
   correct?: string[] | string
   answer?: string
   choices?: Choice[]
   template?: string
+  shuffleChoices?: boolean
+  allowMultiple?: boolean
+  required?: boolean
+  dependsOn?: {
+    question: string
+    answer: string
+  }
   code?: {
     filename: string
     active: boolean

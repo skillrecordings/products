@@ -64,13 +64,14 @@ export const Survey = ({
     identity.set(currentOfferId, context.answer)
     identify(identity)
 
-    setTimeout(() => sendToMachine('RESPONDED_TO_OFFER'), 750)
+    sendToMachine('RESPONDED_TO_OFFER')
   }
 
   return pathIsValid && currentOffer ? (
     <SurveyPopup
       surveyConfig={surveyConfig}
       currentQuestion={currentOffer as QuestionResource}
+      currentQuestionId={currentOfferId}
       isPopupOpen={isPopupOpen}
       handlePopupDismissed={handlePopupDismissed}
       handlePopupClosed={handlePopupClosed}

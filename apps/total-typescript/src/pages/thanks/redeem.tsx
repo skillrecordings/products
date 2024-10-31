@@ -24,7 +24,7 @@ const ThanksRedeem: React.FC<
   React.PropsWithChildren<{purchase: any; email: string}>
 > = ({email}) => {
   return (
-    <Layout footer={null}>
+    <Layout footer={null} survey={false}>
       <main className="flex flex-grow flex-col items-center justify-center px-5 pb-16 pt-5">
         <div className="mx-auto w-full max-w-3xl">
           <h1 className="w-full pb-3 font-semibold uppercase tracking-wide">

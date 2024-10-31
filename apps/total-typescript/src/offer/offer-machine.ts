@@ -17,12 +17,15 @@ export type OfferMachineEvent =
   | {type: 'DISMISSAL_ACKNOWLEDGED'}
   | {type: 'OFFER_COMPLETE'}
   | {type: 'SUBSCRIBED'}
-
+  | {type: 'EMAIL_COLLECTED'}
 export type OfferContext = {
   subscriber?: Subscriber
   currentOffer: Offer
   currentOfferId: string
   eligibility?: StateMachine<any, any, any> | null
+  canSurveyAnon?: boolean
+  askAllQuestions?: boolean
+  bypassNagProtection?: boolean
 }
 
 export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
@@ -41,7 +44,7 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
             }),
           },
           NO_SUBSCRIBER_FOUND: {
-            target: 'offerComplete',
+            target: 'verifyingOfferEligibility',
           },
         },
       },
@@ -66,27 +69,48 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
             target: 'presentingCurrentOffer',
             actions: assign({
               currentOffer: (_, event) => {
+                console.log('set currentOffer', event.currentOffer)
                 return event.currentOffer
               },
               currentOfferId: (_, event) => {
+                console.log('set currentOfferId', event.currentOfferId)
                 return event.currentOfferId
               },
             }),
           },
-          NO_CURRENT_OFFER_FOUND: {
-            target: 'offerComplete',
-          },
+          NO_CURRENT_OFFER_FOUND: [
+            {
+              target: 'offerComplete',
+              cond: (context) => Boolean(context.subscriber),
+            },
+            {
+              target: 'collectEmail',
+            },
+          ],
         },
       },
       presentingCurrentOffer: {
         on: {
-          RESPONDED_TO_OFFER: {
-            target: 'offerComplete',
-          },
+          RESPONDED_TO_OFFER: [
+            {
+              target: 'loadingCurrentOffer',
+              cond: (context) => context.askAllQuestions === true,
+            },
+            {
+              target: 'offerComplete',
+            },
+          ],
           OFFER_DISMISSED: {
             target: 'offerComplete',
           },
           OFFER_CLOSED: {
+            target: 'offerComplete',
+          },
+        },
+      },
+      collectEmail: {
+        on: {
+          EMAIL_COLLECTED: {
             target: 'offerComplete',
           },
         },
@@ -101,6 +125,11 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
       verifyEligibility: (context, _) =>
         new Promise((resolve, reject) => {
           const {subscriber} = context
+
+          if (!subscriber && context.canSurveyAnon) {
+            resolve(true)
+          }
+
           const lastSurveyDate = new Date(
             subscriber?.fields.last_surveyed_on || 0,
           )
@@ -109,10 +138,11 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
             new Date(),
             DAYS_TO_WAIT_BETWEEN_QUESTIONS,
           )
+
           const canSurvey =
-            isBefore(lastSurveyDate, thresholdDate) &&
-            subscriber?.fields.do_not_survey !== 'true' &&
-            subscriber?.state === 'active'
+            context.bypassNagProtection ||
+            (isBefore(lastSurveyDate, thresholdDate) &&
+              subscriber?.fields.do_not_survey !== 'true')
 
           if (canSurvey) {
             resolve(true)

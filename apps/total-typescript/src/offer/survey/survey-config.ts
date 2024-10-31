@@ -1,4 +1,5 @@
 import {QuizResource} from '@skillrecordings/types'
+import {dataTypescript2024} from './data-typescript-2024'
 
 export const surveyConfig = {
   answerSubmitUrl: process.env.NEXT_PUBLIC_CONVERTKIT_ANSWER_URL,
@@ -10,7 +11,17 @@ export const surveyConfig = {
   },
 }
 
+export const typescript2024SurveyConfig: SurveyConfig = {
+  answerSubmitUrl: process.env.NEXT_PUBLIC_CONVERTKIT_ANSWER_URL,
+  afterCompletionMessages: {
+    neutral: {
+      default: 'Thanks for sharing your TypeScript journey with us!',
+      last: 'Thanks for sharing your TypeScript journey with us!',
+    },
+  },
+}
 export type SurveyConfig = typeof surveyConfig
+export const TYPESCRIPT_2024_SURVEY_ID = 'typescript_2024'
 
 export const surveyData: {[SURVEY_ID: string]: QuizResource} = {
   ask: {
@@ -57,4 +68,5 @@ export const surveyData: {[SURVEY_ID: string]: QuizResource} = {
       },
     },
   },
+  [TYPESCRIPT_2024_SURVEY_ID]: dataTypescript2024,
 }

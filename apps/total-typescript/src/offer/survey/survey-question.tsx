@@ -16,6 +16,7 @@ import {
   SurveyMachineEvent,
 } from './survey-machine'
 import {State} from 'xstate'
+import {useState} from 'react'
 
 export type FormikValues = {
   answer: string | string[] | null
@@ -46,6 +47,7 @@ type InternalQuestionContextValue = {
 type SurveyQuestionProps = {
   config: SurveyConfig
   currentQuestion: QuestionResource
+  currentQuestionId: string
   isLast?: boolean
   currentAnswer?: string | string[]
   syntaxHighlighterTheme?: any
@@ -66,29 +68,33 @@ const SurveyQuestion = React.forwardRef(function Question(
     context: props,
   })
   const hasMultipleCorrectAnswers = isArray(props.currentQuestion.correct)
-  const {currentQuestion} = props
+  const {currentQuestion, currentQuestionId} = props
 
   React.useEffect(() => {
     if (currentQuestion) {
-      sentToSurveyMachine('LOAD_QUESTION', {currentQuestion})
+      sentToSurveyMachine('LOAD_QUESTION', {currentQuestion, currentQuestionId})
     }
   }, [currentQuestion, sentToSurveyMachine])
 
   const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
     initialValues: {answer: null},
     validationSchema: Yup.object({
-      answer: props.currentQuestion.correct
-        ? hasMultipleCorrectAnswers
-          ? Yup.array()
-              .required('Pick at least one option.')
-              .label('Options')
+      answer:
+        props.currentQuestion.correct || props.currentQuestion.allowMultiple
+          ? hasMultipleCorrectAnswers || props.currentQuestion.allowMultiple
+            ? Yup.array()
+                .required('Pick at least one option.')
+                .label('Options')
+                .nullable()
+            : Yup.string().required('Pick an option.').nullable()
+          : props.currentQuestion.required
+          ? Yup.string()
               .nullable()
-          : Yup.string().required('Pick an option.').nullable()
-        : Yup.string()
-            .nullable()
-            .required(`Can't stay empty. Mind to elaborate? :)`),
+              .required(`Can't stay empty. Please elaborate!`)
+          : Yup.string().nullable(),
     }),
     onSubmit: async (values) => {
+      console.log('formik on submit', values)
       return sentToSurveyMachine('ANSWER', {answer: values.answer})
     },
     validateOnChange: true,
@@ -101,6 +107,7 @@ const SurveyQuestion = React.forwardRef(function Question(
     formik,
     surveyMachineState,
     ...props,
+    currentQuestion: surveyMachineState.context.currentQuestion,
   }
 
   return (
@@ -123,9 +130,11 @@ const SurveyQuestionHeader = React.forwardRef(function QuestionHeader(
   {children, as: Comp = 'legend', ...props},
   forwardRef,
 ) {
-  const {currentQuestion, syntaxHighlighterTheme, config} = React.useContext(
-    SurveyQuestionContext,
-  )
+  const {currentQuestion, syntaxHighlighterTheme, config, surveyMachineState} =
+    React.useContext(SurveyQuestionContext)
+
+  const answers = surveyMachineState.context.allAnswers
+
   const {questionBodyRenderer} = config
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-header="">
@@ -135,7 +144,9 @@ const SurveyQuestionHeader = React.forwardRef(function QuestionHeader(
           questionBodyRenderer(currentQuestion?.question)
         ) : (
           <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
-            {currentQuestion?.question}
+            {typeof currentQuestion?.question === 'function'
+              ? currentQuestion.question(answers)
+              : currentQuestion?.question}
           </Markdown>
         )}
       </>
@@ -152,9 +163,11 @@ const SurveyQuestionChoices = React.forwardRef(function QuestionChoices(
   forwardRef,
 ) {
   const {
-    currentQuestion,
+    surveyMachineState,
     formik: {errors},
   } = React.useContext(SurveyQuestionContext)
+
+  const currentQuestion = surveyMachineState.context.currentQuestion
 
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-choices="">
@@ -187,7 +200,8 @@ const SurveyQuestionChoice = React.forwardRef(function QuestionChoice(
   const alpha = Array.from(Array(26)).map((_, i) => i + 65)
   const alphabet = alpha.map((x) => String.fromCharCode(x))
 
-  const hasMultipleCorrectAnswers = isArray(currentQuestion.correct)
+  const hasMultipleCorrectAnswers =
+    isArray(currentQuestion.correct) || currentQuestion.allowMultiple
   const hasCorrectAnswer = !isEmpty(currentQuestion.correct)
 
   function isCorrectChoice(choice: Choice): boolean {
@@ -368,6 +382,78 @@ const SurveyQuestionFooter = React.forwardRef(function QuestionFooter(
   ) : null
 }) as Polymorphic.ForwardRefComponent<'footer', SurveyQuestionFooterProps>
 
+// Add this new component
+const SurveyQuestionEssay = React.forwardRef(function QuestionEssay(
+  {children, as: Comp = 'div', ...props},
+  forwardRef,
+) {
+  const {formik, surveyMachineState} = React.useContext(SurveyQuestionContext)
+  const isAnswered = surveyMachineState.matches('answered')
+
+  return (
+    <Comp {...props} ref={forwardRef} data-sr-quiz-question-essay="">
+      <textarea
+        name="answer"
+        value={formik.values.answer || ''}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        disabled={isAnswered}
+        rows={6}
+        className="w-full rounded border p-2"
+        placeholder="Type your answer here..."
+      />
+      {formik.errors.answer && formik.touched.answer && (
+        <div className="text-red-500">{formik.errors.answer}</div>
+      )}
+      {children}
+    </Comp>
+  )
+}) as Polymorphic.ForwardRefComponent<'div', {}>
+
+// Add this new component
+const SurveyQuestionEmail = React.forwardRef(function QuestionEmail(
+  {onSubmit, as: Comp = 'div', ...props},
+  forwardRef,
+) {
+  const [email, setEmail] = useState('')
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    onSubmit(email)
+  }
+
+  return (
+    <Comp {...props} ref={forwardRef} data-sr-quiz-question-email="">
+      <h2 className="mb-4 text-2xl font-bold">
+        Thank you for completing the survey!
+      </h2>
+      <p className="mb-4">
+        Please enter your email to receive updates and insights based on the
+        survey results:
+      </p>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="mb-4 w-full rounded border p-2"
+          placeholder="Your email"
+        />
+        <button
+          type="submit"
+          className="w-full rounded bg-blue-500 p-2 text-white"
+        >
+          Submit
+        </button>
+      </form>
+    </Comp>
+  )
+}) as Polymorphic.ForwardRefComponent<
+  'div',
+  {onSubmit: (email: string) => void}
+>
+
 export type {
   SurveyQuestionProps,
   SurveyQuestionHeaderProps,
@@ -390,4 +476,6 @@ export {
   SurveyQuestionAnswer,
   SurveyQuestionFooter,
   SurveyQuestionSubmit,
+  SurveyQuestionEssay,
+  SurveyQuestionEmail,
 }

@@ -31,6 +31,7 @@ const CurrentOfferPopupContext = React.createContext({
 
 type SurveyPopupProps = {
   currentQuestion: QuestionResource
+  currentQuestionId: string
   isPopupOpen?: boolean
   handlePopupDismissed: () => void
   handlePopupClosed: () => void
@@ -40,6 +41,7 @@ type SurveyPopupProps = {
 
 export const SurveyPopup = ({
   currentQuestion,
+  currentQuestionId,
   isPopupOpen = false,
   handlePopupDismissed,
   handlePopupClosed,
@@ -69,6 +71,7 @@ export const SurveyPopup = ({
                 isLast={false}
                 handleSubmitAnswer={handleSubmitAnswer}
                 currentQuestion={currentQuestion}
+                currentQuestionId={currentQuestionId}
               />
             </motion.div>
           )}

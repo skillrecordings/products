@@ -5,11 +5,11 @@ import * as React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import {surveyData} from './survey/survey-config'
 
-const availableQuestions = surveyData.ask.questions
-
-export const useSurveyPopupOfferMachine = () => {
+export const useSurveyPopupOfferMachine = (offerId: string = 'ask') => {
   const {subscriber, loadingSubscriber} = useConvertkit()
   const [machineState, sendToMachine] = useMachine(offerMachine)
+
+  const availableQuestions = surveyData[offerId].questions
 
   React.useEffect(() => {
     if (process.env.NODE_ENV === 'development')
@@ -73,12 +73,19 @@ export const useSurveyPopupOfferMachine = () => {
         if (!offerFound) sendToMachine('NO_CURRENT_OFFER_FOUND')
         break
     }
-  }, [subscriber, loadingSubscriber, machineState, sendToMachine])
+  }, [
+    subscriber,
+    loadingSubscriber,
+    machineState,
+    sendToMachine,
+    availableQuestions,
+  ])
 
   return {
     currentOfferId: machineState.context.currentOfferId,
     currentOffer: machineState.context.currentOffer,
     isPopupOpen: machineState.matches('presentingCurrentOffer'),
     sendToMachine,
+    machineState,
   }
 }

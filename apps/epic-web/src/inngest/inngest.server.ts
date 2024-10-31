@@ -54,6 +54,7 @@ export type IngestEvents = {
   [PURCHASE_STATUS_UPDATED_EVENT]: PurchaseStatusUpdated
   'user/login': {}
   'user/created': {}
+  'analytics/conversion': {}
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,
