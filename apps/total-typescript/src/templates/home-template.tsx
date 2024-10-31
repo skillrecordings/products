@@ -4,14 +4,9 @@ import {Copy} from '@/components/home/home-body-copy'
 import React from 'react'
 import {useSkillLevel} from '@/components/home/use-skill-level'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
-import {
-  CommerceProps,
-  type SanityProduct,
-} from '@skillrecordings/commerce-server/dist/@types'
+import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {Element} from 'react-scroll'
 import Image from 'next/image'
-import {isSellingLive} from '@/utils/is-selling-live'
-import {SubscribeToNewsletter} from '@/components/home/home-newsletter-cta'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import cx from 'classnames'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
@@ -19,8 +14,6 @@ import {trpc} from '@/trpc/trpc.client'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {Companies} from '@/components/companies'
 import Head from 'next/head'
-import {QueryStatus} from '@tanstack/react-query'
-import {NextRouter} from 'next/router'
 import {totalTypescriptPurchaseButtonRenderer} from '@/utils/purchase-button-renderer'
 import {useSession} from 'next-auth/react'
 
@@ -76,7 +69,7 @@ export const HomeTemplate: React.FC<
       className={cn('', {
         'lg:pt-16': defaultCouponData,
       })}
-      withNavLinks={status !== 'unauthenticated'}
+      withNavLinks={Boolean(userId)}
       meta={{
         title: `Professional TypeScript Training by Matt Pocock `,
         ogImage: couponFromCode && {
