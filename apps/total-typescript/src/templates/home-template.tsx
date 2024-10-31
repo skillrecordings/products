@@ -22,6 +22,7 @@ import Head from 'next/head'
 import {QueryStatus} from '@tanstack/react-query'
 import {NextRouter} from 'next/router'
 import {totalTypescriptPurchaseButtonRenderer} from '@/utils/purchase-button-renderer'
+import {useSession} from 'next-auth/react'
 
 export const HomeTemplate: React.FC<
   React.PropsWithChildren<CommerceProps & {level?: string}>
@@ -35,7 +36,7 @@ export const HomeTemplate: React.FC<
   allowPurchase,
 }) => {
   const skillLevel = useSkillLevel(level)
-
+  const {status} = useSession()
   const restrictedToProduct = couponFromCode?.restrictedToProductId
     ? products.find(
         (product) => product.productId === couponFromCode.restrictedToProductId,
@@ -75,7 +76,7 @@ export const HomeTemplate: React.FC<
       className={cn('', {
         'lg:pt-16': defaultCouponData,
       })}
-      withNavLinks={false}
+      withNavLinks={status !== 'unauthenticated'}
       meta={{
         title: `Professional TypeScript Training by Matt Pocock `,
         ogImage: couponFromCode && {
