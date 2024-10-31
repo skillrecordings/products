@@ -20,6 +20,7 @@ type LayoutProps = {
   footer?: React.ReactElement | null
   survey?: boolean
   children?: any
+  withNavLinks?: boolean
 }
 
 const Layout: FunctionComponent<LayoutProps> = ({
@@ -28,6 +29,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
   meta,
   noIndex,
   nav,
+  withNavLinks = true,
   footer,
   survey = true,
 }) => {
@@ -94,7 +96,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
       <RedeemDialogForCoupon />
       <Toaster position="top-center" />
       {isFeedbackDialogOpen && feedbackComponent}
-      {nav ? nav : isNull(nav) ? null : <Navigation />}
+      {nav ? nav : isNull(nav) ? null : <Navigation withLinks={withNavLinks} />}
       <div
         className={cn(
           'flex h-full min-h-screen flex-grow flex-col',

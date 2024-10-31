@@ -19,6 +19,9 @@ import {trpc} from '@/trpc/trpc.client'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {Companies} from '@/components/companies'
 import Head from 'next/head'
+import {QueryStatus} from '@tanstack/react-query'
+import {NextRouter} from 'next/router'
+import {totalTypescriptPurchaseButtonRenderer} from '@/utils/purchase-button-renderer'
 
 export const HomeTemplate: React.FC<
   React.PropsWithChildren<CommerceProps & {level?: string}>
@@ -72,6 +75,7 @@ export const HomeTemplate: React.FC<
       className={cn('', {
         'lg:pt-16': defaultCouponData,
       })}
+      withNavLinks={false}
       meta={{
         title: `Professional TypeScript Training by Matt Pocock `,
         ogImage: couponFromCode && {
@@ -90,80 +94,87 @@ export const HomeTemplate: React.FC<
       </Head>
       <Header level={skillLevel} />
       <main className="overflow-x-hidden">
-        <Copy level={skillLevel} />
-        {isSellingLive ? (
-          <div
-            className="flex flex-col items-center pb-16 pt-16 sm:pt-24"
-            id="buy"
-          >
-            <Image
-              width={300}
-              src={require('../../public/assets/feather@2x.png')}
-              alt=""
-              aria-hidden="true"
-              className="-mt-24 mb-16 max-w-[300px] -rotate-12 sm:-mt-32 sm:mb-24 sm:max-w-full"
-            />
-            <h2 className="mx-auto max-w-screen-lg text-balance px-3 text-center font-heading text-3xl font-bold sm:text-5xl lg:text-6xl xl:text-6xl">
-              Your Total TypeScript Adventure Starts Now
-            </h2>
-            <Companies />
-            <div className="flex w-full flex-col items-center px-5 pb-0 pt-12 sm:pb-24">
-              <section className="pt-32">
-                <div className="flex flex-col-reverse gap-40 lg:flex lg:flex-row lg:gap-0">
-                  {sortedProductsByName?.map((product, i) => {
-                    const isFirst = products.length > 1 && i === 0
-                    const isLast =
-                      products.length > 1 && i === products.length - 1
-                    const isPro = !isFirst && isLast
+        <Copy
+          components={{
+            Companies,
+            Buy: () => {
+              return (
+                <section
+                  className="not-prose flex flex-col items-center pb-10 pt-16 sm:pt-24"
+                  id="buy"
+                >
+                  <Image
+                    width={300}
+                    src={require('../../public/assets/feather@2x.png')}
+                    alt=""
+                    aria-hidden="true"
+                    className="-mt-24 mb-16 max-w-[300px] rotate-[-33deg] sm:-mt-32 sm:mb-24 sm:max-w-full"
+                  />
+                  <h2 className="mx-auto max-w-screen-lg text-balance px-3 text-center font-heading text-3xl font-bold sm:text-5xl lg:text-6xl xl:text-6xl">
+                    Your Total TypeScript adventure starts now
+                  </h2>
+                  <div className="flex w-full flex-col items-center px-5 pb-0 pt-12 sm:pb-24">
+                    <div className="pt-32">
+                      <div className="flex flex-col-reverse gap-40 lg:flex lg:flex-row lg:gap-0">
+                        {sortedProductsByName?.map((product, i) => {
+                          const isFirst = products.length > 1 && i === 0
+                          const isLast =
+                            products.length > 1 && i === products.length - 1
+                          const isPro = !isFirst && isLast
 
-                    return (
-                      <PriceCheckProvider
-                        key={product.productId}
-                        purchasedProductIds={purchasedProductIds}
-                      >
-                        <div
-                          key={product.name}
-                          className={cx('transition hover:opacity-100', {
-                            'mx-auto max-w-sm origin-top-left opacity-80 lg:mt-28 lg:scale-[90%]':
-                              isFirst,
-                            'origin-top lg:scale-105': isPro,
-                          })}
-                        >
-                          <Element name="buy" aria-hidden="true" />
-                          <Pricing
-                            index={i}
-                            product={product}
-                            userId={userId}
-                            purchased={purchasedProductIds.includes(
-                              product.productId,
-                            )}
-                            couponId={couponId}
-                            options={{
-                              withGuaranteeBadge: true,
-                              withImage: true,
-                            }}
-                            allowPurchase={allowPurchase}
-                          />
-                        </div>
-                      </PriceCheckProvider>
-                    )
-                  })}
-                </div>
-              </section>
-            </div>
-            <div className="flex w-full items-center justify-center pt-16">
-              <Image
-                src="https://res.cloudinary.com/total-typescript/image/upload/v1689864739/money-back-guarantee-large_l3sikc.png"
-                alt="30-Day Money Back Guarantee"
-                width={700 / 1.7}
-                height={252 / 1.7}
-                priority
-              />
-            </div>
-          </div>
-        ) : (
-          <SubscribeToNewsletter level={skillLevel} />
-        )}
+                          return (
+                            <PriceCheckProvider
+                              key={product.productId}
+                              purchasedProductIds={purchasedProductIds}
+                            >
+                              <div
+                                key={product.name}
+                                className={cx('transition hover:opacity-100', {
+                                  'mx-auto max-w-sm origin-top-left opacity-80 lg:mt-28 lg:scale-[90%]':
+                                    isFirst,
+                                  'origin-top lg:scale-105': isPro,
+                                })}
+                              >
+                                <Element name="buy" aria-hidden="true" />
+                                <Pricing
+                                  index={i}
+                                  product={product}
+                                  userId={userId}
+                                  purchased={purchasedProductIds.includes(
+                                    product.productId,
+                                  )}
+                                  couponId={couponId}
+                                  options={{
+                                    withGuaranteeBadge: true,
+                                    withImage: true,
+                                  }}
+                                  allowPurchase={allowPurchase}
+                                  purchaseButtonRenderer={
+                                    totalTypescriptPurchaseButtonRenderer
+                                  }
+                                />
+                              </div>
+                            </PriceCheckProvider>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex w-full items-center justify-center pt-16">
+                    <Image
+                      src="https://res.cloudinary.com/total-typescript/image/upload/v1689864739/money-back-guarantee-large_l3sikc.png"
+                      alt="30-Day Money Back Guarantee"
+                      width={700 / 1.7}
+                      height={252 / 1.7}
+                      priority
+                    />
+                  </div>
+                </section>
+              )
+            },
+          }}
+          level={skillLevel}
+        />
       </main>
     </Layout>
   )

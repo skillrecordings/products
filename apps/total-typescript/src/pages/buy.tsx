@@ -15,6 +15,7 @@ import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coup
 import cx from 'classnames'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {getPricing} from '@/lib/pricing'
+import {totalTypescriptPurchaseButtonRenderer} from '@/utils/purchase-button-renderer'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
@@ -138,6 +139,9 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
                       index={i}
                       couponId={couponId}
                       allowPurchase={allowPurchase}
+                      purchaseButtonRenderer={
+                        totalTypescriptPurchaseButtonRenderer
+                      }
                     />
                   </div>
                 </PriceCheckProvider>
