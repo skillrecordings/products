@@ -109,7 +109,6 @@ export const getAllArticles = async (): Promise<Article[]> => {
       },
     })
     .then((posts) => {
-      console.log('posts', posts)
       if (!posts) {
         return []
       }
@@ -126,7 +125,6 @@ function convertPostToArticle(post: any) {
     return null
   }
 
-  console.log('fields', post?.fields)
   const parsedArticle = ArticleSchema.safeParse({
     _id: post?.id,
     _type: 'article',
@@ -146,8 +144,6 @@ function convertPostToArticle(post: any) {
     ogImage: post?.fields.ogImage,
     resources: post?.resources,
   })
-
-  console.log('parsedArticle', parsedArticle)
 
   if (parsedArticle.success) {
     return parsedArticle.data

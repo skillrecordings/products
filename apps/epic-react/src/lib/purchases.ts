@@ -57,9 +57,6 @@ export async function couponForPurchases(
     ? await prisma.coupon.findFirst({
         where: {
           id: merchantCouponId,
-          expires: {
-            gte: new Date(),
-          },
         },
         select: {
           id: true,

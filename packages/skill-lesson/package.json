@@ -123,7 +123,7 @@
     "tailwind-merge": "^1.12.0",
     "tailwind-scrollbar": "^3.0.0",
     "tailwindcss": "^3.4.1",
-    "twoslash-cdn": "^0.2.11",
+    "twoslash-cdn": "^0.2.12",
     "typescript": "5.5.4",
     "unified": "^10.1.2",
     "unstorage": "^1.10.2",

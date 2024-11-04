@@ -50,7 +50,6 @@ export const getLegacyModulesForProduct = async ({
   const result = await sanityClient.fetch(legacyModulesForProductQuery, {
     productId,
   })
-  console.log(result)
   return LegacyModuleSchema.array().parse(result.modules)
 }
 

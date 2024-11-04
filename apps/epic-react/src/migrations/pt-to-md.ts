@@ -73,7 +73,6 @@ const buildPatches = (docs: Doc[]) => {
   return docs.map((doc: Doc): DocPatch => {
     if ('body' in doc) {
       const bodyMarkdown = BlocksToMarkdown(doc.body, {serializers})
-      console.log({bodyMarkdown})
       return {
         id: doc._id,
         patch: {
@@ -85,7 +84,6 @@ const buildPatches = (docs: Doc[]) => {
       }
     } else if ('summary' in doc) {
       const bodyMarkdown = BlocksToMarkdown(doc.summary, {serializers})
-      console.log({bodyMarkdown})
       return {
         id: doc._id,
         patch: {

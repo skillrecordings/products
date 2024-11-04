@@ -77,7 +77,7 @@ export async function getUserAndSubscriber({
     try {
       rawSubscriber = JSON.parse(req.cookies['ck_subscriber'])
     } catch (e) {
-      console.log('error parsing ck_subscriber cookie', e)
+      console.debug('error parsing ck_subscriber cookie', e)
     }
   }
 

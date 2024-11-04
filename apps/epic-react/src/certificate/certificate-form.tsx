@@ -91,14 +91,12 @@ const CertificateForm: React.FC<
       },
       {
         onSuccess: (data) => {
-          console.log({data})
           setCertUrl(data.secure_url)
           setIsLoading(false)
           toast.success('Certificate URL generated')
           urlInputRef?.current?.select()
         },
         onError: (error) => {
-          console.log(error)
           toast.error('Error: ' + error.message)
         },
       },

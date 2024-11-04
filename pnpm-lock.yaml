@@ -4244,8 +4244,8 @@ importers:
         specifier: ^3.4.1
         version: 3.4.1(ts-node@10.9.2)
       twoslash-cdn:
-        specifier: ^0.2.11
-        version: 0.2.11(typescript@5.5.4)
+        specifier: ^0.2.12
+        version: 0.2.12(typescript@5.5.4)
       typescript:
         specifier: 5.5.4
         version: 5.5.4
@@ -39756,32 +39756,32 @@ packages:
   /tweetnacl@0.14.5:
     resolution: {integrity: sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==}
 
-  /twoslash-cdn@0.2.11(typescript@5.5.4):
-    resolution: {integrity: sha512-SXu16YRmr4CABiO08jOa6VtmnUVyw+rSFAH6VX8SmJF2emm2Mn00vWc725149lmkiiG5J0lI2CrFTAzunQJ/BQ==}
+  /twoslash-cdn@0.2.12(typescript@5.5.4):
+    resolution: {integrity: sha512-k+QHyIauxXpxgtKoKHFvj7CAbVsLIztwbw1nUnKb8U6kIoyWUEzEymhEft3t8BekP+RiGSo/F46KKmJjiDyoUA==}
     peerDependencies:
       typescript: '*'
     dependencies:
-      twoslash: 0.2.11(typescript@5.5.4)
+      twoslash: 0.2.12(typescript@5.5.4)
       typescript: 5.5.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /twoslash-protocol@0.2.11:
-    resolution: {integrity: sha512-rp+nkOWbKfJnBTDZtnIaBGjnU+4CaMhqu6db2UU7byU96rH8X4hao4BOxYw6jdZc85Lhv5pOfcjgfHeQyLzndQ==}
+  /twoslash-protocol@0.2.12:
+    resolution: {integrity: sha512-5qZLXVYfZ9ABdjqbvPc4RWMr7PrpPaaDSeaYY55vl/w1j6H6kzsWK/urAEIXlzYlyrFmyz1UbwIt+AA0ck+wbg==}
     dev: false
 
   /twoslash-protocol@0.2.6:
     resolution: {integrity: sha512-8NbJlYeRdBcCTQ7ui7pdRPC1NL16aOnoYNz06oBW+W0qWNuiQXHgE8UeNvbA038aDd6ZPuuD5WedsBIESocB4g==}
     dev: false
 
-  /twoslash@0.2.11(typescript@5.5.4):
-    resolution: {integrity: sha512-392Qkcu5sD2hROLZ+XPywChreDGJ8Yu5nnK/Moxfti/R39q0Q39MaV7iHjz92B5qucyjsQFnKMdYIzafX5T8dg==}
+  /twoslash@0.2.12(typescript@5.5.4):
+    resolution: {integrity: sha512-tEHPASMqi7kqwfJbkk7hc/4EhlrKCSLcur+TcvYki3vhIfaRMXnXjaYFgXpoZRbT6GdprD4tGuVBEmTpUgLBsw==}
     peerDependencies:
       typescript: '*'
     dependencies:
       '@typescript/vfs': 1.6.0(typescript@5.5.4)
-      twoslash-protocol: 0.2.11
+      twoslash-protocol: 0.2.12
       typescript: 5.5.4
     transitivePeerDependencies:
       - supports-color

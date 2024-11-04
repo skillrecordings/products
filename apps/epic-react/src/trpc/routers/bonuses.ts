@@ -88,8 +88,6 @@ export const bonusesRouter = router({
 
         const newBonuses = bonusSlugs.filter((slug) => slug !== input.bonusSlug)
 
-        console.log(json)
-
         if (newBonuses.length === 0) {
           await redis.del(`bonus::available::${token.id}::${input.purchaseId}`)
         } else {
