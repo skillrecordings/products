@@ -120,52 +120,6 @@ const WorkshopTemplate: React.FC<{
             </div>
           ) : (
             <>
-              {product &&
-                ALLOW_PURCHASE &&
-                ALLOW_UPGRADE &&
-                upgradableTo &&
-                !hasPurchasedUpgrade && (
-                  <>
-                    <h3 className="text-xl font-medium">Bundle & Save</h3>
-                    <Link
-                      target="_blank"
-                      href={`/products/${upgradableTo.slug}`}
-                      className="group relative mb-8 mt-3 flex w-full rounded-lg border bg-card p-5 shadow-2xl shadow-gray-500/10 transition hover:brightness-95 dark:hover:brightness-125"
-                    >
-                      <div className="absolute -top-3 right-4 flex h-6 items-center rounded bg-amber-300 px-2 text-xs font-bold uppercase text-black">
-                        Best Value
-                      </div>
-                      <div className="flex items-center gap-5">
-                        {upgradableTo?.image?.url && (
-                          <Image
-                            src={upgradableTo.image.url}
-                            alt=""
-                            aria-hidden="true"
-                            className="rounded-full"
-                            width={100}
-                            height={100}
-                          />
-                        )}
-                        <div>
-                          <h4 className="text-lg font-semibold">
-                            {upgradableTo.title}
-                          </h4>
-                          <p>
-                            Includes{' '}
-                            {
-                              upgradableTo.modules.filter(
-                                ({moduleType}: {moduleType: string}) =>
-                                  moduleType === 'workshop',
-                              ).length
-                            }{' '}
-                            workshops.
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  </>
-                )}
-
               {canView && product && (
                 <div className="mb-8 flex w-full items-center justify-center gap-2 rounded-lg bg-gray-800 p-5 text-lg text-cyan-300">
                   <Icon name="Checkmark" />
@@ -295,6 +249,37 @@ const Header: React.FC<{
   const firstSection = sections && first(sections)
   const firstLesson = first(firstSection?.lessons)
 
+  const purchasedUrl =
+    firstSection && sections
+      ? {
+          pathname: `/${pluralize(
+            module.moduleType,
+          )}/[module]/[section]/[lesson]`,
+          query: {
+            module: slug.current,
+            section:
+              isModuleInProgress && nextSection
+                ? nextSection?.slug
+                : firstSection.slug,
+            lesson:
+              isModuleInProgress && nextLesson
+                ? nextLesson?.slug
+                : firstLesson?.slug,
+          },
+        }
+      : {
+          pathname: `/${pluralize(module.moduleType)}/[module]/[lesson]`,
+          query: {
+            module: slug.current,
+            lesson:
+              isModuleInProgress && nextLesson
+                ? nextLesson?.slug
+                : firstLesson?.slug,
+          },
+        }
+
+  const canView = hasPurchased || !product
+
   return (
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-5 sm:pt-16 md:flex-row">
@@ -309,7 +294,7 @@ const Header: React.FC<{
             >
               ←
             </span>{' '}
-            <span className="">All Pro Workshops</span>
+            <span className="">All Premium Workshops</span>
           </Link>
           <h1 className="text-balance font-text text-4xl font-bold sm:text-5xl lg:text-6xl">
             {title}
@@ -331,37 +316,7 @@ const Header: React.FC<{
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
               <Link
-                href={
-                  firstSection && sections
-                    ? {
-                        pathname: `/${pluralize(
-                          module.moduleType,
-                        )}/[module]/[section]/[lesson]`,
-                        query: {
-                          module: slug.current,
-                          section:
-                            isModuleInProgress && nextSection
-                              ? nextSection?.slug
-                              : firstSection.slug,
-                          lesson:
-                            isModuleInProgress && nextLesson
-                              ? nextLesson?.slug
-                              : firstLesson?.slug,
-                        },
-                      }
-                    : {
-                        pathname: `/${pluralize(
-                          module.moduleType,
-                        )}/[module]/[lesson]`,
-                        query: {
-                          module: slug.current,
-                          lesson:
-                            isModuleInProgress && nextLesson
-                              ? nextLesson?.slug
-                              : firstLesson?.slug,
-                        },
-                      }
-                }
+                href={canView ? purchasedUrl : `/`}
                 className={cx(
                   'flex w-full min-w-[208px] items-center justify-center rounded  px-5 py-4 font-semibold leading-tight transition  md:w-auto',
                   {
@@ -376,10 +331,10 @@ const Header: React.FC<{
                   track('clicked start learning', {module: slug.current})
                 }}
               >
-                {hasPurchased || !product ? (
+                {canView ? (
                   <>{isModuleInProgress ? 'Continue' : 'Start'} Learning</>
                 ) : (
-                  <>Preview</>
+                  <>Get Access</>
                 )}
                 <span className="pl-2" aria-hidden="true">
                   →

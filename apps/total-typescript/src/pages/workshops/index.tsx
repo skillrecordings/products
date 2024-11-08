@@ -53,7 +53,7 @@ const WorkshopsPage: React.FC<{
       }}
     >
       <Heading
-        title="Professional TypeScript Workshops"
+        title="TypeScript Pro Complete"
         description="A collection of professional, exercise-driven, in-depth, self-paced TypeScript workshops for you to achieve TypeScript wizardry."
       >
         {activePromotion ? (
@@ -84,25 +84,17 @@ const WorkshopsPage: React.FC<{
         {modules && (
           <ul className="flex max-w-screen-lg flex-col px-5 py-10 sm:py-10">
             <div className="space-y-14">
-              {standaloneWorkshops.map((module, i) => (
-                <WorkshopTeaser
-                  module={module}
-                  i={i}
-                  key={module.slug.current}
-                />
-              ))}
               {coreVolumeWorkshops.length > 0 && (
                 <div>
-                  <div className="flex w-full items-center space-x-2 pb-3">
-                    <h2 className="text-xl font-medium text-gray-300 sm:text-2xl">
-                      Core Volume
-                    </h2>
-                    <div className="font-mono text-xs font-semibold uppercase text-primary">
-                      <span className="rounded-full bg-primary px-2 py-0.5 font-sans font-semibold uppercase text-primary-foreground">
-                        FEATURED
-                      </span>
+                  {standaloneWorkshops.map((module, i) => (
+                    <div className="mb-5" key={module.slug.current}>
+                      <WorkshopTeaser
+                        module={module}
+                        i={i}
+                        key={module.slug.current}
+                      />
                     </div>
-                  </div>
+                  ))}
                   {coreVolumeWorkshops.map((module, i) => (
                     <div className="mb-5" key={module.slug.current}>
                       <WorkshopTeaser module={module} i={i} />
@@ -217,7 +209,7 @@ const WorkshopTeaser: React.FC<{module: SanityDocument; i: number}> = ({
               })
             }}
           >
-            <span className="pr-2">View</span>
+            <span className="pr-2">Workshop Details</span>
             <span
               aria-hidden="true"
               className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"

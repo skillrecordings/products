@@ -35,12 +35,14 @@ import pluralize from 'pluralize'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {
+  BlockedOverlay,
   CompleteAndContinueButton,
   DefaultOverlay,
 } from '@skillrecordings/skill-lesson/video/video-overlays'
 import {useModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import ModuleCertificate from '@/certificate/module-certificate'
+import {ProEssentialsBanner} from '@/components/book/pro-essentials-banner'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -186,6 +188,17 @@ const ExerciseTemplate: React.FC<{
                 ref={muxPlayerRef}
                 exerciseOverlayRenderer={() => <ExerciseOverlay />}
                 loadingIndicator={<Spinner />}
+                blockedOverlayRenderer={() => (
+                  <div
+                    data-video-overlay="blocked"
+                    id="video-overlay"
+                    className="bg-gradient-to-tr from-white/5 to-white/10"
+                  >
+                    <div className="mx-auto flex justify-center shadow-2xl">
+                      <ProEssentialsBanner />
+                    </div>{' '}
+                  </div>
+                )}
               />
               <MobileModuleLessonList
                 lessonResourceRenderer={lessonResourceRenderer}

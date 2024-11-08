@@ -117,7 +117,7 @@ export const ExerciseEmbed = ({
                           className="px-7 font-semibold shadow-xl"
                         >
                           <Link
-                            href={`/workshops/${exercise?.section?.workshop?.slug}`}
+                            href={`/`}
                             onClick={() => {
                               track('clicked_go_pro', {
                                 location: 'book_exercise_embed',
@@ -125,7 +125,7 @@ export const ExerciseEmbed = ({
                               })
                             }}
                           >
-                            Go Pro
+                            Get Access
                           </Link>
                         </Button>
                         {/* <Button

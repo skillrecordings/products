@@ -35,7 +35,11 @@ const Footer: React.FC<FooterProps> = ({className}) => {
               Learn
             </strong>
             <ul className="flex flex-col gap-2">
-              <NavLink path="/workshops" label="Pro Workshops" />
+              <NavLink
+                path="/books/total-typescript-essentials"
+                label="Total TypeScript Book"
+              />
+              <NavLink path="/workshops" label="Premium Workshops" />
               <NavLink path="/tutorials" label="Free Tutorials" />
               <NavLink path="/tips" label="Tips" />
               <NavLink path="/articles" label="Articles" />

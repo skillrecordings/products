@@ -106,7 +106,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified, withLinks}) => {
               path="/workshops"
               title="Workshops"
               className="font-medium text-white"
-              labelString="Pro Workshops"
+              labelString="Premium Workshops"
               label={
                 <>
                   <span
@@ -284,7 +284,7 @@ const MobileNav = () => {
             >
               <MobileNavLink
                 path="/workshops"
-                label="Pro Workshops"
+                label="Premium Workshops"
                 icon={<KeyIcon />}
               />
               <MobileNavLink

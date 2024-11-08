@@ -84,7 +84,7 @@
   }
 }
 [data-video-overlay='blocked'] {
-  @apply relative flex w-full flex-col items-center justify-center bg-[#04060d] py-10 xl:aspect-video xl:flex-row;
+  @apply relative flex w-full flex-col items-center justify-center bg-gradient-to-tr from-white/5 to-white/10 py-10 xl:aspect-video xl:flex-row bg-transparent;
   [data-thumbnail] {
     @apply object-contain object-top opacity-25 blur-sm contrast-125;
   }
