@@ -237,7 +237,7 @@ const Events: React.FC<{events: Event[]; confEvent: Event | null}> = ({
         <article>
           <h2 className="py-4 text-3xl font-semibold">Conferences</h2>
           <Link
-            href={`/conf`}
+            href={`/conf/2024`}
             passHref
             className="group relative flex h-full w-full flex-col overflow-hidden transition hover:bg-gray-100/80 dark:hover:bg-gray-900/40"
           >
