@@ -188,7 +188,7 @@ export const getEventConf = async (
   slug: string = 'conf',
 ): Promise<EventConf | null> => {
   const eventConf = await sanityClient.fetch(
-    groq`*[_type == "event" && slug.current == "conf"][0] {
+    groq`*[_type == "event" && slug.current == "conf/2024"][0] {
         _id,
         _type,
         title,
