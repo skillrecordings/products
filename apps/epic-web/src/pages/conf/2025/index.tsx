@@ -11,6 +11,7 @@ import {DocumentIcon, StarIcon} from '@heroicons/react/outline'
 import {type Talk} from 'lib/talks'
 import {useMeasure} from 'react-use'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import MuxPlayer from '@mux/mux-player-react'
 
 export const IS_PAST_CONF_25 = false
 const CONF_25_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2025'
@@ -87,7 +88,7 @@ const ConfPage: React.FC = () => {
         startDate="2025-04-10T08:00:00-07:00"
         endDate="2025-04-11T17:00:00-07:00"
         location={{
-          name: 'Prospector Square Theatre',
+          name: 'Hilton Salt Lake City Center',
           address: {
             streetAddress: '2175 Sidewinder Dr',
             addressLocality: 'Park City',
@@ -208,8 +209,19 @@ const Body = () => {
     )
   }
 
+  const promoVideo = 'deoAaA7OUZDPrLjXc013MQaTcTwC9kAY3Pmf2JmF01TOs'
+
   return (
     <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-16 sm:gap-32">
+      <div className="col-span-4 flex w-full items-center justify-center p-5 sm:p-8 md:pl-0">
+        <MuxPlayer
+          playbackId={promoVideo}
+          className="w-full rounded shadow-xl"
+          accentColor="#3b82f6"
+          poster={`https://image.mux.com/${promoVideo}/thumbnail.jpg?time=3`}
+        />
+      </div>
+      {!IS_PAST_CONF_25 && <Location />}
       <Section
         position={0}
         title="Become a Speaker"
@@ -287,19 +299,19 @@ const Header = () => {
             <div className="font-mono text-sm uppercase tracking-wide text-[#93A1D7]">
               Conference Day
             </div>
-            <div className="text-lg text-[#D6DEFF]">Feb/March 2025</div>
+            <div className="text-lg text-[#D6DEFF]">March 26, 2025</div>
           </div>
-          {/* <div>
+          <div>
             <div className="font-mono text-sm uppercase tracking-wide text-[#93A1D7]">
               Workshop Day
             </div>
-            <div className="text-lg text-[#D6DEFF]">Feb/Mar 2025</div>
-          </div> */}
+            <div className="text-lg text-[#D6DEFF]">March 25, 2025</div>
+          </div>
           <div>
             <div className="font-mono text-sm uppercase tracking-wide text-[#93A1D7]">
               Location
             </div>
-            <div className="text-lg text-[#D6DEFF]">Utah</div>
+            <div className="text-lg text-[#D6DEFF]">Salt Lake, Utah</div>
           </div>
         </div>
         <Button
@@ -521,5 +533,113 @@ const EarlyBirdMarquee = () => {
         </div>
       </motion.div>
     </Link>
+  )
+}
+
+const Location = () => {
+  return (
+    <section className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10 sm:pt-16">
+      <div className="flex flex-col items-center rounded border border-[#313646] bg-[#1E212C] lg:flex-row">
+        <div className="flex max-w-md flex-col gap-5 py-6 pl-6 pr-6 sm:py-8 sm:pl-10 sm:pr-0 lg:py-14 lg:pl-16 [&_p]:text-lg [&_p]:leading-relaxed [&_p]:text-[#D6DEFF]">
+          <svg
+            className=""
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.75 8.5C16.75 13.75 10 18.25 10 18.25C10 18.25 3.25 13.75 3.25 8.5C3.25 6.70979 3.96116 4.9929 5.22703 3.72703C6.4929 2.46116 8.20979 1.75 10 1.75C11.7902 1.75 13.5071 2.46116 14.773 3.72703C16.0388 4.9929 16.75 6.70979 16.75 8.5Z"
+              stroke="#3FACFF"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M10 10.75C11.2426 10.75 12.25 9.74264 12.25 8.5C12.25 7.25736 11.2426 6.25 10 6.25C8.75736 6.25 7.75 7.25736 7.75 8.5C7.75 9.74264 8.75736 10.75 10 10.75Z"
+              stroke="#3FACFF"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <p>
+            The event is set in the heart of{' '}
+            <strong>
+              <Link
+                href="https://maps.app.goo.gl/dpCVp2TtT9iNf6FKA"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                Salt Lake City, Utah
+              </Link>
+            </strong>
+            {
+              ', and the free livestream will be available to reach even the most distant Epic web developers.'
+            }
+          </p>
+          <p>
+            You'll want to be here in Salt Lake City to rub shoulders with some
+            of the best developers working on the web, just like you.
+          </p>
+        </div>
+        <div className="relative flex flex-col items-center justify-center">
+          <div className="relative">
+            <div
+              className="absolute left-0 top-0 hidden h-full w-56 bg-gradient-to-r from-[#1E212C] to-transparent lg:block"
+              aria-hidden="true"
+            />
+            <div
+              className="absolute left-0 top-0 block h-40 w-full bg-gradient-to-b from-[#1E212C] to-transparent lg:hidden"
+              aria-hidden="true"
+            />
+            <Image
+              width={554}
+              height={424}
+              src={require('../../../../public/assets/conf/map-venue-2025.png')}
+              loading="eager"
+              alt="Map showing Hilton Salt Lake City Center location"
+              quality={100}
+            />
+          </div>
+          <Link
+            href="https://maps.app.goo.gl/dpCVp2TtT9iNf6FKA"
+            target="_blank"
+            onClick={() => {
+              track('clicked venue', {
+                title: 'conf2025',
+                type: 'venue',
+                location: 'map',
+              })
+            }}
+            rel="noopener noreferrer"
+            className="group absolute -bottom-16 flex scale-[0.8] items-center justify-center rounded bg-white text-gray-900 before:absolute before:-top-1.5 before:-ml-7 before:h-3 before:w-3 before:rotate-45 before:bg-white before:content-[''] sm:-bottom-10 sm:scale-100"
+          >
+            <div className="overflow-hidden rounded-l">
+              <Image
+                src={require('../../../../public/assets/conf/hilton-hotel.png')}
+                alt="Hilton Salt Lake City Center"
+                width={152}
+                height={233}
+                loading="eager"
+                className="transition duration-300 ease-in-out group-hover:scale-105"
+              />
+            </div>
+            <div className="px-4 py-2 pr-5 sm:px-5 sm:py-5 sm:pr-7">
+              <h3 className="text-lg font-semibold leading-tight sm:text-xl sm:leading-tight">
+                Hilton Salt Lake City Center
+              </h3>
+              <div className="mt-3 inline-flex text-sm hover:underline">
+                255 S W Temple St
+                <br />
+                Salt Lake City, UT 84101
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </section>
   )
 }
