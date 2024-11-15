@@ -256,7 +256,7 @@ const Body = () => {
           developer experiences possible.
         </p>
         <p>
-          Right now we are offering super early bird tickets, this is{' '}
+          Right now we are offering early bird tickets, this is{' '}
           <strong>the cheapest</strong> the price will be and the price goes up
           soon.
         </p>
@@ -519,7 +519,7 @@ const EarlyBirdMarquee = () => {
           className={`pointer-events-none flex justify-center space-x-2 py-2 text-xs font-semibold uppercase text-gray-900`}
         >
           {new Array(13)
-            .fill('Super Early Bird Tickets OUT NOW')
+            .fill('Early Bird Tickets OUT NOW')
             .map((text, index) => (
               <div
                 ref={textRef as any}
