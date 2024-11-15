@@ -79,7 +79,7 @@ const ConfPage: React.FC = () => {
         description:
           'The Full Stack Web Development Conference of Epic proportions.',
         ogImage: {
-          url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1728407319/epic-web/epic-web-conf-2025-v1.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1731634239/ogImage-2025conf.jpg',
         },
       }}
     >
@@ -311,7 +311,7 @@ const Header = () => {
             <div className="font-mono text-sm uppercase tracking-wide text-[#93A1D7]">
               Location
             </div>
-            <div className="text-lg text-[#D6DEFF]">Salt Lake, Utah</div>
+            <div className="text-lg text-[#D6DEFF]">Salt Lake City, Utah</div>
           </div>
         </div>
         <Button
