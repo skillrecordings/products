@@ -79,7 +79,7 @@ const ConfPage: React.FC = () => {
         description:
           'The Full Stack Web Development Conference of Epic proportions.',
         ogImage: {
-          url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1728407319/epic-web/epic-web-conf-2025-v1.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1731634005/ogImage-2025.jpg',
         },
       }}
     >
