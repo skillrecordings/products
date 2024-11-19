@@ -24,6 +24,7 @@ type SurveyPageProps = {
   isComplete: boolean
   showEmailQuestion: boolean
   onEmailSubmit: (email: string) => void
+  completionMessageComponent?: React.ReactNode
 }
 
 export const SurveyPage: React.FC<SurveyPageProps> = ({
@@ -35,6 +36,12 @@ export const SurveyPage: React.FC<SurveyPageProps> = ({
   isComplete,
   showEmailQuestion,
   onEmailSubmit,
+  completionMessageComponent = (
+    <div className="mt-6 text-center">
+      <h2 className="text-2xl font-bold">Thank you for your responses!</h2>
+      <p className="mt-2">Your answers have been recorded.</p>
+    </div>
+  ),
 }) => {
   const handleAnswerSubmit = async (context: SurveyMachineContext) => {
     await handleSubmitAnswer(context)
@@ -51,12 +58,7 @@ export const SurveyPage: React.FC<SurveyPageProps> = ({
   }
 
   if (isComplete) {
-    return (
-      <div className="mt-6 text-center">
-        <h2 className="text-2xl font-bold">Thank you for your responses!</h2>
-        <p className="mt-2">Your answers have been recorded.</p>
-      </div>
-    )
+    return completionMessageComponent
   }
 
   return (

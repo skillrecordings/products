@@ -1,5 +1,7 @@
 import {QuizResource} from '@skillrecordings/types'
 import {dataTypescript2024} from './data-typescript-2024'
+import {sortingHat2024} from './sorting-hat-2024'
+import {WIZARD_QUIZ_ID} from './wizard-quiz-config'
 
 export const surveyConfig = {
   answerSubmitUrl: process.env.NEXT_PUBLIC_CONVERTKIT_ANSWER_URL,
@@ -69,4 +71,5 @@ export const surveyData: {[SURVEY_ID: string]: QuizResource} = {
     },
   },
   [TYPESCRIPT_2024_SURVEY_ID]: dataTypescript2024,
+  [WIZARD_QUIZ_ID]: sortingHat2024,
 }
