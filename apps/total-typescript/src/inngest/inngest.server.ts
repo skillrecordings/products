@@ -9,10 +9,15 @@ import {
   SANITY_WEBHOOK_EVENT,
   SanityWebhookEvent,
 } from './functions/sanity/sanity-inngest-events'
+import {
+  SYNC_CONVERTKIT_PURCHASE_TAGS_EVENT,
+  SyncConvertkitPurchaseTags,
+} from './functions/sync-convertkit-purchases'
 
 export type IngestEvents = {
   [USER_CREATED_EVENT]: UserCreated
   [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
+  [SYNC_CONVERTKIT_PURCHASE_TAGS_EVENT]: SyncConvertkitPurchaseTags
 }
 
 export const inngest = new Inngest({
