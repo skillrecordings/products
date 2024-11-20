@@ -139,7 +139,7 @@ const WizardQuizPage = ({rank}: {rank: string}) => {
     currentQuestion,
     currentQuestionId,
     isLoading,
-
+    isComplete,
     isPresenting,
     sendToMachine,
     handleSubmitAnswer,
@@ -147,8 +147,6 @@ const WizardQuizPage = ({rank}: {rank: string}) => {
     answers,
     machineState,
   } = useSurveyPageOfferMachine(WIZARD_QUIZ_ID)
-
-  const isComplete = true
 
   const answerSurveyMutation = trpc.convertkit.answerSurvey.useMutation()
   const answerSurveyMultipleMutation =
