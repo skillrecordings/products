@@ -54,9 +54,9 @@ const RedeemDialog = ({open = false, couponId, product}: RedeemDialogProps) => {
     process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME,
     process.env.NEXT_PUBLIC_PARTNER_LAST_NAME,
   ].join(' ')
-  const byline = formatNames([
-    ...new Set(product?.instructors || [fallbackInstructorName]),
-  ])
+  const byline = formatNames(
+    Array.from(new Set(product?.instructors || [fallbackInstructorName])),
+  )
 
   const formik = useFormik({
     initialValues: {
