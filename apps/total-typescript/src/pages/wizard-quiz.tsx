@@ -98,14 +98,6 @@ const CompletionMessage: React.FC<{answers: Record<string, string>}> = ({
 
 const WIZARD_QUIZ_ID = 'wizard_quiz_2024'
 
-const TEST_ANSWERS: Record<string, string> = {
-  q1: 'answer1~5',
-  q2: 'answer2~3',
-  q3: 'answer3~4',
-  q4: 'answer4~5',
-  q5: 'answer5~5',
-}
-
 export const getServerSideProps: GetServerSideProps = async ({query}) => {
   const rank = (query.rank as string) || ''
 
@@ -160,9 +152,14 @@ const WizardQuizPage = ({rank}: {rank: string}) => {
 
   React.useEffect(() => {
     if (isComplete && machineState.matches('offerComplete')) {
+      const score = calculateScore(answers)
+      const rank = getWizardRank(score)
       answerSurveyMultipleMutation.mutate({
         email: email || subscriber?.email_address,
-        answers,
+        answers: {
+          ...answers,
+          [`quiz_2024_rank`]: rank,
+        },
         surveyId: WIZARD_QUIZ_ID,
       })
     }
