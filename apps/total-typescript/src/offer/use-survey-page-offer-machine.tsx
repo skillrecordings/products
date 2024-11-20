@@ -6,18 +6,26 @@ import {surveyData} from './survey/survey-config'
 import {QuestionResource} from '@skillrecordings/types'
 import {SurveyMachineContext} from './survey/survey-machine'
 
-export const useSurveyPageOfferMachine = (offerId: string) => {
+export const useSurveyPageOfferMachine = (
+  surveyId: string,
+  options?: {
+    initialAnswers?: Record<string, string>
+    initialState?: string
+  },
+) => {
   const {subscriber, loadingSubscriber} = useConvertkit()
   const [machineState, sendToMachine] = useMachine(offerMachine, {
     context: {
       canSurveyAnon: true,
       askAllQuestions: true,
       bypassNagProtection: true,
+      surveyId,
+      answers: options?.initialAnswers || {},
     },
   })
 
   const [answers, setAnswers] = React.useState<Record<string, string>>({})
-  const availableQuestions = surveyData[offerId].questions
+  const availableQuestions = surveyData[surveyId].questions
 
   React.useEffect(() => {
     if (process.env.NODE_ENV === 'development')

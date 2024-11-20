@@ -26,6 +26,8 @@ export type OfferContext = {
   canSurveyAnon?: boolean
   askAllQuestions?: boolean
   bypassNagProtection?: boolean
+  surveyId?: string
+  answers?: Record<string, string>
 }
 
 export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(

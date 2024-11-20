@@ -33,6 +33,8 @@ export default async function handler(req: NextRequest) {
 
   try {
     const {searchParams} = new URL(req.url)
+
+    console.log('searchParams', searchParams.toString())
     const hasTitle = searchParams.has('title')
     const title = hasTitle
       ? searchParams.get('title')?.slice(0, 100)
@@ -43,6 +45,8 @@ export default async function handler(req: NextRequest) {
     const type = hasType ? searchParams.get('type') : ''
     const defaultBackground =
       'https://totaltypescript.com/assets/landing/bg-divider-7.png'
+
+    console.log('title', title)
 
     return new ImageResponse(
       (

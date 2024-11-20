@@ -1,4 +1,10 @@
-type platforms = 'twitter' | 'facebook' | 'linkedin' | 'reddit' | 'hacker'
+type platforms =
+  | 'twitter'
+  | 'facebook'
+  | 'linkedin'
+  | 'reddit'
+  | 'hacker'
+  | 'bluesky'
 
 export const shareLinks = {
   twitter: (link = '', message = '') =>
@@ -19,6 +25,8 @@ export const shareLinks = {
     `https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
       link,
     )}&t=${encodeURIComponent(message)}`,
+  bluesky: (link = '') =>
+    `https://bsky.app/intent/compose?text=${encodeURIComponent(link)}`,
 }
 
 export const getShareUrl = (
@@ -39,6 +47,8 @@ export const getShareUrl = (
     case 'linkedin':
       return shareLinks.linkedin(link)
     case 'linkedin':
-      return shareLinks.linkedin(link)
+      return shareLinks.hacker(link, message)
+    case 'bluesky':
+      return shareLinks.bluesky(link, message)
   }
 }

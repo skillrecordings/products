@@ -6,6 +6,8 @@ import {trpc} from '@/trpc/trpc.client'
 import Layout from '@/components/app/layout'
 import {sortingHat2024} from '../offer/survey/sorting-hat-2024'
 import {wizardQuizConfig} from '../offer/survey/wizard-quiz-config'
+import Share from '@/components/share'
+import {GetServerSideProps} from 'next'
 
 type WizardRank = {
   title: string
@@ -85,18 +87,59 @@ const CompletionMessage: React.FC<{answers: Record<string, string>}> = ({
           />
         </div>
       </div>
+      <Share
+        title={sortingHat2024.title || ''}
+        contentType="Wizard Quiz"
+        query={{rank: rank.title}}
+      />
     </div>
   )
 }
 
 const WIZARD_QUIZ_ID = 'wizard_quiz_2024'
 
-const WizardQuizPage: React.FC = () => {
+const TEST_ANSWERS: Record<string, string> = {
+  q1: 'answer1~5',
+  q2: 'answer2~3',
+  q3: 'answer3~4',
+  q4: 'answer4~5',
+  q5: 'answer5~5',
+}
+
+export const getServerSideProps: GetServerSideProps = async ({query}) => {
+  const rank = (query.rank as string) || ''
+
+  return {
+    props: {rank},
+  }
+}
+
+const getOgTitle = (rankParam?: string) => {
+  if (!rankParam) return 'Take the TypeScript Wizard Quiz!'
+
+  const rank = wizardRanks.find(
+    (r) => r.title.toLowerCase() === rankParam.toLowerCase(),
+  )
+  if (!rank) return 'Take the TypeScript Wizard Quiz!'
+
+  const titles = {
+    Novice: "I'm a TypeScript Novice - Beginning My Journey! 🌱",
+    Apprentice: "I'm a TypeScript Apprentice - Learning the Ways! ⚔️",
+    Typeweaver: "I'm a TypeScript Typeweaver - Crafting Type Magic! ✨",
+    Mage: "I'm a TypeScript Mage - Mastering the Dark Arts! 🔮",
+    Wizard: "I'm a TypeScript Wizard - Bow Before My Types! 🧙‍♂️",
+  } as const
+
+  const title = titles[rank.title as keyof typeof titles]
+  return title
+}
+
+const WizardQuizPage = ({rank}: {rank: string}) => {
   const {
     currentQuestion,
     currentQuestionId,
     isLoading,
-    isComplete,
+
     isPresenting,
     sendToMachine,
     handleSubmitAnswer,
@@ -104,6 +147,8 @@ const WizardQuizPage: React.FC = () => {
     answers,
     machineState,
   } = useSurveyPageOfferMachine(WIZARD_QUIZ_ID)
+
+  const isComplete = true
 
   const answerSurveyMutation = trpc.convertkit.answerSurvey.useMutation()
   const answerSurveyMultipleMutation =
@@ -125,10 +170,20 @@ const WizardQuizPage: React.FC = () => {
     }
   }, [isComplete])
 
+  const ogImageUrlSearchParam = new URLSearchParams({
+    title: getOgTitle(rank),
+  }).toString()
+
   return (
     <Layout
       meta={{
         title: sortingHat2024.title,
+        description:
+          'Test your TypeScript knowledge and see how you rank among the wizards of the TypeScript world.',
+        ogImage: {
+          url: `${process.env.NEXT_PUBLIC_OG_IMAGE_URI}/og-default?${ogImageUrlSearchParam}`,
+          alt: getOgTitle(rank),
+        },
       }}
       survey={false}
     >

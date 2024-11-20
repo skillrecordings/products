@@ -4,17 +4,23 @@ import {
   LinkedIn,
   Reddit,
   Facebook,
+  Bluesky,
   CopyToClipboard,
 } from '@skillrecordings/react'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 
-const Share: React.FC<{title: string; contentType?: string}> = ({
-  title,
-  contentType = 'article',
-}) => {
+const Share: React.FC<{
+  title: string
+  contentType?: string
+  query?: Record<string, string>
+}> = ({title, contentType = 'article', query}) => {
   const router = useRouter()
-  const url = process.env.NEXT_PUBLIC_URL + router.asPath
+  const queryParams = query ? new URLSearchParams(query).toString() : ''
+  const url =
+    process.env.NEXT_PUBLIC_URL +
+    router.asPath +
+    `${queryParams ? `?${queryParams}` : ''}`
   const shareButtonClassName =
     'p-4 hover:scale-105 transition hover:text-gray-100 text-gray-400'
   const shareButtonSvgClassName = 'w-5 h-5'
@@ -25,6 +31,11 @@ const Share: React.FC<{title: string; contentType?: string}> = ({
         Share this {contentType} with your friends
       </p>
       <div className="flex pt-2">
+        <Bluesky
+          svgClassName={shareButtonSvgClassName}
+          className={shareButtonClassName}
+          link={`${title} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}\n\n ${url}`}
+        />
         <Twitter
           svgClassName={shareButtonSvgClassName}
           className={shareButtonClassName}
