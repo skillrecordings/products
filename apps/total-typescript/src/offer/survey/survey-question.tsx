@@ -17,6 +17,7 @@ import {
 } from './survey-machine'
 import {State} from 'xstate'
 import {useState} from 'react'
+import Balancer from 'react-wrap-balancer'
 
 export type FormikValues = {
   answer: string | string[] | null
@@ -30,7 +31,7 @@ export type SurveyConfig = {
     }
   }
   answerSubmitUrl?: string
-  questionBodyRenderer?: (question: any) => void
+  questionBodyRenderer?: (question: any) => React.ReactNode
 }
 
 export const SurveyQuestionContext: React.Context<InternalQuestionContextValue> =
@@ -137,8 +138,8 @@ const SurveyQuestionHeader = React.forwardRef(function QuestionHeader(
 
   const {questionBodyRenderer} = config
   return (
-    <Comp {...props} ref={forwardRef} data-sr-quiz-question-header="">
-      <>
+    <Balancer>
+      <Comp {...props} ref={forwardRef} data-sr-quiz-question-header="">
         {children}
         {questionBodyRenderer ? (
           questionBodyRenderer(currentQuestion?.question)
@@ -149,8 +150,8 @@ const SurveyQuestionHeader = React.forwardRef(function QuestionHeader(
               : currentQuestion?.question}
           </Markdown>
         )}
-      </>
-    </Comp>
+      </Comp>
+    </Balancer>
   )
 }) as Polymorphic.ForwardRefComponent<'legend', SurveyQuestionHeaderProps>
 
