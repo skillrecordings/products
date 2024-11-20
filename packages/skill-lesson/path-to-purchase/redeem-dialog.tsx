@@ -54,7 +54,9 @@ const RedeemDialog = ({open = false, couponId, product}: RedeemDialogProps) => {
     process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME,
     process.env.NEXT_PUBLIC_PARTNER_LAST_NAME,
   ].join(' ')
-  const byline = formatNames(product?.instructors || [fallbackInstructorName])
+  const byline = formatNames([
+    ...new Set(product?.instructors || [fallbackInstructorName]),
+  ])
 
   const formik = useFormik({
     initialValues: {
@@ -171,7 +173,11 @@ const Content: React.FC<React.PropsWithChildren<unknown>> = ({
   return (
     <>
       <AlertDialogPrimitive.Overlay data-redeem-dialog-overlay="" />
-      <AlertDialogPrimitive.Content data-redeem-dialog-content="" {...props}>
+      <AlertDialogPrimitive.Content
+        data-redeem-dialog-content=""
+        className="max-h-[85vh] overflow-y-auto"
+        {...props}
+      >
         {children}
       </AlertDialogPrimitive.Content>
     </>
