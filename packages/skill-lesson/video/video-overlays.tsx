@@ -732,7 +732,7 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
   )
 }
 
-const InviteTeam: React.FC<{
+export const InviteTeam: React.FC<{
   product?: SanityProduct
 }> = ({product}) => {
   const {refetchAbility, inviteTeamPagePath = '/team'} = useMuxPlayer()
@@ -917,7 +917,7 @@ export {
   ModuleCtaProvider,
 }
 
-const Subscribe: React.FC<{actionLabel?: string}> = ({
+export const Subscribe: React.FC<{actionLabel?: string}> = ({
   actionLabel = 'Continue Watching',
 }) => {
   const {lesson, module} = useLesson()
