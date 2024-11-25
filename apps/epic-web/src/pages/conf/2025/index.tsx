@@ -668,7 +668,7 @@ const Sponsors = () => {
                     href={s.url}
                     onClick={() => {
                       track('clicked platinum sponsor', {
-                        title: 'conf2024',
+                        title: 'conf2025',
                         type: 'sponsor',
                         location: s.name,
                       })
@@ -696,7 +696,7 @@ const Sponsors = () => {
                   href={s.url}
                   onClick={() => {
                     track('clicked gold sponsor', {
-                      title: 'conf2024',
+                      title: 'conf2025',
                       type: 'sponsor',
                       location: s.name,
                     })
@@ -725,7 +725,7 @@ const Sponsors = () => {
                     key={s.name}
                     onClick={() => {
                       track('clicked silver sponsor', {
-                        title: 'conf2024',
+                        title: 'conf2025',
                         type: 'sponsor',
                         location: s.name,
                       })
@@ -754,7 +754,7 @@ const Sponsors = () => {
                     key={s.name}
                     onClick={() => {
                       track('clicked community sponsor', {
-                        title: 'conf2024',
+                        title: 'conf2025',
                         type: 'sponsor',
                         location: s.name,
                       })
