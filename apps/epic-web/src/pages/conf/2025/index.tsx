@@ -659,7 +659,7 @@ const Sponsors = () => {
     <section
       id="sponsors"
       aria-label="sponsors"
-      className="mx-auto flex w-full max-w-screen-xl scale-90 flex-col items-center justify-center gap-10 pb-24 pt-8 lg:scale-100 [&_p]:text-[#93A1D7]"
+      className="mx-auto flex w-full max-w-screen-xl scale-90 flex-col items-center justify-center gap-10 pb-24 pt-8 sm:pb-16 lg:scale-100 [&_p]:text-[#93A1D7]"
     >
       <h2 className="pb-5 text-3xl font-semibold sm:text-4xl">Sponsors</h2>
       {platinum.length > 0 && (
@@ -694,7 +694,7 @@ const Sponsors = () => {
       {gold.length > 0 && (
         <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16">
           <p className="font-mono text-sm uppercase">Gold:</p>
-          <div className="flex items-center gap-5 sm:gap-12">
+          <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-12">
             {gold.map((s) => {
               return (
                 <Link
