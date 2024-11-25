@@ -213,13 +213,18 @@ const Body = () => {
 
   return (
     <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-16 sm:gap-32">
-      <div className="col-span-4 flex w-full items-center justify-center p-5 sm:p-8 md:pl-0">
-        <MuxPlayer
-          playbackId={promoVideo}
-          className="w-full rounded shadow-xl"
-          accentColor="#3b82f6"
-          poster={`https://image.mux.com/${promoVideo}/thumbnail.jpg?time=3`}
-        />
+      <div>
+        <h2 className="w-fit self-start pb-5 text-3xl font-semibold sm:text-4xl">
+          Introduction
+        </h2>
+        <div className="col-span-4 flex w-full items-center justify-center  md:pl-0">
+          <MuxPlayer
+            playbackId={promoVideo}
+            className="w-full rounded shadow-xl"
+            accentColor="#3b82f6"
+            poster={`https://image.mux.com/${promoVideo}/thumbnail.jpg?time=3`}
+          />
+        </div>
       </div>
       {!IS_PAST_CONF_25 && <Location />}
       <Section
