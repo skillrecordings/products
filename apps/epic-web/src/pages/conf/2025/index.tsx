@@ -279,6 +279,7 @@ const Body = () => {
           was EPIC and we'd love to parter with you to make 2025 even better.
         </p>
       </Section>
+      <Sponsors />
     </div>
   )
 }
@@ -539,6 +540,9 @@ const EarlyBirdMarquee = () => {
 const Location = () => {
   return (
     <section className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10 sm:pt-16">
+      <h2 className="w-fit self-start pb-5 text-3xl font-semibold sm:text-4xl">
+        Location
+      </h2>
       <div className="flex flex-col items-center rounded border border-[#313646] bg-[#1E212C] lg:flex-row">
         <div className="flex max-w-md flex-col gap-5 py-6 pl-6 pr-6 sm:py-8 sm:pl-10 sm:pr-0 lg:py-14 lg:pl-16 [&_p]:text-lg [&_p]:leading-relaxed [&_p]:text-[#D6DEFF]">
           <svg
@@ -642,4 +646,194 @@ const Location = () => {
       </div>
     </section>
   )
+}
+
+const Sponsors = () => {
+  const {platinum, gold, silver, community} = sponsorsData
+  return (
+    <section
+      id="sponsors"
+      aria-label="sponsors"
+      className="mx-auto flex w-full max-w-screen-xl scale-90 flex-col items-center justify-center gap-10 pb-24 pt-8 lg:scale-100 [&_p]:text-[#93A1D7]"
+    >
+      <h2 className="pb-5 text-3xl font-semibold sm:text-4xl">Sponsors</h2>
+      {platinum.length > 0 && (
+        <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16 sm:px-10">
+          <p className="w-20 font-mono text-sm uppercase">Platinum:</p>
+          <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-12">
+            {platinum.map(
+              (s: {name: string; url: string; logo: React.JSX.Element}) => {
+                return (
+                  <Link
+                    href={s.url}
+                    onClick={() => {
+                      track('clicked platinum sponsor', {
+                        title: 'conf2024',
+                        type: 'sponsor',
+                        location: s.name,
+                      })
+                    }}
+                    key={s.name}
+                    className="flex items-center justify-center opacity-90 transition hover:opacity-100"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="not-prose">{s.logo}</div>
+                  </Link>
+                )
+              },
+            )}
+          </div>
+        </div>
+      )}
+      {gold.length > 0 && (
+        <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16">
+          <p className="font-mono text-sm uppercase">Gold:</p>
+          <div className="flex items-center gap-5 sm:gap-12">
+            {gold.map((s) => {
+              return (
+                <Link
+                  href={s.url}
+                  onClick={() => {
+                    track('clicked gold sponsor', {
+                      title: 'conf2024',
+                      type: 'sponsor',
+                      location: s.name,
+                    })
+                  }}
+                  key={s.name}
+                  className="not-prose flex items-center justify-center opacity-90 transition hover:opacity-100"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div>{s.logo}</div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      )}
+      {silver.length > 0 && (
+        <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16">
+          <p className="font-mono text-sm uppercase">Silver:</p>
+          <div className="flex flex-wrap items-center justify-center gap-10 md:justify-start lg:gap-10">
+            {silver.map(
+              (s: {name: string; url: string; logo: React.JSX.Element}) => {
+                return (
+                  <Link
+                    href={s.url}
+                    key={s.name}
+                    onClick={() => {
+                      track('clicked silver sponsor', {
+                        title: 'conf2024',
+                        type: 'sponsor',
+                        location: s.name,
+                      })
+                    }}
+                    className="flex items-center justify-center opacity-90 transition hover:opacity-100"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div>{s.logo}</div>
+                  </Link>
+                )
+              },
+            )}
+          </div>
+        </div>
+      )}
+      {community.length > 0 && (
+        <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16 sm:px-10">
+          <p className="w-20 font-mono text-sm uppercase">Community:</p>
+          <div className="flex flex-wrap items-center justify-center gap-8 sm:justify-center sm:gap-x-16 sm:gap-y-5">
+            {community.map(
+              (s: {name: string; url: string; logo: React.JSX.Element}) => {
+                return (
+                  <Link
+                    href={s.url}
+                    key={s.name}
+                    onClick={() => {
+                      track('clicked community sponsor', {
+                        title: 'conf2024',
+                        type: 'sponsor',
+                        location: s.name,
+                      })
+                    }}
+                    className="flex items-center justify-center opacity-90 transition hover:opacity-100"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div>{s.logo}</div>
+                  </Link>
+                )
+              },
+            )}
+          </div>
+        </div>
+      )}
+      {/* <div className="relative mt-5 flex w-full flex-col items-center justify-center gap-10 pb-12 pt-5 sm:flex-row">
+        <Link
+          href="mailto:conf@epicweb.dev?subject=Sponsoring Epic Web Conf 2024"
+          className="inline-flex items-center gap-1 text-center text-[#93A1D7] transition hover:brightness-125"
+        >
+          <StarIcon className="w-4" stroke="currentColor" aria-hidden="true" />
+          Become a sponsor
+        </Link>
+        <Link
+          href="/conf/code-of-conduct"
+          className="inline-flex items-center gap-1 text-center text-[#93A1D7] transition hover:brightness-125"
+        >
+          <DocumentIcon
+            className="w-4"
+            stroke="currentColor"
+            aria-hidden="true"
+          />
+          Code of Conduct
+        </Link>
+      </div> */}
+    </section>
+  )
+}
+
+const sponsorsData = {
+  platinum: [],
+  gold: [
+    {
+      name: 'Sentry.io',
+      url: 'https://sentry.io/welcome',
+      logo: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 222 66"
+          className="w-56"
+        >
+          <title>Sentry.io</title>
+          <path
+            d="M29,2.26a4.67,4.67,0,0,0-8,0L14.42,13.53A32.21,32.21,0,0,1,32.17,40.19H27.55A27.68,27.68,0,0,0,12.09,17.47L6,28a15.92,15.92,0,0,1,9.23,12.17H4.62A.76.76,0,0,1,4,39.06l2.94-5a10.74,10.74,0,0,0-3.36-1.9l-2.91,5a4.54,4.54,0,0,0,1.69,6.24A4.66,4.66,0,0,0,4.62,44H19.15a19.4,19.4,0,0,0-8-17.31l2.31-4A23.87,23.87,0,0,1,23.76,44H36.07a35.88,35.88,0,0,0-16.41-31.8l4.67-8a.77.77,0,0,1,1.05-.27c.53.29,20.29,34.77,20.66,35.17a.76.76,0,0,1-.68,1.13H40.6q.09,1.91,0,3.81h4.78A4.59,4.59,0,0,0,50,39.43a4.49,4.49,0,0,0-.62-2.28Z M124.32,28.28,109.56,9.22h-3.68V34.77h3.73V15.19l15.18,19.58h3.26V9.22h-3.73ZM87.15,23.54h13.23V20.22H87.14V12.53h14.93V9.21H83.34V34.77h18.92V31.45H87.14ZM71.59,20.3h0C66.44,19.06,65,18.08,65,15.7c0-2.14,1.89-3.59,4.71-3.59a12.06,12.06,0,0,1,7.07,2.55l2-2.83a14.1,14.1,0,0,0-9-3c-5.06,0-8.59,3-8.59,7.27,0,4.6,3,6.19,8.46,7.52C74.51,24.74,76,25.78,76,28.11s-2,3.77-5.09,3.77a12.34,12.34,0,0,1-8.3-3.26l-2.25,2.69a15.94,15.94,0,0,0,10.42,3.85c5.48,0,9-2.95,9-7.51C79.75,23.79,77.47,21.72,71.59,20.3ZM195.7,9.22l-7.69,12-7.64-12h-4.46L186,24.67V34.78h3.84V24.55L200,9.22Zm-64.63,3.46h8.37v22.1h3.84V12.68h8.37V9.22H131.08ZM169.41,24.8c3.86-1.07,6-3.77,6-7.63,0-4.91-3.59-8-9.38-8H154.67V34.76h3.8V25.58h6.45l6.48,9.2h4.44l-7-9.82Zm-10.95-2.5V12.6h7.17c3.74,0,5.88,1.77,5.88,4.84s-2.29,4.86-5.84,4.86Z"
+            transform="translate(11, 11)"
+            fill="currentColor"
+          />
+        </svg>
+      ),
+    },
+    {
+      name: 'Vercel',
+      url: 'https://vercel.com',
+      logo: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 4438 1000"
+          className="w-56"
+        >
+          <title>Vercel</title>
+          <path
+            d="M2223.75 250C2051.25 250 1926.87 362.5 1926.87 531.25C1926.87 700 2066.72 812.5 2239.38 812.5C2343.59 812.5 2435.47 771.25 2492.34 701.719L2372.81 632.656C2341.25 667.188 2293.28 687.344 2239.38 687.344C2164.53 687.344 2100.94 648.281 2077.34 585.781H2515.16C2518.59 568.281 2520.63 550.156 2520.63 531.094C2520.63 362.5 2396.41 250 2223.75 250ZM2076.09 476.562C2095.62 414.219 2149.06 375 2223.75 375C2298.59 375 2352.03 414.219 2371.41 476.562H2076.09ZM2040.78 78.125L1607.81 828.125L1174.69 78.125H1337.03L1607.66 546.875L1878.28 78.125H2040.78ZM577.344 0L1154.69 1000H0L577.344 0ZM3148.75 531.25C3148.75 625 3210 687.5 3305 687.5C3369.38 687.5 3417.66 658.281 3442.5 610.625L3562.5 679.844C3512.81 762.656 3419.69 812.5 3305 812.5C3132.34 812.5 3008.13 700 3008.13 531.25C3008.13 362.5 3132.5 250 3305 250C3419.69 250 3512.66 299.844 3562.5 382.656L3442.5 451.875C3417.66 404.219 3369.38 375 3305 375C3210.16 375 3148.75 437.5 3148.75 531.25ZM4437.5 78.125V796.875H4296.88V78.125H4437.5ZM3906.25 250C3733.75 250 3609.38 362.5 3609.38 531.25C3609.38 700 3749.38 812.5 3921.88 812.5C4026.09 812.5 4117.97 771.25 4174.84 701.719L4055.31 632.656C4023.75 667.188 3975.78 687.344 3921.88 687.344C3847.03 687.344 3783.44 648.281 3759.84 585.781H4197.66C4201.09 568.281 4203.12 550.156 4203.12 531.094C4203.12 362.5 4078.91 250 3906.25 250ZM3758.59 476.562C3778.13 414.219 3831.41 375 3906.25 375C3981.09 375 4034.53 414.219 4053.91 476.562H3758.59ZM2961.25 265.625V417.031C2945.63 412.5 2929.06 409.375 2911.25 409.375C2820.47 409.375 2755 471.875 2755 565.625V796.875H2614.38V265.625H2755V409.375C2755 330 2847.34 265.625 2961.25 265.625Z"
+            fill="currentColor"
+          />
+        </svg>
+      ),
+    },
+  ],
+  silver: [],
+  community: [],
 }
