@@ -5,17 +5,26 @@ import Image from 'next/image'
 import Link from 'next/link'
 import HeroPlanetImage from '../../../../public/assets/conf/conf-hero.jpg'
 import {ChevronRightIcon, PlayIcon} from '@heroicons/react/solid'
-import {Button} from '@skillrecordings/ui'
 import {track} from 'utils/analytics'
 import {DocumentIcon, StarIcon} from '@heroicons/react/outline'
 import {type Talk} from 'lib/talks'
 import {useMeasure} from 'react-use'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import MuxPlayer from '@mux/mux-player-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  Button,
+} from '@skillrecordings/ui'
+import {DialogTrigger} from '@radix-ui/react-dialog'
 
 export const IS_PAST_CONF_25 = false
 const CONF_25_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2025'
 const CONF_25_SESSIONIZE_URL = 'https://sessionize.com/epicweb-conf-2025/'
+const HOTEL_PROMO_CODE = 'W14'
 
 const CK_CONF_2025_FIELD = {
   [`conf_2025`]: new Date().toISOString().slice(0, 10),
@@ -284,6 +293,7 @@ const Body = () => {
           was EPIC and we'd love to parter with you to make 2025 even better.
         </p>
       </Section>
+      {!IS_PAST_CONF_25 && <HotelSection />}
       <Sponsors />
     </div>
   )
@@ -841,4 +851,57 @@ const sponsorsData = {
   ],
   silver: [],
   community: [],
+}
+
+const HotelSection = () => {
+  return (
+    <section className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between gap-8 px-5 pb-0 sm:pb-24 md:flex-row lg:gap-14">
+      <div>
+        <Link
+          href="https://book.passkey.com/event/50932723/owner/1422/home"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative flex flex-col items-center justify-center before:absolute before:-bottom-1.5 before:h-3 before:w-3 before:rotate-45 before:border-b before:border-r before:border-[#E79C33] before:bg-[#FFB753] before:content-[''] md:before:-right-1.5 md:before:top-10 md:before:border-b-0 md:before:border-r md:before:border-t md:before:border-[#313646] md:before:bg-[#1E212C]"
+        >
+          <div className="flex items-center justify-center rounded-t border border-[#313646] bg-[#1E212C]">
+            <div className="flex items-center justify-center overflow-hidden rounded-tl">
+              <Image
+                src="/assets/conf/hilton-salt-lake-city-center.jpg"
+                alt="Hilton Salt Lake City Center"
+                width={180}
+                height={180}
+                priority
+                className="transition duration-300 ease-in-out group-hover:scale-105"
+              />
+            </div>
+            <div className="px-4 py-2 pr-5 sm:px-5 sm:py-5 sm:pr-7">
+              <h3 className="text-lg font-semibold leading-tight sm:text-xl sm:leading-tight">
+                Hilton Salt Lake City Center
+              </h3>
+              <div className="mt-3 inline-flex text-sm">
+                255 S W Temple St
+                <br />
+                Salt Lake City, UT 84101
+              </div>
+            </div>
+          </div>
+        </Link>
+      </div>
+      <div className="w-full max-w-md text-center md:text-left lg:max-w-lg">
+        <h3 className="text-2xl font-semibold sm:text-3xl">
+          Looking for a place to stay?
+        </h3>
+        <div className="mt-3 text-[#D6DEFF] sm:text-lg">
+          <span>
+            We've partnered with Hilton Salt Lake City Center to offer you a
+            discounted rate on available rooms. Visit{' '}
+            <a href="https://book.passkey.com/e/50932723" className="underline">
+              here
+            </a>{' '}
+            to find your discounted room and book your stay today.
+          </span>
+        </div>
+      </div>
+    </section>
+  )
 }
