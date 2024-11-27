@@ -39,5 +39,6 @@ export type NewPurchaseCreated = {
 
 export type NewPurchaseCreatedEvent = {
   purchaseId: string
-  checkoutSessionId: string
+  checkoutSessionId?: string
+  productId: string
 }

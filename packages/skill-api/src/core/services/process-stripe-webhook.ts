@@ -317,6 +317,7 @@ export const processStripeWebhook = async (
         data: {
           purchaseId: purchase.id,
           checkoutSessionId: stripeIdentifier,
+          productId: purchase.productId,
         },
         user,
       })

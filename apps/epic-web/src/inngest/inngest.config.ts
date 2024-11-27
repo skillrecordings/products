@@ -13,6 +13,7 @@ import {syncDiscordRoles} from 'inngest/functions/discord/sync-discord-roles'
 import {slackDailyReporter} from './functions/stripe/slack-daily-reporter'
 import {slackMonthlyReporter} from './functions/stripe/slack-monthly-reporter'
 import {syncConversions} from 'inngest/functions/sync-conversions'
+import {megaBundle} from './functions/post-purchase-automation/mega-bundle'
 
 export const inngestConfig = {
   client: inngest,
@@ -32,6 +33,7 @@ export const inngestConfig = {
     slackDailyReporter,
     slackMonthlyReporter,
     syncConversions,
+    megaBundle,
     ...sanityProductFunctions,
   ],
 }
