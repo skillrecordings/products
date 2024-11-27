@@ -708,7 +708,14 @@ export function getSdk(
         },
       })
 
-      const oneWeekInMilliseconds = 1000 * 60 * 60 * 24 * 7
+      // TODO: This is a temporary fix to prevent the mega bundle from
+      // transferring to the new user. We need to find a more permanent
+      // solution for this.
+      const oneWeekInMilliseconds =
+        productId !== '4a3706d4-7154-45ad-b9c6-05f25fae51df'
+          ? 1000 * 60 * 60 * 24 * 7
+          : 0
+
       const purchaseUserTransfer = ctx.prisma.purchaseUserTransfer.create({
         data: {
           sourceUserId: userId,
