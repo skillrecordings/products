@@ -68,8 +68,6 @@ const Index: NextPage<{
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
 
-  console.log('commerceProps', commerceProps)
-
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
     {
@@ -110,11 +108,16 @@ const Index: NextPage<{
             href="/rss.xml"
           />
         </Head>
-        <Header />
+        <Header commerceProps={commerceProps} />
         <main className="">
           <Article
             workshops={product.modules}
             interviewImages={interviewImages}
+            commerceProps={commerceProps}
+            products={products}
+            purchasedProductIds={purchasedProductIds}
+            bonuses={bonuses}
+            couponId={couponId}
           />
           <section className="relative mt-16 flex flex-col items-center justify-start dark:bg-black/30">
             <div className="flex flex-col items-center justify-center py-16">
@@ -193,12 +196,76 @@ const Index: NextPage<{
 const Article: React.FC<{
   workshops: SanityProductModule[]
   interviewImages: string[]
-}> = ({workshops, interviewImages}) => {
+  commerceProps: CommerceProps
+  products: SanityProduct[]
+  purchasedProductIds: string[]
+  bonuses: any[]
+  couponId: string | undefined
+}> = ({
+  workshops,
+  interviewImages,
+  commerceProps,
+  products,
+  purchasedProductIds,
+  bonuses,
+  couponId,
+}) => {
   return (
     <article className="prose mx-auto max-w-3xl px-5 pt-0 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-5">
       <LandingCopy
+        commerceProps={commerceProps}
         components={{
           // ...linkedHeadingComponents,
+          Buy: ({children}: any) => {
+            return (
+              <div
+                id="buy"
+                className="relative flex flex-col items-center justify-start"
+              >
+                <Sparkles />
+                {products
+                  ?.filter((product: any) => product.state !== 'unavailable')
+                  .map((product, i) => {
+                    return (
+                      <PriceCheckProvider
+                        key={product.slug}
+                        purchasedProductIds={purchasedProductIds}
+                      >
+                        <div
+                          data-pricing-container=""
+                          key={product.name}
+                          className="not-prose"
+                        >
+                          <Pricing
+                            bonuses={bonuses}
+                            allowPurchase={true}
+                            userId={commerceProps?.userId}
+                            product={product}
+                            purchased={purchasedProductIds.includes(
+                              product.productId,
+                            )}
+                            index={i}
+                            couponId={couponId}
+                            couponFromCode={commerceProps?.couponFromCode}
+                            options={{
+                              saleCountdownRenderer: (props: any) => {
+                                return (
+                                  <SaleCountdown
+                                    data-pricing-product-sale-countdown=""
+                                    size="lg"
+                                    {...props}
+                                  />
+                                )
+                              },
+                            }}
+                          />
+                        </div>
+                      </PriceCheckProvider>
+                    )
+                  })}
+              </div>
+            )
+          },
           Testimonial: ({children, author, url}: any) => {
             return (
               <blockquote className="relative !my-0 flex flex-col justify-between rounded-md border-l-0 bg-white !p-5 not-italic text-foreground dark:bg-white/5 lg:!p-8">
@@ -424,16 +491,30 @@ function useParallax(value: MotionValue<number>, distance: number) {
   return useTransform(value, [0, 1], [-distance, distance])
 }
 
-const Header = () => {
+const Header = ({commerceProps}: {commerceProps: CommerceProps}) => {
+  const percentageDiscount =
+    Number(commerceProps.couponFromCode?.percentageDiscount) * 100 || null
   return (
     <header className="relative mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#FFF6E7_0%,transparent_65%)] px-5 pb-16 pt-24 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)] sm:pt-28">
       <h1 className="relative z-10 text-3xl font-bold sm:pt-10 sm:text-4xl lg:text-5xl">
         <span className="inline-flex text-balance pb-4 text-xs font-semibold uppercase tracking-widest text-amber-600 shadow-cyan-200/50 dark:text-cyan-300 dark:brightness-110 dark:drop-shadow-xl sm:text-sm">
           Start your journey to becoming an Epic Web Developer
         </span>
-        <div className="text-balance text-gray-900 dark:text-white">
-          Everything Epic Web has to Offer
-        </div>
+        {percentageDiscount ? (
+          <div className="text-balance text-gray-900 dark:text-white">
+            Save{' '}
+            {percentageDiscount && (
+              <span className="font-extrabold text-amber-500 dark:text-amber-300">
+                {percentageDiscount}%
+              </span>
+            )}{' '}
+            on everything you need to become an Epic web developer
+          </div>
+        ) : (
+          <div className="text-balance text-gray-900 dark:text-white">
+            Everything you need to become an Epic web developer
+          </div>
+        )}
       </h1>
       <Image
         alt=""

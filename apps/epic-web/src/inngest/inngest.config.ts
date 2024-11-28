@@ -14,6 +14,7 @@ import {slackDailyReporter} from './functions/stripe/slack-daily-reporter'
 import {slackMonthlyReporter} from './functions/stripe/slack-monthly-reporter'
 import {syncConversions} from 'inngest/functions/sync-conversions'
 import {megaBundle} from './functions/post-purchase-automation/mega-bundle'
+import {chargeRefunded} from './functions/post-purchase-automation/charge-refunded'
 
 export const inngestConfig = {
   client: inngest,
@@ -34,6 +35,7 @@ export const inngestConfig = {
     slackMonthlyReporter,
     syncConversions,
     megaBundle,
+    chargeRefunded,
     ...sanityProductFunctions,
   ],
 }

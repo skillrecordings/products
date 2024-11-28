@@ -52,7 +52,7 @@ export const megaBundle = inngest.createFunction(
 
       for (const productId of MEGABUNDLE_PRODUCT_IDS) {
         await step.run(`create purchase for ${productId}`, async () => {
-          const newPurchaseId = v4()
+          const newPurchaseId = `${purchaseId}~${productId}`
 
           await prisma.purchase.create({
             data: {
