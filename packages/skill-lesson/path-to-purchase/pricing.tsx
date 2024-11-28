@@ -1049,7 +1049,9 @@ export const PriceDisplay = ({
             {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
               <>
                 <div aria-hidden="true" data-price-discounted="">
-                  <div data-full-price={fullPrice}>{'$' + fullPrice}</div>
+                  <div data-full-price={fullPrice}>
+                    {formatUsd(fullPrice).dollars}.{formatUsd(fullPrice).cents}
+                  </div>
                   <div data-percent-off={percentOff}>Save {percentOff}%</div>
                 </div>
                 <div className="sr-only">
@@ -1251,6 +1253,8 @@ export const formatUsd = (amount: number = 0) => {
     currency: 'USD',
   })
   const formattedPrice = formatter.format(amount).split('.')
+
+  console.log('formattedPrice', formattedPrice)
 
   return {dollars: formattedPrice[0], cents: formattedPrice[1]}
 }
