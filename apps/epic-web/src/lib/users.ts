@@ -1,4 +1,17 @@
-import {prisma} from '@skillrecordings/database'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
+import {fetchSubscriber} from '@skillrecordings/convertkit-sdk'
+import {prisma, getSdk} from '@skillrecordings/database'
+import {
+  Subscriber,
+  SubscriberSchema,
+} from '@skillrecordings/skill-lesson/schemas/subscriber'
+import {User, UserSchema} from '@skillrecordings/skill-lesson'
+import {IncomingMessage} from 'http'
+import {serialize} from 'cookie'
+import {getToken} from 'next-auth/jwt'
+import {ParsedUrlQuery} from 'querystring'
+import {ServerResponse} from 'http'
+import {NextApiRequestCookies} from 'next/dist/server/api-utils'
 
 export async function loadUserForToken({
   token,
@@ -33,5 +46,70 @@ export async function loadUserForToken({
         purchases: true,
       },
     })
+  }
+}
+
+export async function getUserAndSubscriber({
+  req,
+  res,
+  query,
+}: {
+  req: IncomingMessage & {
+    cookies: NextApiRequestCookies
+  }
+  res: ServerResponse
+  query?: ParsedUrlQuery
+}) {
+  const token = await getToken({req})
+  const {getUserByEmail} = getSdk()
+
+  const parsedToken = token && UserSchema.safeParse(token)
+
+  let user: User | null = null
+  let subscriber: Subscriber | null = null
+
+  if (parsedToken?.success) {
+    user = await getUserByEmail(parsedToken.data.email)
+  }
+
+  let rawSubscriber = null
+
+  if (req.cookies['ck_subscriber']) {
+    try {
+      rawSubscriber = JSON.parse(req.cookies['ck_subscriber'])
+    } catch (e) {
+      console.debug('error parsing ck_subscriber cookie', e)
+    }
+  }
+
+  if (rawSubscriber?.id || query?.ck_subscriber_id) {
+    try {
+      rawSubscriber = await fetchSubscriber(
+        (rawSubscriber?.id || query?.ck_subscriber_id) as string,
+      )
+    } catch (e) {
+      console.log('error fetching ck_subscriber cookie', e)
+    }
+  }
+
+  const parsedSubscriber = SubscriberSchema.safeParse(rawSubscriber)
+
+  if (parsedSubscriber.success) {
+    subscriber = parsedSubscriber.data
+    user = user ? user : await getUserByEmail(subscriber.email_address)
+    res.setHeader(
+      'Set-Cookie',
+      serialize('ck_subscriber', JSON.stringify(subscriber), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+        maxAge: 31556952,
+      }),
+    )
+  }
+
+  return {
+    user: convertToSerializeForNextResponse(user),
+    subscriber: convertToSerializeForNextResponse(subscriber),
   }
 }

@@ -59,6 +59,7 @@ type PricingProps = {
   couponFromCode?: {
     merchantCouponId: string | null
     percentageDiscount: number | Decimal
+    expires?: Date | null
   }
   cancelUrl?: string
   allowPurchase?: boolean

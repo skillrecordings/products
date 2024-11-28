@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react'
 import Layout from 'components/app/layout'
-import type {GetStaticProps, NextPage} from 'next'
+import type {GetServerSideProps, GetStaticProps, NextPage} from 'next'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import AboutKent from 'components/contributor-bio'
 import Balancer from 'react-wrap-balancer'
@@ -26,6 +26,7 @@ import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coup
 import {useRouter} from 'next/router'
 import {getProduct} from 'lib/products'
 import {
+  CommerceProps,
   SanityProduct,
   SanityProductModule,
 } from '@skillrecordings/commerce-server/dist/@types'
@@ -48,6 +49,11 @@ import {
   TooltipTrigger,
 } from '@skillrecordings/ui'
 import Head from 'next/head'
+import {calculateOptimalDiscount} from 'utils/mega-bundle-discount-calculator'
+import {getToken} from 'next-auth/jwt'
+import {getUserAndSubscriber} from 'lib/users'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
+import SaleCountdown from '@skillrecordings/skill-lesson/path-to-purchase/sale-countdown'
 
 const productId = '4a3706d4-7154-45ad-b9c6-05f25fae51df' // megabundle
 
@@ -56,16 +62,14 @@ const Index: NextPage<{
   products: SanityProduct[]
   bonuses: any[]
   interviewImages: string[]
-}> = ({product, products, bonuses, interviewImages}) => {
+  commerceProps: CommerceProps
+}> = ({product, products, bonuses, interviewImages, commerceProps}) => {
   const router = useRouter()
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
 
-  const {data: commerceProps, status: commercePropsStatus} =
-    trpc.pricing.propsForCommerce.useQuery({
-      ...router.query,
-      productId: product.productId,
-    })
+  console.log('commerceProps', commerceProps)
+
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
     {
@@ -150,6 +154,18 @@ const Index: NextPage<{
                           )}
                           index={i}
                           couponId={couponId}
+                          couponFromCode={commerceProps?.couponFromCode}
+                          options={{
+                            saleCountdownRenderer: (props: any) => {
+                              return (
+                                <SaleCountdown
+                                  data-pricing-product-sale-countdown=""
+                                  size="lg"
+                                  {...props}
+                                />
+                              )
+                            },
+                          }}
                         />
                       </div>
                     </PriceCheckProvider>
@@ -469,14 +485,31 @@ const Subscribe: React.FC<SubscribeProps> = ({subscriber}) => {
 
 export default Index
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const {req, res, query} = context
+  const token = await getToken({req})
+  const {user, subscriber} = await getUserAndSubscriber({req, res, query})
   const sanityProduct = await getProduct(productId as string)
   const pricing = await getPricing('megabundle-2024')
+
+  const purchasedProductIds =
+    user?.purchases?.map((purchase: any) => purchase.productId) || []
+
+  const coupon = calculateOptimalDiscount(purchasedProductIds).discountCode
 
   const products = pricing && pricing.products
   const availableBonuses = await getAvailableBonuses()
   // get images from public folder
   const interviewImages = await readDirectoryContents('assets/interviews')
+
+  const {props: commerceProps} = await propsForCommerce({
+    query: {
+      ...query,
+      coupon,
+    },
+    token,
+    products,
+  })
 
   return {
     props: {
@@ -484,8 +517,8 @@ export const getStaticProps: GetStaticProps = async () => {
       products,
       bonuses: availableBonuses,
       interviewImages,
+      commerceProps,
     },
-    revalidate: 10,
   }
 }
 
