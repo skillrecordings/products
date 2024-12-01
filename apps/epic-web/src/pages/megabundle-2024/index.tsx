@@ -62,6 +62,8 @@ import SaleCountdown from '@skillrecordings/skill-lesson/path-to-purchase/sale-c
 import {drop, take} from 'lodash'
 import {PoweredByStripe} from 'components/powered-by-stripe'
 import Testimonials from 'components/testimonials'
+import {Companies} from 'components/companies'
+import {MoreCompanies} from 'components/more-companies'
 
 const productId = '4a3706d4-7154-45ad-b9c6-05f25fae51df' // megabundle
 
@@ -197,6 +199,7 @@ const Index: NextPage<{
           </section>
 
           <AboutKent />
+          <MoreCompanies />
           <Testimonials />
           <div className="relative mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 py-16 lg:py-20">
             <div
