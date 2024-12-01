@@ -41,6 +41,7 @@ type NavigationProps = {
   globalBannerClassName?: string
   enableScrollAnimation?: boolean
   enableGlobalBanner?: boolean
+  withContentNav?: boolean
 }
 
 const useAbilities = () => {
@@ -49,7 +50,7 @@ const useAbilities = () => {
   return createAppAbility(abilityRules || [])
 }
 
-export const useNavigationLinks = () => {
+export const useNavigationLinks = (withContentNav = true) => {
   const ability = useAbilities()
   const canCreateContent = ability.can('create', 'Content')
   const {theme} = useTheme()
@@ -122,6 +123,7 @@ const Navigation: React.FC<NavigationProps> = ({
   enableGlobalBanner = true,
   navigationContainerClassName,
   enableScrollAnimation = true,
+  withContentNav = true,
 }) => {
   const {pathname, asPath, push} = useRouter()
   const isRoot = pathname === '/'
@@ -183,45 +185,47 @@ const Navigation: React.FC<NavigationProps> = ({
             >
               <Logo />
             </Link>
-            <div className="hidden items-center justify-start gap-2 font-medium md:flex lg:pl-2">
-              {navigationLinks.map(({label, href, icon}, i) => {
-                const isOvershadowed = false
+            {withContentNav && (
+              <div className="hidden items-center justify-start gap-2 font-medium md:flex lg:pl-2">
+                {navigationLinks.map(({label, href, icon}, i) => {
+                  const isOvershadowed = false
 
-                return (
-                  <Link
-                    onMouseOver={() => {
-                      setHoveredNavItemIndex(i)
-                    }}
-                    onMouseLeave={() => {
-                      setHoveredNavItemIndex(-1)
-                    }}
-                    key={href}
-                    href={href}
-                    className={cx(
-                      'group flex items-center gap-1 rounded-md px-1.5 py-1 transition lg:px-2.5',
-                      {
-                        'opacity-60': isOvershadowed,
-                      },
-                    )}
-                    passHref
-                    onClick={() => {
-                      setHoveredNavItemIndex(i)
-                      track(`clicked ${label} from navigation`, {
-                        page: asPath,
-                      })
-                    }}
-                  >
-                    {icon(
-                      (hoveredNavItemIndex === i ||
-                        asPath === href ||
-                        asPath.includes(`${href}/`)) &&
-                        !isOvershadowed,
-                    )}{' '}
-                    {label}
-                  </Link>
-                )
-              })}
-            </div>
+                  return (
+                    <Link
+                      onMouseOver={() => {
+                        setHoveredNavItemIndex(i)
+                      }}
+                      onMouseLeave={() => {
+                        setHoveredNavItemIndex(-1)
+                      }}
+                      key={href}
+                      href={href}
+                      className={cx(
+                        'group flex items-center gap-1 rounded-md px-1.5 py-1 transition lg:px-2.5',
+                        {
+                          'opacity-60': isOvershadowed,
+                        },
+                      )}
+                      passHref
+                      onClick={() => {
+                        setHoveredNavItemIndex(i)
+                        track(`clicked ${label} from navigation`, {
+                          page: asPath,
+                        })
+                      }}
+                    >
+                      {icon(
+                        (hoveredNavItemIndex === i ||
+                          asPath === href ||
+                          asPath.includes(`${href}/`)) &&
+                          !isOvershadowed,
+                      )}{' '}
+                      {label}
+                    </Link>
+                  )
+                })}
+              </div>
+            )}
           </div>
           <div className="flex items-center justify-end">
             <Login className="hidden md:flex" />

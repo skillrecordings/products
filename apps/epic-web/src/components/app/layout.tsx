@@ -20,6 +20,7 @@ type LayoutProps = {
   withFooter?: boolean
   enableScrollAnimation?: boolean
   enableGlobalBanner?: boolean
+  withContentNav?: boolean
 }
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
@@ -33,6 +34,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   withFooter = true,
   enableScrollAnimation = true,
   enableGlobalBanner = true,
+  withContentNav = true,
 }) => {
   const {
     title,
@@ -98,6 +100,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         globalBannerClassName={globalBannerClassName}
         enableScrollAnimation={enableScrollAnimation}
         enableGlobalBanner={enableGlobalBanner}
+        withContentNav={withContentNav}
       />
       <div
         id="layout"
