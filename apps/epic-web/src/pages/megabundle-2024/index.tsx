@@ -576,7 +576,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const purchasedProductIds =
     user?.purchases?.map((purchase: any) => purchase.productId) || []
 
-  const coupon = calculateOptimalDiscount(purchasedProductIds).discountCode
+  const couponIdOrCode = query.coupon || query.code
+
+  const coupon = couponIdOrCode
+    ? couponIdOrCode
+    : calculateOptimalDiscount(purchasedProductIds).discountCode
 
   const products = pricing && pricing.products
   const availableBonuses = await getAvailableBonuses()
