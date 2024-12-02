@@ -977,7 +977,8 @@ export const productOnSalePathBuilder = (product: {
   if (product.type === 'live') {
     return `/events/${product.slug}`
   } else if (product.modules && product.modules.length > 1) {
-    return `/products/${product.slug}`
+    // TODO: make this more robust
+    return `/${product.slug}`
   } else {
     return `/workshops/${product?.modules?.[0]?.slug?.current}`
   }
@@ -1004,8 +1005,12 @@ export const Banner: React.FC<{
   if (router.query.lesson) {
     return null
   }
+
   // Don't show the banner on product page
   if (router.query.slug === productOnSale?.slug) {
+    return null
+  }
+  if (router.pathname === `/${productOnSale?.slug}`) {
     return null
   }
 
