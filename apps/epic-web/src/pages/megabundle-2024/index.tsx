@@ -220,7 +220,6 @@ const Index: NextPage<{
 
 const Article: React.FC<{
   workshops: SanityProductModule[]
-
   commerceProps: CommerceProps
   products: SanityProduct[]
   purchasedProductIds: string[]

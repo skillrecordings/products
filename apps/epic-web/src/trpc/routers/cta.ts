@@ -312,6 +312,61 @@ export const ctaRouter = router({
             CURRENT_ACTIVE_PROMOTION = activePromotion.data
           }
         }
+      } else {
+        const nonDefaultCoupons = await prisma.coupon.findMany({
+          where: {
+            restrictedToProductId: {
+              in: products.map(
+                (product: {productId: string}) => product.productId,
+              ),
+            },
+            maxUses: {
+              equals: -1,
+            },
+            expires: {
+              gt: new Date(),
+            },
+          },
+        })
+        if (nonDefaultCoupons.length > 0) {
+          // TODO: Just get the first coupon for now
+          const coupon = nonDefaultCoupons[0]
+
+          if (coupon.restrictedToProductId) {
+            const product = await getProduct(coupon.restrictedToProductId)
+
+            if (product) {
+              const pricing = await sanityClient.fetch(
+                groq`*[_type == 'pricing' && references(*[_type == 'product' && productId == $productId][0]._id)][0]{
+              ...,
+              products[]->{
+                _id,
+                productId,
+              }
+            }`,
+                {productId: product.productId},
+              )
+              if (!pricing) {
+                console.error('No pricing for product restricted coupon found')
+              }
+
+              const activePromotion = ActivePromotionSchema.safeParse({
+                ...coupon,
+                product: {
+                  ...product,
+                  slug: pricing ? pricing.slug.current : product.slug,
+                },
+              })
+
+              if (!activePromotion.success) {
+                console.error('Error parsing active promotion')
+                console.error(activePromotion.error)
+              } else {
+                CURRENT_ACTIVE_PROMOTION = activePromotion.data
+              }
+            }
+          }
+        }
       }
 
       //   CONTRIBUTOR_HAS_PRODUCT
