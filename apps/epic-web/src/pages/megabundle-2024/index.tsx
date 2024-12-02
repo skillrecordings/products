@@ -105,7 +105,10 @@ const Index: NextPage<{
       <Layout
         meta={{
           titleAppendSiteName: false,
-          title: 'Ship Modern Full-Stack Web Applications',
+          title: 'Epic Megabundle 2024',
+          ogImage: {
+            url: 'https://res.cloudinary.com/epic-web/image/upload/v1733143624/megabundle-2024/card_2x.jpg',
+          },
         }}
         navigationClassName=""
         withContentNav={false}
