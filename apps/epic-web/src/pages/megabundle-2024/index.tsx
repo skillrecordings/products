@@ -13,7 +13,7 @@ import type {Engine} from '@tsparticles/engine'
 import {loadSlim} from '@tsparticles/slim'
 import KentImage from '../../../public/kent-c-dodds.png'
 import {loadStarsPreset} from 'tsparticles-preset-stars'
-import fs from 'fs'
+
 import {
   motion,
   MotionValue,
@@ -71,12 +71,11 @@ const Index: NextPage<{
   product: SanityProduct
   products: SanityProduct[]
   bonuses: any[]
-  interviewImages: string[]
+
   commerceProps: CommerceProps
-}> = ({product, products, bonuses, interviewImages, commerceProps}) => {
+}> = ({product, products, bonuses, commerceProps}) => {
   const router = useRouter()
-  const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' || product.state === 'active'
+  const ALLOW_PURCHASE = true // router.query.allowPurchase === 'true' || product.state === 'active'
 
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
@@ -123,7 +122,6 @@ const Index: NextPage<{
         <main className="">
           <Article
             workshops={product.modules}
-            interviewImages={interviewImages}
             commerceProps={commerceProps}
             products={products}
             purchasedProductIds={purchasedProductIds}
@@ -219,7 +217,7 @@ const Index: NextPage<{
 
 const Article: React.FC<{
   workshops: SanityProductModule[]
-  interviewImages: string[]
+
   commerceProps: CommerceProps
   products: SanityProduct[]
   purchasedProductIds: string[]
@@ -227,7 +225,7 @@ const Article: React.FC<{
   couponId: string | undefined
 }> = ({
   workshops,
-  interviewImages,
+
   commerceProps,
   products,
   purchasedProductIds,
@@ -235,16 +233,17 @@ const Article: React.FC<{
   couponId,
 }) => {
   return (
-    <article className="prose mx-auto max-w-3xl px-5 pt-0 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-5">
+    <article className="prose mx-auto max-w-3xl px-5 pt-8 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-5">
       <LandingCopy
+        // @ts-ignore
         commerceProps={commerceProps}
         components={{
           // ...linkedHeadingComponents,
           Buy: ({children}: any) => {
             return (
               <div
-                id="buy"
-                className="relative flex flex-col items-center justify-start"
+                id="megabundle-2024"
+                className="not-prose relative flex flex-col items-center justify-start"
               >
                 <Sparkles />
                 {products
@@ -255,11 +254,7 @@ const Article: React.FC<{
                         key={product.slug}
                         purchasedProductIds={purchasedProductIds}
                       >
-                        <div
-                          data-pricing-container=""
-                          key={product.name}
-                          className="not-prose"
-                        >
+                        <div data-pricing-container="" key={product.name}>
                           <Pricing
                             bonuses={bonuses}
                             allowPurchase={true}
@@ -276,11 +271,13 @@ const Article: React.FC<{
                               showAllContent: false,
                               saleCountdownRenderer: (props: any) => {
                                 return (
-                                  <SaleCountdown
-                                    data-pricing-product-sale-countdown=""
-                                    size="lg"
-                                    {...props}
-                                  />
+                                  <div className="pb-5">
+                                    <SaleCountdown
+                                      data-pricing-product-sale-countdown=""
+                                      size="lg"
+                                      {...props}
+                                    />
+                                  </div>
                                 )
                               },
                             }}
@@ -327,15 +324,31 @@ const Article: React.FC<{
               </blockquote>
             )
           },
-          PromoVideo: () => {
+
+          Image,
+          WorkshopListItem: ({children, imageUrl, size = 'default'}: any) => {
+            const getImageSize = (size: string) => {
+              switch (size) {
+                case 'sm':
+                  return 40
+                case 'default':
+                  return 60
+                case 'large':
+                  return 80
+                default:
+                  return 60
+              }
+            }
             return (
-              <MuxPlayer
-                theme="minimal"
-                playbackId="cqjuBzq74nu4ZlksxTXz7IKqxfaWaR1KjyGQLAc4nQ4"
-                accentColor="#3b82f6"
-                className="w-full rounded"
-                poster="https://res.cloudinary.com/epic-web/image/upload/v1697358228/promo-video-poster.jpg"
-              />
+              <li className="not-prose flex flex-row items-center gap-5">
+                <Image
+                  src={imageUrl}
+                  alt={children}
+                  width={getImageSize(size)}
+                  height={getImageSize(size)}
+                />
+                {children}
+              </li>
             )
           },
           WorkshopAppScreenshot,
@@ -354,150 +367,6 @@ const Article: React.FC<{
                 />
                 <div className="pt-2">{children}</div>
               </div>
-            )
-          },
-          InterviewsWithExpertsVol1: ({
-            slug,
-            title,
-            image,
-            meta,
-            features,
-            path = 'bonuses',
-            children,
-          }: any) => {
-            return (
-              <li
-                id={slug}
-                key={slug}
-                className="not-prose flex flex-col-reverse items-center justify-between gap-8 pb-16 sm:-mx-10 lg:-mx-24 lg:flex-row lg:items-center"
-              >
-                <div className="flex flex-col items-center sm:items-start">
-                  <div className="mb-2 inline-flex rounded-full bg-amber-600 px-2 py-0.5 font-mono text-sm font-semibold uppercase text-background dark:bg-yellow-300">
-                    🎁 bonus
-                  </div>
-                  <h3 className="text-center text-2xl font-bold lg:text-left lg:text-3xl">
-                    <Link
-                      href={`/${path}/${slug}`}
-                      target="_blank"
-                      className="hover:underline"
-                    >
-                      {title}
-                    </Link>
-                  </h3>
-                  <p className="pt-2 text-center font-mono text-sm uppercase lg:text-left ">
-                    {meta}
-                  </p>
-                  <div className="mt-5 max-w-md space-y-4 text-base leading-relaxed opacity-90">
-                    {children}
-                  </div>
-                  <Link
-                    href={`/${path}/${slug}`}
-                    target="_blank"
-                    className="mt-3 inline-flex gap-1 py-2 text-base opacity-75 transition hover:opacity-100"
-                  >
-                    Read more <span aria-hidden>↗︎</span>
-                  </Link>
-                </div>
-                {interviewImages && (
-                  <div className="group grid max-w-[430px] grid-cols-5 gap-1">
-                    {interviewImages.map((image) => {
-                      return (
-                        <TooltipProvider delayDuration={0}>
-                          <Tooltip>
-                            <TooltipTrigger className="cursor-default">
-                              <Image
-                                className="rounded opacity-75 transition hover:opacity-100"
-                                src={require(`../../../public/assets/interviews/${image}`)}
-                                alt=""
-                                aria-hidden
-                                width={100}
-                                height={100}
-                                placeholder="blur"
-                              />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              {image.replace('-', ' ').replace('.png', '')}
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      )
-                    })}
-                  </div>
-                )}
-                {/* {image && (
-                  <Link
-                    href={`/${path}/${slug}`}
-                    target="_blank"
-                    className="flex-shrink-0"
-                  >
-                    <Image src={image} width={400} height={400} alt={title} />
-                  </Link>
-                )} */}
-              </li>
-            )
-          },
-          Workshop: ({
-            slug,
-            title,
-            image,
-            meta,
-            features,
-            path = 'workshops',
-          }: any) => {
-            return (
-              <li
-                id={slug}
-                key={slug}
-                className="not-prose flex flex-col items-center gap-8 pb-16 sm:-mx-10 lg:-mx-16 lg:flex-row lg:items-start"
-              >
-                {image && (
-                  <Link
-                    href={`/${path}/${slug}`}
-                    target="_blank"
-                    className="flex-shrink-0"
-                  >
-                    <Image src={image} width={300} height={300} alt={title} />
-                  </Link>
-                )}
-                <div className="flex flex-col items-center sm:items-start">
-                  <h3 className="text-center text-2xl font-bold lg:text-left lg:text-3xl">
-                    <Link
-                      href={`/workshops/${slug}`}
-                      target="_blank"
-                      className="hover:underline"
-                    >
-                      {title}
-                    </Link>
-                  </h3>
-                  <p className="pt-2 text-center font-mono text-sm uppercase lg:text-left ">
-                    {meta}
-                  </p>
-                  <ul className="pt-8">
-                    {features.map((feature: any) => {
-                      return (
-                        <li
-                          className='py-1 pl-7 before:-ml-7 before:pr-3 before:text-emerald-500 before:content-["✓"] dark:before:text-emerald-300'
-                          key={feature}
-                        >
-                          <ReactMarkdown
-                            unwrapDisallowed
-                            disallowedElements={['p']}
-                          >
-                            {feature}
-                          </ReactMarkdown>
-                        </li>
-                      )
-                    })}
-                  </ul>
-                  <Link
-                    href={`/workshops/${slug}`}
-                    target="_blank"
-                    className="mt-3 inline-flex gap-1 py-2 text-base opacity-75 transition hover:opacity-100"
-                  >
-                    Read more <span aria-hidden>↗︎</span>
-                  </Link>
-                </div>
-              </li>
             )
           },
           li: ({children}: any) => {
@@ -521,16 +390,16 @@ const Header = ({commerceProps}: {commerceProps: CommerceProps}) => {
   const percentageDiscount =
     Number(commerceProps.couponFromCode?.percentageDiscount) * 100 || null
   return (
-    <header className="relative mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#FFF6E7_0%,transparent_65%)] px-5 pb-16 pt-24 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)] sm:pt-28">
-      <h1 className="relative z-10 text-3xl font-bold sm:pt-10 sm:text-4xl lg:text-5xl">
-        <span className="inline-flex text-balance pb-4 text-xs font-semibold uppercase tracking-widest text-amber-600 shadow-cyan-200/50 dark:text-cyan-300 dark:brightness-110 dark:drop-shadow-xl sm:text-sm">
+    <header className="relative mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#fff_0%,transparent_65%)] px-5 pt-5 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)] sm:pt-10">
+      <h1 className="relative z-10 pb-5 text-3xl font-bold sm:pb-2 sm:text-4xl lg:text-5xl">
+        <span className="inline-flex text-balance pb-3 text-[0.35em] font-semibold uppercase tracking-widest text-blue-600 shadow-cyan-200/50 dark:text-blue-300 dark:brightness-110 dark:drop-shadow-xl sm:pb-8 md:text-sm">
           Start your journey to becoming an Epic Web Developer
         </span>
         {percentageDiscount ? (
           <div className="text-balance text-gray-900 dark:text-white">
             Save{' '}
             {percentageDiscount && (
-              <span className="font-extrabold text-amber-500 dark:text-amber-300">
+              <span className="font-extrabold text-amber-600 dark:text-amber-300">
                 {percentageDiscount}%
               </span>
             )}{' '}
@@ -546,19 +415,19 @@ const Header = ({commerceProps}: {commerceProps: CommerceProps}) => {
         alt=""
         quality={100}
         priority
-        src={require('../../../public/assets/marketplace-hero@2x.jpg')}
-        fill
+        width={1158}
+        src={require('../../../public/assets/megabundle/bundle-hero-dark@2x.png')}
         aria-hidden="true"
-        className="invisible -mt-10 object-contain object-top dark:visible sm:mt-0 sm:object-cover sm:object-center"
+        className="invisible hidden scale-125 dark:visible dark:block sm:scale-100"
       />
       <Image
         alt=""
         quality={100}
         priority
-        src={require('../../../public/assets/marketplace-hero-light@2x.jpg')}
-        fill
+        width={1158}
+        src={require('../../../public/assets/megabundle/bundle-hero-light@2x.png')}
         aria-hidden="true"
-        className="visible -mt-10 object-contain object-top dark:invisible sm:mt-0 sm:object-cover sm:object-center"
+        className="visible block scale-125 dark:invisible dark:hidden sm:scale-100"
       />
     </header>
   )
@@ -610,8 +479,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const products = pricing && pricing.products
   const availableBonuses = await getAvailableBonuses()
-  // get images from public folder
-  const interviewImages = await readDirectoryContents('assets/interviews')
 
   const {props: commerceProps} = await propsForCommerce({
     query: {
@@ -627,7 +494,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       product: sanityProduct,
       products,
       bonuses: availableBonuses,
-      interviewImages,
       commerceProps,
     },
   }
@@ -659,161 +525,6 @@ const WorkshopAppScreenshot = () => {
       ) : null}
     </div>
   )
-}
-
-async function readDirectoryContents(directoryPath: string) {
-  const directory = path.join(process.cwd(), 'public', directoryPath)
-  try {
-    const files = await fs.promises.readdir(directory)
-    const filteredFiles = files.filter((file) => file !== '.DS_Store')
-    return filteredFiles
-  } catch (error) {
-    console.error(`Error reading directory: ${directoryPath}`, error)
-    return []
-  }
-}
-
-export const ParticlesHeroEffect = () => {
-  const [init, setInit] = React.useState(false)
-  React.useEffect(() => {
-    initParticlesEngine(async (engine: Engine) => {
-      await loadSlim(engine)
-      await loadStarsPreset(engine as any)
-    }).then(() => {
-      const timeout = setTimeout(() => {
-        setInit(true)
-      }, 750)
-      return () => {
-        clearTimeout(timeout)
-      }
-    })
-  }, [])
-
-  const particlesLoaded = (container: any) => {
-    return container
-  }
-
-  return init ? (
-    <>
-      <Particles
-        id="redParticles"
-        particlesLoaded={particlesLoaded}
-        className="absolute top-0 z-10 h-full w-full"
-        options={{
-          name: 'red',
-          fullScreen: {
-            enable: false,
-          },
-          preset: 'stars',
-          retina_detect: true,
-          background: {
-            opacity: 0,
-          },
-          pauseOnOutsideViewport: true,
-          zLayers: 1,
-          particles: {
-            shadow: {
-              blur: 20,
-              color: '#F85C1F',
-              enable: true,
-            },
-            number: {
-              value: 50,
-            },
-            size: {
-              value: {min: 1, max: 5},
-            },
-            opacity: {
-              value: {
-                min: 0.1,
-                max: 0.5,
-              },
-              animation: {
-                enable: true,
-                speed: 0.2,
-              },
-            },
-            color: {
-              value: '#F85C1F',
-            },
-            move: {
-              direction: 'outside',
-              center: {
-                x: 50,
-                y: 5,
-              },
-              enable: true,
-              speed: {
-                max: 0.6,
-                min: 0.1,
-              },
-              straight: false,
-              random: true,
-            },
-          },
-        }}
-      />
-      <Particles
-        id="blueParticles"
-        particlesLoaded={particlesLoaded}
-        className="absolute left-0 top-0 z-0 h-full w-full"
-        options={{
-          name: 'blue',
-          fullScreen: {
-            enable: false,
-          },
-          preset: 'stars',
-          detectRetina: true,
-          background: {
-            opacity: 0,
-          },
-          pauseOnOutsideViewport: true,
-          zLayers: 10,
-          particles: {
-            number: {
-              value: 300,
-            },
-            zIndex: {
-              value: {
-                min: 1,
-                max: 5,
-              },
-            },
-            shadow: {
-              blur: 20,
-              color: '#67CBEB',
-              enable: true,
-            },
-            size: {
-              value: {min: 1, max: 3.2},
-            },
-            color: {
-              value: '#67CBEB',
-            },
-            opacity: {
-              value: {
-                min: 0.1,
-                max: 0.95,
-              },
-            },
-            move: {
-              direction: 'outside',
-              center: {
-                x: 50,
-                y: 200,
-              },
-              enable: true,
-              speed: {
-                max: 0.7,
-                min: 0.2,
-              },
-              straight: true,
-            },
-          },
-        }}
-      />
-    </>
-  ) : null
 }
 
 function FaqBody() {
