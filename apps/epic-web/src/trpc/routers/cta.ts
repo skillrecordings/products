@@ -10,6 +10,8 @@ import {getSdk, prisma} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
 import {ProductSchema, getProduct} from 'lib/products'
 import {subDays} from 'date-fns'
+import {getUserAndSubscriber} from 'lib/users'
+import {calculateOptimalDiscount} from 'utils/mega-bundle-discount-calculator'
 
 const ActivePromotionSchema = z.object({
   id: z.string(),
@@ -329,33 +331,30 @@ export const ctaRouter = router({
           },
         })
         if (nonDefaultCoupons.length > 0) {
-          // TODO: Just get the first coupon for now
-          const coupon = nonDefaultCoupons[0]
+          const {user, subscriber} = await getUserAndSubscriber(ctx)
 
-          if (coupon.restrictedToProductId) {
+          const purchasedProductIds =
+            user?.purchases?.map((purchase: any) => purchase.productId) || []
+
+          const optimalCoupon =
+            calculateOptimalDiscount(purchasedProductIds).discountCode
+
+          let coupon
+          if (optimalCoupon) {
+            coupon = nonDefaultCoupons.find(
+              (coupon) => coupon.id === optimalCoupon,
+            )
+          } else {
+            coupon = nonDefaultCoupons[0]
+          }
+
+          if (coupon?.restrictedToProductId) {
             const product = await getProduct(coupon.restrictedToProductId)
 
             if (product) {
-              const pricing = await sanityClient.fetch(
-                groq`*[_type == 'pricing' && references(*[_type == 'product' && productId == $productId][0]._id)][0]{
-              ...,
-              products[]->{
-                _id,
-                productId,
-              }
-            }`,
-                {productId: product.productId},
-              )
-              if (!pricing) {
-                console.error('No pricing for product restricted coupon found')
-              }
-
               const activePromotion = ActivePromotionSchema.safeParse({
                 ...coupon,
-                product: {
-                  ...product,
-                  slug: pricing ? pricing.slug.current : product.slug,
-                },
+                product,
               })
 
               if (!activePromotion.success) {
