@@ -39,6 +39,7 @@ import {getSdk} from '@skillrecordings/database'
 import {ActivePromotion, ActivePromotionSchema} from '@/trpc/routers/cta'
 import {z} from 'zod'
 import Head from 'next/head'
+import {hasMegabundleExpired, MegabundleBanner} from '@/components/megabundle'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -51,6 +52,8 @@ export const getServerSideProps: GetServerSideProps = async ({
   const pricingActive = await sanityClientNoCdn.fetch(
     groq`*[_type == 'pricing' && active == true][0]`,
   )
+
+  const isShowingMegabundle = !hasMegabundleExpired()
 
   const erV1PurchasedOnDate = eRv1PurchasedOnDate(user?.purchases)
   const coupon =
@@ -140,6 +143,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       buttonCtaLabels,
       hasPurchasedV1: Boolean(erV1PurchasedOnDate || query?.asPurchasedV1),
       activePromotion: convertToSerializeForNextResponse(activePromotion),
+      isShowingMegabundle,
     },
   }
 }
@@ -154,6 +158,7 @@ const Home: React.FC<{
   hasPurchasedV1?: boolean
   interviewImages: string[]
   activePromotion: ActivePromotion | null
+  isShowingMegabundle: boolean
 }> = ({
   modules,
   commerceProps,
@@ -165,6 +170,7 @@ const Home: React.FC<{
   hasPurchasedV1 = false,
   interviewImages,
   activePromotion,
+  isShowingMegabundle = false,
 }) => {
   const shouldReduceMotion = useReducedMotion()
 
@@ -373,6 +379,10 @@ const Home: React.FC<{
               </div>
             </>
           ) : null}
+          <MegabundleBanner
+            isShowing={isShowingMegabundle}
+            className="-mb-16"
+          />
           <div className="prose relative mx-auto mb-16 mt-16 w-full max-w-3xl px-8 pt-10">
             <div
               className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"

@@ -107,7 +107,7 @@ const Index: NextPage<{
           titleAppendSiteName: false,
           title: 'Epic Megabundle 2024',
           ogImage: {
-            url: 'https://res.cloudinary.com/epic-web/image/upload/v1733143624/megabundle-2024/card_2x.jpg',
+            url: 'https://res.cloudinary.com/epic-web/image/upload/v1733220830/megabundle-2024/card_2x.jpg',
           },
         }}
         navigationClassName=""
