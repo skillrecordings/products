@@ -95,6 +95,7 @@ type PricingProps = {
     specialEffectRenderer?: () => React.ReactNode
   }
   id?: string
+  children?: React.ReactNode
 }
 
 /**
@@ -142,6 +143,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     specialPricingLabel: 'Full access',
     specialEffectRenderer: () => null,
   },
+  children,
 }) => {
   const {
     withImage = true,
@@ -397,6 +399,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <Balancer>{title}</Balancer>
                 </h2>
               )}
+
               {isLoadingAvailabilityForLiveProduct ? (
                 <div data-loading-availability-for-live-product="">
                   <Spinner />
@@ -443,6 +446,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         )}
                     </>
                   )}
+                  {children}
                 </>
               )}
             </div>
@@ -626,6 +630,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     {withGuaranteeBadge && (
                       <span data-guarantee="">30-Day Money-Back Guarantee</span>
                     )}
+
                     {isLiveEvent && (
                       <span data-live-event="">
                         <Balancer>

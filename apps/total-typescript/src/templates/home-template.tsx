@@ -141,12 +141,39 @@ export const HomeTemplate: React.FC<
                                   options={{
                                     withGuaranteeBadge: true,
                                     withImage: true,
+                                    buttonCtaLabel:
+                                      product.title
+                                        ?.toLowerCase()
+                                        .includes('complete') &&
+                                      new Date() <
+                                        new Date('2024-12-20T07:59:59Z')
+                                        ? 'Buy now and save!'
+                                        : 'Buy now',
                                   }}
                                   allowPurchase={allowPurchase}
                                   purchaseButtonRenderer={
                                     totalTypescriptPurchaseButtonRenderer
                                   }
-                                />
+                                >
+                                  {product.title
+                                    ?.toLowerCase()
+                                    .includes('complete') &&
+                                    new Date() <
+                                      new Date('2024-12-20T07:59:59Z') && (
+                                      <div className="flex w-full flex-col px-16 py-2 ">
+                                        <p className="pt-4 text-center">
+                                          Price increasing to{' '}
+                                          <span className="font-bold text-yellow-300">
+                                            $795
+                                          </span>
+                                        </p>{' '}
+                                        <p className="text-center">
+                                          {' '}
+                                          on 19th December 2024.
+                                        </p>
+                                      </div>
+                                    )}
+                                </Pricing>
                               </div>
                             </PriceCheckProvider>
                           )
