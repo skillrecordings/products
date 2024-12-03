@@ -9,6 +9,9 @@ import {handleOnSubscribe, IconSecure} from '../newsletter'
 import {useRouter} from 'next/router'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
+const PDF_URL =
+  'https://res.cloudinary.com/total-typescript/image/upload/v1733254720/what-makes-a-typescript-wizard-cheatsheet/What_Makes_A_Wizard_Cheat_Sheet.pdf'
+
 const WhatMakesATypescriptWizardCheatsheet = () => {
   const router = useRouter()
 
@@ -39,9 +42,10 @@ const WhatMakesATypescriptWizardCheatsheet = () => {
             />
             <Button asChild variant={'secondary'}>
               <Link
-                href={`${process.env.NEXT_PUBLIC_URL}/what-makes-a-typescript-wizard-cheatsheet.pdf`}
+                href={PDF_URL}
                 download={'what-makes-a-typescript-wizard-cheatsheet.pdf'}
                 className="gap-2"
+                target="_blank"
                 onClick={() => {
                   track('downloaded cheatsheet', {
                     name: 'what-makes-a-typescript-wizard-cheatsheet',
@@ -64,7 +68,7 @@ const WhatMakesATypescriptWizardCheatsheet = () => {
               <Link
                 key={image}
                 target="_blank"
-                href={`${process.env.NEXT_PUBLIC_URL}/what-makes-a-typescript-wizard-cheatsheet.pdf`}
+                href={PDF_URL}
                 className="relative cursor-zoom-in overflow-hidden"
                 onClick={() => {
                   track('viewed cheatsheet', {
