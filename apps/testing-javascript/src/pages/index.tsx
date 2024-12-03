@@ -21,6 +21,7 @@ import {getAllInterviews} from '@/lib/interviews'
 import type {TestimonialProps, FaqProps, InterviewProps} from '@/@types/'
 
 import LandingTemplate from '@/templates/landing-template'
+import {hasMegabundleExpired} from '@/components/megabundle'
 
 const testingJavaScriptProductIds = [
   'kcd_da6ab36c-b091-4f6f-90aa-d7db2fc798ff', // Basic
@@ -29,6 +30,8 @@ const testingJavaScriptProductIds = [
 ]
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+  const isShowingMegabundle = !hasMegabundleExpired()
+
   const sessionToken = await getToken({req})
 
   const testimonials = await getAllTestimonials()
@@ -97,6 +100,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
       hasChargesForPurchases,
       hasBulkPurchase,
       hasAvailableSeats,
+      isShowingMegabundle,
     },
   }
 }
@@ -113,6 +117,7 @@ const Home: React.FC<
     hasChargesForPurchases: boolean
     hasBulkPurchase: boolean
     hasAvailableSeats: boolean
+    isShowingMegabundle: boolean
   }>
 > = ({
   commerceProps,
@@ -125,6 +130,7 @@ const Home: React.FC<
   hasChargesForPurchases,
   hasBulkPurchase,
   hasAvailableSeats,
+  isShowingMegabundle = false,
 }) => {
   const router = useRouter()
   const {
@@ -182,6 +188,7 @@ const Home: React.FC<
           proTestingPurchased={proTestingPurchased}
           commerceProps={commerceProps}
           mostValuedProduct={mostValuedProduct}
+          isShowingMegabundle={isShowingMegabundle}
         />
       </main>
     </Layout>
