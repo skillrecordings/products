@@ -9,7 +9,7 @@ import {useRouter, type NextRouter} from 'next/router'
 import Image from 'next/image'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
-const handleOnSubscribe = (
+export const handleOnSubscribe = (
   router: NextRouter,
   subscriber?: any,
   email?: string,
@@ -102,7 +102,7 @@ const NewsletterPage = () => {
 
 export default NewsletterPage
 
-const IconSecure = () => {
+export const IconSecure = () => {
   return (
     <svg
       width="16"
