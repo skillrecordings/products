@@ -25,7 +25,7 @@ export const shareLinks = {
     `https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
       link,
     )}&t=${encodeURIComponent(message)}`,
-  bluesky: (link = '') =>
+  bluesky: (link = '', message = '') =>
     `https://bsky.app/intent/compose?text=${encodeURIComponent(link)}`,
 }
 
