@@ -1,8 +1,10 @@
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Button} from '@skillrecordings/ui'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {zonedTimeToUtc} from 'date-fns-tz'
 import Image from 'next/image'
 import Link from 'next/link'
+import {useRouter} from 'next/router'
 import React from 'react'
 import Countdown, {zeroPad} from 'react-countdown'
 
@@ -21,6 +23,7 @@ export const MegabundleBanner = ({
   React.useEffect(() => {
     setIsMounted(true)
   }, [])
+  const router = useRouter()
 
   if (!isShowing) {
     return null
@@ -35,9 +38,13 @@ export const MegabundleBanner = ({
         id="megabundle"
         className={cn(
           'relative flex w-full sm:flex-row flex-col items-center justify-center overflow-hidden bg-gradient-to-tr saturate-125 hover:bg-orange-200 transition ease-in-out duration-300 from-yellow-400/20 to-amber-500/20 sm:py-3 py-5 shadow-inner',
-
           className,
         )}
+        onClick={() => {
+          track('clicked megabundle banner', {
+            location: router.asPath,
+          })
+        }}
       >
         <div className="mx-auto flex w-full text-yellow-950 max-w-3xl container sm:flex-row justify-between flex-col items-center">
           <div className="flex items-center gap-3 sm:mb-0 mb-5">
