@@ -1,9 +1,11 @@
+import {track} from '@/utils/analytics'
 import {Button} from '@skillrecordings/ui'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {zonedTimeToUtc} from 'date-fns-tz'
 import {useTheme} from 'next-themes'
 import Image from 'next/image'
 import Link from 'next/link'
+import {useRouter} from 'next/router'
 import React from 'react'
 import Countdown, {zeroPad} from 'react-countdown'
 
@@ -24,6 +26,7 @@ export const MegabundleBanner = ({
   React.useEffect(() => {
     setIsMounted(true)
   }, [])
+  const router = useRouter()
 
   if (!isShowing) {
     return null
@@ -46,15 +49,8 @@ export const MegabundleBanner = ({
               ? 'https://res.cloudinary.com/epic-web/image/upload/v1733221905/megabundle-2024/bundle-hero-light_2x.png'
               : 'https://res.cloudinary.com/epic-web/image/upload/v1733221905/megabundle-2024/bundle-hero-dark_2x.png'
           }}
-          // className="absolute"
-          // fill
           width={2316 / 2.5}
           height={804 / 2.5}
-          // src={
-          //   theme === 'light'
-          //     ? 'https://res.cloudinary.com/epic-web/image/upload/v1733221905/megabundle-2024/bundle-hero-light_2x.png'
-          //     : 'https://res.cloudinary.com/epic-web/image/upload/v1733221905/megabundle-2024/bundle-hero-dark_2x.png'
-          // }
           src={
             'https://res.cloudinary.com/epic-web/image/upload/v1733221905/megabundle-2024/bundle-hero-dark_2x.png'
           }
@@ -123,6 +119,11 @@ export const MegabundleBanner = ({
                 href="https://epicweb.dev/megabundle-2024"
                 target="_blank"
                 rel="noopener"
+                onClick={() => {
+                  track('clicked megabundle banner', {
+                    location: router.asPath,
+                  })
+                }}
               >
                 Shop Now
               </Link>
