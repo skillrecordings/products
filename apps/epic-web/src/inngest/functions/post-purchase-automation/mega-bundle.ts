@@ -61,6 +61,10 @@ export const megaBundle = inngest.createFunction(
               redeemedBulkCouponId: purchase.redeemedBulkCouponId,
               productId,
               totalAmount: 0,
+              status: purchase.status,
+              country: purchase.country,
+              state: purchase.state,
+              city: purchase.city,
             },
           })
         })

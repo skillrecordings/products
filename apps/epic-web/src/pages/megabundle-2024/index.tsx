@@ -105,7 +105,7 @@ const Index: NextPage<{
       <Layout
         meta={{
           titleAppendSiteName: false,
-          title: 'Epic Megabundle 2024',
+          title: 'Epic Megabundle',
           ogImage: {
             url: 'https://res.cloudinary.com/epic-web/image/upload/v1733220830/megabundle-2024/card_2x.jpg',
           },
