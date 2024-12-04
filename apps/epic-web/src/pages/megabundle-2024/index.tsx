@@ -590,9 +590,9 @@ const Question: React.FC<{title: string; body: string}> = ({title, body}) => {
 }
 
 const markdownContent = `
-## Does Epic React cover Remix,Next.js or OTHER_FRAMEWORK?
+## What's in the Epic Megabundle?
 
-No, Epic React is fully and completely focused on React. It's pure React and no other framework.
+Everything. Literally all 31 self-paced workshops we've ever published.
 
 ## How long do I have access to the course?
 
@@ -660,41 +660,37 @@ They cannot be transferred or "passed around"
 
 Yes, there’s a textarea that allows you to put any arbitrary information into the invoice PDF/printable.
 
-## Who is Epic React for?
+## Who is the Epic Megabundle for?
 
-Epic React is for anyone with a moderate understanding of JavaScript! Give this blog post a read: [https://kentcdodds.com/blog/javascript-to-know-for-react](https://kentcdodds.com/blog/javascript-to-know-for-react). If you’re comfortable with the features in that post, then you should be good to go. If not, then you’ll struggle a little bit with the syntax and JavaScript features used in the workshops.
+Epic Megabundle is for anyone with a moderate understanding of JavaScript! Give this blog post a read: [https://kentcdodds.com/blog/javascript-to-know-for-react](https://kentcdodds.com/blog/javascript-to-know-for-react). If you’re comfortable with the features in that post, then you should be good to go. If not, then you’ll struggle a little bit with the syntax and JavaScript features used in the workshops.
 
 ## What if I've been working with and studying React for years?
 
 You'll still learn something! Epic React is tailored for all experience levels! Kent covers everything from the basic levels to the advanced to the experimental!
 
-## I want to watch the launch Q&A, where do I go?
-
-Here is a [link to the recording](https://www.youtube.com/watch?v=H5V9P4_vxvU).
-
 ## How much time does it take to complete the whole course?
 
-Kent recommends around 14 weeks for a “dedicated” pace. The suggested schedule for a learning club can be found here: [KCD Learning Clubs Ideas](https://github.com/kentcdodds/kcd-learning-clubs-ideas)
+This is 6 months to a years worth of learning. Consider starting a club: [KCD Learning Clubs Ideas](https://github.com/kentcdodds/kcd-learning-clubs-ideas)
 
 ## How do I get a rocket in Discord?
 
-To link your KCD account with Discord navigate to [https://epicreact.dev/discord/](https://epicreact.dev/discord/) after you have purchased the course. Click on the button and you'll have the \`Epic React Dev\` role added to your account as well as the 🚀 added to your name!
+To link your KCD account with Discord navigate to [https://epicweb.dev/discord](https://epicweb.dev/discord) after you have purchased the course. Click on the button and you'll have the \`Epic React Dev\` role added to your account as well as the 🚀 added to your name!
 
-## Is there any live aspect to Epic React or is it all self-paced?
+## Is there any live aspect to Epic Megabundle or is it all self-paced?
 
 It is all self-paced but Kent holds [office hours](https://kcd.im/office-hours) that you can join to ask questions.
 
 You can join a learning club to check-in with other students live, learn more at https://kcd.im/clubs
 
-In addition, [the Discord Community](https://epicreact.dev/discord) is very active.
+In addition, [the Discord Community](https://epicweb.dev/discord) is very active.
 
 ## How can I join a learning club to study with other users?
 
 Visit this link to learn about how to join a club [https://kcd.im/discord-active-clubs](https://kcd.im/discord-active-clubs). The learning clubs are student-driven, so if you don’t see one that has openings then feel free to create your own. Check the following link for more information about creating your own club: [https://kcd.im/clubs](https://kcd.im/clubs)
 
-## Can I join an Epic React club without buying it and just use the open source repositories?
+## Can I join an Epic Web club without buying it and just use the open source repositories?
 
-No. The Epic React learning clubs are just for those that paid for the course.
+No. The Epic Web learning clubs are just for those that paid for the course.
 
 ## What versions of React is this compatible with?
 
@@ -716,6 +712,6 @@ Yes! You can email the Epic React Support Email: [${process.env.NEXT_PUBLIC_SUPP
 
 ## What are the terms and conditions?
 
-You can [read them here](https://epicreact.dev/privacy).
+You can [read them here](https://epicweb.dev/privacy).
 
 `
