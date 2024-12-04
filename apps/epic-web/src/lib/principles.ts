@@ -39,10 +39,6 @@ export function getAllPaths() {
   const principles = getPrinciples()
   const paths: {params: {principles: string[]}}[] = []
 
-  // Add root path
-  paths.push({params: {principles: []}})
-
-  // Add section paths
   principles.sections.forEach((section) => {
     paths.push({params: {principles: [section.slug]}})
 
