@@ -10,6 +10,7 @@ import {PrinciplesLayout} from '../../templates/principles-layout'
 
 import Link from 'next/link'
 import {Card, CardContent} from '@skillrecordings/ui'
+import Layout from 'components/app/layout'
 
 interface PrinciplesPageProps {
   content: {
@@ -33,118 +34,125 @@ export default function PrinciplesPage({
   }
 
   return (
-    <PrinciplesLayout sections={sections}>
-      <div className="prose prose-slate max-w-none dark:prose-invert">
-        <h1 className="mb-8 text-4xl font-bold">{content.data.title}</h1>
+    <Layout
+      meta={{
+        titleAppendSiteName: false,
+        title: content.data.title || `Epic Web Principles`,
+      }}
+    >
+      <PrinciplesLayout sections={sections}>
+        <div className="prose prose-slate max-w-none dark:prose-invert">
+          <h1 className="mb-8 text-4xl font-bold">{content.data.title}</h1>
 
-        {content.type === 'overview' && (
-          <>
-            <p className="mb-8 text-lg">{content.data.description}</p>
-            <div className="grid gap-6">
-              {content.data.sections.map((section: any) => (
-                <Card key={section.slug}>
-                  <CardContent className="pt-6">
-                    <Link
-                      href={`/principles/${section.slug}`}
-                      className="mb-2 block text-2xl font-semibold transition-colors hover:text-primary"
-                    >
-                      {section.title}
-                    </Link>
-                    <p className="mt-2 text-muted-foreground">
-                      {section.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </>
-        )}
-
-        {content.type === 'section' && (
-          <>
-            <p className="mb-8 text-lg">{content.data.description}</p>
-            <div className="grid gap-6">
-              {content.data.principles?.map((principle: any) => (
-                <Card key={principle.slug}>
-                  <CardContent className="pt-6">
-                    <Link
-                      href={`/principles/${content.data.slug}/${principle.slug}`}
-                      className="mb-2 block text-xl font-semibold transition-colors hover:text-primary"
-                    >
-                      {principle.title}
-                    </Link>
-                    <p className="mt-2 text-muted-foreground">
-                      {principle.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-              {content.data.subsections?.map((subsection: any) => (
-                <Card key={subsection.slug}>
-                  <CardContent className="pt-6">
-                    <Link
-                      href={`/principles/${content.data.slug}/${subsection.slug}`}
-                      className="mb-2 block text-xl font-semibold transition-colors hover:text-primary"
-                    >
-                      {subsection.title}
-                    </Link>
-                    <p className="mt-2 text-muted-foreground">
-                      {subsection.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </>
-        )}
-
-        {content.type === 'subsection' && (
-          <>
-            <p className="mb-8 text-lg">{content.data.description}</p>
-            <div className="grid gap-6">
-              {content.data.principles?.map((principle: any) => (
-                <Card key={principle.slug}>
-                  <CardContent className="pt-6">
-                    <Link
-                      href={`/principles/${content.parentSlug}/${content.data.slug}/${principle.slug}`}
-                      className="mb-2 block text-xl font-semibold transition-colors hover:text-primary"
-                    >
-                      {principle.title}
-                    </Link>
-                    <p className="mt-2 text-muted-foreground">
-                      {principle.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </>
-        )}
-
-        {content.type === 'principle' && (
-          <>
-            <p className="mb-4 text-lg">{content.data.description}</p>
-            {content.data.details && (
-              <p className="mb-4">{content.data.details}</p>
-            )}
-            {content.data.examples && content.data.examples.length > 0 && (
-              <div className="mt-6">
-                <h3 className="mb-4 text-xl font-semibold">Examples</h3>
-                <ul className="list-disc space-y-3 pl-5">
-                  {content.data.examples.map(
-                    (example: string, index: number) => (
-                      <li key={index} className="text-muted-foreground">
-                        {example}
-                      </li>
-                    ),
-                  )}
-                </ul>
+          {content.type === 'overview' && (
+            <>
+              <p className="mb-8 text-lg">{content.data.description}</p>
+              <div className="grid gap-6">
+                {content.data.sections.map((section: any) => (
+                  <Card key={section.slug}>
+                    <CardContent className="pt-6">
+                      <Link
+                        href={`/principles/${section.slug}`}
+                        className="mb-2 block text-2xl font-semibold transition-colors hover:text-primary"
+                      >
+                        {section.title}
+                      </Link>
+                      <p className="mt-2 text-muted-foreground">
+                        {section.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-            )}
-          </>
-        )}
-      </div>
-    </PrinciplesLayout>
+            </>
+          )}
+
+          {content.type === 'section' && (
+            <>
+              <p className="mb-8 text-lg">{content.data.description}</p>
+              <div className="grid gap-6">
+                {content.data.principles?.map((principle: any) => (
+                  <Card key={principle.slug}>
+                    <CardContent className="pt-6">
+                      <Link
+                        href={`/principles/${content.data.slug}/${principle.slug}`}
+                        className="mb-2 block text-xl font-semibold transition-colors hover:text-primary"
+                      >
+                        {principle.title}
+                      </Link>
+                      <p className="mt-2 text-muted-foreground">
+                        {principle.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+                {content.data.subsections?.map((subsection: any) => (
+                  <Card key={subsection.slug}>
+                    <CardContent className="pt-6">
+                      <Link
+                        href={`/principles/${content.data.slug}/${subsection.slug}`}
+                        className="mb-2 block text-xl font-semibold transition-colors hover:text-primary"
+                      >
+                        {subsection.title}
+                      </Link>
+                      <p className="mt-2 text-muted-foreground">
+                        {subsection.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </>
+          )}
+
+          {content.type === 'subsection' && (
+            <>
+              <p className="mb-8 text-lg">{content.data.description}</p>
+              <div className="grid gap-6">
+                {content.data.principles?.map((principle: any) => (
+                  <Card key={principle.slug}>
+                    <CardContent className="pt-6">
+                      <Link
+                        href={`/principles/${content.parentSlug}/${content.data.slug}/${principle.slug}`}
+                        className="mb-2 block text-xl font-semibold transition-colors hover:text-primary"
+                      >
+                        {principle.title}
+                      </Link>
+                      <p className="mt-2 text-muted-foreground">
+                        {principle.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </>
+          )}
+
+          {content.type === 'principle' && (
+            <>
+              <p className="mb-4 text-lg">{content.data.description}</p>
+              {content.data.details && (
+                <p className="mb-4">{content.data.details}</p>
+              )}
+              {content.data.examples && content.data.examples.length > 0 && (
+                <div className="mt-6">
+                  <h3 className="mb-4 text-xl font-semibold">Examples</h3>
+                  <ul className="list-disc space-y-3 pl-5">
+                    {content.data.examples.map(
+                      (example: string, index: number) => (
+                        <li key={index} className="text-muted-foreground">
+                          {example}
+                        </li>
+                      ),
+                    )}
+                  </ul>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </PrinciplesLayout>
+    </Layout>
   )
 }
 
