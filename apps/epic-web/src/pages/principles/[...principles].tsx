@@ -11,6 +11,7 @@ import {PrinciplesLayout} from '../../templates/principles-layout'
 import Link from 'next/link'
 import {Card, CardContent} from '@skillrecordings/ui'
 import Layout from 'components/app/layout'
+import Share from 'components/share'
 
 interface PrinciplesPageProps {
   content: {
@@ -151,6 +152,7 @@ export default function PrinciplesPage({
             </>
           )}
         </div>
+        <div className="mt-12"><Share title={content.data.title} contentType="principle" withFriends={false}/></div>
       </PrinciplesLayout>
     </Layout>
   )
