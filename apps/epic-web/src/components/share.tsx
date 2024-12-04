@@ -72,11 +72,11 @@ const Share: React.FC<{
               contributorTwitterHandle ? ` by @${contributorTwitterHandle}` : ''
             }`}
           />
-          <Facebook
+          {/* <Facebook
             className={shareButtonClassName}
             svgClassName="w-4 h-4"
             link={url}
-          />
+          /> */}
           <LinkedIn
             className={shareButtonClassName}
             svgClassName="w-4 h-4"
