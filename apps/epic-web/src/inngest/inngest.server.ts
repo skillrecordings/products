@@ -17,6 +17,8 @@ import {
   OauthProviderAccountLinked,
 } from 'inngest/events'
 import {
+  CHARGE_REFUNDED_EVENT,
+  ChargeRefunded,
   NEW_PURCHASE_CREATED_EVENT,
   NewPurchaseCreated,
   PURCHASE_STATUS_UPDATED_EVENT,
@@ -52,6 +54,7 @@ export type IngestEvents = {
   [OAUTH_PROVIDER_ACCOUNT_LINKED_EVENT]: OauthProviderAccountLinked
   [NEW_PURCHASE_CREATED_EVENT]: NewPurchaseCreated
   [PURCHASE_STATUS_UPDATED_EVENT]: PurchaseStatusUpdated
+  [CHARGE_REFUNDED_EVENT]: ChargeRefunded
   'user/login': {}
   'user/created': {}
   'analytics/conversion': {}

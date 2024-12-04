@@ -9,6 +9,7 @@ import {
 } from '@react-email/components'
 import * as React from 'react'
 import {Markdown} from '@react-email/markdown'
+import {megaBundleProductId} from 'inngest/functions/post-purchase-automation/mega-bundle'
 
 export const WelcomeEmail = ({
   name,
@@ -37,6 +38,26 @@ export const WelcomeEmail = ({
   const getEmailContent = (productId: string, purchaseStatus: string) => {
     const emailContent = () => {
       switch (productId) {
+        case megaBundleProductId:
+          return `
+You've purchased literally everything that we have to offer in the Epic Web universe.
+
+* [Epic Web](https://www.epicweb.dev)
+* [Epic React](https://www.epicreact.dev)
+* [Testing JavaScript](https://www.testingjavascript.com)
+
+All yours to learn from.
+
+[Epic Web includes](https://www.epicweb.dev/workshops) the full contents of Full Stack Vol 1, which is 5 self-paced workshops, as well as Pixel Perfect Tailwind, Mocking Techniques in Vitest, and Testing Fundamentals.
+
+Epic React gives you access to both the [legacy v1 Epic React](https://www.epicreact.dev/learn) which has some historic value as well as the [freshly updated Epic React](https://www.epicreact.dev/workshops) with all the latest and greatest from React 19.
+
+We recommend sticking to the [new Epic React](https://www.epicreact.dev/workshops) for most of your learning.
+
+This is **a lot of material**. Take your time working through it.
+
+As always, we are here to help so hit reply if you've got any questions.
+          `
         case '7872d512-ba34-4108-b510-7db9cbcee98c':
           return `
 In this workshop, you'll develop the intuition to write effective and efficient tests while building your own testing framework from scratch. This hands-on experience will deepen your understanding and enhance your testing skills.

@@ -10,12 +10,16 @@ import {isBefore, subDays} from 'date-fns'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Sparkle from 'react-sparkle'
 import {useReducedMotion} from 'framer-motion'
+import {trpc} from '@/trpc/trpc.client'
 
 const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
   className,
   isMinified = false,
 }) => {
   const {activePromotion, buyUrl, getCookie, setCookie} = useActivePromotion()
+
+  const {data: purchases = [], status: purchasesStatus} =
+    trpc.purchases.getAllPurchasesForUser.useQuery()
 
   const DAYS_TO_WAIT_BETWEEN_SHOWING_DISMISSED_PROMOTION = 2
 
@@ -48,8 +52,69 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
     }
   }, [activePromotion, getCookie])
 
+  const hasPurchasedComplete = purchases.some(
+    (purchase) => purchase.productId === 'tt_product_clxjgl7fg000108l8eifn69dt',
+  )
   const NavCTA = () => {
-    return activePromotion ? (
+    return new Date() < new Date('2024-12-20T07:59:59Z') &&
+      !hasPurchasedComplete ? (
+      <Link
+        className={cn(
+          'fixed left-[182px] top-0 z-50 flex h-16 max-w-[300px] items-center justify-center py-2.5 text-xs duration-500 ease-in-out',
+          {
+            'hidden xl:flex': !isMinified,
+            hidden: isMinified,
+          },
+          className,
+        )}
+        href={'/buy'}
+        onClick={() => {
+          track('active_promotion_cta_clicked', {
+            promotion_id: 'EOY-2024',
+            location: 'nav',
+          })
+        }}
+      >
+        <span className="absolute left-[-52px] top-0 origin-top-right scale-75 bg-yellow-300 px-1 font-sans text-xs font-semibold uppercase text-black">
+          Act Fast!
+          {!shouldReduceMotion && (
+            <Sparkle
+              flickerSpeed="slowest"
+              count={10}
+              color="rgb(253, 224, 71)"
+              flicker={false}
+              fadeOutSpeed={10}
+              overflowPx={15}
+            />
+          )}
+        </span>
+        <div className="flex flex-col text-[13px] transition hover:text-primary">
+          <span className="text-balance font-semibold text-white">
+            Price increasing to{' '}
+            <span className="font-bold text-yellow-300">$795</span> on 19th
+            December 2024.
+          </span>{' '}
+          <span className="hidden text-primary sm:inline-block">
+            <Countdown
+              date={new Date('2024-12-20T07:59:59Z').toISOString()}
+              renderer={({
+                seconds,
+                minutes,
+                hours,
+                days,
+              }: CountdownRenderProps) => {
+                return (
+                  <span className="tabular-nums">
+                    Price goes up in: {days > 0 && `${days}d`} {hours}h{' '}
+                    {zeroPad(minutes)}m {zeroPad(seconds, 2)}s
+                  </span>
+                )
+              }}
+            />
+          </span>
+        </div>
+      </Link>
+    ) : activePromotion ? (
       <Link
         className={cn(
           'fixed left-[182px] top-0 z-50 flex h-16 max-w-[300px] items-center justify-center py-2.5 text-xs duration-500 ease-in-out',

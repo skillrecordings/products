@@ -10,6 +10,8 @@ import {getSdk, prisma} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
 import {ProductSchema, getProduct} from 'lib/products'
 import {subDays} from 'date-fns'
+import {getUserAndSubscriber} from 'lib/users'
+import {calculateOptimalDiscount} from 'utils/mega-bundle-discount-calculator'
 
 const ActivePromotionSchema = z.object({
   id: z.string(),
@@ -310,6 +312,58 @@ export const ctaRouter = router({
             console.error(activePromotion.error)
           } else {
             CURRENT_ACTIVE_PROMOTION = activePromotion.data
+          }
+        }
+      } else {
+        const nonDefaultCoupons = await prisma.coupon.findMany({
+          where: {
+            restrictedToProductId: {
+              in: products.map(
+                (product: {productId: string}) => product.productId,
+              ),
+            },
+            maxUses: {
+              equals: -1,
+            },
+            expires: {
+              gt: new Date(),
+            },
+          },
+        })
+        if (nonDefaultCoupons.length > 0) {
+          const {user, subscriber} = await getUserAndSubscriber(ctx)
+
+          const purchasedProductIds =
+            user?.purchases?.map((purchase: any) => purchase.productId) || []
+
+          const optimalCoupon =
+            calculateOptimalDiscount(purchasedProductIds).discountCode
+
+          let coupon
+          if (optimalCoupon) {
+            coupon = nonDefaultCoupons.find(
+              (coupon) => coupon.id === optimalCoupon,
+            )
+          } else {
+            coupon = nonDefaultCoupons[0]
+          }
+
+          if (coupon?.restrictedToProductId) {
+            const product = await getProduct(coupon.restrictedToProductId)
+
+            if (product) {
+              const activePromotion = ActivePromotionSchema.safeParse({
+                ...coupon,
+                product,
+              })
+
+              if (!activePromotion.success) {
+                console.error('Error parsing active promotion')
+                console.error(activePromotion.error)
+              } else {
+                CURRENT_ACTIVE_PROMOTION = activePromotion.data
+              }
+            }
           }
         }
       }

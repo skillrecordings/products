@@ -1,7 +1,16 @@
 import Layout from 'components/app/layout'
+import MegabundleBossLetter from 'components/megabundle-boss-letter.mdx'
 import BossLetter from 'components/boss-letter.mdx'
 
-const BossLetterPage = () => {
+export const getServerSideProps = () => {
+  return {
+    props: {
+      megabundleEnds: '2024-12-20T07:59:59Z',
+    },
+  }
+}
+
+const BossLetterPage = ({megabundleEnds}: {megabundleEnds: string}) => {
   return (
     <Layout
       meta={{
@@ -11,8 +20,12 @@ const BossLetterPage = () => {
         },
       }}
     >
-      <main className="prose prose-lg mx-auto w-full max-w-2xl py-16 px-5 dark:prose-invert">
-        <BossLetter />
+      <main className="prose prose-lg mx-auto w-full max-w-2xl px-5 py-16 dark:prose-invert">
+        {new Date() < new Date(megabundleEnds) ? (
+          <MegabundleBossLetter />
+        ) : (
+          <BossLetter />
+        )}
       </main>
     </Layout>
   )

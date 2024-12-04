@@ -124,6 +124,7 @@ module.exports = {
               borderRadius: theme('borderRadius.md'),
             },
             color: theme('colors.gray.800'),
+            li: {color: theme('colors.gray.800')},
             'h1, h2, h3, h4, blockquote': {
               color: theme('colors.gray.900'),
             },
@@ -152,6 +153,9 @@ module.exports = {
         invert: {
           css: {
             color: theme('colors.gray.200'),
+            li: {
+              color: theme('colors.gray.200'),
+            },
             'h1, h2, h3, h4, blockquote': {
               color: theme('colors.gray.100'),
             },

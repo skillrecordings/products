@@ -59,6 +59,7 @@ type PricingProps = {
   couponFromCode?: {
     merchantCouponId: string | null
     percentageDiscount: number | Decimal
+    expires?: Date | null
   }
   cancelUrl?: string
   allowPurchase?: boolean
@@ -94,6 +95,7 @@ type PricingProps = {
     specialEffectRenderer?: () => React.ReactNode
   }
   id?: string
+  children?: React.ReactNode
 }
 
 /**
@@ -141,6 +143,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     specialPricingLabel: 'Full access',
     specialEffectRenderer: () => null,
   },
+  children,
 }) => {
   const {
     withImage = true,
@@ -396,6 +399,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <Balancer>{title}</Balancer>
                 </h2>
               )}
+
               {isLoadingAvailabilityForLiveProduct ? (
                 <div data-loading-availability-for-live-product="">
                   <Spinner />
@@ -442,6 +446,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         )}
                     </>
                   )}
+                  {children}
                 </>
               )}
             </div>
@@ -625,6 +630,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     {withGuaranteeBadge && (
                       <span data-guarantee="">30-Day Money-Back Guarantee</span>
                     )}
+
                     {isLiveEvent && (
                       <span data-live-event="">
                         <Balancer>
@@ -1048,7 +1054,9 @@ export const PriceDisplay = ({
             {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
               <>
                 <div aria-hidden="true" data-price-discounted="">
-                  <div data-full-price={fullPrice}>{'$' + fullPrice}</div>
+                  <div data-full-price={fullPrice}>
+                    {formatUsd(fullPrice).dollars}.{formatUsd(fullPrice).cents}
+                  </div>
                   <div data-percent-off={percentOff}>Save {percentOff}%</div>
                 </div>
                 <div className="sr-only">
@@ -1250,6 +1258,8 @@ export const formatUsd = (amount: number = 0) => {
     currency: 'USD',
   })
   const formattedPrice = formatter.format(amount).split('.')
+
+  console.log('formattedPrice', formattedPrice)
 
   return {dollars: formattedPrice[0], cents: formattedPrice[1]}
 }

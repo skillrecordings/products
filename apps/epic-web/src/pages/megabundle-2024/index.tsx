@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react'
 import Layout from 'components/app/layout'
-import type {GetStaticProps, NextPage} from 'next'
+import type {GetServerSideProps, GetStaticProps, NextPage} from 'next'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import AboutKent from 'components/contributor-bio'
 import Balancer from 'react-wrap-balancer'
@@ -13,7 +13,7 @@ import type {Engine} from '@tsparticles/engine'
 import {loadSlim} from '@tsparticles/slim'
 import KentImage from '../../../public/kent-c-dodds.png'
 import {loadStarsPreset} from 'tsparticles-preset-stars'
-import fs from 'fs'
+
 import {
   motion,
   MotionValue,
@@ -26,6 +26,7 @@ import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coup
 import {useRouter} from 'next/router'
 import {getProduct} from 'lib/products'
 import {
+  CommerceProps,
   SanityProduct,
   SanityProductModule,
 } from '@skillrecordings/commerce-server/dist/@types'
@@ -42,12 +43,27 @@ import {getAvailableBonuses} from 'lib/available-bonuses'
 import {XIconTwitter} from 'components/x-icon'
 import path from 'path'
 import {
+  Accordion,
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+  AccordionTrigger,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@skillrecordings/ui'
 import Head from 'next/head'
+import {calculateOptimalDiscount} from 'utils/mega-bundle-discount-calculator'
+import {getToken} from 'next-auth/jwt'
+import {getUserAndSubscriber} from 'lib/users'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
+import SaleCountdown from '@skillrecordings/skill-lesson/path-to-purchase/sale-countdown'
+import {drop, take} from 'lodash'
+import {PoweredByStripe} from 'components/powered-by-stripe'
+import Testimonials from 'components/testimonials'
+import {Companies} from 'components/companies'
+import {MoreCompanies} from 'components/more-companies'
 
 const productId = '4a3706d4-7154-45ad-b9c6-05f25fae51df' // megabundle
 
@@ -55,17 +71,12 @@ const Index: NextPage<{
   product: SanityProduct
   products: SanityProduct[]
   bonuses: any[]
-  interviewImages: string[]
-}> = ({product, products, bonuses, interviewImages}) => {
-  const router = useRouter()
-  const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' || product.state === 'active'
 
-  const {data: commerceProps, status: commercePropsStatus} =
-    trpc.pricing.propsForCommerce.useQuery({
-      ...router.query,
-      productId: product.productId,
-    })
+  commerceProps: CommerceProps
+}> = ({product, products, bonuses, commerceProps}) => {
+  const router = useRouter()
+  const ALLOW_PURCHASE = true // router.query.allowPurchase === 'true' || product.state === 'active'
+
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
     {
@@ -94,9 +105,13 @@ const Index: NextPage<{
       <Layout
         meta={{
           titleAppendSiteName: false,
-          title: 'Ship Modern Full-Stack Web Applications',
+          title: 'Epic Megabundle',
+          ogImage: {
+            url: 'https://res.cloudinary.com/epic-web/image/upload/v1733220830/megabundle-2024/card_2x.jpg',
+          },
         }}
         navigationClassName=""
+        withContentNav={false}
       >
         <Head>
           <link
@@ -106,11 +121,15 @@ const Index: NextPage<{
             href="/rss.xml"
           />
         </Head>
-        <Header />
+        <Header commerceProps={commerceProps} />
         <main className="">
           <Article
             workshops={product.modules}
-            interviewImages={interviewImages}
+            commerceProps={commerceProps}
+            products={products}
+            purchasedProductIds={purchasedProductIds}
+            bonuses={bonuses}
+            couponId={couponId}
           />
           <section className="relative mt-16 flex flex-col items-center justify-start dark:bg-black/30">
             <div className="flex flex-col items-center justify-center py-16">
@@ -127,7 +146,7 @@ const Index: NextPage<{
               </h3>
             </div>
             <div
-              id="buy"
+              id="megabundle-2024"
               className="relative flex flex-col items-center justify-start"
             >
               <Sparkles />
@@ -150,24 +169,49 @@ const Index: NextPage<{
                           )}
                           index={i}
                           couponId={couponId}
+                          couponFromCode={commerceProps?.couponFromCode}
+                          options={{
+                            saleCountdownRenderer: (props: any) => {
+                              return (
+                                <SaleCountdown
+                                  data-pricing-product-sale-countdown=""
+                                  size="lg"
+                                  {...props}
+                                />
+                              )
+                            },
+                          }}
                         />
                       </div>
                     </PriceCheckProvider>
                   )
                 })}
             </div>
-            {ALLOW_PURCHASE ? (
-              <Image
-                className="-mt-16 mb-16"
-                src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
-                width={130}
-                height={130}
-                alt="30-Day Money Back Guarantee"
-              />
-            ) : null}
+            <div className="mx-auto flex items-center justify-center">
+              <PoweredByStripe />
+            </div>
+            <Image
+              className="mb-16 mt-3"
+              src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+              width={130}
+              height={130}
+              alt="30-Day Money Back Guarantee"
+            />
           </section>
 
           <AboutKent />
+          <MoreCompanies />
+          <Testimonials />
+          <div className="relative mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 py-16 lg:py-20">
+            <div
+              className="absolute top-0 h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"
+              aria-hidden="true"
+            />
+            <h2 className="w-full text-balance pb-20 text-center text-3xl font-bold sm:text-3xl lg:text-4xl">
+              Frequently Asked Questions
+            </h2>
+            <FaqBody />
+          </div>
         </main>
       </Layout>
     </>
@@ -176,13 +220,77 @@ const Index: NextPage<{
 
 const Article: React.FC<{
   workshops: SanityProductModule[]
-  interviewImages: string[]
-}> = ({workshops, interviewImages}) => {
+  commerceProps: CommerceProps
+  products: SanityProduct[]
+  purchasedProductIds: string[]
+  bonuses: any[]
+  couponId: string | undefined
+}> = ({
+  workshops,
+
+  commerceProps,
+  products,
+  purchasedProductIds,
+  bonuses,
+  couponId,
+}) => {
   return (
-    <article className="prose mx-auto max-w-3xl px-5 pt-0 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-5">
+    <article className="prose mx-auto max-w-3xl px-5 pt-8 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-5">
       <LandingCopy
+        // @ts-ignore
+        commerceProps={commerceProps}
         components={{
           // ...linkedHeadingComponents,
+          Buy: ({children}: any) => {
+            return (
+              <div
+                id="megabundle-2024"
+                className="not-prose relative flex flex-col items-center justify-start"
+              >
+                <Sparkles />
+                {products
+                  ?.filter((product: any) => product.state !== 'unavailable')
+                  .map((product, i) => {
+                    return (
+                      <PriceCheckProvider
+                        key={product.slug}
+                        purchasedProductIds={purchasedProductIds}
+                      >
+                        <div data-pricing-container="" key={product.name}>
+                          <Pricing
+                            bonuses={bonuses}
+                            allowPurchase={true}
+                            userId={commerceProps?.userId}
+                            product={product}
+                            purchased={purchasedProductIds.includes(
+                              product.productId,
+                            )}
+                            index={i}
+                            couponId={couponId}
+                            couponFromCode={commerceProps?.couponFromCode}
+                            options={{
+                              withGuaranteeBadge: true,
+                              showAllContent: false,
+                              saleCountdownRenderer: (props: any) => {
+                                return (
+                                  <div className="pb-5">
+                                    <SaleCountdown
+                                      data-pricing-product-sale-countdown=""
+                                      size="lg"
+                                      {...props}
+                                    />
+                                  </div>
+                                )
+                              },
+                            }}
+                          />
+                        </div>
+                      </PriceCheckProvider>
+                    )
+                  })}
+              </div>
+            )
+          },
           Testimonial: ({children, author, url}: any) => {
             return (
               <blockquote className="relative !my-0 flex flex-col justify-between rounded-md border-l-0 bg-white !p-5 not-italic text-foreground dark:bg-white/5 lg:!p-8">
@@ -218,15 +326,31 @@ const Article: React.FC<{
               </blockquote>
             )
           },
-          PromoVideo: () => {
+
+          Image,
+          WorkshopListItem: ({children, imageUrl, size = 'default'}: any) => {
+            const getImageSize = (size: string) => {
+              switch (size) {
+                case 'sm':
+                  return 40
+                case 'default':
+                  return 60
+                case 'large':
+                  return 80
+                default:
+                  return 60
+              }
+            }
             return (
-              <MuxPlayer
-                theme="minimal"
-                playbackId="cqjuBzq74nu4ZlksxTXz7IKqxfaWaR1KjyGQLAc4nQ4"
-                accentColor="#3b82f6"
-                className="w-full rounded"
-                poster="https://res.cloudinary.com/epic-web/image/upload/v1697358228/promo-video-poster.jpg"
-              />
+              <li className="not-prose flex flex-row items-center gap-5">
+                <Image
+                  src={imageUrl}
+                  alt={children}
+                  width={getImageSize(size)}
+                  height={getImageSize(size)}
+                />
+                {children}
+              </li>
             )
           },
           WorkshopAppScreenshot,
@@ -247,150 +371,6 @@ const Article: React.FC<{
               </div>
             )
           },
-          InterviewsWithExpertsVol1: ({
-            slug,
-            title,
-            image,
-            meta,
-            features,
-            path = 'bonuses',
-            children,
-          }: any) => {
-            return (
-              <li
-                id={slug}
-                key={slug}
-                className="not-prose flex flex-col-reverse items-center justify-between gap-8 pb-16 sm:-mx-10 lg:-mx-24 lg:flex-row lg:items-center"
-              >
-                <div className="flex flex-col items-center sm:items-start">
-                  <div className="mb-2 inline-flex rounded-full bg-amber-600 px-2 py-0.5 font-mono text-sm font-semibold uppercase text-background dark:bg-yellow-300">
-                    🎁 bonus
-                  </div>
-                  <h3 className="text-center text-2xl font-bold lg:text-left lg:text-3xl">
-                    <Link
-                      href={`/${path}/${slug}`}
-                      target="_blank"
-                      className="hover:underline"
-                    >
-                      {title}
-                    </Link>
-                  </h3>
-                  <p className="pt-2 text-center font-mono text-sm uppercase lg:text-left ">
-                    {meta}
-                  </p>
-                  <div className="mt-5 max-w-md space-y-4 text-base leading-relaxed opacity-90">
-                    {children}
-                  </div>
-                  <Link
-                    href={`/${path}/${slug}`}
-                    target="_blank"
-                    className="mt-3 inline-flex gap-1 py-2 text-base opacity-75 transition hover:opacity-100"
-                  >
-                    Read more <span aria-hidden>↗︎</span>
-                  </Link>
-                </div>
-                {interviewImages && (
-                  <div className="group grid max-w-[430px] grid-cols-5 gap-1">
-                    {interviewImages.map((image) => {
-                      return (
-                        <TooltipProvider delayDuration={0}>
-                          <Tooltip>
-                            <TooltipTrigger className="cursor-default">
-                              <Image
-                                className="rounded opacity-75 transition hover:opacity-100"
-                                src={require(`../../../public/assets/interviews/${image}`)}
-                                alt=""
-                                aria-hidden
-                                width={100}
-                                height={100}
-                                placeholder="blur"
-                              />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              {image.replace('-', ' ').replace('.png', '')}
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      )
-                    })}
-                  </div>
-                )}
-                {/* {image && (
-                  <Link
-                    href={`/${path}/${slug}`}
-                    target="_blank"
-                    className="flex-shrink-0"
-                  >
-                    <Image src={image} width={400} height={400} alt={title} />
-                  </Link>
-                )} */}
-              </li>
-            )
-          },
-          Workshop: ({
-            slug,
-            title,
-            image,
-            meta,
-            features,
-            path = 'workshops',
-          }: any) => {
-            return (
-              <li
-                id={slug}
-                key={slug}
-                className="not-prose flex flex-col items-center gap-8 pb-16 sm:-mx-10 lg:-mx-16 lg:flex-row lg:items-start"
-              >
-                {image && (
-                  <Link
-                    href={`/${path}/${slug}`}
-                    target="_blank"
-                    className="flex-shrink-0"
-                  >
-                    <Image src={image} width={300} height={300} alt={title} />
-                  </Link>
-                )}
-                <div className="flex flex-col items-center sm:items-start">
-                  <h3 className="text-center text-2xl font-bold lg:text-left lg:text-3xl">
-                    <Link
-                      href={`/workshops/${slug}`}
-                      target="_blank"
-                      className="hover:underline"
-                    >
-                      {title}
-                    </Link>
-                  </h3>
-                  <p className="pt-2 text-center font-mono text-sm uppercase lg:text-left ">
-                    {meta}
-                  </p>
-                  <ul className="pt-8">
-                    {features.map((feature: any) => {
-                      return (
-                        <li
-                          className='py-1 pl-7 before:-ml-7 before:pr-3 before:text-emerald-500 before:content-["✓"] dark:before:text-emerald-300'
-                          key={feature}
-                        >
-                          <ReactMarkdown
-                            unwrapDisallowed
-                            disallowedElements={['p']}
-                          >
-                            {feature}
-                          </ReactMarkdown>
-                        </li>
-                      )
-                    })}
-                  </ul>
-                  <Link
-                    href={`/workshops/${slug}`}
-                    target="_blank"
-                    className="mt-3 inline-flex gap-1 py-2 text-base opacity-75 transition hover:opacity-100"
-                  >
-                    Read more <span aria-hidden>↗︎</span>
-                  </Link>
-                </div>
-              </li>
-            )
-          },
           li: ({children}: any) => {
             return (
               <li className='list-none py-1 pl-7 before:-ml-7 before:pr-3 before:text-emerald-500 before:content-["✓"] dark:before:text-emerald-300 sm:before:-ml-2'>
@@ -408,34 +388,48 @@ function useParallax(value: MotionValue<number>, distance: number) {
   return useTransform(value, [0, 1], [-distance, distance])
 }
 
-const Header = () => {
+const Header = ({commerceProps}: {commerceProps: CommerceProps}) => {
+  const percentageDiscount =
+    Number(commerceProps.couponFromCode?.percentageDiscount) * 100 || null
   return (
-    <header className="relative mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#FFF6E7_0%,transparent_65%)] px-5 pb-16 pt-24 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)] sm:pt-28">
-      <h1 className="relative z-10 text-3xl font-bold sm:pt-10 sm:text-4xl lg:text-5xl">
-        <span className="inline-flex text-balance pb-4 text-xs font-semibold uppercase tracking-widest text-amber-600 shadow-cyan-200/50 dark:text-cyan-300 dark:brightness-110 dark:drop-shadow-xl sm:text-sm">
+    <header className="relative mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#fff_0%,transparent_65%)] px-5 pt-5 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)] sm:pt-10">
+      <h1 className="relative z-10 pb-5 text-3xl font-bold sm:pb-2 sm:text-4xl lg:text-5xl">
+        <span className="inline-flex text-balance pb-3 text-[0.35em] font-semibold uppercase tracking-widest text-blue-600 shadow-cyan-200/50 dark:text-blue-300 dark:brightness-110 dark:drop-shadow-xl sm:pb-8 md:text-sm">
           Start your journey to becoming an Epic Web Developer
         </span>
-        <div className="text-balance text-gray-900 dark:text-white">
-          Everything Epic Web has to Offer
-        </div>
+        {percentageDiscount ? (
+          <div className="text-balance text-gray-900 dark:text-white">
+            Save{' '}
+            {percentageDiscount && (
+              <span className="font-extrabold text-amber-600 dark:text-amber-300">
+                {percentageDiscount}%
+              </span>
+            )}{' '}
+            on everything you need to become an Epic web developer
+          </div>
+        ) : (
+          <div className="text-balance text-gray-900 dark:text-white">
+            Everything you need to become an Epic web developer
+          </div>
+        )}
       </h1>
       <Image
         alt=""
         quality={100}
         priority
-        src={require('../../../public/assets/marketplace-hero@2x.jpg')}
-        fill
+        width={1158}
+        src={require('../../../public/assets/megabundle/bundle-hero-dark@2x.png')}
         aria-hidden="true"
-        className="invisible -mt-10 object-contain object-top dark:visible sm:mt-0 sm:object-cover sm:object-center"
+        className="invisible hidden scale-125 dark:visible dark:block sm:scale-100"
       />
       <Image
         alt=""
         quality={100}
         priority
-        src={require('../../../public/assets/marketplace-hero-light@2x.jpg')}
-        fill
+        width={1158}
+        src={require('../../../public/assets/megabundle/bundle-hero-light@2x.png')}
         aria-hidden="true"
-        className="visible -mt-10 object-contain object-top dark:invisible sm:mt-0 sm:object-cover sm:object-center"
+        className="visible block scale-125 dark:invisible dark:hidden sm:scale-100"
       />
     </header>
   )
@@ -469,23 +463,41 @@ const Subscribe: React.FC<SubscribeProps> = ({subscriber}) => {
 
 export default Index
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const {req, res, query} = context
+  const token = await getToken({req})
+  const {user, subscriber} = await getUserAndSubscriber({req, res, query})
   const sanityProduct = await getProduct(productId as string)
   const pricing = await getPricing('megabundle-2024')
 
+  const purchasedProductIds =
+    user?.purchases?.map((purchase: any) => purchase.productId) || []
+
+  const couponIdOrCode = query.coupon || query.code
+
+  const coupon = couponIdOrCode
+    ? couponIdOrCode
+    : calculateOptimalDiscount(purchasedProductIds).discountCode
+
   const products = pricing && pricing.products
   const availableBonuses = await getAvailableBonuses()
-  // get images from public folder
-  const interviewImages = await readDirectoryContents('assets/interviews')
+
+  const {props: commerceProps} = await propsForCommerce({
+    query: {
+      ...query,
+      coupon,
+    },
+    token,
+    products,
+  })
 
   return {
     props: {
       product: sanityProduct,
       products,
       bonuses: availableBonuses,
-      interviewImages,
+      commerceProps,
     },
-    revalidate: 10,
   }
 }
 
@@ -517,157 +529,189 @@ const WorkshopAppScreenshot = () => {
   )
 }
 
-async function readDirectoryContents(directoryPath: string) {
-  const directory = path.join(process.cwd(), 'public', directoryPath)
-  try {
-    const files = await fs.promises.readdir(directory)
-    const filteredFiles = files.filter((file) => file !== '.DS_Store')
-    return filteredFiles
-  } catch (error) {
-    console.error(`Error reading directory: ${directoryPath}`, error)
-    return []
-  }
+function FaqBody() {
+  const questions = markdownContent
+    .split('## ')
+    .filter((item) => item.trim() !== '')
+  const formattedQuestions = questions.map((question) => {
+    const parts = question.split('\n')
+    const title = parts[0].trim()
+    const body = parts.slice(1).join('\n').trim()
+    return {title, body}
+  })
+  return (
+    <Accordion
+      type="multiple"
+      className="flex w-full flex-col gap-x-3 gap-y-3 md:grid md:grid-cols-2 md:gap-y-0"
+    >
+      <ul className="flex flex-col gap-3">
+        {take(formattedQuestions, formattedQuestions.length / 2).map(
+          ({title, body}) => (
+            <Question title={title} body={body} key={title} />
+          ),
+        )}
+      </ul>
+      <ul className="flex flex-col gap-3">
+        {drop(formattedQuestions, formattedQuestions.length / 2).map(
+          ({title, body}) => (
+            <Question title={title} body={body} key={title} />
+          ),
+        )}
+      </ul>
+    </Accordion>
+  )
 }
 
-export const ParticlesHeroEffect = () => {
-  const [init, setInit] = React.useState(false)
-  React.useEffect(() => {
-    initParticlesEngine(async (engine: Engine) => {
-      await loadSlim(engine)
-      await loadStarsPreset(engine as any)
-    }).then(() => {
-      const timeout = setTimeout(() => {
-        setInit(true)
-      }, 750)
-      return () => {
-        clearTimeout(timeout)
-      }
-    })
-  }, [])
-
-  const particlesLoaded = (container: any) => {
-    return container
-  }
-
-  return init ? (
-    <>
-      <Particles
-        id="redParticles"
-        particlesLoaded={particlesLoaded}
-        className="absolute top-0 z-10 h-full w-full"
-        options={{
-          name: 'red',
-          fullScreen: {
-            enable: false,
-          },
-          preset: 'stars',
-          retina_detect: true,
-          background: {
-            opacity: 0,
-          },
-          pauseOnOutsideViewport: true,
-          zLayers: 1,
-          particles: {
-            shadow: {
-              blur: 20,
-              color: '#F85C1F',
-              enable: true,
-            },
-            number: {
-              value: 50,
-            },
-            size: {
-              value: {min: 1, max: 5},
-            },
-            opacity: {
-              value: {
-                min: 0.1,
-                max: 0.5,
-              },
-              animation: {
-                enable: true,
-                speed: 0.2,
-              },
-            },
-            color: {
-              value: '#F85C1F',
-            },
-            move: {
-              direction: 'outside',
-              center: {
-                x: 50,
-                y: 5,
-              },
-              enable: true,
-              speed: {
-                max: 0.6,
-                min: 0.1,
-              },
-              straight: false,
-              random: true,
-            },
-          },
-        }}
-      />
-      <Particles
-        id="blueParticles"
-        particlesLoaded={particlesLoaded}
-        className="absolute left-0 top-0 z-0 h-full w-full"
-        options={{
-          name: 'blue',
-          fullScreen: {
-            enable: false,
-          },
-          preset: 'stars',
-          detectRetina: true,
-          background: {
-            opacity: 0,
-          },
-          pauseOnOutsideViewport: true,
-          zLayers: 10,
-          particles: {
-            number: {
-              value: 300,
-            },
-            zIndex: {
-              value: {
-                min: 1,
-                max: 5,
-              },
-            },
-            shadow: {
-              blur: 20,
-              color: '#67CBEB',
-              enable: true,
-            },
-            size: {
-              value: {min: 1, max: 3.2},
-            },
-            color: {
-              value: '#67CBEB',
-            },
-            opacity: {
-              value: {
-                min: 0.1,
-                max: 0.95,
-              },
-            },
-            move: {
-              direction: 'outside',
-              center: {
-                x: 50,
-                y: 200,
-              },
-              enable: true,
-              speed: {
-                max: 0.7,
-                min: 0.2,
-              },
-              straight: true,
-            },
-          },
-        }}
-      />
-    </>
-  ) : null
+const Question: React.FC<{title: string; body: string}> = ({title, body}) => {
+  return (
+    <AccordionItem
+      value={title}
+      className="rounded-md border border-gray-200/50 bg-white shadow-xl shadow-gray-500/5 transition dark:border-white/5 dark:bg-white/5 dark:shadow-none dark:hover:bg-white/10"
+    >
+      <li className="flex flex-col" key={title}>
+        <AccordionHeader className="">
+          <AccordionTrigger className="px-3 py-3 text-left text-base font-semibold sm:px-5 sm:py-5 sm:text-lg [&_[data-chevron]]:text-foreground">
+            {title}
+          </AccordionTrigger>
+        </AccordionHeader>
+        <AccordionContent className="pb-5">
+          <ReactMarkdown
+            components={{
+              a: (props) => <a {...props} target="_blank" />,
+            }}
+            className="prose px-5 dark:prose-invert"
+          >
+            {body}
+          </ReactMarkdown>
+        </AccordionContent>
+      </li>
+    </AccordionItem>
+  )
 }
+
+const markdownContent = `
+## What's in the Epic Megabundle?
+
+Everything. Literally all 31 self-paced workshops we've ever published.
+
+## How long do I have access to the course?
+
+You have lifetime access to your purchased course. You can access it at any time.
+
+## Is there a money-back guarantee?
+
+Yes! We offer a 30-day, no-questions-asked refund policy. If you're not satisfied with your purchase, we'll refund you within 30 days of purchase.
+
+## Can we share a single account with the entire team?
+
+No. Each team member will have their own account and will be able to access the course independently.
+
+## What discounts are available?
+
+There are no special discounts available.
+
+We support purchase power parity. This is automated based on IP address of the computer you are using to make the purchase. It's an imperfect system and the discount does not always display.
+
+Note that if you use the PPP discount your purchase will be restricted to the country you purchased it from.
+
+## Can I use multiple discounts?
+
+No, discounts do not stack so choose the best one for you?
+
+## How do the “team” seats work? What is a “seat” in this context
+
+When you buy a team seat, you receive a link that can be used to register for the number of accounts you have purchased. The license is non-transferable (you cannot reassign a license from one person to another).
+
+## If I buy a lower tier, can I upgrade later?
+
+Yes. You pay the difference from what you paid for the lower tier to the price of Pro at the time you upgrade. This means that unless there’s still a discount on Pro, you’ll not get a discounted upgrade.
+
+## What is PPP?
+
+Purchasing Power Parity - a lower price for users in certain countries; content is a bit cheaper and the course is only accessible from the country it is purchased from.
+
+## Can I gift a license to someone else?
+
+Yes, you can! Simply enter their email address instead of your own. 
+
+Or you can purchase a team license with 1 seat and send them the code. 
+
+There might be a verification code they receive that you’ll have to request from them. Also, if you buy a PPP license, then make sure you’re both in the same country otherwise they won’t be able to access the content in their country.
+
+## Is it possible to buy the course some other way? Installments? PayPal/etc?
+
+No, the only available buying options are those on the site right now.
+
+## Does PPP limit bonus content?
+
+PPP purchases are limited to the content that is displayed at the time of purchase and current and future bonus materials and features might not be available.
+
+When in doubt, and if you want to guarantee access to everything, purchase the PRO tier without PPP discount.
+
+## Does my company own the team license(s)?
+
+Team licenses are actually coupon codes that can be redeemed by users. Companies are not meant to own or keep the licenses.
+
+They are meant to be distributed and are owned by the individual that claims that seat.
+
+They cannot be transferred or "passed around"
+
+## Can I customize the invoice? VAT/company details?
+
+Yes, there’s a textarea that allows you to put any arbitrary information into the invoice PDF/printable.
+
+## Who is the Epic Megabundle for?
+
+Epic Megabundle is for anyone with a moderate understanding of JavaScript! Give this blog post a read: [https://kentcdodds.com/blog/javascript-to-know-for-react](https://kentcdodds.com/blog/javascript-to-know-for-react). If you’re comfortable with the features in that post, then you should be good to go. If not, then you’ll struggle a little bit with the syntax and JavaScript features used in the workshops.
+
+## What if I've been working with and studying React for years?
+
+You'll still learn something! Epic React is tailored for all experience levels! Kent covers everything from the basic levels to the advanced to the experimental!
+
+## How much time does it take to complete the whole course?
+
+This is 6 months to a years worth of learning. Consider starting a club: [KCD Learning Clubs Ideas](https://github.com/kentcdodds/kcd-learning-clubs-ideas)
+
+## How do I get a rocket in Discord?
+
+To link your KCD account with Discord navigate to [https://epicweb.dev/discord](https://epicweb.dev/discord) after you have purchased the course. Click on the button and you'll have the \`Epic React Dev\` role added to your account as well as the 🚀 added to your name!
+
+## Is there any live aspect to Epic Megabundle or is it all self-paced?
+
+It is all self-paced but Kent holds [office hours](https://kcd.im/office-hours) that you can join to ask questions.
+
+You can join a learning club to check-in with other students live, learn more at https://kcd.im/clubs
+
+In addition, [the Discord Community](https://epicweb.dev/discord) is very active.
+
+## How can I join a learning club to study with other users?
+
+Visit this link to learn about how to join a club [https://kcd.im/discord-active-clubs](https://kcd.im/discord-active-clubs). The learning clubs are student-driven, so if you don’t see one that has openings then feel free to create your own. Check the following link for more information about creating your own club: [https://kcd.im/clubs](https://kcd.im/clubs)
+
+## Can I join an Epic Web club without buying it and just use the open source repositories?
+
+No. The Epic Web learning clubs are just for those that paid for the course.
+
+## What versions of React is this compatible with?
+
+The course is up to date and compatible with React v19.x.
+
+Kent plans on keeping the material up-to-date and labeling anything that changes in a way that would require code changes.
+
+Major changes or updates may require an upgrade fee or additional purchase.
+
+## Can I change my email address with which I bought the course?
+
+Yes. Contact the support team at [${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}](mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}?subject=Epic%20React:%20Email%20Change%20Request). Note that you cannot transfer your license to another person.
+
+You cannot transfer your license to another person.
+
+## None of these are my questions, can I contact someone?
+
+Yes! You can email the Epic React Support Email: [${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}](mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}?subject=Epic%20React%20Question)
+
+## What are the terms and conditions?
+
+You can [read them here](https://epicweb.dev/privacy).
+
+`

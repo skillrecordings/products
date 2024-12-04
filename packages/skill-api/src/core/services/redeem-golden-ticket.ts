@@ -8,6 +8,8 @@ import {PurchaseStatus} from '../../enums'
 import {sendServerEmail} from '../../server'
 import {type JWT} from 'next-auth/jwt'
 import {v4} from 'uuid'
+import {Inngest} from 'inngest'
+import {NEW_PURCHASE_CREATED_EVENT} from '@skillrecordings/inngest'
 
 export class CouponRedemptionError extends Error {
   couponId: string
@@ -157,6 +159,25 @@ export async function redeemGoldenTicket({
           purchase.productId,
           params.options.slack,
         )
+      }
+
+      if (process.env.INNGEST_EVENT_KEY) {
+        const inngest = new Inngest({
+          id:
+            process.env.INNGEST_APP_NAME ||
+            process.env.NEXT_PUBLIC_SITE_TITLE ||
+            'Stripe Handler',
+          eventKey: process.env.INNGEST_EVENT_KEY,
+        })
+
+        await inngest.send({
+          name: NEW_PURCHASE_CREATED_EVENT,
+          data: {
+            purchaseId: purchase.id,
+            productId: purchase.productId,
+          },
+          user,
+        })
       }
 
       return {

@@ -39,5 +39,13 @@ export type NewPurchaseCreated = {
 
 export type NewPurchaseCreatedEvent = {
   purchaseId: string
-  checkoutSessionId: string
+  checkoutSessionId?: string
+  productId: string
+}
+
+export const CHARGE_REFUNDED_EVENT = 'commerce/charge-refunded'
+
+export type ChargeRefunded = {
+  name: typeof CHARGE_REFUNDED_EVENT
+  data: {chargeId: string}
 }

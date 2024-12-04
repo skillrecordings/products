@@ -13,6 +13,7 @@ import type {PaymentOptions} from '@skillrecordings/commerce-server'
 import {convertkitTagPurchase} from './convertkit'
 import {Inngest} from 'inngest'
 import {
+  CHARGE_REFUNDED_EVENT,
   NEW_PURCHASE_CREATED_EVENT,
   NewPurchaseCreated,
   STRIPE_CHECKOUT_COMPLETED_EVENT,
@@ -317,6 +318,7 @@ export const processStripeWebhook = async (
         data: {
           purchaseId: purchase.id,
           checkoutSessionId: stripeIdentifier,
+          productId: purchase.productId,
         },
         user,
       })
@@ -367,6 +369,23 @@ export const processStripeWebhook = async (
   } else if (eventType === 'charge.refunded') {
     const chargeId = stripeIdentifier
     await updatePurchaseStatusForCharge(chargeId, 'Refunded')
+
+    if (process.env.INNGEST_EVENT_KEY) {
+      const inngest = new Inngest({
+        id:
+          process.env.INNGEST_APP_NAME ||
+          process.env.NEXT_PUBLIC_SITE_TITLE ||
+          'Stripe Handler',
+        eventKey: process.env.INNGEST_EVENT_KEY,
+      })
+      await inngest.send({
+        name: CHARGE_REFUNDED_EVENT,
+        data: {
+          chargeId,
+        },
+      })
+    }
+
     return {
       status: 200,
       body: 'success!',

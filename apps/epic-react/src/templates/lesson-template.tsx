@@ -16,7 +16,6 @@ import {
 } from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {ArticleJsonLd, CourseJsonLd} from '@skillrecordings/next-seo'
 import {Video} from '@skillrecordings/skill-lesson/video/video'
-import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
@@ -27,13 +26,9 @@ import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {ScrollBar, Skeleton} from '@skillrecordings/ui'
-import {Icon} from '@skillrecordings/skill-lesson/icons'
-import {LessonDescription} from '@skillrecordings/skill-lesson/video/lesson-description'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
-import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 
 import {trpc} from '@/trpc/trpc.client'
-import {track} from '@/utils/analytics'
 import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 import BlockedOverlay from '@/components/video-overlays/blocked-overlay'
 import Spinner from '@/components/spinner'
@@ -367,7 +362,7 @@ const LessonList: React.FC<{
                   )}
                   {type === 'explainer' && (
                     <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
-                      Explainer
+                      Video
                     </Collection.Resource>
                   )}
                 </>

@@ -294,9 +294,16 @@ const ActivePromotionCTA = ({
     return null
   }
 
+  // TODO: This is a temporary fix to check if the product is a megabundle,
+  // it would be better to have a flag in the product itself!
+  const IS_MEGABUNDLE =
+    currentActivePromotion.product.slug.includes('megabundle')
+
   const title = currentActivePromotion.product.title
   const contributor = currentActivePromotion.product.modules?.[0].instructors[0]
-  const description = currentActivePromotion.product.modules?.[0].description
+  const description = IS_MEGABUNDLE
+    ? currentActivePromotion.product.description
+    : currentActivePromotion.product.modules?.[0].description
 
   return (
     <div
@@ -329,9 +336,11 @@ const ActivePromotionCTA = ({
             </Link>
           )}
           <div className="flex w-full flex-col items-start gap-3">
-            <strong className="text-sm font-semibold uppercase text-primary dark:brightness-150">
-              New self-paced workshop
-            </strong>
+            {!IS_MEGABUNDLE && (
+              <strong className="text-sm font-semibold uppercase text-primary dark:brightness-150">
+                New self-paced workshop
+              </strong>
+            )}
             {title && (
               <h3 className="text-balance text-2xl font-semibold sm:text-3xl">
                 <Link
@@ -351,7 +360,7 @@ const ActivePromotionCTA = ({
                 </Link>
               </h3>
             )}
-            {contributor && (
+            {contributor && !IS_MEGABUNDLE && (
               <ResourceContributor
                 className="text-sm [&_img]:w-10"
                 as="div"
@@ -359,7 +368,7 @@ const ActivePromotionCTA = ({
                 image={contributor.picture?.url}
               />
             )}
-            {description && (
+            {description && !IS_MEGABUNDLE && (
               <p className="text-balance opacity-90">{description}</p>
             )}
           </div>
