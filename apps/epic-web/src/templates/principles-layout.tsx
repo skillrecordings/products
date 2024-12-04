@@ -41,7 +41,7 @@ export function PrinciplesLayout({children, sections}: PrinciplesLayoutProps) {
 
   return (
     <div className="flex min-h-screen">
-      <aside className="hidden w-72 border-r bg-muted/40 md:block">
+      <aside className="hidden w-72 border-r bg-muted/40 pt-8 md:block">
         <ScrollArea className="h-screen p-4">
           <nav className="space-y-2">
             <Link
@@ -136,7 +136,7 @@ export function PrinciplesLayout({children, sections}: PrinciplesLayoutProps) {
         </ScrollArea>
       </aside>
 
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto pt-8">
         <div className="container mx-auto max-w-4xl px-6 py-12">{children}</div>
       </main>
     </div>
