@@ -130,12 +130,8 @@ export function PrinciplesLayout({children, sections}: PrinciplesLayoutProps) {
         </ScrollArea>
       </aside>
 
-      <main className="flex-1">
-        <ScrollArea className="h-screen">
-          <div className="container mx-auto max-w-4xl px-6 py-12">
-            {children}
-          </div>
-        </ScrollArea>
+      <main className="flex-1 overflow-auto">
+        <div className="container mx-auto max-w-4xl px-6 py-12">{children}</div>
       </main>
     </div>
   )
