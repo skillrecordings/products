@@ -11,6 +11,11 @@ const Footer = () => {
   const footerNavLinks = [
     ...primaryNavLinks,
     {
+      label: 'Principles',
+      href: '/principles',
+      icon: () => {},
+    },
+    {
       label: 'Talks',
       href: '/talks',
       icon: () => {},
