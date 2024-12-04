@@ -153,8 +153,8 @@ const ProductCard: React.FC<{
     })
 
   const isSingleModuleProduct = product.modules.length === 1
-  const buyHref = `/products/${product.slug}` // isSingleModuleProduct ? `/products/${product.slug}` : '/buy'
-  const purchasedHref = `/products/${product.slug}`
+  const buyHref = `/products/${product.slug?.replace('workshops/', '')}` // isSingleModuleProduct ? `/products/${product.slug}` : '/buy'
+  const purchasedHref = `/products/${product.slug?.replace('workshops/', '')}`
 
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
