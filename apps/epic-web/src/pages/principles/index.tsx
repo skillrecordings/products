@@ -13,7 +13,7 @@ export default function PrinciplesIndex({principles}: {principles: any}) {
       withContentNav={false}
       meta={{
         titleAppendSiteName: false,
-        title: 'Epic Web Principles',
+        title: 'Epic Programming Principles',
         ogImage: {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1733313122/principles-card_2x.jpg',
           alt: 'Programming Principles',
