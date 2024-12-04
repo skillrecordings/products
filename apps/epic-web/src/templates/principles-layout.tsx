@@ -1,10 +1,10 @@
 import {useRouter} from 'next/router'
 import Link from 'next/link'
-import {useEffect} from 'react'
+import React, {useEffect} from 'react'
 
 import {ChevronDown, ChevronRight, HomeIcon} from 'lucide-react'
 import {useState} from 'react'
-import {Section} from 'principles/schemas'
+import {Section, type Principle, type Subsection} from 'principles/schemas'
 import {ScrollArea} from '@skillrecordings/ui'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
@@ -38,6 +38,23 @@ export function PrinciplesLayout({
       prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
     )
   }
+
+  React.useEffect(() => {
+    // toggle current section open
+    const currentSection = sections.find(
+      (section) =>
+        currentPath.includes(section.slug) ||
+        section.principles?.some((principle) =>
+          currentPath.includes(principle.slug),
+        ) ||
+        section.subsections?.some((sub) => currentPath.includes(sub.slug)),
+    )
+    if (currentSection) {
+      setExpandedSections([currentSection.slug])
+    }
+  }, [currentPath, sections, setExpandedSections])
+
+  const {prev, next} = findCurrentAndAdjacentItems(sections, currentPath)
 
   return (
     <div className="flex h-full min-h-screen justify-center gap-5">
@@ -146,9 +163,124 @@ export function PrinciplesLayout({
         </aside>
       </div>
 
-      <main className="flex  w-full justify-start">
-        <div className="w-full max-w-3xl px-6 py-8 sm:py-14">{children}</div>
+      <main className="flex w-full flex-col items-start justify-start">
+        <div className="w-full max-w-3xl px-6 py-8 sm:pb-8 sm:pt-14">
+          {children}
+        </div>
+        <nav className="flex w-full max-w-3xl flex-col-reverse flex-wrap items-center justify-between gap-5 px-6 pb-8 text-center sm:flex-row sm:text-left">
+          {prev ? (
+            <Link
+              href={prev.href}
+              className="group flex items-center gap-2 text-base text-blue-600 hover:underline dark:text-blue-300 sm:text-lg"
+            >
+              <ChevronRight className="rotate-180" />
+              <span>{prev.item.title}</span>
+            </Link>
+          ) : (
+            <div />
+          )}
+          {next ? (
+            <Link
+              href={next.href}
+              className="group flex items-center gap-2 text-base text-blue-600 hover:underline dark:text-blue-300 sm:text-lg"
+            >
+              <span>{next.item.title}</span>
+              <ChevronRight />
+            </Link>
+          ) : (
+            <div />
+          )}
+        </nav>
       </main>
     </div>
   )
+}
+
+type NavigableItem = Section | Subsection | Principle
+
+function findCurrentAndAdjacentItems(
+  sections: Section[],
+  currentPath: string,
+): {
+  prev: {item: NavigableItem; href: string} | null
+  current: NavigableItem | null
+  next: {item: NavigableItem; href: string} | null
+} {
+  // Create flattened array maintaining hierarchy order
+  const flattenedItems: {
+    item: NavigableItem
+    parentSlug?: string
+    subsectionSlug?: string
+  }[] = []
+
+  sections.forEach((section) => {
+    flattenedItems.push({item: section})
+
+    // Add principles directly under section
+    section.principles?.forEach((principle) => {
+      flattenedItems.push({
+        item: principle,
+        parentSlug: section.slug,
+      })
+    })
+
+    // Add subsections and their principles
+    section.subsections?.forEach((subsection) => {
+      flattenedItems.push({
+        item: subsection,
+        parentSlug: section.slug,
+      })
+
+      subsection.principles?.forEach((principle) => {
+        flattenedItems.push({
+          item: principle,
+          parentSlug: section.slug,
+          subsectionSlug: subsection.slug,
+        })
+      })
+    })
+  })
+
+  // Find current item index based on full path match
+  const currentIndex = flattenedItems.findIndex(
+    ({item, parentSlug, subsectionSlug}) => {
+      if (subsectionSlug) {
+        return currentPath.includes(
+          `/principles/${parentSlug}/${subsectionSlug}/${item.slug}`,
+        )
+      }
+      if (parentSlug) {
+        return currentPath.includes(`/principles/${parentSlug}/${item.slug}`)
+      }
+      return currentPath === `/principles/${item.slug}`
+    },
+  )
+
+  const buildItemPath = (item: (typeof flattenedItems)[0]) => {
+    if (item.subsectionSlug) {
+      return `/principles/${item.parentSlug}/${item.subsectionSlug}/${item.item.slug}`
+    }
+    if (item.parentSlug) {
+      return `/principles/${item.parentSlug}/${item.item.slug}`
+    }
+    return `/principles/${item.item.slug}`
+  }
+
+  return {
+    prev:
+      currentIndex > 0
+        ? {
+            item: flattenedItems[currentIndex - 1].item,
+            href: buildItemPath(flattenedItems[currentIndex - 1]),
+          }
+        : null,
+    current: currentIndex !== -1 ? flattenedItems[currentIndex].item : null,
+    next:
+      currentIndex !== -1 && currentIndex < flattenedItems.length - 1
+        ? {
+            item: flattenedItems[currentIndex + 1].item,
+            href: buildItemPath(flattenedItems[currentIndex + 1]),
+          }
+        : null,
+  }
 }
