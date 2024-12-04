@@ -1,5 +1,6 @@
 import {useRouter} from 'next/router'
 import Link from 'next/link'
+import {useEffect} from 'react'
 
 import {ChevronDown, ChevronRight} from 'lucide-react'
 import {useState} from 'react'
@@ -27,6 +28,11 @@ export function PrinciplesLayout({children, sections}: PrinciplesLayoutProps) {
     return currentSection ? [currentSection.slug] : []
   })
 
+  useEffect(() => {
+    // Reset scroll position on route changes
+    window.scrollTo(0, 0)
+  }, [router.asPath])
+
   const toggleSection = (slug: string) => {
     setExpandedSections((prev) =>
       prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
@@ -47,7 +53,7 @@ export function PrinciplesLayout({children, sections}: PrinciplesLayoutProps) {
                   : 'hover:bg-muted',
               )}
             >
-              Epic Principles
+              Epic Programming Principles
             </Link>
             {sections.map((section) => (
               <div key={section.slug}>

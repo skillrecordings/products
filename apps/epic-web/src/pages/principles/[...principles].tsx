@@ -35,6 +35,8 @@ export default function PrinciplesPage({
 
   return (
     <Layout
+      withFooter={false}
+      withContentNav={false}
       meta={{
         titleAppendSiteName: false,
         title: content.data.title || `Epic Web Principles`,
@@ -57,9 +59,7 @@ export default function PrinciplesPage({
                       >
                         {section.title}
                       </Link>
-                      <p className="mt-2 text-muted-foreground">
-                        {section.description}
-                      </p>
+                      <p className="mt-2">{section.description}</p>
                     </CardContent>
                   </Card>
                 ))}

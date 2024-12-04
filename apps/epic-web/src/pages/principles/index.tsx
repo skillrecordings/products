@@ -9,6 +9,8 @@ import Layout from 'components/app/layout'
 export default function PrinciplesIndex({principles}: {principles: any}) {
   return (
     <Layout
+      withFooter={false}
+      withContentNav={false}
       meta={{
         titleAppendSiteName: false,
         title: 'Epic Web Principles',
@@ -16,7 +18,6 @@ export default function PrinciplesIndex({principles}: {principles: any}) {
     >
       <PrinciplesLayout sections={principles.sections}>
         <div className="mb-8 flex items-center gap-3">
-          <BookOpen className="h-10 w-10" />
           <h1 className="text-4xl font-bold">{principles.title}</h1>
         </div>
 
@@ -38,9 +39,7 @@ export default function PrinciplesIndex({principles}: {principles: any}) {
                 </Link>
               </CardHeader>
               <CardContent>
-                <p className="mb-4 text-muted-foreground">
-                  {section.description}
-                </p>
+                <p className="mb-4">{section.description}</p>
                 {section.principles && section.principles.length > 0 && (
                   <div className="grid gap-2">
                     {section.principles.map((principle: any) => (
