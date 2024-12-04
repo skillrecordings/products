@@ -16,6 +16,7 @@ import {ChevronRight, CircleEllipsis, Menu, X} from 'lucide-react'
 import React from 'react'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {useRouter} from 'next/router'
+import {getOgImage} from 'utils/get-og-image'
 
 interface PrinciplesPageProps {
   content: {
@@ -54,10 +55,10 @@ export default function PrinciplesPage({
       meta={{
         titleAppendSiteName: false,
         title: content.data.title || `Epic Web Principles`,
-        ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1733313122/principles-card_2x.jpg',
-          alt: 'Programming Principles',
-        },
+
+        ogImage: getOgImage({
+          title: content.data.title,
+        }),
       }}
     >
       {mobileMenuOpen && (
