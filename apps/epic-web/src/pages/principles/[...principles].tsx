@@ -55,7 +55,9 @@ export default function PrinciplesPage({
       meta={{
         titleAppendSiteName: false,
         title: content.data.title || `Epic Web Principles`,
-
+        description:
+          content.data.description ||
+          `Explore Epic Web's core programming principles for building modern web applications.`,
         ogImage: getOgImage({
           title: content.data.title,
         }),
