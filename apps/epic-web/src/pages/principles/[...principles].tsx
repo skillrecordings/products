@@ -152,7 +152,13 @@ export default function PrinciplesPage({
             </>
           )}
         </div>
-        <div className="mt-12"><Share title={content.data.title} contentType="principle" withFriends={false}/></div>
+        <div className="mt-12">
+          <Share
+            title={content.data.title}
+            contentType="principle"
+            withFriends={false}
+          />
+        </div>
       </PrinciplesLayout>
     </Layout>
   )

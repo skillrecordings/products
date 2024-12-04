@@ -52,7 +52,8 @@ const Share: React.FC<{
                 className="mr-2 inline-block h-5 w-5 flex-shrink-0 text-rose-400/90"
               />
               <span className="leading-tight">
-                Share this {contentType} {withFriends ? 'with your friends' : ''}
+                Share this {contentType}{' '}
+                {withFriends ? 'with your friends' : ''}
               </span>
             </p>
           </div>
