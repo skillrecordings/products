@@ -226,6 +226,7 @@ const SurveyQuestionChoice = React.forwardRef(function QuestionChoice(
       <label>
         {choice.image && <img src={choice.image} alt={choice.answer} />}
         <input
+          required
           name="answer"
           value={choice.answer}
           checked={
