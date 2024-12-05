@@ -2,9 +2,16 @@ import {GetStaticProps} from 'next'
 import {BookOpen} from 'lucide-react'
 import Link from 'next/link'
 import {PrinciplesLayout} from 'templates/principles-layout'
-import {Card, CardContent, CardHeader, CardTitle} from '@skillrecordings/ui'
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@skillrecordings/ui'
 import {getPrinciples} from 'lib/principles'
 import Layout from 'components/app/layout'
+import Image from 'next/image'
 
 export default function PrinciplesIndex({principles}: {principles: any}) {
   return (
@@ -30,14 +37,14 @@ export default function PrinciplesIndex({principles}: {principles: any}) {
         <div className="prose mb-5 max-w-none dark:prose-invert sm:prose-lg dark:prose-p:text-gray-300 sm:mb-12">
           <p>{principles.description}</p>
         </div>
-
+        <PrinciplesCheatSheetBanner />
         <div className="grid gap-6">
           {principles.sections.map((section: any) => (
             <Card key={section.slug} className="">
               <CardHeader className="pb-3">
                 <Link
                   href={`/principles/${section.slug}`}
-                  className="transition-colors hover:text-primary"
+                  className="transition hover:text-primary"
                 >
                   <CardTitle className="text-2xl font-bold tracking-tight transition-colors sm:text-3xl">
                     {section.title}
@@ -53,8 +60,8 @@ export default function PrinciplesIndex({principles}: {principles: any}) {
                     {section.principles.map((principle: any) => (
                       <li key={principle.slug} className="flex w-full">
                         <Link
-                          href={`/principles/${section.slug}/${principle.slug}`}
                           className="w-full px-0 py-2 text-lg text-primary brightness-100 transition duration-200 ease-in-out hover:bg-primary/5 hover:text-primary dark:brightness-150 sm:px-3"
+                          href={`/principles/${section.slug}/${principle.slug}`}
                         >
                           {principle.title}
                         </Link>
@@ -108,4 +115,36 @@ export const getStaticProps: GetStaticProps = async () => {
       principles,
     },
   }
+}
+
+const PrinciplesCheatSheetBanner = () => {
+  return (
+    <Link
+      href="/principles/cheatsheet"
+      className="group mb-6 flex w-full flex-col-reverse items-center justify-between overflow-hidden rounded-lg border border-gray-300 bg-gray-100 dark:border-primary/10 dark:bg-primary/5 lg:flex-row"
+    >
+      <div className="flex w-full flex-col px-6 py-4 lg:block lg:px-10">
+        <h2 className="text-xl font-bold tracking-tight transition group-hover:text-primary dark:group-hover:brightness-150 sm:text-2xl">
+          Printable Cheat Sheet
+        </h2>
+        <p className="mb-5 opacity-75">Perfect for your office space.</p>
+        <Button asChild>
+          <div>Free Download</div>
+        </Button>
+      </div>
+      <div className="relative aspect-[321/112] w-full lg:aspect-[173/112] lg:max-w-[300px]">
+        <Image
+          src={
+            'https://res.cloudinary.com/epic-web/image/upload/v1733391593/principles-cheatsheet-thumb_2x.jpg'
+          }
+          alt=""
+          fill
+          className="object-cover"
+        />
+        <div className="absolute bottom-2 right-2 rounded border border-amber-200 bg-amber-300 px-1.5 py-1 text-sm font-semibold uppercase leading-none text-amber-800 shadow-lg">
+          PDF
+        </div>
+      </div>
+    </Link>
+  )
 }
