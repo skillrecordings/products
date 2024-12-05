@@ -54,7 +54,7 @@ export const PrimaryNewsletterCta: React.FC<
           <Skeleton className="aspect-square h-full w-full max-w-[400px] bg-foreground/5" />
         )}
       </div>
-      <h2 className="text-center text-3xl font-bold sm:text-4xl">
+      <h2 className="text-balance text-center text-3xl font-bold sm:text-4xl">
         Join 40,000+ developers in the Epic Web community
       </h2>
       <h3 className="pb-8 pt-3 text-center text-lg opacity-75 sm:text-xl">
