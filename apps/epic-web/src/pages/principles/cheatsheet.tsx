@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
-import {ChevronLeft} from 'lucide-react'
+import {ChevronLeft, ArrowDownToLine} from 'lucide-react'
 
 export default function PrinciplesCheatSheet() {
   return (
@@ -49,20 +49,41 @@ export default function PrinciplesCheatSheet() {
                 Share with your friends
               </div>
             </Share>
-            <Button className="font-semibold" asChild>
-              <a
-                onClick={() => {
-                  track('clicked download pdf', {
-                    location: 'epic programming principles cheat sheet',
-                  })
-                }}
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://res.cloudinary.com/epic-web/image/upload/v1733383987/programming-principles-cheatsheet.pdf"
+            <div className="flex flex-shrink-0 flex-row items-center gap-1">
+              <Button className="font-semibold" asChild>
+                <a
+                  onClick={() => {
+                    track('clicked download pdf', {
+                      location: 'epic programming principles cheat sheet',
+                    })
+                  }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://res.cloudinary.com/epic-web/image/upload/v1733476754/programming-principles-cheatsheet.pdf"
+                >
+                  Download PDF
+                </a>
+              </Button>
+              <Button
+                className="flex items-center gap-1 font-semibold"
+                variant="secondary"
+                asChild
               >
-                Download PDF
-              </a>
-            </Button>
+                <a
+                  href="https://res.cloudinary.com/epic-web/image/upload/v1733476754/programming-principles-cheatsheet_2x.jpg"
+                  download="epic-programming-principles-cheat-sheet.jpg"
+                  onClick={() => {
+                    track('clicked download wallpaper', {
+                      location: 'epic programming principles cheat sheet',
+                    })
+                  }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ArrowDownToLine size={12} /> Wallpaper
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
         <a
@@ -71,13 +92,13 @@ export default function PrinciplesCheatSheet() {
               location: 'epic programming principles cheat sheet',
             })
           }}
-          href="https://res.cloudinary.com/epic-web/image/upload/v1733383987/programming-principles-cheatsheet.pdf"
+          href="https://res.cloudinary.com/epic-web/image/upload/v1733476754/programming-principles-cheatsheet.pdf"
           target="_blank"
           rel="noopener noreferrer"
         >
           <Image
             src={
-              'https://res.cloudinary.com/epic-web/image/upload/v1733383987/programming-principles-cheatsheet_2x.jpg'
+              'https://res.cloudinary.com/epic-web/image/upload/v1733476754/programming-principles-cheatsheet_2x.jpg'
             }
             width={3168 / 2.5}
             height={2448 / 2.5}
