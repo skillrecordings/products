@@ -284,11 +284,11 @@
       "description": "Principles for improving the development process and team productivity.",
       "principles": [
         {
-          "slug": "using-ai-assistant",
-          "title": "Using AI as an assistant",
-          "description": "If you had an opportunity to hire an intern to help you with your work, you would do this despite knowing they will require training and they will occasionally deliver less optimal output. AI Assistants are (currently) like interns, except they are incredibly fast, knowledgeable, and are always available. They are like the rubber duck that talks back. You use them responsibly to help speed up your workflow in areas where they help and develop the skill of reviewing their output for quality.",
+          "slug": "adopt-productive-tools",
+          "title": "Adapt to and adopt productive tools",
+          "description": "The landscape of developer tools changes on a regular basis. A productive engineer keeps on the lookout for tools that will help them become more productive. Identifying tools and workflow changes that actually make you more productive can be a challenge and weighing the value of the tool against the cost of onboarding is an important skill. It's easy to spend far too much time working on your development environment (\"What theme and font is that!?\") so avoid spinning your wheels on this. But it's an important skill to continue to stay relevant in the field by adapting to and adopting more productive tools and workflows.",
           "examples": [
-            "As a responsible developer looking for a way to deliver faster, you use, train, and review the output of an AI assistant. You take the time to develop the skill required to do this effectively."
+            "If you had an opportunity to hire an intern to help you with your work, you would do this despite knowing they will require training and they will occasionally deliver less optimal output. AI Assistants are (currently) like interns, except they are incredibly fast, knowledgeable, and are always available. They are like the rubber duck that talks back. You use them responsibly to help speed up your workflow in areas where they help and develop the skill of reviewing their output for quality."
           ]
         },
         {
