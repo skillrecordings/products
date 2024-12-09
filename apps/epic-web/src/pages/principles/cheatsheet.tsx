@@ -70,7 +70,7 @@ export default function PrinciplesCheatSheet() {
                 asChild
               >
                 <a
-                  href="https://res.cloudinary.com/epic-web/image/upload/v1733476754/programming-principles-cheatsheet_2x.jpg"
+                  href="https://res.cloudinary.com/epic-web/image/upload/v1733759812/programming-principles-cheatsheet_2x.jpg"
                   download="epic-programming-principles-cheat-sheet.jpg"
                   onClick={() => {
                     track('clicked download wallpaper', {
@@ -98,7 +98,7 @@ export default function PrinciplesCheatSheet() {
         >
           <Image
             src={
-              'https://res.cloudinary.com/epic-web/image/upload/v1733476754/programming-principles-cheatsheet_2x.jpg'
+              'https://res.cloudinary.com/epic-web/image/upload/v1733759812/programming-principles-cheatsheet_2x.jpg'
             }
             width={3168 / 2.5}
             height={2448 / 2.5}
