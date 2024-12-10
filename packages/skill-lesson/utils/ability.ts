@@ -155,7 +155,12 @@ const isFreelyVisible = ({
       lesson?._type === 'lesson') &&
     lesson._id === lessons[0]?._id
 
-  return isFirstLesson && lesson && !isSolution
+  // TODO: remove this after 2024-12-20
+  const isTsPromo =
+    module?.slug.current === 'typescript-generics' ||
+    new Date() < new Date('2024-12-20T00:00:00-08:00')
+
+  return (isFirstLesson && lesson && !isSolution) || isTsPromo
 }
 
 export function hasChargesForPurchases(purchases?: any[]) {
