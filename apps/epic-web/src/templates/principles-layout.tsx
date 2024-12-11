@@ -230,7 +230,6 @@ function findCurrentAndAdjacentItems(
         item: subsection,
         parentSlug: section.slug,
       })
-
       subsection.principles?.forEach((principle) => {
         flattenedItems.push({
           item: principle,
@@ -241,18 +240,16 @@ function findCurrentAndAdjacentItems(
     })
   })
 
-  // Find current item index based on full path match
+  // Find current item index based on exact path match
   const currentIndex = flattenedItems.findIndex(
     ({item, parentSlug, subsectionSlug}) => {
-      if (subsectionSlug) {
-        return currentPath.includes(
-          `/principles/${parentSlug}/${subsectionSlug}/${item.slug}`,
-        )
-      }
-      if (parentSlug) {
-        return currentPath.includes(`/principles/${parentSlug}/${item.slug}`)
-      }
-      return currentPath === `/principles/${item.slug}`
+      const expectedPath = subsectionSlug
+        ? `/principles/${parentSlug}/${subsectionSlug}/${item.slug}`
+        : parentSlug
+        ? `/principles/${parentSlug}/${item.slug}`
+        : `/principles/${item.slug}`
+
+      return currentPath === expectedPath
     },
   )
 

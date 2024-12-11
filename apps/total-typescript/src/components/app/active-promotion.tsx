@@ -91,8 +91,7 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
         <div className="flex flex-col text-[13px] transition hover:text-primary">
           <span className="text-balance font-semibold text-white">
             Price increasing to{' '}
-            <span className="font-bold text-yellow-300">$795</span> on 19th
-            December 2024.
+            <span className="font-bold text-yellow-300">$795</span>
           </span>{' '}
           <span className="hidden text-primary sm:inline-block">
             <Countdown
