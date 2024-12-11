@@ -143,6 +143,15 @@ const isFreelyVisible = ({
     return true
   }
 
+  // TODO: remove this after 2024-12-20
+  const isTsPromo =
+    module?.slug.current === 'typescript-generics' ||
+    new Date() < new Date('2024-12-20T00:00:00-08:00')
+
+  if (isTsPromo) {
+    return true
+  }
+
   // return false if it is a 'Solution'
   if (isSolution || lesson?._type === 'solution' || !hasId) {
     return false
@@ -155,12 +164,7 @@ const isFreelyVisible = ({
       lesson?._type === 'lesson') &&
     lesson._id === lessons[0]?._id
 
-  // TODO: remove this after 2024-12-20
-  const isTsPromo =
-    module?.slug.current === 'typescript-generics' ||
-    new Date() < new Date('2024-12-20T00:00:00-08:00')
-
-  return (isFirstLesson && lesson && !isSolution) || isTsPromo
+  return isFirstLesson && lesson && !isSolution
 }
 
 export function hasChargesForPurchases(purchases?: any[]) {
