@@ -145,7 +145,7 @@ const isFreelyVisible = ({
 
   // TODO: remove this after 2024-12-20
   const isTsPromo =
-    module?.slug.current === 'typescript-generics' ||
+    module?.slug.current === 'typescript-generics' &&
     new Date() < new Date('2024-12-20T00:00:00-08:00')
 
   if (isTsPromo) {
