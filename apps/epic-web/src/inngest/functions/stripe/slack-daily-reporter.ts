@@ -412,7 +412,6 @@ export const slackDailyReporter = inngest.createFunction(
           }
 
           if (soldProducts.length > 0) {
-            let chartUrl = null
             let summaryMessage = 'Yesterday you sold '
             const productStrings = soldProducts.map(
               (product) =>
@@ -434,10 +433,6 @@ export const slackDailyReporter = inngest.createFunction(
               userTotalRevenue,
             )}*.`
 
-            let summaryMonthMessage = `So far this month your estimated royalty is *${formatCurrency(
-              userTotalRevenueThisMonth,
-            )}* (before expenses)`
-
             const blocks: any[] = [
               {
                 type: 'header',
@@ -454,14 +449,19 @@ export const slackDailyReporter = inngest.createFunction(
                   text: summaryMessage,
                 },
               },
-              {
+            ]
+
+            if (userTotalRevenueThisMonth > 0) {
+              blocks.push({
                 type: 'section',
                 text: {
                   type: 'mrkdwn',
-                  text: summaryMonthMessage,
+                  text: `So far this month your estimated royalty is *${formatCurrency(
+                    userTotalRevenueThisMonth,
+                  )}* (before expenses)`,
                 },
-              },
-            ]
+              })
+            }
 
             try {
               await postToSlack({
