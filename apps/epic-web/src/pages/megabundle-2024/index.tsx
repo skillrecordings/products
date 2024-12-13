@@ -75,7 +75,16 @@ const Index: NextPage<{
   commerceProps: CommerceProps
 }> = ({product, products, bonuses, commerceProps}) => {
   const router = useRouter()
-  const ALLOW_PURCHASE = true // router.query.allowPurchase === 'true' || product.state === 'active'
+  const ALLOW_PURCHASE = true
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+  const hasPurchased = purchasedProductIds.includes(productId)
+
+  React.useEffect(() => {
+    if (hasPurchased) {
+      router.push('/purchases')
+    }
+  }, [hasPurchased, router])
 
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
@@ -95,12 +104,7 @@ const Index: NextPage<{
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
 
-  const purchasedProductIds =
-    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
-
-  const hasPurchased = purchasedProductIds.includes(productId)
-
-  return (
+  return !hasPurchased ? (
     <>
       <Layout
         meta={{
@@ -130,6 +134,7 @@ const Index: NextPage<{
             purchasedProductIds={purchasedProductIds}
             bonuses={bonuses}
             couponId={couponId}
+            hasPurchased={hasPurchased}
           />
           <section className="relative mt-16 flex flex-col items-center justify-start dark:bg-black/30">
             <div className="flex flex-col items-center justify-center py-16">
@@ -215,7 +220,7 @@ const Index: NextPage<{
         </main>
       </Layout>
     </>
-  )
+  ) : null
 }
 
 const Article: React.FC<{
@@ -225,6 +230,7 @@ const Article: React.FC<{
   purchasedProductIds: string[]
   bonuses: any[]
   couponId: string | undefined
+  hasPurchased: boolean
 }> = ({
   workshops,
 
@@ -233,12 +239,14 @@ const Article: React.FC<{
   purchasedProductIds,
   bonuses,
   couponId,
+  hasPurchased,
 }) => {
   return (
     <article className="prose mx-auto max-w-3xl px-5 pt-8 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-5">
       <LandingCopy
         // @ts-ignore
         commerceProps={commerceProps}
+        hasPurchased={hasPurchased}
         components={{
           // ...linkedHeadingComponents,
           Buy: ({children}: any) => {
@@ -490,6 +498,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     token,
     products,
   })
+
+  const hasPurchased = purchasedProductIds.includes(productId)
+
+  if (hasPurchased) {
+    return {
+      redirect: {
+        destination: '/purchases',
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {
