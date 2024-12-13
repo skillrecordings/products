@@ -1079,7 +1079,7 @@ const speakerData = [
     x: 'https://x.com/aarondfrancis',
     bluesky: 'https://bsky.app/profile/aaronfrancis.com',
     profilePicture:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117160/epic-web/conf-2025/aaron-francis.png',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1734117160/epic-web/conf-2025/aaron-francis.jpg',
   },
   {
     id: '2',
@@ -1087,14 +1087,15 @@ const speakerData = [
     x: 'https://x.com/ralex1993',
     bluesky: 'https://bsky.app/profile/ralexanderson.com',
     profilePicture:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/alex-anderson.jpg',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1734117159/epic-web/conf-2025/alex-anderson.jpg',
   },
   {
     id: '3',
     fullName: 'Annie Sexton',
     bluesky: 'https://bsky.app/profile/anniesexton.com',
+    x: 'https://x.com/_anniebabannie_',
     profilePicture:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/annie-sexton.jpg',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1734117159/epic-web/conf-2025/annie-sexton.jpg',
   },
   {
     id: '4',
@@ -1102,7 +1103,7 @@ const speakerData = [
     x: 'https://x.com/thdxr',
     bluesky: 'https://bsky.app/profile/thdxr.com',
     profilePicture:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/dax-raad.png',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1734117159/epic-web/conf-2025/dax-raad.jpg',
   },
   {
     id: '5',
@@ -1110,7 +1111,7 @@ const speakerData = [
     x: 'https://x.com/kentcdodds',
     bluesky: 'https://bsky.app/profile/kentcdodds.com',
     profilePicture:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/kent.jpg',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1734117159/epic-web/conf-2025/kent.jpg',
   },
 ]
 
@@ -1162,17 +1163,16 @@ const SpeakersList: React.FC<{
                         ? 'saturate(0.5)'
                         : 'saturate(1)',
                   }}
-                  className="relative aspect-square h-[230px] w-[230px] bg-gray-950"
+                  className="relative bg-gray-950"
                 >
                   {speaker.profilePicture && (
                     <Image
                       loading="eager"
-                      className="rounded object-cover opacity-90"
+                      className="rounded opacity-90"
                       src={speaker.profilePicture}
                       alt={speaker.fullName}
                       width={230}
                       height={230}
-                      style={{width: '100%', height: '100%'}}
                       sizes="230px"
                     />
                   )}
