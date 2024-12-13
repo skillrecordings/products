@@ -13,14 +13,20 @@ export function useModuleProgress() {
 export const ModuleProgressProvider: React.FC<React.PropsWithChildren<any>> = ({
   children,
   moduleSlug,
+  skipQuery = false,
 }) => {
   const {data: moduleProgress} =
-    trpcSkillLessons.moduleProgress.bySlug.useQuery({
-      slug: moduleSlug,
-    })
+    trpcSkillLessons.moduleProgress.bySlug.useQuery(
+      {
+        slug: moduleSlug,
+      },
+      {
+        enabled: !skipQuery,
+      },
+    )
 
   return (
-    <ModuleProgressContext.Provider value={moduleProgress}>
+    <ModuleProgressContext.Provider value={skipQuery ? null : moduleProgress}>
       {children}
     </ModuleProgressContext.Provider>
   )

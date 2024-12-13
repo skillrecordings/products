@@ -115,6 +115,129 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
     product?.welcomeVideo?.poster ||
     'https://res.cloudinary.com/epic-web/image/upload/v1697358228/after-purchase-video-poster.jpg'
 
+  const EPIC_REACT_SLUGS = [
+    'react-fundamentals',
+    'react-hooks',
+    'advanced-react-apis',
+    'react-suspense',
+    'advanced-react-patterns',
+    'react-performance',
+    'react-server-components',
+    'epic-react-v1-classic',
+    'react-interviews-with-experts',
+  ]
+
+  const TESTING_JS_SLUGS = ['testing-javascript-classic']
+
+  const groupModules = () => {
+    if (!product?.modules) return null
+
+    return {
+      epicWeb: product.modules.filter(
+        (module) =>
+          !EPIC_REACT_SLUGS.includes(module.slug) &&
+          !TESTING_JS_SLUGS.includes(module.slug),
+      ),
+      epicReact: product.modules.filter((module) =>
+        EPIC_REACT_SLUGS.includes(module.slug),
+      ),
+      testingJs: product.modules.filter((module) =>
+        TESTING_JS_SLUGS.includes(module.slug),
+      ),
+    }
+  }
+
+  const getModuleWithOverridesLink = (module: any, category: string) => {
+    switch (category) {
+      case 'epicReact': {
+        switch (module.slug) {
+          case 'react-interviews-with-experts':
+            return {
+              ...module,
+              slug: 'https://www.epicreact.dev/bonuses/interviews-with-experts',
+            }
+          case 'epic-react-v1-classic':
+            return {
+              ...module,
+              slug: 'https://www.epicreact.dev/learn',
+            }
+          default:
+            return {
+              ...module,
+              slug: `https://www.epicreact.dev/workshops/${module.slug}`,
+            }
+        }
+      }
+      case 'testingJs':
+        return {
+          ...module,
+          slug: `https://testingjavascript.com`,
+        }
+      default:
+        return module
+    }
+  }
+
+  const renderModules = () => {
+    if (!product?.modules) return null
+
+    if (product.slug !== 'megabundle-2024') {
+      return (
+        <>
+          <span className="block pb-4 text-sm font-semibold uppercase">
+            Workshops
+          </span>
+          {product.modules.map((module) => (
+            <ModuleProgressProvider key={module.slug} moduleSlug={module.slug}>
+              <ModuleItem module={module} />
+            </ModuleProgressProvider>
+          ))}
+        </>
+      )
+    }
+
+    const groupedModules = groupModules()
+    if (!groupedModules) return null
+
+    return (
+      <>
+        {Object.entries(groupedModules).map(([category, modules]) => {
+          if (modules.length === 0) return null
+
+          const titles = {
+            epicReact: 'Epic React',
+            testingJs: 'Testing JavaScript',
+            epicWeb: 'Epic Web',
+          } as const
+
+          return (
+            <div key={category}>
+              <span className="block py-4 text-sm font-semibold uppercase">
+                {titles[category as keyof typeof titles]}
+              </span>
+              {modules.map((module) => {
+                const modifiedModule = getModuleWithOverridesLink(
+                  module,
+                  category,
+                )
+
+                return (
+                  <ModuleProgressProvider
+                    key={modifiedModule.slug}
+                    moduleSlug={modifiedModule.slug}
+                    skipQuery={true}
+                  >
+                    <ModuleItem module={modifiedModule} />
+                  </ModuleProgressProvider>
+                )
+              })}
+            </div>
+          )
+        })}
+      </>
+    )
+  }
+
   return (
     <Layout meta={{title: product.title}}>
       {withWelcomeBanner ? (
@@ -319,21 +442,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
             />
           )}
           {product?.type === 'self-paced' && product.modules && (
-            <div className="pt-10">
-              <span className="block pb-4 text-sm font-semibold uppercase">
-                Workshops
-              </span>
-              {product.modules.map((module) => {
-                return (
-                  <ModuleProgressProvider
-                    key={module.slug}
-                    moduleSlug={module.slug}
-                  >
-                    <ModuleItem module={module} />
-                  </ModuleProgressProvider>
-                )
-              })}
-            </div>
+            <div className="pt-10">{renderModules()}</div>
           )}
         </aside>
       </main>
@@ -495,6 +604,26 @@ const ModuleItem: React.FC<{
     module?.sections &&
     module?.lessons &&
     (sectionsFlatMap(module?.sections).length || module?.lessons.length)
+
+  const isExternalLink = slug.startsWith('http')
+
+  const LinkComponent = isExternalLink
+    ? ({children, href}: {children: React.ReactNode; href: string}) => (
+        <a
+          href={href}
+          className="font-semibold hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {children}
+        </a>
+      )
+    : ({children, href}: {children: React.ReactNode; href: string}) => (
+        <Link href={href} className="font-semibold hover:underline">
+          {children}
+        </Link>
+      )
+
   return (
     <div className="flex items-center gap-3 py-2">
       {module.image.url && (
@@ -506,12 +635,13 @@ const ModuleItem: React.FC<{
         />
       )}
       <div className="flex flex-col">
-        <Link
-          href={`/${pluralize(module.moduleType)}/${module.slug}`}
-          className="font-semibold hover:underline"
+        <LinkComponent
+          href={
+            isExternalLink ? slug : `/${pluralize(module.moduleType)}/${slug}`
+          }
         >
           {module.title}
-        </Link>
+        </LinkComponent>
         <div className="text-sm text-gray-600 dark:text-gray-300">
           {module.sections && (
             <span>
@@ -526,7 +656,7 @@ const ModuleItem: React.FC<{
           )}
         </div>
         <div className="pt-0.5">
-          {isModuleInProgress && (
+          {isModuleInProgress && !isExternalLink && (
             <>
               <Link
                 href={
