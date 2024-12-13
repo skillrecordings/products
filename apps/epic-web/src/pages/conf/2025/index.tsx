@@ -1077,31 +1077,36 @@ const speakerData = [
     id: '1',
     fullName: 'Aaron Francis',
     x: 'https://x.com/aarondfrancis',
-    profilePicture: '/assets/conf/2025/speakers/aaron-francis.png',
+    profilePicture:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117160/epic-web/conf-2025/aaron-francis.png',
   },
   {
     id: '2',
     fullName: 'Alex Anderson',
     x: 'https://x.com/ralex1993',
-    profilePicture: '/assets/conf/2025/speakers/alex-anderson.JPG',
+    profilePicture:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/alex-anderson.jpg',
   },
   {
     id: '3',
     fullName: 'Annie Sexton',
     bluesky: 'https://bsky.app/profile/anniesexton.com',
-    profilePicture: '/assets/conf/2025/speakers/annie-sexton.jpg',
+    profilePicture:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/annie-sexton.jpg',
   },
   {
     id: '4',
     fullName: 'Dax Raad',
     x: 'https://x.com/thdxr',
-    profilePicture: '/assets/conf/2025/speakers/dax-raad.png',
+    profilePicture:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/dax-raad.png',
   },
   {
     id: '5',
     fullName: 'Kent C. Dodds',
     x: 'https://x.com/kentcdodds',
-    profilePicture: '/assets/conf/2025/speakers/kent.jpg',
+    profilePicture:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/kent.jpg',
   },
 ]
 
@@ -1159,7 +1164,7 @@ const SpeakersList: React.FC<{
                     <Image
                       loading="eager"
                       className="rounded object-cover opacity-90"
-                      src={process.env.NEXT_PUBLIC_URL + speaker.profilePicture}
+                      src={speaker.profilePicture}
                       alt={speaker.fullName}
                       width={230}
                       height={230}
