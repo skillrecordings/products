@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {motion, useReducedMotion} from 'framer-motion'
+import {AnimatePresence, motion, useReducedMotion} from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import HeroPlanetImage from '../../../../public/assets/conf/conf-hero.jpg'
@@ -20,6 +20,7 @@ import {
   Button,
 } from '@skillrecordings/ui'
 import {DialogTrigger} from '@radix-ui/react-dialog'
+import {TwitterIcon, BlueskyIcon} from '@skillrecordings/react'
 
 export const IS_PAST_CONF_25 = false
 const CONF_25_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2025'
@@ -294,6 +295,8 @@ const Body = () => {
         </p>
       </Section>
       {!IS_PAST_CONF_25 && <HotelSection />}
+
+      <SpeakersList speakers={speakerData} />
       <Sponsors />
     </div>
   )
@@ -903,5 +906,148 @@ const HotelSection = () => {
         </div>
       </div>
     </section>
+  )
+}
+
+const speakerData = [
+  {
+    id: '1',
+    fullName: 'Aaron Francis',
+    x: 'https://x.com/aarondfrancis',
+    profilePicture: '/assets/conf/2025/speakers/aaron-francis.png',
+  },
+  {
+    id: '2',
+    fullName: 'Alex Anderson',
+    x: 'https://x.com/ralex1993',
+    profilePicture: '/assets/conf/2025/speakers/alex-anderson.JPG',
+  },
+  {
+    id: '3',
+    fullName: 'Annie Sexton',
+    bluesky: 'https://bsky.app/profile/anniesexton.com',
+    profilePicture: '/assets/conf/2025/speakers/annie-sexton.jpg',
+  },
+  {
+    id: '4',
+    fullName: 'Dax Raad',
+    x: 'https://x.com/thdxr',
+    profilePicture: '/assets/conf/2025/speakers/dax-raad.png',
+  },
+  {
+    id: '5',
+    fullName: 'Kent C. Dodds',
+    x: 'https://x.com/kentcdodds',
+    profilePicture: '/assets/conf/2025/speakers/kent.jpg',
+  },
+]
+
+type hardCodedSpeaker = {
+  id: string
+  fullName: string
+  x?: string
+  bluesky?: string
+  profilePicture: string
+}
+
+const SpeakersList: React.FC<{
+  speakers: hardCodedSpeaker[]
+}> = ({speakers}) => {
+  const [hoveredItem, setHoveredItem] =
+    React.useState<hardCodedSpeaker | null>()
+  const [isHovering, setIsHovering] = React.useState(false)
+
+  return (
+    <>
+      <section
+        id="speakers"
+        aria-label="speakers"
+        className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10"
+      >
+        <h2 className="w-full pb-10 text-4xl font-bold sm:text-5xl">
+          Speakers
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+          {speakers.map((speaker) => {
+            return (
+              <motion.div
+                onMouseEnter={() => {
+                  setHoveredItem(speaker)
+                  setIsHovering(true)
+                }}
+                onMouseLeave={() => {
+                  setIsHovering(false)
+                }}
+                className="relative flex flex-col items-center p-2 sm:p-6"
+                // tabIndex={0}
+                // aria-haspopup={!speaker?.video && 'dialog'}
+                // aria-expanded={showingSpeakerDetail ? 'true' : 'false'}
+              >
+                <motion.div
+                  animate={{
+                    filter:
+                      isHovering && hoveredItem?.id !== speaker.id
+                        ? 'saturate(0.5)'
+                        : 'saturate(1)',
+                  }}
+                  className="relative aspect-square h-[230px] w-[230px] bg-gray-950"
+                >
+                  {speaker.profilePicture && (
+                    <Image
+                      loading="eager"
+                      className="rounded object-cover opacity-90"
+                      src={process.env.NEXT_PUBLIC_URL + speaker.profilePicture}
+                      alt={speaker.fullName}
+                      width={230}
+                      height={230}
+                      style={{width: '100%', height: '100%'}}
+                      sizes="230px"
+                    />
+                  )}
+                </motion.div>
+
+                <h3 className=" w-full pt-4 text-center text-lg font-semibold leading-tight">
+                  {speaker.fullName}
+                </h3>
+                <div className="flex items-center justify-center gap-2 ">
+                  {speaker?.bluesky && (
+                    <Link
+                      href={speaker.bluesky}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BlueskyIcon className="inline-block h-4 w-4 flex-shrink-0 text-[#93A1D7]" />
+                    </Link>
+                  )}
+                  {speaker?.x && (
+                    <Link
+                      href={speaker.x}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <TwitterIcon className="inline-block h-4 w-4 flex-shrink-0 text-[#93A1D7]" />
+                    </Link>
+                  )}
+                </div>
+                <AnimatePresence mode="wait">
+                  {isHovering && hoveredItem?.id !== speaker.id && (
+                    <motion.div
+                      initial={{
+                        opacity: 0,
+                      }}
+                      exit={{opacity: 0}}
+                      animate={{
+                        opacity: [0, 0.4],
+                      }}
+                      className="absolute h-full w-full bg-foreground dark:bg-background"
+                    />
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )
+          })}
+        </div>
+      </section>
+    </>
   )
 }
