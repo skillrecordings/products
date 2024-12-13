@@ -1077,6 +1077,7 @@ const speakerData = [
     id: '1',
     fullName: 'Aaron Francis',
     x: 'https://x.com/aarondfrancis',
+    bluesky: 'https://bsky.app/profile/aaronfrancis.com',
     profilePicture:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117160/epic-web/conf-2025/aaron-francis.png',
   },
@@ -1084,6 +1085,7 @@ const speakerData = [
     id: '2',
     fullName: 'Alex Anderson',
     x: 'https://x.com/ralex1993',
+    bluesky: 'https://bsky.app/profile/ralexanderson.com',
     profilePicture:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/alex-anderson.jpg',
   },
@@ -1098,6 +1100,7 @@ const speakerData = [
     id: '4',
     fullName: 'Dax Raad',
     x: 'https://x.com/thdxr',
+    bluesky: 'https://bsky.app/profile/thdxr.com',
     profilePicture:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/dax-raad.png',
   },
@@ -1105,6 +1108,7 @@ const speakerData = [
     id: '5',
     fullName: 'Kent C. Dodds',
     x: 'https://x.com/kentcdodds',
+    bluesky: 'https://bsky.app/profile/kentcdodds.com',
     profilePicture:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1734117159/epic-web/conf-2025/kent.jpg',
   },
