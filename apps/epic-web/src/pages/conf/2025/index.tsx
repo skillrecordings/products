@@ -672,7 +672,7 @@ const Sponsors = () => {
     <section
       id="sponsors"
       aria-label="sponsors"
-      className="mx-auto flex w-full max-w-screen-xl scale-90 flex-col items-center justify-center gap-10 pb-24 pt-8 sm:pb-16 lg:scale-100 [&_p]:text-[#93A1D7]"
+      className="mx-auto flex w-full max-w-screen-xl scale-90 flex-col items-center justify-center gap-10 pb-24 sm:pb-16 lg:scale-100 [&_p]:text-[#93A1D7]"
     >
       <h2 className="pb-5 text-3xl font-semibold sm:text-4xl">Sponsors</h2>
       {platinum.length > 0 && (
@@ -1125,9 +1125,9 @@ const SpeakersList: React.FC<{
       <section
         id="speakers"
         aria-label="speakers"
-        className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10"
+        className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5"
       >
-        <h2 className="w-full pb-10 text-4xl font-bold sm:text-5xl">
+        <h2 className="w-full pb-10 text-center text-3xl font-semibold sm:text-4xl">
           Speakers
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
