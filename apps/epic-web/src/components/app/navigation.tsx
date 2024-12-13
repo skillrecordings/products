@@ -11,14 +11,11 @@ import {
   AnimationControls,
   motion,
   useAnimationControls,
-  useScroll,
-  useTransform,
 } from 'framer-motion'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {trpc} from 'trpc/trpc.client'
 import Gravatar from 'react-gravatar'
 import {signOut, useSession} from 'next-auth/react'
-import {useMedia} from 'react-use'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {
   DropdownMenu,
@@ -990,6 +987,11 @@ export const Banner: React.FC<{
   const {data: cta, status} = trpc.cta.forResource.useQuery()
   const router = useRouter()
 
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({
+      productId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
+    })
+
   const currentSale = cta?.CURRENT_ACTIVE_PROMOTION
 
   const activeEvent = cta?.CURRENT_ACTIVE_LIVE_EVENT
@@ -1002,6 +1004,14 @@ export const Banner: React.FC<{
 
   // Don't show the banner on lesson pages
   if (router.query.lesson) {
+    return null
+  }
+
+  const hasPurchased = commerceProps?.purchases?.some(
+    (purchase) => purchase.productId === productOnSale?.productId,
+  )
+
+  if (hasPurchased) {
     return null
   }
 
