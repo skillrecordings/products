@@ -1113,6 +1113,13 @@ const speakerData = [
     profilePicture:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1734117159/epic-web/conf-2025/kent.jpg',
   },
+  {
+    id: '6',
+    fullName: 'Madison Kanna',
+    x: 'https://x.com/Madisonkanna',
+    profilePicture:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1734123802/epic-web/conf-2025/madison.jpg',
+  },
 ]
 
 type hardCodedSpeaker = {
