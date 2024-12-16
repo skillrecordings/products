@@ -1120,6 +1120,21 @@ const speakerData = [
     profilePicture:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1734123802/epic-web/conf-2025/madison.jpg',
   },
+  {
+    id: '7',
+    fullName: 'Ryan Florence',
+    x: 'https://x.com/ryanflorence',
+    profilePicture:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1734368200/epic-web/conf-2025/ryan-florence.png',
+  },
+  {
+    id: '8',
+    fullName: 'Zack Jackson',
+    x: 'https://x.com/ScriptedAlchemy',
+    bluesky: 'https://bsky.app/profile/scriptedalchemy.bsky.social',
+    profilePicture:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1734368200/epic-web/conf-2025/zack-jackson.png',
+  },
 ]
 
 type hardCodedSpeaker = {
