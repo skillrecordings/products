@@ -28,5 +28,8 @@ export async function getMiddlewareResponse(req: NextRequest) {
     }
   }
 
+  // Delete ck_subscriber cookie if it exists
+  response.cookies.delete('ck_subscriber')
+
   return response
 }
