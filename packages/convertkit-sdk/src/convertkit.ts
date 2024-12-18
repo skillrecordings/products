@@ -5,6 +5,7 @@ import fetch from 'node-fetch'
 import {format} from 'date-fns'
 import first from 'lodash/first'
 import {z} from 'zod'
+import {isNull, omitBy} from 'lodash'
 
 const convertkitBaseUrl =
   process.env.CONVERTKIT_BASE_URL || 'https://api.convertkit.com/v3/'
@@ -52,7 +53,7 @@ export function getConvertkitSubscriberCookie(subscriber: any): Cookie[] {
   return [
     {
       name: 'ck_subscriber',
-      value: JSON.stringify(subscriber),
+      value: JSON.stringify(omitBy(subscriber, isNull)),
       options: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
