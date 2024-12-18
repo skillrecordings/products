@@ -49,11 +49,29 @@ export async function updateSubscriber(subscriber: {
     .then(({subscriber}) => subscriber)
 }
 
+function deepOmitNull(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(deepOmitNull).filter((x) => x !== null)
+  }
+
+  if (obj && typeof obj === 'object') {
+    return Object.entries(obj).reduce((acc, [key, value]) => {
+      const cleaned = deepOmitNull(value)
+      if (cleaned !== null) {
+        acc[key] = cleaned
+      }
+      return acc
+    }, {} as Record<string, any>)
+  }
+
+  return obj === null ? undefined : obj
+}
+
 export function getConvertkitSubscriberCookie(subscriber: any): Cookie[] {
   return [
     {
       name: 'ck_subscriber',
-      value: JSON.stringify(omitBy(subscriber, isNull)),
+      value: JSON.stringify(deepOmitNull(subscriber)),
       options: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
