@@ -1,7 +1,7 @@
 import {inngest} from '@/inngest/inngest.server'
 import {prisma} from '@skillrecordings/database'
 
-export const syncConvertkitPurchases = inngest.createFunction(
+export const activateNormalPrice = inngest.createFunction(
   {id: `check-price-after-promo-ends`, name: `Check Price After Promo Ends`},
   {
     cron: '0 * * * *',
