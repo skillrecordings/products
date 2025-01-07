@@ -69,6 +69,18 @@ export default function LocalDevPrefsForm({
     setDisplayCustomEditorLaunchProtocolField,
   ] = React.useState(false)
 
+  React.useEffect(() => {
+    if (
+      userPrefs?.editorLaunchProtocol &&
+      ![
+        'vscode://file/',
+        'jetbrains://web-storm/navigate/reference?path=',
+      ].includes(userPrefs.editorLaunchProtocol)
+    ) {
+      setDisplayCustomEditorLaunchProtocolField(true)
+    }
+  }, [userPrefs])
+
   return (
     <Form {...form}>
       <form
@@ -88,11 +100,11 @@ export default function LocalDevPrefsForm({
                 onValueChange={(value) => {
                   if (value === 'custom') {
                     form.setValue('editorLaunchProtocol', '')
-                    return setDisplayCustomEditorLaunchProtocolField(true)
+                    setDisplayCustomEditorLaunchProtocolField(true)
                   } else {
                     setDisplayCustomEditorLaunchProtocolField(false)
+                    form.setValue('editorLaunchProtocol', value)
                   }
-                  return field.onChange(value)
                 }}
                 defaultValue={field.value}
                 required
