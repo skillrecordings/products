@@ -20,10 +20,15 @@ import {
   Button,
 } from '@skillrecordings/ui'
 import {DialogTrigger} from '@radix-ui/react-dialog'
-import {TwitterIcon, BlueskyIcon} from '@skillrecordings/react'
+import {GetStaticProps} from 'next'
+import {shuffle} from 'lodash'
+// import {TwitterIcon, BlueskyIcon} from '@skillrecordings/react'
+
+import {useRouter} from 'next/router'
+import slugify from '@sindresorhus/slugify'
 
 export const IS_PAST_CONF_25 = false
-const CONF_25_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2025'
+export const CONF_25_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2025'
 const CONF_25_SESSIONIZE_URL = 'https://sessionize.com/epicweb-conf-2025/'
 const HOTEL_PROMO_CODE = 'W14'
 
@@ -79,7 +84,18 @@ type Day = {
 
 export type Schedule = Day[]
 
-const ConfPage: React.FC = () => {
+export const getStaticProps: GetStaticProps = async () => {
+  const speakers = await fetch(
+    'https://sessionize.com/api/v2/wyvikoxy/view/Speakers',
+  ).then((res) => res.json())
+
+  return {
+    props: {speakers: speakers},
+    revalidate: 60 * 5,
+  }
+}
+
+const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
   return (
     <Layout
       className="bg-foreground pt-16 text-background dark:bg-background dark:text-foreground"
@@ -125,9 +141,9 @@ const ConfPage: React.FC = () => {
         image="https://res.cloudinary.com/epic-web/image/upload/v1705997895/conf-card_2x.jpg"
         description="The Full Stack Web Development Conference of Epic proportions."
       /> */}
-      <EarlyBirdMarquee />
+      {/* <EarlyBirdMarquee /> */}
       <Header />
-      <Body />
+      <Body speakers={speakers} />
 
       <Footer />
     </Layout>
@@ -136,7 +152,7 @@ const ConfPage: React.FC = () => {
 
 export default ConfPage
 
-const Body = () => {
+const Body = ({speakers}: {speakers: Speaker[]}) => {
   let epicTalkIdeas = [
     'Blow our minds with cool demos',
     'Show off what you’ve learned at scale',
@@ -220,7 +236,14 @@ const Body = () => {
   }
 
   const promoVideo = 'deoAaA7OUZDPrLjXc013MQaTcTwC9kAY3Pmf2JmF01TOs'
-
+  const [showingSpeakerDetail, setShowingSpeakerDetail] = React.useState<
+    boolean | Speaker
+  >(false)
+  const router = useRouter()
+  const [shuffledSpeakers, setShuffledSpeakers] = React.useState<Speaker[]>([])
+  React.useEffect(() => {
+    setShuffledSpeakers(shuffle(speakers))
+  }, [])
   return (
     <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-16 sm:gap-32">
       <div>
@@ -262,7 +285,7 @@ const Body = () => {
         position={1}
         title="Become an Attendee"
         image="https://res.cloudinary.com/epic-web/image/upload/v1728471924/conf25/attendee_2x.jpg"
-        cta={{href: CONF_25_TITO_URL, label: 'Buy Early Bird Tickets'}}
+        cta={{href: CONF_25_TITO_URL, label: 'Buy Tickets'}}
       >
         <p>
           Epic Web Conf is your opportunity to join other full stack web
@@ -295,8 +318,11 @@ const Body = () => {
         </p>
       </Section>
       {!IS_PAST_CONF_25 && <HotelSection />}
-
-      <SpeakersList speakers={speakerData} />
+      <SpeakersList
+        speakers={shuffledSpeakers}
+        showingSpeakerDetail={showingSpeakerDetail}
+        setShowingSpeakerDetail={setShowingSpeakerDetail}
+      />
       <Sponsors />
     </div>
   )
@@ -351,7 +377,7 @@ const Header = () => {
                 })
               }}
             >
-              Buy Early Bird Tickets
+              Buy Tickets
               <div
                 className="absolute left-0 top-0 h-full w-full"
                 aria-hidden="true"
@@ -422,7 +448,7 @@ const Footer = () => {
               })
             }}
           >
-            Buy Early Bird Tickets
+            Buy Tickets
             <div
               className="absolute left-0 top-0 h-full w-full"
               aria-hidden="true"
@@ -1146,102 +1172,126 @@ type hardCodedSpeaker = {
 }
 
 const SpeakersList: React.FC<{
-  speakers: hardCodedSpeaker[]
-}> = ({speakers}) => {
-  const [hoveredItem, setHoveredItem] =
-    React.useState<hardCodedSpeaker | null>()
+  speakers: Speaker[]
+  showingSpeakerDetail: boolean | Speaker
+  setShowingSpeakerDetail: React.Dispatch<
+    React.SetStateAction<boolean | Speaker>
+  >
+}> = ({speakers, showingSpeakerDetail, setShowingSpeakerDetail}) => {
+  const [hoveredItem, setHoveredItem] = React.useState<Speaker | null>()
   const [isHovering, setIsHovering] = React.useState(false)
+
+  const router = useRouter()
 
   return (
     <>
       <section
         id="speakers"
         aria-label="speakers"
-        className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5"
+        className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10"
       >
-        <h2 className="w-full pb-10 text-center text-3xl font-semibold sm:text-4xl">
+        <h2 className="w-full pb-10 text-4xl font-bold sm:text-5xl">
           Speakers
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
           {speakers.map((speaker) => {
             return (
-              <motion.div
-                onMouseEnter={() => {
-                  setHoveredItem(speaker)
-                  setIsHovering(true)
+              <Link
+                key={speaker.id}
+                href={`/conf/${slugify(speaker.fullName)}`}
+                onClick={() => {
+                  track('clicked speaker', {
+                    title: 'conf2024',
+                    type: 'speaker',
+                    location: speaker.fullName,
+                  })
                 }}
-                onMouseLeave={() => {
-                  setIsHovering(false)
-                }}
-                className="relative flex flex-col items-center p-2 sm:p-6"
-                // tabIndex={0}
-                // aria-haspopup={!speaker?.video && 'dialog'}
-                // aria-expanded={showingSpeakerDetail ? 'true' : 'false'}
               >
                 <motion.div
-                  animate={{
-                    filter:
-                      isHovering && hoveredItem?.id !== speaker.id
-                        ? 'saturate(0.5)'
-                        : 'saturate(1)',
+                  onMouseEnter={() => {
+                    setHoveredItem(speaker)
+                    setIsHovering(true)
                   }}
-                  className="relative bg-gray-950"
+                  onMouseLeave={() => {
+                    setIsHovering(false)
+                  }}
+                  className="relative flex flex-col items-center p-2 sm:p-6"
+                  // tabIndex={0}
+                  // aria-haspopup={!speaker?.video && 'dialog'}
+                  // aria-expanded={showingSpeakerDetail ? 'true' : 'false'}
                 >
-                  {speaker.profilePicture && (
-                    <Image
-                      loading="eager"
-                      className="rounded opacity-90"
-                      src={speaker.profilePicture}
-                      alt={speaker.fullName}
-                      width={230}
-                      height={230}
-                      sizes="230px"
-                    />
-                  )}
+                  <motion.div
+                    animate={{
+                      filter:
+                        isHovering && hoveredItem?.id !== speaker.id
+                          ? 'saturate(0.5)'
+                          : 'saturate(1)',
+                    }}
+                    className="relative bg-gray-950"
+                  >
+                    {speaker.profilePicture && (
+                      <Image
+                        loading="eager"
+                        className="rounded opacity-90"
+                        src={speaker.profilePicture}
+                        alt={speaker.fullName}
+                        width={230}
+                        height={230}
+                      />
+                    )}
+                    {speaker?.video ? (
+                      <motion.div
+                        initial={{
+                          opacity: 0,
+                          scale: 0.9,
+                        }}
+                        animate={{
+                          opacity:
+                            isHovering && hoveredItem?.id === speaker.id
+                              ? 1
+                              : 0,
+                          scale:
+                            isHovering && hoveredItem?.id === speaker.id
+                              ? 1
+                              : 0.9,
+                        }}
+                        className="absolute bottom-3 right-3 flex items-center justify-center rounded-full bg-gray-900"
+                      >
+                        <PlayIcon className="h-5 w-5" />
+                      </motion.div>
+                    ) : null}
+                  </motion.div>
+                  <h3 className="w-full pt-4 text-lg font-semibold leading-tight">
+                    {speaker.fullName}
+                  </h3>
+                  <h4 className="w-full pt-1 text-sm text-[#D6DEFF]">
+                    {speaker.tagLine}
+                  </h4>
+                  <AnimatePresence mode="wait">
+                    {isHovering && hoveredItem?.id !== speaker.id && (
+                      <motion.div
+                        initial={{
+                          opacity: 0,
+                        }}
+                        exit={{opacity: 0}}
+                        animate={{
+                          opacity: [0, 0.4],
+                        }}
+                        className="absolute h-full w-full bg-foreground dark:bg-background"
+                      />
+                    )}
+                  </AnimatePresence>
                 </motion.div>
-
-                <h3 className=" w-full pt-4 text-center text-lg font-semibold leading-tight">
-                  {speaker.fullName}
-                </h3>
-                <div className="flex items-center justify-center gap-2 ">
-                  {speaker?.bluesky && (
-                    <Link
-                      href={speaker.bluesky}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <BlueskyIcon className="inline-block h-4 w-4 flex-shrink-0 text-[#93A1D7]" />
-                    </Link>
-                  )}
-                  {speaker?.x && (
-                    <Link
-                      href={speaker.x}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <TwitterIcon className="inline-block h-4 w-4 flex-shrink-0 text-[#93A1D7]" />
-                    </Link>
-                  )}
-                </div>
-                <AnimatePresence mode="wait">
-                  {isHovering && hoveredItem?.id !== speaker.id && (
-                    <motion.div
-                      initial={{
-                        opacity: 0,
-                      }}
-                      exit={{opacity: 0}}
-                      animate={{
-                        opacity: [0, 0.4],
-                      }}
-                      className="absolute h-full w-full bg-foreground dark:bg-background"
-                    />
-                  )}
-                </AnimatePresence>
-              </motion.div>
+              </Link>
             )
           })}
         </div>
       </section>
+      {/* <SpeakerDetail
+        speakers={speakers}
+        showingSpeakerDetail={showingSpeakerDetail}
+        setShowingSpeakerDetail={setShowingSpeakerDetail}
+      /> */}
     </>
   )
 }
