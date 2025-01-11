@@ -260,7 +260,7 @@ const Body = ({speakers}: {speakers: Speaker[]}) => {
         </div>
       </div>
       {!IS_PAST_CONF_25 && <Location />}
-      <Section
+      {/* <Section
         position={0}
         title="Become a Speaker"
         image="https://res.cloudinary.com/epic-web/image/upload/v1728472122/conf25/speaker_2x.jpg"
@@ -280,7 +280,7 @@ const Body = ({speakers}: {speakers: Speaker[]}) => {
             <li key={index}>{idea}</li>
           ))}
         </ol>
-      </Section>
+      </Section> */}
       <Section
         position={1}
         title="Become an Attendee"
