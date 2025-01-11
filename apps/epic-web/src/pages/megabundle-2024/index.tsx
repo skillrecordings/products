@@ -1,27 +1,15 @@
-import React, {useCallback} from 'react'
+import * as React from 'react'
 import Layout from 'components/app/layout'
-import type {GetServerSideProps, GetStaticProps, NextPage} from 'next'
+import type {GetServerSideProps, NextPage} from 'next'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import AboutKent from 'components/contributor-bio'
 import Balancer from 'react-wrap-balancer'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {track} from 'utils/analytics'
 import Image from 'next/image'
 import LandingCopy from 'components/megabundle-2024-copy.mdx'
-import Particles, {initParticlesEngine} from '@tsparticles/react'
-import type {Engine} from '@tsparticles/engine'
-import {loadSlim} from '@tsparticles/slim'
 import KentImage from '../../../public/kent-c-dodds.png'
-import {loadStarsPreset} from 'tsparticles-preset-stars'
 
-import {
-  motion,
-  MotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
-} from 'framer-motion'
-import {trpc} from 'trpc/trpc.client'
+import {MotionValue, useTransform} from 'framer-motion'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {useRouter} from 'next/router'
 import {getProduct} from 'lib/products'
@@ -36,22 +24,15 @@ import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase
 import {Sparkles} from '../buy'
 import ReactMarkdown from 'react-markdown'
 import {useTheme} from 'next-themes'
-import Link from 'next/link'
-import MuxPlayer from '@mux/mux-player-react'
 import '@mux/mux-player/themes/minimal'
 import {getAvailableBonuses} from 'lib/available-bonuses'
 import {XIconTwitter} from 'components/x-icon'
-import path from 'path'
 import {
   Accordion,
   AccordionContent,
   AccordionHeader,
   AccordionItem,
   AccordionTrigger,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
 } from '@skillrecordings/ui'
 import Head from 'next/head'
 import {calculateOptimalDiscount} from 'utils/mega-bundle-discount-calculator'
@@ -62,10 +43,9 @@ import SaleCountdown from '@skillrecordings/skill-lesson/path-to-purchase/sale-c
 import {drop, take} from 'lodash'
 import {PoweredByStripe} from 'components/powered-by-stripe'
 import Testimonials from 'components/testimonials'
-import {Companies} from 'components/companies'
 import {MoreCompanies} from 'components/more-companies'
 
-const productId = '4a3706d4-7154-45ad-b9c6-05f25fae51df' // megabundle
+export const productId = '4a3706d4-7154-45ad-b9c6-05f25fae51df' // megabundle
 
 const Index: NextPage<{
   product: SanityProduct
@@ -75,7 +55,16 @@ const Index: NextPage<{
   commerceProps: CommerceProps
 }> = ({product, products, bonuses, commerceProps}) => {
   const router = useRouter()
-  const ALLOW_PURCHASE = true // router.query.allowPurchase === 'true' || product.state === 'active'
+  const ALLOW_PURCHASE = true
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+  const hasPurchased = purchasedProductIds.includes(productId)
+
+  React.useEffect(() => {
+    if (hasPurchased) {
+      router.push('/purchases')
+    }
+  }, [hasPurchased, router])
 
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
@@ -95,12 +84,7 @@ const Index: NextPage<{
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
 
-  const purchasedProductIds =
-    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
-
-  const hasPurchased = purchasedProductIds.includes(productId)
-
-  return (
+  return !hasPurchased ? (
     <>
       <Layout
         meta={{
@@ -130,6 +114,7 @@ const Index: NextPage<{
             purchasedProductIds={purchasedProductIds}
             bonuses={bonuses}
             couponId={couponId}
+            hasPurchased={hasPurchased}
           />
           <section className="relative mt-16 flex flex-col items-center justify-start dark:bg-black/30">
             <div className="flex flex-col items-center justify-center py-16">
@@ -215,7 +200,7 @@ const Index: NextPage<{
         </main>
       </Layout>
     </>
-  )
+  ) : null
 }
 
 const Article: React.FC<{
@@ -225,6 +210,7 @@ const Article: React.FC<{
   purchasedProductIds: string[]
   bonuses: any[]
   couponId: string | undefined
+  hasPurchased: boolean
 }> = ({
   workshops,
 
@@ -233,12 +219,14 @@ const Article: React.FC<{
   purchasedProductIds,
   bonuses,
   couponId,
+  hasPurchased,
 }) => {
   return (
     <article className="prose mx-auto max-w-3xl px-5 pt-8 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-5">
       <LandingCopy
         // @ts-ignore
         commerceProps={commerceProps}
+        hasPurchased={hasPurchased}
         components={{
           // ...linkedHeadingComponents,
           Buy: ({children}: any) => {
@@ -490,6 +478,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     token,
     products,
   })
+
+  const hasPurchased = purchasedProductIds.includes(productId)
+
+  if (hasPurchased) {
+    return {
+      redirect: {
+        destination: '/purchases',
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {

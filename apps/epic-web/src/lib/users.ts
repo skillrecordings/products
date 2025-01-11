@@ -99,7 +99,7 @@ export async function getUserAndSubscriber({
     user = user ? user : await getUserByEmail(subscriber.email_address)
     res.setHeader(
       'Set-Cookie',
-      serialize('ck_subscriber', JSON.stringify(subscriber), {
+      serialize('ck_subscriber', JSON.stringify(deepOmitNull(subscriber)), {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         path: '/',
@@ -112,4 +112,22 @@ export async function getUserAndSubscriber({
     user: convertToSerializeForNextResponse(user),
     subscriber: convertToSerializeForNextResponse(subscriber),
   }
+}
+
+function deepOmitNull(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(deepOmitNull).filter((x) => x !== null)
+  }
+
+  if (obj && typeof obj === 'object') {
+    return Object.entries(obj).reduce((acc, [key, value]) => {
+      const cleaned = deepOmitNull(value)
+      if (cleaned !== null) {
+        acc[key] = cleaned
+      }
+      return acc
+    }, {} as Record<string, any>)
+  }
+
+  return obj === null ? undefined : obj
 }

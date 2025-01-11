@@ -19,13 +19,36 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
+import {getToken} from 'next-auth/jwt'
+import {getCurrentAbility, UserSchema} from '@skillrecordings/skill-lesson'
 
 type ProgressData = Awaited<
   ReturnType<ReturnType<typeof getSdk>['getLessonProgressCountsByDate']>
 >
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const token = await getToken({req: context.req})
   const {getLessonProgressCountsByDate} = getSdk()
+
+  try {
+    const user = UserSchema.parse(token)
+    const ability = getCurrentAbility({user})
+    if (!ability.can('create', 'Content')) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      }
+    }
+  } catch (error) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
 
   const progressData: any[] = await getLessonProgressCountsByDate()
 
