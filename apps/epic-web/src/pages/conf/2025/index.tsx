@@ -141,7 +141,7 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
         image="https://res.cloudinary.com/epic-web/image/upload/v1705997895/conf-card_2x.jpg"
         description="The Full Stack Web Development Conference of Epic proportions."
       /> */}
-      {/* <EarlyBirdMarquee /> */}
+      <TicketsMarquee />
       <Header />
       <Body speakers={speakers} />
 
@@ -527,7 +527,7 @@ const getProfilePictureForWorkshopInstructor = (
   return speaker?.profilePicture as string
 }
 
-const EarlyBirdMarquee = () => {
+const TicketsMarquee = () => {
   const GAP = 8
 
   const [textRef, {x, y, width: textWidth, height, top, right, bottom, left}] =
@@ -563,18 +563,16 @@ const EarlyBirdMarquee = () => {
         <div
           className={`pointer-events-none flex justify-center space-x-2 py-2 text-xs font-semibold uppercase text-gray-900`}
         >
-          {new Array(13)
-            .fill('Early Bird Tickets OUT NOW')
-            .map((text, index) => (
-              <div
-                ref={textRef as any}
-                className="flex flex-shrink-0 items-center gap-2"
-                key={index}
-              >
-                {text}
-                <span className="text-gray-500">✦</span>
-              </div>
-            ))}
+          {new Array(13).fill('Conf Tickets OUT NOW').map((text, index) => (
+            <div
+              ref={textRef as any}
+              className="flex flex-shrink-0 items-center gap-2"
+              key={index}
+            >
+              {text}
+              <span className="text-gray-500">✦</span>
+            </div>
+          ))}
         </div>
       </motion.div>
     </Link>
