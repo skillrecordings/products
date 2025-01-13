@@ -1016,7 +1016,7 @@ export const Banner: React.FC<{
   }
 
   // Don't show the banner on product page
-  if (router.query.slug === productOnSale?.slug) {
+  if (router.query.slug && router.query.slug === productOnSale?.slug) {
     return null
   }
   if (router.pathname === `/${productOnSale?.slug}`) {
