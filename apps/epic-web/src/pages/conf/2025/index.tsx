@@ -651,7 +651,7 @@ const Location = () => {
             />
           </div>
           <Link
-            href="https://maps.app.goo.gl/dpCVp2TtT9iNf6FKA"
+            href="https://book.passkey.com/event/50932723/owner/1422/home"
             target="_blank"
             onClick={() => {
               track('clicked venue', {
@@ -1085,7 +1085,7 @@ const HotelSection = () => {
           <span>
             We've partnered with Hilton Salt Lake City Center to offer you a
             discounted rate on available rooms. Visit{' '}
-            <a href="https://book.passkey.com/e/50932723" className="underline">
+            <a href="https://book.passkey.com/event/50932723/owner/1422/home" className="underline">
               here
             </a>{' '}
             to find your discounted room and book your stay today.
