@@ -245,21 +245,22 @@ const Body = ({speakers}: {speakers: Speaker[]}) => {
     setShuffledSpeakers(shuffle(speakers))
   }, [])
   return (
-    <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-16 sm:gap-32">
-      <div>
-        <h2 className="w-fit self-start pb-5 text-3xl font-semibold sm:text-4xl">
-          Introduction
-        </h2>
-        <div className="col-span-4 flex w-full items-center justify-center  md:pl-0">
-          <MuxPlayer
-            playbackId={promoVideo}
-            className="w-full rounded shadow-xl"
-            accentColor="#3b82f6"
-            poster={`https://image.mux.com/${promoVideo}/thumbnail.jpg?time=3`}
-          />
-        </div>
+    <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-16 sm:gap-16">
+      <div className="px-5">
+        <MuxPlayer
+          playbackId={promoVideo}
+          className="w-full rounded shadow-xl"
+          accentColor="#3b82f6"
+          poster={`https://image.mux.com/${promoVideo}/thumbnail.jpg?time=3`}
+        />
       </div>
-      {!IS_PAST_CONF_25 && <Location />}
+
+      <SpeakersList
+        speakers={shuffledSpeakers}
+        showingSpeakerDetail={showingSpeakerDetail}
+        setShowingSpeakerDetail={setShowingSpeakerDetail}
+      />
+
       {/* <Section
         position={0}
         title="Become a Speaker"
@@ -283,7 +284,7 @@ const Body = ({speakers}: {speakers: Speaker[]}) => {
       </Section> */}
       <Section
         position={1}
-        title="Become an Attendee"
+        title="Join us in March 2025"
         image="https://res.cloudinary.com/epic-web/image/upload/v1728471924/conf25/attendee_2x.jpg"
         cta={{href: CONF_25_TITO_URL, label: 'Buy Tickets'}}
       >
@@ -299,6 +300,9 @@ const Body = ({speakers}: {speakers: Speaker[]}) => {
           soon.
         </p>
       </Section>
+      <Location />
+      {!IS_PAST_CONF_25 && <HotelSection />}
+      <Sponsors />
       <Section
         position={2}
         title="Become a Sponsor"
@@ -317,13 +321,6 @@ const Body = ({speakers}: {speakers: Speaker[]}) => {
           was EPIC and we'd love to parter with you to make 2025 even better.
         </p>
       </Section>
-      {!IS_PAST_CONF_25 && <HotelSection />}
-      <SpeakersList
-        speakers={shuffledSpeakers}
-        showingSpeakerDetail={showingSpeakerDetail}
-        setShowingSpeakerDetail={setShowingSpeakerDetail}
-      />
-      <Sponsors />
     </div>
   )
 }
@@ -331,7 +328,7 @@ const Body = ({speakers}: {speakers: Speaker[]}) => {
 const Header = () => {
   return (
     <header className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#080B16]">
-      <div className="relative z-10 mx-auto w-full max-w-screen-lg px-5 pb-16 pt-16 sm:pb-32 sm:pt-40">
+      <div className="relative z-10 mx-auto w-full max-w-screen-lg px-5 pb-10 pt-16 sm:pb-16 sm:pt-40">
         <h1 className="max-w-xl text-balance text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
           <span className="font-normal">Epic Web</span> Conference 2025
         </h1>
@@ -429,7 +426,7 @@ const Header = () => {
 
 const Footer = () => {
   return (
-    <section className="flex flex-col items-center justify-center pt-16 sm:pt-0">
+    <section className="flex flex-col items-center justify-center pt-16 sm:pt-16">
       <Button
         asChild
         className="relative z-20 mx-auto h-12 overflow-hidden rounded-sm bg-gradient-to-b from-amber-500 to-amber-600 text-base font-semibold tracking-tight text-amber-950 shadow-lg shadow-amber-500/20 brightness-125 transition duration-300 hover:brightness-110"
@@ -548,7 +545,7 @@ const TicketsMarquee = () => {
         })
       }}
       aria-hidden="true"
-      className="absolute top-12 z-20 flex w-full items-center justify-center overflow-hidden bg-gray-200 sm:top-12"
+      className="absolute top-12 z-20 flex w-full items-center justify-center overflow-hidden bg-gray-800 sm:top-12"
     >
       <motion.div
         className=""
@@ -561,9 +558,9 @@ const TicketsMarquee = () => {
         }}
       >
         <div
-          className={`pointer-events-none flex justify-center space-x-2 py-2 text-xs font-semibold uppercase text-gray-900`}
+          className={`pointer-events-none flex justify-center space-x-2 py-2 text-xs font-semibold uppercase text-gray-300`}
         >
-          {new Array(13).fill('Conf Tickets OUT NOW').map((text, index) => (
+          {new Array(20).fill('Get Tickets').map((text, index) => (
             <div
               ref={textRef as any}
               className="flex flex-shrink-0 items-center gap-2"
@@ -581,7 +578,7 @@ const TicketsMarquee = () => {
 
 const Location = () => {
   return (
-    <section className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10 sm:pt-16">
+    <section className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16">
       <h2 className="w-fit self-start pb-5 text-3xl font-semibold sm:text-4xl">
         Location
       </h2>
@@ -696,123 +693,125 @@ const Sponsors = () => {
     <section
       id="sponsors"
       aria-label="sponsors"
-      className="mx-auto flex w-full max-w-screen-xl scale-90 flex-col items-center justify-center gap-10 pb-24 sm:pb-16 lg:scale-100 [&_p]:text-[#93A1D7]"
+      className="mx-auto flex w-full max-w-screen-xl scale-90 flex-col items-center justify-center gap-10 pb-10 sm:pb-16 lg:scale-100 [&_p]:text-[#93A1D7]"
     >
       <h2 className="pb-5 text-3xl font-semibold sm:text-4xl">Sponsors</h2>
-      {platinum.length > 0 && (
-        <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16 sm:px-10">
-          <p className="w-20 font-mono text-sm uppercase">Platinum:</p>
-          <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-12">
-            {platinum.map(
-              (s: {name: string; url: string; logo: React.JSX.Element}) => {
+      <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-16">
+        {platinum.length > 0 && (
+          <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16 sm:px-10">
+            <p className="w-20 font-mono text-sm uppercase">Platinum:</p>
+            <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-12">
+              {platinum.map(
+                (s: {name: string; url: string; logo: React.JSX.Element}) => {
+                  return (
+                    <Link
+                      href={s.url}
+                      onClick={() => {
+                        track('clicked platinum sponsor', {
+                          title: 'conf2025',
+                          type: 'sponsor',
+                          location: s.name,
+                        })
+                      }}
+                      key={s.name}
+                      className="flex items-center justify-center opacity-90 transition hover:opacity-100"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="not-prose">{s.logo}</div>
+                    </Link>
+                  )
+                },
+              )}
+            </div>
+          </div>
+        )}
+        {gold.length > 0 && (
+          <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16">
+            <p className="font-mono text-sm uppercase">Gold:</p>
+            <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-12">
+              {gold.map((s) => {
                 return (
                   <Link
                     href={s.url}
                     onClick={() => {
-                      track('clicked platinum sponsor', {
+                      track('clicked gold sponsor', {
                         title: 'conf2025',
                         type: 'sponsor',
                         location: s.name,
                       })
                     }}
                     key={s.name}
-                    className="flex items-center justify-center opacity-90 transition hover:opacity-100"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div className="not-prose">{s.logo}</div>
-                  </Link>
-                )
-              },
-            )}
-          </div>
-        </div>
-      )}
-      {gold.length > 0 && (
-        <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16">
-          <p className="font-mono text-sm uppercase">Gold:</p>
-          <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-12">
-            {gold.map((s) => {
-              return (
-                <Link
-                  href={s.url}
-                  onClick={() => {
-                    track('clicked gold sponsor', {
-                      title: 'conf2025',
-                      type: 'sponsor',
-                      location: s.name,
-                    })
-                  }}
-                  key={s.name}
-                  className="not-prose flex items-center justify-center opacity-90 transition hover:opacity-100"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div>{s.logo}</div>
-                </Link>
-              )
-            })}
-          </div>
-        </div>
-      )}
-      {silver.length > 0 && (
-        <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16">
-          <p className="font-mono text-sm uppercase">Silver:</p>
-          <div className="flex flex-wrap items-center justify-center gap-10 md:justify-start lg:gap-10">
-            {silver.map(
-              (s: {name: string; url: string; logo: React.JSX.Element}) => {
-                return (
-                  <Link
-                    href={s.url}
-                    key={s.name}
-                    onClick={() => {
-                      track('clicked silver sponsor', {
-                        title: 'conf2025',
-                        type: 'sponsor',
-                        location: s.name,
-                      })
-                    }}
-                    className="flex items-center justify-center opacity-90 transition hover:opacity-100"
+                    className="not-prose flex items-center justify-center opacity-90 transition hover:opacity-100"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <div>{s.logo}</div>
                   </Link>
                 )
-              },
-            )}
+              })}
+            </div>
           </div>
-        </div>
-      )}
-      {community.length > 0 && (
-        <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16 sm:px-10">
-          <p className="w-20 font-mono text-sm uppercase">Community:</p>
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:justify-center sm:gap-x-16 sm:gap-y-5">
-            {community.map(
-              (s: {name: string; url: string; logo: React.JSX.Element}) => {
-                return (
-                  <Link
-                    href={s.url}
-                    key={s.name}
-                    onClick={() => {
-                      track('clicked community sponsor', {
-                        title: 'conf2025',
-                        type: 'sponsor',
-                        location: s.name,
-                      })
-                    }}
-                    className="flex items-center justify-center opacity-90 transition hover:opacity-100"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div>{s.logo}</div>
-                  </Link>
-                )
-              },
-            )}
+        )}
+        {silver.length > 0 && (
+          <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16">
+            <p className="font-mono text-sm uppercase">Silver:</p>
+            <div className="flex flex-wrap items-center justify-center gap-10 md:justify-start lg:gap-10">
+              {silver.map(
+                (s: {name: string; url: string; logo: React.JSX.Element}) => {
+                  return (
+                    <Link
+                      href={s.url}
+                      key={s.name}
+                      onClick={() => {
+                        track('clicked silver sponsor', {
+                          title: 'conf2025',
+                          type: 'sponsor',
+                          location: s.name,
+                        })
+                      }}
+                      className="flex items-center justify-center opacity-90 transition hover:opacity-100"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div>{s.logo}</div>
+                    </Link>
+                  )
+                },
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+        {community.length > 0 && (
+          <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16 sm:px-10">
+            <p className="w-20 font-mono text-sm uppercase">Community:</p>
+            <div className="flex flex-wrap items-center justify-center gap-8 sm:justify-center sm:gap-x-16 sm:gap-y-5">
+              {community.map(
+                (s: {name: string; url: string; logo: React.JSX.Element}) => {
+                  return (
+                    <Link
+                      href={s.url}
+                      key={s.name}
+                      onClick={() => {
+                        track('clicked community sponsor', {
+                          title: 'conf2025',
+                          type: 'sponsor',
+                          location: s.name,
+                        })
+                      }}
+                      className="flex items-center justify-center opacity-90 transition hover:opacity-100"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div>{s.logo}</div>
+                    </Link>
+                  )
+                },
+              )}
+            </div>
+          </div>
+        )}
+      </div>
       {/* <div className="relative mt-5 flex w-full flex-col items-center justify-center gap-10 pb-12 pt-5 sm:flex-row">
         <Link
           href="mailto:conf@epicweb.dev?subject=Sponsoring Epic Web Conf 2024"
@@ -1051,7 +1050,7 @@ const HotelSection = () => {
           href="https://book.passkey.com/event/50932723/owner/1422/home"
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative flex flex-col items-center justify-center before:absolute before:-bottom-1.5 before:h-3 before:w-3 before:rotate-45 before:border-b before:border-r before:border-[#E79C33] before:bg-[#FFB753] before:content-[''] md:before:-right-1.5 md:before:top-10 md:before:border-b-0 md:before:border-r md:before:border-t md:before:border-[#313646] md:before:bg-[#1E212C]"
+          className="group relative flex flex-col items-center justify-center before:absolute before:-bottom-1.5 before:h-3 before:w-3 before:rotate-45 before:border-b before:border-r before:border-[#313646] before:bg-[#1E212C] before:content-[''] md:before:-right-1.5 md:before:top-10 md:before:border-b-0 md:before:border-r md:before:border-t md:before:border-[#313646] md:before:bg-[#1E212C]"
         >
           <div className="flex items-center justify-center rounded-t border border-[#313646] bg-[#1E212C]">
             <div className="flex items-center justify-center overflow-hidden rounded-tl">
@@ -1085,7 +1084,10 @@ const HotelSection = () => {
           <span>
             We've partnered with Hilton Salt Lake City Center to offer you a
             discounted rate on available rooms. Visit{' '}
-            <a href="https://book.passkey.com/event/50932723/owner/1422/home" className="underline">
+            <a
+              href="https://book.passkey.com/event/50932723/owner/1422/home"
+              className="underline"
+            >
               here
             </a>{' '}
             to find your discounted room and book your stay today.
@@ -1186,12 +1188,12 @@ const SpeakersList: React.FC<{
       <section
         id="speakers"
         aria-label="speakers"
-        className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10"
+        className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center"
       >
-        <h2 className="w-full pb-10 text-4xl font-bold sm:text-5xl">
+        <h2 className="w-full px-5 pb-5 text-3xl font-bold sm:text-4xl">
           Speakers
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 px-3 sm:grid-cols-3 sm:px-0 lg:grid-cols-4">
           {speakers.map((speaker) => {
             return (
               <Link
