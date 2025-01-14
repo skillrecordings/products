@@ -14,6 +14,7 @@ const getTemplateByType = (
   bgImage?: string,
   authorName?: string,
   authorImage?: string,
+  byline?: string | null,
 ) => {
   switch (type) {
     case 'video':
@@ -35,6 +36,16 @@ const getTemplateByType = (
           title={title}
           image={image}
           authorName={authorName}
+          authorImage={authorImage}
+        />
+      )
+    case 'speaker':
+      return (
+        <SpeakerTemplate
+          title={title}
+          image={image}
+          authorName={authorName}
+          byline={byline}
           authorImage={authorImage}
         />
       )
@@ -115,10 +126,12 @@ export default async function handler(req: NextRequest) {
         bgImage,
         authorName,
         authorImage,
+        byline,
       ),
       {
         width: 1200,
         height: 630,
+        // debug: true,
         fonts: [
           {
             name: 'DM Sans',
@@ -186,6 +199,147 @@ const DefaultTemplate: React.FC<{
         >
           {title}
         </p>
+        {/* {!hasImage && (
+          <div tw="flex items-center absolute right-14 top-12">
+            <img src={authorImage} tw="h-24 rounded-full bg-gray-800" />
+            <p
+              style={{fontSize: 36, fontFamily: 'DM Sans'}}
+              tw="text-3xl ml-6 mb-6 text-gray-300"
+            >
+              {authorName}
+            </p>
+          </div>
+        )} */}
+      </div>
+    </div>
+  )
+}
+
+const SpeakerTemplate: React.FC<{
+  title: string
+  image?: string
+  authorName?: string
+  authorImage?: string
+  byline?: string | null
+}> = ({title, image, authorName, authorImage, byline}) => {
+  return (
+    <div
+      tw="flex w-full relative justify-center text-white items-center h-full justify-center text-center"
+      style={{
+        backgroundColor: '#080B16',
+        backgroundImage: `url('${process.env.NEXT_PUBLIC_URL}/assets/speaker-og-bg@2x.jpg')`,
+      }}
+    >
+      <div tw="flex-1 flex flex-col h-full items-center py-24 relative px-14">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={167 * 1.5}
+          height={44 * 1.5}
+          fill="none"
+          viewBox="0 0 167 44"
+        >
+          <path
+            fill="url(#a)"
+            d="M22.803 21.207c-.78.43-1.674.89-2.676 1.351-3.981 1.83-9.67 3.684-16.486 3.76l-.785.009-.143-.773a19.495 19.495 0 0 1-.333-3.543c0-10.82 8.8-19.62 19.62-19.62 2.985 0 5.82.67 8.357 1.869l2.606-1.329A21.858 21.858 0 0 0 22 0C9.876 0 0 9.876 0 22c0 4.84 1.574 9.321 4.236 12.96 4.56-.777 7.42-2.603 7.42-2.603s-1.827 2.856-2.603 7.416A21.877 21.877 0 0 0 22 44c12.124 0 22-9.876 22-22a21.86 21.86 0 0 0-2.924-10.95l-1.327 2.601a19.51 19.51 0 0 1 1.871 8.36c0 10.819-8.8 19.62-19.62 19.62-1.22 0-2.391-.123-3.542-.333l-.774-.142.009-.786c.076-6.822 1.929-12.51 3.76-16.49.46-1 .92-1.895 1.35-2.673Z"
+          />
+          <path
+            fill="#E8ECFC"
+            d="m33.462 17.069-5.048-1.473-1.473-5.059L43.686.314 33.462 17.07Zm27.197-.544v4.725h7.75V24H57.784V6.5h10.5v2.75h-7.625v4.55h7v2.725h-7ZM72.04 6.5h6.45c1.65 0 3.026.55 4.126 1.65 1.124 1.1 1.674 2.475 1.674 4.1 0 1.625-.55 2.975-1.675 4.1-1.1 1.1-2.474 1.65-4.124 1.65h-3.576v6H72.04V6.5Zm2.875 8.8h3.575c1.7 0 2.925-1.275 2.925-3.05S80.19 9.2 78.49 9.2h-3.575v6.1ZM87.537 24V6.5h2.875V24h-2.875Zm15.147.325c-2.625 0-4.825-.875-6.55-2.6-1.725-1.75-2.6-3.9-2.6-6.475 0-2.575.875-4.725 2.6-6.45 1.725-1.75 3.925-2.625 6.55-2.625 3.175 0 6.025 1.6 7.525 4.175l-2.5 1.45c-.925-1.725-2.825-2.825-5.025-2.825-1.875 0-3.375.6-4.55 1.775-1.15 1.175-1.725 2.675-1.725 4.5 0 1.825.575 3.325 1.725 4.5 1.175 1.175 2.675 1.775 4.55 1.775 2.2 0 4.125-1.1 5.025-2.825l2.5 1.425c-.725 1.275-1.775 2.3-3.125 3.075-1.325.75-2.8 1.125-4.4 1.125ZM120.25 24h-3.325l-4.95-17.5H115l3.675 13.675L122.65 6.5h2.65l3.95 13.675L132.925 6.5h3.025L131 24h-3.325l-3.7-12.775L120.25 24Zm21.826-7.475v4.725h7.75V24h-10.625V6.5h10.5v2.75h-7.625v4.55h7v2.725h-7Zm21.682-1.6c1.525.8 2.45 2.25 2.45 4.075 0 1.425-.5 2.625-1.525 3.575-1.025.95-2.25 1.425-3.725 1.425h-7.5V6.5h6.95c1.425 0 2.65.475 3.625 1.4 1 .925 1.5 2.075 1.5 3.45 0 1.525-.6 2.7-1.775 3.575Zm-3.35-5.725h-4.075v4.6h4.075c1.275 0 2.25-1 2.25-2.3 0-1.3-.975-2.3-2.25-2.3Zm-4.075 12.1h4.625c1.325 0 2.375-1.075 2.375-2.45 0-1.375-1.05-2.45-2.375-2.45h-4.625v4.9Z"
+          />
+          <path
+            fill="#3F94FF"
+            d="M63.085 41.94c-1.854 0-3.39-.618-4.609-1.854-1.218-1.236-1.819-2.755-1.819-4.573 0-1.82.6-3.356 1.82-4.574 1.218-1.236 2.754-1.854 4.608-1.854 2.243 0 4.256 1.13 5.316 2.913l-2.102 1.219c-.618-1.113-1.8-1.766-3.214-1.766-1.2 0-2.172.37-2.913 1.13-.724.76-1.095 1.73-1.095 2.931 0 1.184.37 2.155 1.095 2.914.741.76 1.713 1.13 2.913 1.13 1.413 0 2.632-.67 3.214-1.748l2.102 1.219c-1.06 1.783-3.055 2.913-5.316 2.913Zm20.449-1.854c-1.254 1.236-2.773 1.854-4.557 1.854-1.783 0-3.302-.618-4.556-1.854-1.236-1.254-1.854-2.772-1.854-4.573 0-1.802.618-3.32 1.854-4.557 1.254-1.253 2.773-1.871 4.556-1.871 1.784 0 3.303.618 4.556 1.871 1.254 1.237 1.872 2.755 1.872 4.557 0 1.8-.618 3.32-1.871 4.573Zm-7.4-1.66c.76.76 1.713 1.13 2.843 1.13s2.084-.37 2.844-1.13c.759-.76 1.147-1.73 1.147-2.913 0-1.184-.388-2.155-1.147-2.914-.76-.76-1.713-1.148-2.844-1.148-1.13 0-2.083.388-2.843 1.148-.759.76-1.147 1.73-1.147 2.914 0 1.183.388 2.154 1.147 2.913Zm21.491-1.554v-7.54h2.437v12.361h-1.854l-5.298-7.558v7.558h-2.437V29.332h1.855l5.297 7.54Zm15.467-7.54v2.33h-4.944v2.932h4.803v2.331h-4.803v4.768h-2.437V29.332h7.381Zm12.548 12.361h-7.858v-1.112l4.45-4.486c1.271-1.271 1.907-2.366 1.907-3.267 0-1.571-1.13-2.507-2.49-2.507-1.272 0-2.19.582-2.773 1.748l-1.042-.618c.777-1.536 2.19-2.331 3.815-2.331.989 0 1.854.335 2.596 1.006.759.654 1.13 1.554 1.13 2.702 0 1.43-.83 2.684-2.296 4.15l-3.532 3.514h6.093v1.201Zm12.902-1.518c-.812 1.147-1.96 1.73-3.444 1.73-1.483 0-2.631-.583-3.461-1.73-.812-1.166-1.218-2.72-1.218-4.662 0-1.943.406-3.497 1.218-4.645.83-1.165 1.978-1.748 3.461-1.748 1.484 0 2.632.583 3.444 1.748.83 1.148 1.236 2.702 1.236 4.645 0 1.942-.406 3.496-1.236 4.662Zm-5.986-.83c.618.9 1.465 1.36 2.542 1.36 1.078 0 1.925-.46 2.526-1.36.618-.901.918-2.19.918-3.832 0-1.643-.3-2.932-.918-3.832-.601-.901-1.448-1.36-2.526-1.36-1.077 0-1.924.459-2.542 1.36-.601.9-.901 2.19-.901 3.832s.3 2.93.901 3.831Zm19.85 2.348h-7.858v-1.112l4.45-4.486c1.272-1.271 1.907-2.366 1.907-3.267 0-1.571-1.13-2.507-2.49-2.507-1.271 0-2.189.582-2.772 1.748l-1.042-.618c.777-1.536 2.19-2.331 3.814-2.331.989 0 1.855.335 2.596 1.006.76.654 1.131 1.554 1.131 2.702 0 1.43-.83 2.684-2.296 4.15l-3.532 3.514h6.092v1.201Zm6.579-7.381h2.083c1.148 0 2.137.335 2.932 1.024.812.67 1.218 1.59 1.218 2.772 0 1.184-.406 2.102-1.218 2.79-.795.672-1.784 1.007-2.932 1.007-1.854 0-3.461-.936-3.973-2.631l1.042-.6c.353 1.324 1.466 2.03 2.931 2.03 1.696 0 2.914-.953 2.914-2.596 0-1.642-1.218-2.595-2.914-2.595h-3.355l.442-6.181h6.622v1.165h-5.528l-.264 3.815Z"
+          />
+          <defs>
+            <linearGradient
+              id="a"
+              x1="31.111"
+              x2="12.939"
+              y1="12.889"
+              y2="31.071"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#4F75FF" />
+              <stop offset="1" stopColor="#30AFFF" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div tw="flex flex-col h-full items-center justify-center text-center">
+          <div
+            tw="text-center flex text-[#A6A6CD] justify-center"
+            style={{
+              fontSize: '2rem',
+              fontFamily: 'DM Sans',
+              // lineHeight: 1,
+            }}
+          >
+            {byline}
+          </div>
+          <div
+            tw="flex my-8 justify-center text-center font-bold"
+            style={{
+              fontSize: '3.5rem',
+              fontFamily: 'DM Sans',
+              // lineHeight: 1,
+            }}
+          >
+            {title}
+          </div>
+          <div
+            tw="flex text-[#A6A6CD] justify-center text-center"
+            style={{
+              fontSize: '2rem',
+              fontFamily: 'DM Sans',
+              // lineHeight: 1,
+            }}
+          >
+            <div tw="flex items-center justify-center mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={28}
+                height={28}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M8 2v4" />
+                <path d="M16 2v4" />
+                <rect width="18" height="18" x="3" y="4" rx="2" />
+                <path d="M3 10h18" />
+              </svg>
+            </div>
+            {'Mar/25 - Mar/26/2025'}
+            <div tw="ml-8 flex items-center justify-center mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={28}
+                height={28}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </div>
+            {'Salt Lake City, Utah'}
+          </div>
+          {authorName && (
+            <div tw="flex items-center justify-center mt-10">
+              {authorImage && (
+                <img src={authorImage} tw="h-20 rounded-full bg-gray-800" />
+              )}
+              <div tw="text-3xl text-white ml-4">{authorName}</div>
+            </div>
+          )}
+        </div>
         {/* {!hasImage && (
           <div tw="flex items-center absolute right-14 top-12">
             <img src={authorImage} tw="h-24 rounded-full bg-gray-800" />
