@@ -111,9 +111,11 @@ const ConfSpeaker: React.FC<ConfSpeakerPageProps> = ({
   talk,
 }) => {
   const ogImage = getOgImage({
-    title: speaker.fullName,
-    type: video?.poster ? 'interview' : 'default',
-    image: video?.poster || speaker.profilePicture,
+    title: speaker.sessions[0].title,
+    byline: `I'm speaking at Epic Web Conf 2025`,
+    authorName: speaker.fullName,
+    authorImage: speaker.profilePicture,
+    type: 'speaker',
   })
 
   return (
