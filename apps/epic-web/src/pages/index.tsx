@@ -1,6 +1,7 @@
 import React from 'react'
+import {motion, useReducedMotion} from 'framer-motion'
 import Layout from 'components/app/layout'
-import type {NextPage} from 'next'
+import type {GetStaticProps, NextPage} from 'next'
 
 import Head from 'next/head'
 import Image from 'next/image'
@@ -9,10 +10,29 @@ import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import HomepageCopy from 'components/homepage-copy.mdx'
 import KentImage from '../../public/kent-c-dodds.png'
-import {ChevronRight} from 'lucide-react'
+import {ArrowRight, ChevronRight} from 'lucide-react'
 
-const Index: NextPage = () => {
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {track} from 'utils/analytics'
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const {params} = context
+
+  const isPastConf2025 = new Date().getTime() > new Date('2025-03-25').getTime()
+
+  return {
+    props: {
+      isPastConf2025,
+    },
+    revalidate: 10,
+  }
+}
+
+const Index: NextPage<{
+  isPastConf2025: boolean
+}> = ({isPastConf2025}) => {
   const {subscriber, loadingSubscriber} = useConvertkit()
+
   return (
     <>
       <Layout
@@ -30,7 +50,7 @@ const Index: NextPage = () => {
             href="/rss.xml"
           />
         </Head>
-        <Header />
+        <Header isPastConf2025={isPastConf2025} />
         <div className="mx-auto px-5 pb-32 pt-0 dark:prose-invert sm:prose-lg prose-headings:max-w-2xl prose-headings:font-bold prose-p:max-w-2xl prose-ul:max-w-2xl prose-ul:pl-0 sm:pt-5">
           <Article />
         </div>
@@ -42,17 +62,57 @@ const Index: NextPage = () => {
 
 export default Index
 
-const Header = () => {
+const Header = ({isPastConf2025}: {isPastConf2025: boolean}) => {
+  const shouldReduceMotion = useReducedMotion()
   return (
     <header className="relative mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#FFF6E7_0%,transparent_65%)] px-5 pb-16 pt-24 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)] sm:pt-28">
-      <h1 className="relative z-10 text-3xl font-bold sm:pt-10 sm:text-4xl lg:text-5xl">
-        <span className="inline-flex text-balance pb-4 text-xs font-semibold uppercase tracking-widest text-amber-600 shadow-cyan-200/50 dark:text-cyan-300 dark:brightness-110 dark:drop-shadow-xl sm:text-sm">
-          Start your journey to becoming an Epic Web Developer
-        </span>
-        <div className="text-balance text-gray-900 dark:text-white">
-          Full Stack Workshop Training for Professional Web Developers
-        </div>
-      </h1>
+      <div className="relative z-10 flex flex-col items-center">
+        <Link
+          href="/conf/2025"
+          className="relative flex w-auto scale-90 flex-row items-center justify-center overflow-hidden rounded-full border border-yellow-400 bg-gradient-to-t from-amber-500 to-yellow-400 px-4 py-1.5 text-sm font-semibold text-black shadow-xl"
+          onClick={() => {
+            track('clicked conf 2025 banner')
+          }}
+        >
+          <div className="flex flex-row items-center gap-2">
+            <span>Join us at Epic Web Conference 2025</span>
+            <ArrowRight className="w-4" />
+            <span>March 25—26 in Salt Lake City</span>
+          </div>
+          <div
+            className="absolute left-0 top-0 h-full w-full"
+            aria-hidden="true"
+          >
+            <motion.div
+              className="absolute left-0 top-0 h-full w-5 -skew-x-12 bg-white/20 blur-sm"
+              animate={
+                shouldReduceMotion
+                  ? {}
+                  : {left: ['-10%', '110%'], opacity: [0, 1, 0]}
+              }
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                // type: 'spring',
+                // make it feel like racing stripe
+                ease: 'circInOut',
+              }}
+            />
+          </div>
+        </Link>
+        <h1
+          className={cn('text-3xl font-bold sm:text-4xl lg:text-5xl', {
+            'sm:pt-10': isPastConf2025,
+          })}
+        >
+          <span className="inline-flex text-balance pb-4 text-xs font-semibold uppercase tracking-widest text-amber-600 shadow-cyan-200/50 dark:text-cyan-300 dark:brightness-110 dark:drop-shadow-xl sm:text-sm">
+            Start your journey to becoming an Epic Web Developer
+          </span>
+          <div className="text-balance text-gray-900 dark:text-white">
+            Full Stack Workshop Training for Professional Web Developers
+          </div>
+        </h1>
+      </div>
       <Image
         alt=""
         quality={100}
