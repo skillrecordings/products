@@ -94,6 +94,9 @@ export const Video: React.FC<
                   ref={ref}
                   {...(muxPlayerProps as MuxPlayerProps)}
                   playbackId={videoResource?.muxPlaybackId}
+                  metadata={{
+                    video_title: lesson.title,
+                  }}
                 />
               ) : (
                 <>

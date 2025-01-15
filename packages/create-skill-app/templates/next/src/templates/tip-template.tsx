@@ -135,7 +135,11 @@ const TipTemplate: React.FC<{
         <main className="mx-auto w-full pt-0">
           <div className="relative z-10 flex items-center justify-center">
             <Container className="flex flex-col px-0 sm:px-0 lg:px-0">
-              <Video ref={muxPlayerRef} tips={moreTips} />
+              <Video
+                ref={muxPlayerRef}
+                tips={moreTips}
+                videoTitle={tip.title}
+              />
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
@@ -192,27 +196,32 @@ const TipTemplate: React.FC<{
   )
 }
 
-const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
-  const {muxPlayerProps, displayOverlay} = useMuxPlayer()
-  const {videoResource} = useVideoResource()
+const Video: React.FC<any> = React.forwardRef(
+  ({tips, videoTitle}, ref: any) => {
+    const {muxPlayerProps, displayOverlay} = useMuxPlayer()
+    const {videoResource} = useVideoResource()
 
-  return (
-    <div className="relative">
-      {displayOverlay && <TipOverlay tips={tips} />}
-      <div
-        className={cx('flex items-center justify-center', {
-          hidden: displayOverlay,
-        })}
-      >
-        <MuxPlayer
-          ref={ref}
-          {...(muxPlayerProps as MuxPlayerProps)}
-          playbackId={videoResource?.muxPlaybackId}
-        />
+    return (
+      <div className="relative">
+        {displayOverlay && <TipOverlay tips={tips} />}
+        <div
+          className={cx('flex items-center justify-center', {
+            hidden: displayOverlay,
+          })}
+        >
+          <MuxPlayer
+            ref={ref}
+            {...(muxPlayerProps as MuxPlayerProps)}
+            playbackId={videoResource?.muxPlaybackId}
+            metadata={{
+              video_title: videoTitle,
+            }}
+          />
+        </div>
       </div>
-    </div>
-  )
-})
+    )
+  },
+)
 
 const Transcript: React.FC<{
   transcript: string

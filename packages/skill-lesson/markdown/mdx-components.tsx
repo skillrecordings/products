@@ -90,7 +90,14 @@ type MuxVideoProps = {
 
 const MuxVideo: React.FC<MuxVideoProps> = ({playbackId}) => {
   return playbackId ? (
-    <MuxPlayer data-body-video="" playbackId={playbackId} />
+    <MuxPlayer
+      data-body-video=""
+      playbackId={playbackId}
+      metadata={{
+        video_title: 'Lesson Video',
+        video_id: `lesson-${playbackId}`,
+      }}
+    />
   ) : null
 }
 
