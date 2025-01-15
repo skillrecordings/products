@@ -196,6 +196,9 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
             </div>
             <div className="col-span-4 flex w-full items-center justify-center p-5 sm:p-8 md:pl-0">
               <MuxPlayer
+                metadata={{
+                  video_title: 'Template Product Video',
+                }}
                 playbackId="uAWjlKTFcFwHpqUzpwbBehoa00aS3iIO77Wm2g9hJb4A"
                 className="w-full rounded shadow-xl"
                 accentColor="#3b82f6"
