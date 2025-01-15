@@ -329,6 +329,9 @@ export const WorkshopAppScreenshot = ({className}: {className?: string}) => {
 const AppTourVideo = () => {
   return (
     <MuxPlayer
+      metadata={{
+        video_title: 'AppTourVideo',
+      }}
       playbackId="zd6jycd4fMq4EB702BpGbimsyj00idemYohCOEopQYe01k"
       accentColor="#3b82f6"
       className="w-full rounded"

@@ -200,6 +200,9 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 className="w-full rounded shadow-xl"
                 accentColor="#3b82f6"
                 poster="https://res.cloudinary.com/epic-web/image/upload/v1697358228/after-purchase-video-poster.jpg"
+                metadata={{
+                  video_title: `${product.name} - Welcome Video`,
+                }}
               />
             </div>
           </section>

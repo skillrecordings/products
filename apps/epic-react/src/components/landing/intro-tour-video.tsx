@@ -26,6 +26,9 @@ const IntroTourVideo = () => {
         className="block"
         ref={playerRef}
         poster={poster}
+        metadata={{
+          video_title: 'IntroTourVideo',
+        }}
         style={
           {
             '--seek-backward-button': 'none',

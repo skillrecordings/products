@@ -231,6 +231,9 @@ const Video: React.FC<
             thumbnailTime={0}
             {...(muxPlayerProps as MuxPlayerProps)}
             playbackId={videoResource.muxPlaybackId}
+            metadata={{
+              video_title: `${lesson.title}`,
+            }}
           />
         ) : (
           <div className="flex w-full max-w-3xl flex-col px-5">
