@@ -90,6 +90,9 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
               <MuxPlayer
                 streamType="on-demand"
                 playbackId="aYqygpEcRs14JrREocaLqqrTuMY4kZKSV7DwWLJNEb00"
+                metadata={{
+                  video_title: 'Testing JavaScript Product Video',
+                }}
               />
             </div>
           </div>

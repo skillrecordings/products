@@ -76,6 +76,9 @@ const PlaylistItem: React.FC<{
               <MuxPlayer
                 streamType="on-demand"
                 playbackId={playlist.introPlaybackId}
+                metadata={{
+                  video_title: playlist.title,
+                }}
               />
               <Dialog.Close className="absolute right-7 -top-14 rounded-full px-3 py-1 space-x-2 flex items-center bg-gray-100 hover:bg-white duration-200">
                 <span>close</span>

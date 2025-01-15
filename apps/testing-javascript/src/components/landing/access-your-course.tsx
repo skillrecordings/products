@@ -140,6 +140,9 @@ const AccessYourCourse: React.FunctionComponent<{
               <MuxPlayer
                 streamType="on-demand"
                 playbackId="JQdURmWoO9fy9QTSY5KvGsD1K7XpPPMXZxyKWqIeqa8"
+                metadata={{
+                  video_title: 'Testing JavaScript - 2020 Course Update',
+                }}
               />
               <Dialog.Close className="absolute right-7 -top-14 rounded-full px-3 py-1 space-x-2 flex items-center bg-gray-100 hover:bg-white duration-200">
                 <span>close</span>
