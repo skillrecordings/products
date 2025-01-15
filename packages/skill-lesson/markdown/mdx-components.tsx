@@ -86,18 +86,14 @@ const YouTube: React.FC<YouTubeProps> = ({videoId}) => {
 
 type MuxVideoProps = {
   playbackId: string
+  metadata?: {
+    video_title: string
+  }
 }
 
-const MuxVideo: React.FC<MuxVideoProps> = ({playbackId}) => {
+const MuxVideo: React.FC<MuxVideoProps> = ({playbackId, metadata}) => {
   return playbackId ? (
-    <MuxPlayer
-      data-body-video=""
-      playbackId={playbackId}
-      metadata={{
-        video_title: 'Lesson Video',
-        video_id: `lesson-${playbackId}`,
-      }}
-    />
+    <MuxPlayer data-body-video="" playbackId={playbackId} metadata={metadata} />
   ) : null
 }
 
@@ -155,8 +151,8 @@ const mdxComponents = {
   }: React.PropsWithChildren<TestimonialProps>) => {
     return <Testimonial author={author}>{children}</Testimonial>
   },
-  MuxVideo: ({playbackId}: MuxVideoProps) => {
-    return <MuxVideo playbackId={playbackId} />
+  MuxVideo: ({playbackId, metadata}: MuxVideoProps) => {
+    return <MuxVideo playbackId={playbackId} metadata={metadata} />
   },
   YouTube: ({videoId}: YouTubeProps) => {
     return <YouTube videoId={videoId} />
