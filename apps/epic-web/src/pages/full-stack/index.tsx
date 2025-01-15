@@ -226,6 +226,9 @@ const Article: React.FC<{
                 accentColor="#3b82f6"
                 className="w-full rounded"
                 poster="https://res.cloudinary.com/epic-web/image/upload/v1697358228/promo-video-poster.jpg"
+                metadata={{
+                  video_title: 'Full Stack Foundations Product Video',
+                }}
               />
             )
           },

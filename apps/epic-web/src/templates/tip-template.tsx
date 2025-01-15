@@ -139,7 +139,7 @@ const TipTemplate: React.FC<{
         <main className="mx-auto w-full" id="tip">
           <div className="relative z-10 flex items-center justify-center">
             <div className="flex w-full max-w-screen-lg flex-col">
-              <Video ref={muxPlayerRef} tips={tips} />
+              <Video ref={muxPlayerRef} tips={tips} videoTitle={tip.title} />
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
@@ -200,30 +200,35 @@ const TipTemplate: React.FC<{
   )
 }
 
-const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
-  const {muxPlayerProps, displayOverlay} = useMuxPlayer()
-  const {videoResource} = useVideoResource()
+const Video: React.FC<any> = React.forwardRef(
+  ({tips, videoTitle}, ref: any) => {
+    const {muxPlayerProps, displayOverlay} = useMuxPlayer()
+    const {videoResource} = useVideoResource()
 
-  return (
-    <div className="relative">
-      {displayOverlay && <TipOverlay tips={tips} />}
-      <div
-        className={cx(
-          'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-md',
-          {
-            hidden: displayOverlay,
-          },
-        )}
-      >
-        <MuxPlayer
-          ref={ref}
-          {...(muxPlayerProps as MuxPlayerProps)}
-          playbackId={videoResource?.muxPlaybackId}
-        />
+    return (
+      <div className="relative">
+        {displayOverlay && <TipOverlay tips={tips} />}
+        <div
+          className={cx(
+            'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-md',
+            {
+              hidden: displayOverlay,
+            },
+          )}
+        >
+          <MuxPlayer
+            ref={ref}
+            {...(muxPlayerProps as MuxPlayerProps)}
+            playbackId={videoResource?.muxPlaybackId}
+            metadata={{
+              video_title: videoTitle,
+            }}
+          />
+        </div>
       </div>
-    </div>
-  )
-})
+    )
+  },
+)
 
 const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   currentTip,

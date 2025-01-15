@@ -332,6 +332,9 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 className="w-full rounded shadow-xl"
                 accentColor="#3b82f6"
                 poster={welcomeVideoPoster}
+                metadata={{
+                  video_title: `${product.title} - Welcome Video`,
+                }}
               />
             </div>
           </section>

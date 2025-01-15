@@ -272,6 +272,9 @@ const AppTourVideo = () => {
       playbackId="xSI7201jJf6lumgc9Kxwd5C65Rg8kLa94CcYzifZaL4U"
       accentColor="#3b82f6"
       className="w-full rounded"
+      metadata={{
+        video_title: 'AppTourVideo',
+      }}
     />
   )
 }
