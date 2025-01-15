@@ -178,6 +178,9 @@ const Welcome: React.FC<
               </h2>
               <MuxPlayer
                 accentColor="#06b6d4"
+                metadata={{
+                  video_title: 'Total TypeScript Product Video',
+                }}
                 poster={
                   'https://res.cloudinary.com/total-typescript/image/upload/v1676385817/welcome-video-thumbnail_2x_luri3y.png'
                 }
