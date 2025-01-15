@@ -225,6 +225,9 @@ const GetStartedVideo: React.FC<{module: Workshop}> = ({module}) => {
           onCuePointChange={(e) => {
             setCuePoint(e.detail.value)
           }}
+          metadata={{
+            video_title: `${module.title} - Get Started Video`,
+          }}
           ref={muxPlayerRef}
           startTime={19}
           playbackId="xSI7201jJf6lumgc9Kxwd5C65Rg8kLa94CcYzifZaL4U"

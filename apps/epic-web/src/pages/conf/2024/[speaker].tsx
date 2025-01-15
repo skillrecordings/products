@@ -268,6 +268,9 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
               <h3 className="flex pb-2 text-xl font-semibold">Interview</h3>
               <div className="flex aspect-video items-center justify-center rounded border border-gray-800 dark:border-border">
                 <MuxPlayer
+                  metadata={{
+                    video_title: `${speaker.fullName} - Interview`,
+                  }}
                   accentColor="#93A1D7"
                   ref={muxPlayerRef}
                   playbackId={video.muxPlaybackId}

@@ -249,6 +249,9 @@ const Article: React.FC<{
           PromoVideo: () => {
             return (
               <MuxPlayer
+                metadata={{
+                  video_title: 'Epic Testing Product Video',
+                }}
                 theme="minimal"
                 playbackId="cqjuBzq74nu4ZlksxTXz7IKqxfaWaR1KjyGQLAc4nQ4"
                 accentColor="#3b82f6"

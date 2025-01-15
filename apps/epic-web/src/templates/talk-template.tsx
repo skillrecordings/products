@@ -296,6 +296,9 @@ const Video: React.FC<{talks: Talk[]; talk: Talk; ref: any}> = React.forwardRef(
             {...(muxPlayerProps as MuxPlayerProps)}
             poster={talk?.videoPosterUrl || undefined}
             playbackId={videoResource?.muxPlaybackId}
+            metadata={{
+              video_title: talk.title,
+            }}
           />
         </div>
       </div>

@@ -252,6 +252,9 @@ const Body = ({speakers}: {speakers: Speaker[]}) => {
           className="w-full rounded shadow-xl"
           accentColor="#3b82f6"
           poster={`https://image.mux.com/${promoVideo}/thumbnail.jpg?time=3`}
+          metadata={{
+            video_title: 'Epic Web Conf 2025 Promo Video',
+          }}
         />
       </div>
 
