@@ -39,6 +39,9 @@ export default function VideoPlayer({
         <MuxPlayer
           playbackId={playbackId}
           className={cn('aspect-video h-full w-full', className)}
+          metadata={{
+            video_title: title,
+          }}
           {...playerProps}
           {...props}
         />
