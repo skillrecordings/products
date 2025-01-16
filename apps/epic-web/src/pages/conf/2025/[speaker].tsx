@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
   const video = await sanityClient.fetch(
     groq`
-    *[_type == "videoResource" && slug.current == $slug][0]{
+    *[_type == "videoResource" && slug.current == $slug] | order(_createdAt desc)[0]{
       _id,
       "_type": "tip",
       "slug": slug.current,
@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     }
   `,
     {
-      slug: `conf-interview-${slugify(speaker.fullName)}`, // 'zZ4ErPnSL4ZWs2Du0ONL6z',
+      slug: `conf-interview-${slugify(speaker.fullName)}`,
     },
   )
 
@@ -225,7 +225,12 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
                           {format(new Date(session.startsAt), 'EEEE, h:mm a')}—
                           {format(new Date(session.endsAt), 'h:mm a')}
                         </div> */}
-                        <div>{session.title}</div>
+                        <p className="text-lg font-semibold">{session.title}</p>
+                        {session.description && (
+                          <p className="mt-3 text-[#D6DEFF]">
+                            {session.description}
+                          </p>
+                        )}
                       </li>
                     )
                   })}
