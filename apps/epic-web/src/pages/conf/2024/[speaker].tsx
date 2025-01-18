@@ -174,7 +174,7 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
         <div className="flex w-full flex-col items-center gap-8 sm:flex-row sm:justify-between">
           <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
             <Link
-              href="/conf#speakers"
+              href="/conf/2024#speakers"
               className="mb-5 flex items-center gap-1 text-sm text-[#93A1D7] opacity-90 transition hover:underline hover:opacity-100"
             >
               <ChevronLeftIcon className="w-4" aria-hidden="true" /> Epic Web

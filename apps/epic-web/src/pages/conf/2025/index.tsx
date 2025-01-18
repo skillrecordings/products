@@ -371,7 +371,7 @@ const Header = () => {
               rel="noopener noreferrer"
               onClick={() => {
                 track('clicked buy early bird tickets', {
-                  title: 'conf2024',
+                  title: 'conf2025',
                   type: 'event',
                   location: 'top',
                 })
@@ -442,7 +442,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             onClick={() => {
               track('clicked buy early bird tickets', {
-                title: 'conf2024',
+                title: 'conf2025',
                 type: 'event',
                 location: 'top',
               })
@@ -1285,10 +1285,10 @@ const SpeakersList: React.FC<{
             return (
               <Link
                 key={speaker.id}
-                href={`/conf/${slugify(speaker.fullName)}`}
+                href={`/conf/2025/${slugify(speaker.fullName)}`}
                 onClick={() => {
                   track('clicked speaker', {
-                    title: 'conf2024',
+                    title: 'conf2025',
                     type: 'speaker',
                     location: speaker.fullName,
                   })

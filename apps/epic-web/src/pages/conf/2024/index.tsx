@@ -576,7 +576,7 @@ const SpeakersList: React.FC<{
             return (
               <Link
                 key={speaker.id}
-                href={`/conf/${slugify(speaker.fullName)}`}
+                href={`/conf/2024/${slugify(speaker.fullName)}`}
                 onClick={() => {
                   track('clicked speaker', {
                     title: 'conf2024',
