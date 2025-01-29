@@ -12,6 +12,8 @@ import ResourceContributor from 'components/resource-contributor'
 import {ConfLogo} from 'components/conf/conference-logo'
 import {IS_PAST_CONF_24} from 'pages/conf/2024'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {sanityClient} from 'utils/sanity-client'
+import groq from 'groq'
 
 export async function getStaticProps() {
   let conf24Talks = null
@@ -108,7 +110,7 @@ export const TalkItem: React.FC<{
   i: number
   withBg?: boolean
   thumbnailTime?: number
-}> = ({talk, path = 'talks', withBg = true, thumbnailTime = 0, i}) => {
+}> = ({talk, path = 'talks', withBg = true, thumbnailTime = 20, i}) => {
   const {title, slug} = talk
   const muxPlaybackId = talk?.muxPlaybackId
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve&time=${thumbnailTime}`
