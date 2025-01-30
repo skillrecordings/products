@@ -53,9 +53,8 @@ export default function ConfBoss() {
             <li>
               <strong>Networking opportunities</strong> – We’ll connect with
               other developers and industry professionals, sharing ideas,
-              industry professionals, sharing ideas, learning from their
-              experiences, and finding partners to work with or hire in the
-              future.
+              learning from their experiences, and finding partners to work
+              with or hire in the future.
             </li>
             <li>
               <strong>Immediate ROI</strong> – Everything we learn will directly
