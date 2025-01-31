@@ -221,54 +221,54 @@
           "title": "Architecting your project",
           "principles": [
             {
-            	"slug": "avoid-tight-coupling",
-            	"title": "Avoid tight coupling to dependencies",
-            	"description": "Going \"all in\" on a dependency can buy you great velocity, but at the cost of future flexibility. When evaluating dependencies, consider the tradeoffs of adding a dependency vs. the cost of creating and maintaining that functionality yourself.",
-            	"examples": [
-            		"You integrate a third-party email service but instead of using the SDK you create simple functions which make fetch requests to their REST API, which allows you to swap out the service easily in the future if your requirements change without needing to update your entire codebase."
-            	]
+              "slug": "avoid-tight-coupling",
+              "title": "Avoid tight coupling to dependencies",
+              "description": "Going \"all in\" on a dependency can buy you great velocity, but at the cost of future flexibility. When evaluating dependencies, consider the tradeoffs of adding a dependency vs. the cost of creating and maintaining that functionality yourself.",
+              "examples": [
+                "You integrate a third-party email service but instead of using the SDK you create simple functions which make fetch requests to their REST API, which allows you to swap out the service easily in the future if your requirements change without needing to update your entire codebase."
+              ]
             },
             {
-            	"slug": "favor-composition",
-            	"title": "Favor composition over inheritance",
-            	"description": "Build functionality by combining smaller, specialized components instead of creating deep inheritance hierarchies. Composition offers greater flexibility and modularity which will make you move faster as things change over time.",
-            	"examples": [
-            		"You don’t often use classes anyway, but when you do, you think twice before using `extends`."
-            	]
+              "slug": "favor-composition",
+              "title": "Favor composition over inheritance",
+              "description": "Build functionality by combining smaller, specialized components instead of creating deep inheritance hierarchies. Composition offers greater flexibility and modularity which will make you move faster as things change over time.",
+              "examples": [
+                "You don’t often use classes anyway, but when you do, you think twice before using `extends`."
+              ]
             },
             {
-            	"slug": "aha",
-            	"title": "Avoid Hasty Abstractions (AHA)",
-            	"description": "Wait until the commonalities scream at you for abstraction so you can be in the right frame of mind to provide that abstraction. Over-abstraction obscures how a system works together.",
-            	"examples": [
-            		"You notice some repeated code in your component, but instead of refactoring right away, you wait until the code appears in a few more places. This way, when you create an abstraction, it’s well-informed by actual usage patterns and reduces the risk of creating unnecessary complexity.",
-            		"You need a reusable function to format currency, and there’s a use case to handle different international currencies. Instead of immediately expanding the abstraction to support that, you duplicate the abstraction with one that only supports this new use case. When you’re finished you compare the two abstractions and see whether a single abstraction is appropriate or if they should remain separate."
-            	]
+              "slug": "aha",
+              "title": "Avoid Hasty Abstractions (AHA)",
+              "description": "Wait until the commonalities scream at you for abstraction so you can be in the right frame of mind to provide that abstraction. Over-abstraction obscures how a system works together.",
+              "examples": [
+                "You notice some repeated code in your component, but instead of refactoring right away, you wait until the code appears in a few more places. This way, when you create an abstraction, it’s well-informed by actual usage patterns and reduces the risk of creating unnecessary complexity.",
+                "You need a reusable function to format currency, and there’s a use case to handle different international currencies. Instead of immediately expanding the abstraction to support that, you duplicate the abstraction with one that only supports this new use case. When you’re finished you compare the two abstractions and see whether a single abstraction is appropriate or if they should remain separate."
+              ]
             },
             {
-            	"slug": "separate-concerns",
-            	"title": "Separate concerns",
-            	"description": "Split code by responsibility, so unrelated concerns don’t mix. It’s a form of modularization but applies to both logic and organization. This principle requires a solid understanding of what constitutes a 'concern.' Traditionally, this was confused with 'separation of technologies' where CSS, HTML, and JS were meant to be separated. Rather things which change together should be as close to each other as reasonably possible. This reduces indirection (in some cases it can be completely eliminated) which makes evolving the codebase easier.",
-            	"examples": [
-            		"In a React application when building a date picker component, you are careful to avoid letting use-case specific concepts (like loading available dates from a database) slip into the implementation of the date picker and instead require those to be loaded and configured by the calling developer."
-            	]
+              "slug": "separate-concerns",
+              "title": "Separate concerns",
+              "description": "Split code by responsibility, so unrelated concerns don’t mix. It’s a form of modularization but applies to both logic and organization. This principle requires a solid understanding of what constitutes a 'concern.' Traditionally, this was confused with 'separation of technologies' where CSS, HTML, and JS were meant to be separated. Rather things which change together should be as close to each other as reasonably possible. This reduces indirection (in some cases it can be completely eliminated) which makes evolving the codebase easier.",
+              "examples": [
+                "In a React application when building a date picker component, you are careful to avoid letting use-case specific concepts (like loading available dates from a database) slip into the implementation of the date picker and instead require those to be loaded and configured by the calling developer."
+              ]
             },
             {
-            	"slug": "dont-sync-state",
-            	"title": "Don’t synchronize state, derive it",
-            	"description": "Ensure data and state are managed in one place and consistently accessed from that single source of truth to avoid duplications and inconsistencies. A common mistake is to synchronize state between two different components where instead this should be derived from the state in a centralized place.",
-            	"examples": [
-            		"In a React app, instead of syncing the URL with the state of a component, you let the state of the component be derived from the URL and when the state needs to be updated you update the URL directly. You’ll likely do this with React Router which manages updates to the URL for you."
-            	]
+              "slug": "dont-sync-state",
+              "title": "Don’t synchronize state, derive it",
+              "description": "Ensure data and state are managed in one place and consistently accessed from that single source of truth to avoid duplications and inconsistencies. A common mistake is to synchronize state between two different components where instead this should be derived from the state in a centralized place.",
+              "examples": [
+                "In a React app, instead of syncing the URL with the state of a component, you let the state of the component be derived from the URL and when the state needs to be updated you update the URL directly. You’ll likely do this with React Router which manages updates to the URL for you."
+              ]
             },
             {
-            	"slug": "least-surprise",
-            	"title": "Use the Principle of Least Surprise",
-            	"description": "Design code and interfaces so that they behave in ways that are intuitive and predictable for users and developers alike. When people interact with your software, they should feel it behaves as expected without needing to double-check or mentally adjust to unexpected quirks. Favoring immutability and more explicit APIs can help reduce surprise for users of functions you write.",
-            	"examples": [
-            		"You’re designing a 'delete' button for your app. To avoid surprising users, you add a confirmation dialog to prevent accidental deletions and use standard red color to signal caution, aligning with user expectations. But you also remember that relying on color is not enough (many are color blind or even completely blind), so you make sure you add descriptive text as well.",
-            		"When creating an API, you ensure that it uses common HTTP status codes like 200 for success, 404 for not found, and 500 for server errors. This makes it intuitive for other developers who interact with the API."
-            	]
+              "slug": "least-surprise",
+              "title": "Use the Principle of Least Surprise",
+              "description": "Design code and interfaces so that they behave in ways that are intuitive and predictable for users and developers alike. When people interact with your software, they should feel it behaves as expected without needing to double-check or mentally adjust to unexpected quirks. Favoring immutability and more explicit APIs can help reduce surprise for users of functions you write.",
+              "examples": [
+                "You’re designing a 'delete' button for your app. To avoid surprising users, you add a confirmation dialog to prevent accidental deletions and use standard red color to signal caution, aligning with user expectations. But you also remember that relying on color is not enough (many are color blind or even completely blind), so you make sure you add descriptive text as well.",
+                "When creating an API, you ensure that it uses common HTTP status codes like 200 for success, 404 for not found, and 500 for server errors. This makes it intuitive for other developers who interact with the API."
+              ]
             }
           ]
         }
@@ -298,21 +298,21 @@
           ]
         },
         {
-        	"slug": "explicit-over-implicit",
-        	"title": "Explicit is better than implicit",
-        	"description": "Prefer explicit code over implicit configuration and magical abstractions. Boilerplate is not bad by nature (code is read more than it is written), but it's an indicator that a good abstraction could be on the horizon.",
-        	"examples": [
-        		"In some UI libraries, mutation is a mechanism for state updates and rerendering (`user = 'Jane'`), this makes it harder to track which parts of your codebase can make changes to the data and which parts simply reference it. Instead, prefer libraries (like React) with explicit state updating functions (`setUser('Jane')`)."
-        	]
+          "slug": "explicit-over-implicit",
+          "title": "Explicit is better than implicit",
+          "description": "Prefer explicit code over implicit configuration and magical abstractions. Boilerplate is not bad by nature (code is read more than it is written), but it's an indicator that a good abstraction could be on the horizon.",
+          "examples": [
+            "In some UI libraries, mutation is a mechanism for state updates and rerendering (`user = 'Jane'`), this makes it harder to track which parts of your codebase can make changes to the data and which parts simply reference it. Instead, prefer libraries (like React) with explicit state updating functions (`setUser('Jane')`)."
+          ]
         },
         {
-        	"slug": "cost-benefit-performance",
-        	"title": "Weigh the cost-benefit of performance optimizations",
-        	"description": "Most performance optimizations come at a complexity cost. When adding a performance optimization, you do real-world testing to evaluate the before/after to ensure your optimization is worth the effort (and not making things worse).",
-        	"examples": [
-        		"You’re considering memoizing a component that renders user profile data. Instead of assuming this will improve performance, you benchmark the rendering time with and without memoization. You find that it actually makes things slower so you investigate further and identify an issue where an object is being passed as a prop. You then switch from an object prop to primitive values and memoization starts making things perform better. However the impact on performance is negligible (even on a simulated slow device) so you remove the optimization in favor of keeping things simpler. (Alternative ending, it does make things significantly faster so you keep it).",
-        		"Your app loads a large dataset on the main dashboard. Before implementing complex data caching, you measure the load time and see that it’s manageable. You decide to prioritize features and revisit caching if the dataset grows, avoiding premature optimization that would have added maintenance costs."
-        	]
+          "slug": "cost-benefit-performance",
+          "title": "Weigh the cost-benefit of performance optimizations",
+          "description": "Most performance optimizations come at a complexity cost. When adding a performance optimization, you do real-world testing to evaluate the before/after to ensure your optimization is worth the effort (and not making things worse).",
+          "examples": [
+            "You’re considering memoizing a component that renders user profile data. Instead of assuming this will improve performance, you benchmark the rendering time with and without memoization. You find that it actually makes things slower so you investigate further and identify an issue where an object is being passed as a prop. You then switch from an object prop to primitive values and memoization starts making things perform better. However the impact on performance is negligible (even on a simulated slow device) so you remove the optimization in favor of keeping things simpler. (Alternative ending, it does make things significantly faster so you keep it).",
+            "Your app loads a large dataset on the main dashboard. Before implementing complex data caching, you measure the load time and see that it’s manageable. You decide to prioritize features and revisit caching if the dataset grows, avoiding premature optimization that would have added maintenance costs."
+          ]
         }
       ]
     },
