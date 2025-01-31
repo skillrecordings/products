@@ -42,9 +42,8 @@ export default function ConfBoss() {
               <strong>Direct access to experts</strong> – We’ll have the
               opportunity to interact with leaders in web development, ask
               questions, and gain practical knowledge we can apply immediately.
-              with leaders in web development, ask questions, and gain practical
-              knowledge we can apply immediately. People like Kent C. Dodds,
-              Ryan Florence, Shruti Kapoor, and more will be there.
+              People like Kent C. Dodds, Ryan Florence, Shruti Kapoor, and more
+              will be there.
             </li>
             <li>
               <strong>Hands-on learning</strong> – The workshop day (March 25)
@@ -54,9 +53,8 @@ export default function ConfBoss() {
             <li>
               <strong>Networking opportunities</strong> – We’ll connect with
               other developers and industry professionals, sharing ideas,
-              industry professionals, sharing ideas, learning from their
-              experiences, and finding partners to work with or hire in the
-              future.
+              learning from their experiences, and finding partners to work
+              with or hire in the future.
             </li>
             <li>
               <strong>Immediate ROI</strong> – Everything we learn will directly
