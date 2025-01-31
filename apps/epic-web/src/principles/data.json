@@ -205,6 +205,70 @@
                 "When building a library for configuration-based redirects, you base your API around web standards like Request/Response, rather than a custom request/response implementation.",
                 "When deciding how to handle caching of non-dynamic requests, you use cache-control header directives and a CDN rather than inventing a custom caching mechanism."
               ]
+            },
+            {
+              "slug": "prioritize-tools-with-ecosystem",
+              "title": "Prioritize tools with an ecosystem",
+              "description": "When selecting a tool, consider the size, maturity, and activity of its ecosystem. A strong ecosystem contributes to easier hiring, faster onboarding, better support, longevity, and access to reusable components and shared knowledge. Favoring established ecosystems increases the likelihood of long-term maintainability and transferable skills for team members.",
+              "examples": [
+                "You’re choosing a UI library and go with React because of its large ecosystem despite hearing of other libraries that have some arguably better characteristics. This provides a vast selection of third-party libraries, component libraries, and developer resources, enabling faster development and easier onboarding of new developers."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "architecting-projects",
+          "title": "Architecting your project",
+          "principles": [
+            {
+            	"slug": "avoid-tight-coupling",
+            	"title": "Avoid tight coupling to dependencies",
+            	"description": "Going \"all in\" on a dependency can buy you great velocity, but at the cost of future flexibility. When evaluating dependencies, consider the tradeoffs of adding a dependency vs. the cost of creating and maintaining that functionality yourself.",
+            	"examples": [
+            		"You integrate a third-party email service but instead of using the SDK you create simple functions which make fetch requests to their REST API, which allows you to swap out the service easily in the future if your requirements change without needing to update your entire codebase."
+            	]
+            },
+            {
+            	"slug": "favor-composition",
+            	"title": "Favor composition over inheritance",
+            	"description": "Build functionality by combining smaller, specialized components instead of creating deep inheritance hierarchies. Composition offers greater flexibility and modularity which will make you move faster as things change over time.",
+            	"examples": [
+            		"You don’t often use classes anyway, but when you do, you think twice before using `extends`."
+            	]
+            },
+            {
+            	"slug": "aha",
+            	"title": "Avoid Hasty Abstractions (AHA)",
+            	"description": "Wait until the commonalities scream at you for abstraction so you can be in the right frame of mind to provide that abstraction. Over-abstraction obscures how a system works together.",
+            	"examples": [
+            		"You notice some repeated code in your component, but instead of refactoring right away, you wait until the code appears in a few more places. This way, when you create an abstraction, it’s well-informed by actual usage patterns and reduces the risk of creating unnecessary complexity.",
+            		"You need a reusable function to format currency, and there’s a use case to handle different international currencies. Instead of immediately expanding the abstraction to support that, you duplicate the abstraction with one that only supports this new use case. When you’re finished you compare the two abstractions and see whether a single abstraction is appropriate or if they should remain separate."
+            	]
+            },
+            {
+            	"slug": "separate-concerns",
+            	"title": "Separate concerns",
+            	"description": "Split code by responsibility, so unrelated concerns don’t mix. It’s a form of modularization but applies to both logic and organization. This principle requires a solid understanding of what constitutes a 'concern.' Traditionally, this was confused with 'separation of technologies' where CSS, HTML, and JS were meant to be separated. Rather things which change together should be as close to each other as reasonably possible. This reduces indirection (in some cases it can be completely eliminated) which makes evolving the codebase easier.",
+            	"examples": [
+            		"In a React application when building a date picker component, you are careful to avoid letting use-case specific concepts (like loading available dates from a database) slip into the implementation of the date picker and instead require those to be loaded and configured by the calling developer."
+            	]
+            },
+            {
+            	"slug": "dont-sync-state",
+            	"title": "Don’t synchronize state, derive it",
+            	"description": "Ensure data and state are managed in one place and consistently accessed from that single source of truth to avoid duplications and inconsistencies. A common mistake is to synchronize state between two different components where instead this should be derived from the state in a centralized place.",
+            	"examples": [
+            		"In a React app, instead of syncing the URL with the state of a component, you let the state of the component be derived from the URL and when the state needs to be updated you update the URL directly. You’ll likely do this with React Router which manages updates to the URL for you."
+            	]
+            },
+            {
+            	"slug": "least-surprise",
+            	"title": "Use the Principle of Least Surprise",
+            	"description": "Design code and interfaces so that they behave in ways that are intuitive and predictable for users and developers alike. When people interact with your software, they should feel it behaves as expected without needing to double-check or mentally adjust to unexpected quirks. Favoring immutability and more explicit APIs can help reduce surprise for users of functions you write.",
+            	"examples": [
+            		"You’re designing a 'delete' button for your app. To avoid surprising users, you add a confirmation dialog to prevent accidental deletions and use standard red color to signal caution, aligning with user expectations. But you also remember that relying on color is not enough (many are color blind or even completely blind), so you make sure you add descriptive text as well.",
+            		"When creating an API, you ensure that it uses common HTTP status codes like 200 for success, 404 for not found, and 500 for server errors. This makes it intuitive for other developers who interact with the API."
+            	]
             }
           ]
         }
@@ -232,6 +296,23 @@
             "You're testing a profile update form, and instead of writing an assertion like `expect(document.body).toMatchSnapshot()` which effectively asserts the entire page, you write `expect(screen.getByText(/success/i)).toBeInTheDocument()`. This makes it clear what the specific expectation is, allowing developers to understand at a glance that the update should produce a success message specific to the profile.",
             "In data validation, instead of writing `if (!response.ok) throw new Error('user data request failed')` you write `if (!response.ok) throw new Error(`user data request failed with status ${response.status}: ${response.statusText}`)`. Giving as much information as you reasonably can in the error message."
           ]
+        },
+        {
+        	"slug": "explicit-over-implicit",
+        	"title": "Explicit is better than implicit",
+        	"description": "Prefer explicit code over implicit configuration and magical abstractions. Boilerplate is not bad by nature (code is read more than it is written), but it's an indicator that a good abstraction could be on the horizon.",
+        	"examples": [
+        		"In some UI libraries, mutation is a mechanism for state updates and rerendering (`user = 'Jane'`), this makes it harder to track which parts of your codebase can make changes to the data and which parts simply reference it. Instead, prefer libraries (like React) with explicit state updating functions (`setUser('Jane')`)."
+        	]
+        },
+        {
+        	"slug": "cost-benefit-performance",
+        	"title": "Weigh the cost-benefit of performance optimizations",
+        	"description": "Most performance optimizations come at a complexity cost. When adding a performance optimization, you do real-world testing to evaluate the before/after to ensure your optimization is worth the effort (and not making things worse).",
+        	"examples": [
+        		"You’re considering memoizing a component that renders user profile data. Instead of assuming this will improve performance, you benchmark the rendering time with and without memoization. You find that it actually makes things slower so you investigate further and identify an issue where an object is being passed as a prop. You then switch from an object prop to primitive values and memoization starts making things perform better. However the impact on performance is negligible (even on a simulated slow device) so you remove the optimization in favor of keeping things simpler. (Alternative ending, it does make things significantly faster so you keep it).",
+        		"Your app loads a large dataset on the main dashboard. Before implementing complex data caching, you measure the load time and see that it’s manageable. You decide to prioritize features and revisit caching if the dataset grows, avoiding premature optimization that would have added maintenance costs."
+        	]
         }
       ]
     },
@@ -294,14 +375,15 @@
         {
           "slug": "document-your-work",
           "title": "Document your work",
-          "description": "Code comments explain the 'why.' Variables/function names explain the 'what.' Code flow explains the 'how.' Documenting public functions and properties (via jsdoc for example) can be extremely helpful.\n\nSometimes you need to go beyond the code and explain overarching patterns and architectural structure and decisions. This is where decision documents and project-level documentation can come in handy.\n\nKeeping this documentation up-to-date over time is challenging, but important for projects which are intended for long-term maintenance and work from a team. Keep the documentation as close to the code as possible to make it easier.",
+          "description": "Code comments explain the 'why.' Variables/function names explain the 'what.' Code flow explains the 'how.' Documenting public functions and properties (via jsdoc for example) can be extremely helpful.",
+          "details": "Sometimes you need to go beyond the code and explain overarching patterns and architectural structure and decisions. This is where decision documents and project-level documentation can come in handy.\n\nKeeping this documentation up-to-date over time is challenging, but important for projects which are intended for long-term maintenance and work from a team. Keep the documentation as close to the code as possible to make it easier.",
           "examples": [
             "You implement a custom authentication flow and, in addition to code comments, you write a short document explaining why the unique constraints and requirements made you take this approach over more standard methods. The document is stored alongside the code in a docs folder, so new developers can reference it easily."
           ]
         },
         {
           "slug": "offline-development",
-          "title": "Offline development matters",
+          "title": "Enable Offline development",
           "description": "When you can develop offline, it enables you to tighten your feedback loop, iterate faster, and deliver more value. Not because you regularly work without a network connection (though you can), but because it forces you to be more thoughtful about the services upon which you depend and the challenge of setting those things up locally. This also helps your tests be more reliable and issues more reproducible.",
           "examples": [
             "You use msw (Mock Service Worker) to simulate backend API responses in your local environment. This allows you to develop most features without needing a connection to a live server, making it easier to work offline or in a low-network setup while ensuring reliability in your API integration.",
@@ -311,7 +393,8 @@
         {
           "slug": "deployable-commits",
           "title": "Deployable commits",
-          "description": "Your primary branch should be deployable at all times. This requires all validation checks (tests, linting, type checking) to pass before a commit makes it into the main branch. This also typically means when changes are merged, they either bring in a set of commits which can each be deployable on their own or are squashed into a single commit.\n\nHaving this kind of discipline makes it easier to rollback to any point in time, perform a bisect when trying to identify when a bug was introduced, and understand the evolution of the codebase.",
+          "description": "Your primary branch should be deployable at all times. This requires all validation checks (tests, linting, type checking) to pass before a commit makes it into the main branch. This also typically means when changes are merged, they either bring in a set of commits which can each be deployable on their own or are squashed into a single commit.",
+          "details": "Having this kind of discipline makes it easier to rollback to any point in time, perform a bisect when trying to identify when a bug was introduced, and understand the evolution of the codebase.",
           "examples": [
             "You enforce branch protection rules so that all pull requests into the main branch require passing tests and a successful build before they're merged. This ensures the main branch is always in a deployable state, enabling quick rollbacks if needed and reducing last-minute issues in production.",
             "Use feature flags to deploy to production even if the feature isn't fully ready for users. If issues are found in production, you can disable the feature via the flag without needing a rollback."
@@ -320,7 +403,8 @@
         {
           "slug": "small-merge-requests",
           "title": "Small and short lived merge requests",
-          "description": "Maintaining a branch with many changes over a long period of time is cumbersome and error prone. Even the best reviewers get tired and confused and will miss important changes in large merge requests.\n\nUse of feature flags can help ensure a feature can be merged before being complete while still enabling the commit to be deployable.",
+          "description": "Maintaining a branch with many changes over a long period of time is cumbersome and error prone. Even the best reviewers get tired and confused and will miss important changes in large merge requests.",
+          "details": "Use of feature flags can help ensure a feature can be merged before being complete while still enabling the commit to be deployable.",
           "examples": [
             "You're tasked with a new signup flow and it's a massive undertaking. Rather than making one large pull request, you break it into small chunks, such as 'Create signup page UI' and 'Add validation for signup form.' Each small merge request is reviewed and merged quickly, keeping the main branch up to date and reducing conflicts."
           ]
@@ -392,7 +476,8 @@
             {
               "slug": "keep-learning",
               "title": "Keep learning",
-              "description": "You will never know everything. There will be gaps in your knowledge and understanding. It can be easy to immediately reject things which are new and unfamiliar, but do not fall into this trap. The world continues to evolve and while you don't want to be swept away by every fad that comes and goes, you should approach the new with an open and curious mind.\n\nThis will not only expand your own knowledge and exposure, but also help you make and keep friends by not getting defensive whenever something new challenges your current understanding.\n\nAs your understanding crystalizes and experience increases with time and exposure, you can update your solutions and even your principles to better reflect your updated context. You avoid stagnation by re-evaluating your principles and practices.\n\nMaintain a growth mindset and don't settle with your current level of ability. Always strive to improve.",
+              "description": "You will never know everything. There will be gaps in your knowledge and understanding. It can be easy to immediately reject things which are new and unfamiliar, but do not fall into this trap. The world continues to evolve and while you don't want to be swept away by every fad that comes and goes, you should approach the new with an open and curious mind.",
+              "details": "This will not only expand your own knowledge and exposure, but also help you make and keep friends by not getting defensive whenever something new challenges your current understanding.\n\nAs your understanding crystalizes and experience increases with time and exposure, you can update your solutions and even your principles to better reflect your updated context. You avoid stagnation by re-evaluating your principles and practices.\n\nMaintain a growth mindset and don't settle with your current level of ability. Always strive to improve.",
               "examples": [
                 "You hear about a new database technology that's gaining popularity for handling real-time data streams. Instead of immediately dismissing it as unnecessary, you attend a workshop to learn about its benefits and drawbacks, expanding your knowledge for when you might need it in the future.",
                 "Your project involves complex forms, and you're unfamiliar with React's useReducer hook. You decide to experiment with it in a side project and attend a virtual conference session on React's state management techniques, broadening your understanding and potential solutions for complex form handling."
@@ -415,7 +500,8 @@
             {
               "slug": "strive-for-excellence",
               "title": "Strive for excellence",
-              "description": "'What E'er Thou Art, Act Well Thy Part'\n\n– John Allan\n\nIn practice, this means when you commit to something, you do it and you do it well. Otherwise, don't commit to it in the first place.",
+              "description": "'What E'er Thou Art, Act Well Thy Part'\n\n– John Allan",
+              "details": "In practice, this means when you commit to something, you do it and you do it well. Otherwise, don't commit to it in the first place.",
               "examples": [
                 "You agree to build a reporting feature that aggregates user activity data. You take the time to design a system that not only meets the current requirements but is also flexible enough to add more metrics in the future. By building with care and attention to detail, you make it easier for future improvements without having to redo everything.",
                 "You're assigned to update a legacy feature with known bugs. Instead of just patching the most visible issues, you refactor the code for readability and long-term maintainability, ensuring future developers will have an easier time understanding and working on this feature.",
@@ -453,4 +539,4 @@
       ]
     }
   ]
-} 
+}
