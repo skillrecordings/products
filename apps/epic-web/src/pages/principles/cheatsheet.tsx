@@ -59,7 +59,7 @@ export default function PrinciplesCheatSheet() {
                   }}
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://res.cloudinary.com/epic-web/image/upload/v1733476754/programming-principles-cheatsheet.pdf"
+                  href="https://res.cloudinary.com/epic-web/image/upload/v1738574327/programming-principles-cheatsheet.pdf"
                 >
                   Download PDF
                 </a>
@@ -70,7 +70,7 @@ export default function PrinciplesCheatSheet() {
                 asChild
               >
                 <a
-                  href="https://res.cloudinary.com/epic-web/image/upload/v1733759812/programming-principles-cheatsheet_2x.jpg"
+                  href="https://res.cloudinary.com/epic-web/image/upload/v1738574322/programming-principles-cheatsheet_2x.jpg"
                   download="epic-programming-principles-cheat-sheet.jpg"
                   onClick={() => {
                     track('clicked download wallpaper', {
@@ -92,13 +92,13 @@ export default function PrinciplesCheatSheet() {
               location: 'epic programming principles cheat sheet',
             })
           }}
-          href="https://res.cloudinary.com/epic-web/image/upload/v1733476754/programming-principles-cheatsheet.pdf"
+          href="https://res.cloudinary.com/epic-web/image/upload/v1738574327/programming-principles-cheatsheet.pdf"
           target="_blank"
           rel="noopener noreferrer"
         >
           <Image
             src={
-              'https://res.cloudinary.com/epic-web/image/upload/v1733759812/programming-principles-cheatsheet_2x.jpg'
+              'https://res.cloudinary.com/epic-web/image/upload/v1738574322/programming-principles-cheatsheet_2x.jpg'
             }
             width={3168 / 2.5}
             height={2448 / 2.5}

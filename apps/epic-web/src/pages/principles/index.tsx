@@ -135,7 +135,7 @@ const PrinciplesCheatSheetBanner = () => {
       <div className="relative aspect-[321/112] w-full lg:aspect-[173/112] lg:max-w-[300px]">
         <Image
           src={
-            'https://res.cloudinary.com/epic-web/image/upload/v1733476754/principles-cheatsheet-thumb_2x.jpg'
+            'https://res.cloudinary.com/epic-web/image/upload/v1738574255/principles-cheatsheet-thumb_2x.jpg'
           }
           alt=""
           fill
