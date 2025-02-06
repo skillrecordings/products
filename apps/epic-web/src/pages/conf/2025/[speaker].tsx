@@ -591,7 +591,7 @@ const travelSponsors = {
         </svg>
       </Link>
     ),
-    speakers: ['Zackary Jackson', 'Ryan Florence'],
+    speakers: ['Zack Jackson', 'Ryan Florence'],
   },
 }
 const getSponsorForSpeaker = (speakerSlug: string) => {
