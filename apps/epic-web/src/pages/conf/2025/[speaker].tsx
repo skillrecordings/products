@@ -33,7 +33,11 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   ).then((res) => res.json())
 
   const speaker: Speaker = speakers.find((speaker: Speaker) => {
-    return slugify(speaker.fullName) === params?.speaker
+    return (
+      slugify(
+        speaker?.fullName || `${speaker?.firstName} ${speaker?.lastName}`,
+      ) === params?.speaker
+    )
   })
 
   const talk = await getConfTalkBySpeaker(speaker.fullName)
@@ -84,10 +88,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: speakers
-      .filter((speaker: Speaker) => !speaker.fullName.includes('DevTools'))
+      // .filter((speaker: Speaker) => !speaker.fullName.includes('DevTools'))
       .map((speaker: Speaker) => ({
         params: {
-          speaker: slugify(speaker.fullName),
+          speaker: slugify(
+            speaker?.fullName || `${speaker?.firstName} ${speaker?.lastName}`,
+          ),
         },
       })),
     fallback: false,
