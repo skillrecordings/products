@@ -1229,6 +1229,19 @@ const sponsorsData = {
         </svg>
       ),
     },
+    {
+      name: 'Tanstack',
+      url: 'https://tanstack.com/',
+      logo: (
+        <Image
+          className="saturate-0 transition hover:saturate-100"
+          src="https://res.cloudinary.com/epic-web/image/upload/v1739288320/tanstack-logo.png"
+          alt="Tanstack"
+          width={210}
+          height={42}
+        />
+      ),
+    },
   ],
 }
 
