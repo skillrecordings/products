@@ -264,6 +264,12 @@ const Body = ({
   }, [])
   return (
     <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-16 sm:gap-16">
+      <Schedule schedule={schedule} speakers={speakers} />
+      <SpeakersList
+        speakers={shuffledSpeakers}
+        showingSpeakerDetail={showingSpeakerDetail}
+        setShowingSpeakerDetail={setShowingSpeakerDetail}
+      />
       <div className="px-5">
         <MuxPlayer
           playbackId={promoVideo}
@@ -275,6 +281,8 @@ const Body = ({
           }}
         />
       </div>
+
+      <Location />
       <Section
         position={1}
         title="Join us in March 2025"
@@ -293,7 +301,6 @@ const Body = ({
           soon.
         </p>
       </Section>
-      <Location />
       <Section
         position={2}
         title="Become a Sponsor"
@@ -312,12 +319,7 @@ const Body = ({
           was EPIC and we'd love to parter with you to make 2025 even better.
         </p>
       </Section>
-      <Schedule schedule={schedule} speakers={speakers} />
-      <SpeakersList
-        speakers={shuffledSpeakers}
-        showingSpeakerDetail={showingSpeakerDetail}
-        setShowingSpeakerDetail={setShowingSpeakerDetail}
-      />
+
       {/* <Section
         position={0}
         title="Become a Speaker"

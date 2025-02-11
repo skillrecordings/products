@@ -29,7 +29,7 @@ const ConfSchedule: React.FC<{schedule: Schedule; speakers: Speaker[]}> = ({
     <Layout
       className="bg-foreground text-background dark:bg-background dark:text-foreground"
       meta={{
-        title: 'Epic Web Conf 2024 Schedule',
+        title: 'Epic Web Conf 2025 Schedule',
         titleAppendSiteName: false,
         description:
           'The Full Stack Web Development Conference of Epic proportions.',
@@ -40,14 +40,14 @@ const ConfSchedule: React.FC<{schedule: Schedule; speakers: Speaker[]}> = ({
     >
       <main className="mx-auto flex w-full max-w-screen-lg flex-col py-16 print:py-0">
         <Link
-          href="/conf"
+          href="/conf/2025"
           className="mb-5 flex items-center gap-1 px-3 text-sm text-[#93A1D7] opacity-90 transition hover:underline hover:opacity-100 print:hidden"
         >
           <ChevronLeftIcon className="w-4" aria-hidden="true" /> Epic Web Conf
-          '24
+          '25
         </Link>
         <Schedule
-          title="Epic Web Conf 2024 Schedule"
+          title="Epic Web Conf 2025 Schedule"
           schedule={schedule}
           speakers={speakers}
         />
