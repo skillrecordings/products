@@ -18,11 +18,17 @@ import {
   DialogHeader,
   DialogTitle,
   Button,
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
 } from '@skillrecordings/ui'
 import {DialogTrigger} from '@radix-ui/react-dialog'
 import {GetStaticProps} from 'next'
 import {shuffle} from 'lodash'
+import {format, parseISO} from 'date-fns'
 // import {TwitterIcon, BlueskyIcon} from '@skillrecordings/react'
+import Icon from 'components/icons'
 
 import {useRouter} from 'next/router'
 import slugify from '@sindresorhus/slugify'
@@ -88,14 +94,20 @@ export const getStaticProps: GetStaticProps = async () => {
   const speakers = await fetch(
     'https://sessionize.com/api/v2/wyvikoxy/view/Speakers',
   ).then((res) => res.json())
+  const schedule = await fetch(
+    'https://sessionize.com/api/v2/wyvikoxy/view/GridSmart',
+  ).then((res) => res.json())
 
   return {
-    props: {speakers: speakers},
+    props: {speakers: speakers, schedule: schedule},
     revalidate: 60 * 5,
   }
 }
 
-const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
+const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
+  speakers,
+  schedule,
+}) => {
   return (
     <Layout
       className="bg-foreground pt-16 text-background dark:bg-background dark:text-foreground"
@@ -143,7 +155,7 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
       /> */}
       <TicketsMarquee />
       <Header />
-      <Body speakers={speakers} />
+      <Body speakers={speakers} schedule={schedule} />
 
       <Footer />
     </Layout>
@@ -152,7 +164,13 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
 
 export default ConfPage
 
-const Body = ({speakers}: {speakers: Speaker[]}) => {
+const Body = ({
+  speakers,
+  schedule,
+}: {
+  speakers: Speaker[]
+  schedule: Schedule
+}) => {
   let epicTalkIdeas = [
     'Blow our minds with cool demos',
     'Show off what you’ve learned at scale',
@@ -257,13 +275,49 @@ const Body = ({speakers}: {speakers: Speaker[]}) => {
           }}
         />
       </div>
-
+      <Section
+        position={1}
+        title="Join us in March 2025"
+        image="https://res.cloudinary.com/epic-web/image/upload/v1728471924/conf25/attendee_2x.jpg"
+        cta={{href: CONF_25_TITO_URL, label: 'Buy Tickets'}}
+      >
+        <p>
+          Epic Web Conf is your opportunity to join other full stack web
+          developers from all over the world to collaborate on the present and
+          future state of the art of building the absolute best user and
+          developer experiences possible.
+        </p>
+        <p>
+          Right now we are offering early bird tickets, this is{' '}
+          <strong>the cheapest</strong> the price will be and the price goes up
+          soon.
+        </p>
+      </Section>
+      <Location />
+      <Section
+        position={2}
+        title="Become a Sponsor"
+        image="https://res.cloudinary.com/epic-web/image/upload/v1728472065/conf25/sponsors_2x.jpg"
+        cta={{
+          href: 'mailto:conf@epicweb.dev?subject=Sponsoring Epic Web Conf 2025',
+          label: 'Sponsor Epic Web Conf 2025',
+          track: 'become a sponsor',
+        }}
+      >
+        <p>Epic Web Conf is made possible by the support of our sponsors.</p>
+        <p>
+          <Link href="/conf/2024" target="_blank">
+            Last year
+          </Link>{' '}
+          was EPIC and we'd love to parter with you to make 2025 even better.
+        </p>
+      </Section>
+      <Schedule schedule={schedule} speakers={speakers} />
       <SpeakersList
         speakers={shuffledSpeakers}
         showingSpeakerDetail={showingSpeakerDetail}
         setShowingSpeakerDetail={setShowingSpeakerDetail}
       />
-
       {/* <Section
         position={0}
         title="Become a Speaker"
@@ -285,45 +339,8 @@ const Body = ({speakers}: {speakers: Speaker[]}) => {
           ))}
         </ol>
       </Section> */}
-      <Section
-        position={1}
-        title="Join us in March 2025"
-        image="https://res.cloudinary.com/epic-web/image/upload/v1728471924/conf25/attendee_2x.jpg"
-        cta={{href: CONF_25_TITO_URL, label: 'Buy Tickets'}}
-      >
-        <p>
-          Epic Web Conf is your opportunity to join other full stack web
-          developers from all over the world to collaborate on the present and
-          future state of the art of building the absolute best user and
-          developer experiences possible.
-        </p>
-        <p>
-          Right now we are offering early bird tickets, this is{' '}
-          <strong>the cheapest</strong> the price will be and the price goes up
-          soon.
-        </p>
-      </Section>
-      <Location />
       {!IS_PAST_CONF_25 && <HotelSection />}
       <Sponsors />
-      <Section
-        position={2}
-        title="Become a Sponsor"
-        image="https://res.cloudinary.com/epic-web/image/upload/v1728472065/conf25/sponsors_2x.jpg"
-        cta={{
-          href: 'mailto:conf@epicweb.dev?subject=Sponsoring Epic Web Conf 2025',
-          label: 'Sponsor Epic Web Conf 2025',
-          track: 'become a sponsor',
-        }}
-      >
-        <p>Epic Web Conf is made possible by the support of our sponsors.</p>
-        <p>
-          <Link href="/conf/2024" target="_blank">
-            Last year
-          </Link>{' '}
-          was EPIC and we'd love to parter with you to make 2025 even better.
-        </p>
-      </Section>
     </div>
   )
 }
@@ -1399,5 +1416,215 @@ const SpeakersList: React.FC<{
         setShowingSpeakerDetail={setShowingSpeakerDetail}
       /> */}
     </>
+  )
+}
+
+export const Schedule: React.FC<{
+  schedule: Schedule
+  speakers: Speaker[]
+  title?: string
+}> = ({schedule, speakers, title = 'Schedule'}) => {
+  return (
+    <section
+      id="schedule"
+      aria-label="schedule"
+      className="mx-auto w-full max-w-screen-lg sm:p-4"
+    >
+      <div className="item-scenter flex w-full flex-col justify-between gap-5 md:flex-row">
+        <h2 className="px-4 pb-10 text-4xl font-bold sm:px-0 sm:text-5xl print:hidden">
+          {title}
+        </h2>
+        <button
+          type="button"
+          className="hidden h-10 items-center justify-center whitespace-nowrap rounded-md border border-white/10 bg-foreground px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:border-input dark:bg-background dark:hover:bg-white/5 md:inline-flex print:hidden"
+          onClick={() => {
+            const scheduleRoute = window.open('/conf/schedule', '_blank')
+            scheduleRoute?.print()
+          }}
+        >
+          Save as PDF
+        </button>
+      </div>
+      {schedule.map((day) => (
+        <div key={day.date} className="mb-8">
+          <h2 className="mb-4 px-4 text-2xl font-bold sm:px-0 print:text-black">
+            {format(parseISO(day.date), 'EEEE, dd/MM/yyyy')}
+          </h2>
+          {day.rooms.map((room) => (
+            <div key={room.id} className="mb-6">
+              <h3 className="mb-2 px-4 text-lg font-semibold sm:px-0 print:text-black">
+                Room: {room.name}
+              </h3>
+              <Accordion type="multiple" className="w-full">
+                <ul className="flex flex-col divide-y divide-white/10">
+                  {room.sessions.map((session) => {
+                    const hasMultipleSpeakers = session?.speakers?.length > 1
+                    const speaker = session?.speakers[0]?.name
+                    const talk = session?.talk
+
+                    const Speaker: React.FC<{
+                      className?: string
+                      speaker: string
+                    }> = ({className, speaker}) => {
+                      return (
+                        <div className={cn('items-center gap-2', className)}>
+                          {getProfilePictureForWorkshopInstructor(
+                            speaker,
+                            speakers,
+                          ) && (
+                            <Image
+                              alt=""
+                              aria-hidden="true"
+                              src={getProfilePictureForWorkshopInstructor(
+                                speaker,
+                                speakers,
+                              )}
+                              width={40}
+                              height={40}
+                              className="w-8 rounded-full md:w-auto"
+                            />
+                          )}
+                          <span className="text-sm leading-tight">
+                            {speaker}
+                          </span>
+                        </div>
+                      )
+                    }
+
+                    const AccordionTriggerComp = talk
+                      ? 'div'
+                      : session.description
+                      ? AccordionTrigger
+                      : 'div'
+
+                    return (
+                      <AccordionItem
+                        value={session.id}
+                        key={session.id}
+                        className="border-b-0"
+                        asChild
+                      >
+                        <li>
+                          <AccordionTriggerComp
+                            className={cn(
+                              'w-full px-2 [&_[data-chevron]]:print:hidden',
+                              {
+                                'transition hover:bg-white/5':
+                                  session.description,
+                                'pr-6': !session.description,
+                              },
+                            )}
+                          >
+                            <div
+                              className={cn(
+                                'md:group flex w-full items-start gap-3 py-2 md:items-center',
+                                {
+                                  '': session.title === 'Break',
+                                },
+                              )}
+                            >
+                              <div className="flex w-full max-w-[80px] items-center pt-2 text-[#D6DEFF] md:max-w-[160px] md:pt-0 print:text-black">
+                                <p className="whitespace-nowrap text-left text-xs font-semibold tabular-nums leading-none md:text-sm md:font-medium">
+                                  {format(
+                                    parseISO(session.startsAt),
+                                    'hh:mm a',
+                                  )}{' '}
+                                  {'–'} <br className="block md:hidden" />
+                                  {format(
+                                    parseISO(session.endsAt),
+
+                                    'hh:mm a',
+                                  )}
+                                </p>
+                              </div>
+                              <div className="col-span-4 w-full md:col-span-3">
+                                <div className="flex w-full flex-col items-start gap-2 text-left md:flex-row md:items-center">
+                                  <h4 className="w-full font-semibold leading-tight sm:text-lg print:text-black">
+                                    {session.title}
+                                  </h4>
+                                  {talk &&
+                                    !session.title.includes(
+                                      'OPTIONAL WORKSHOP REQUIRES A SEPARATE TICKET',
+                                    ) && (
+                                      <Button
+                                        asChild
+                                        size="sm"
+                                        variant="secondary"
+                                        className="inline-flex font-semibold"
+                                      >
+                                        <Link href={`/talks/${talk.slug}`}>
+                                          Watch{' '}
+                                          <Icon
+                                            name="Playmark"
+                                            className="ml-2 h-3 w-3"
+                                          />
+                                        </Link>
+                                      </Button>
+                                    )}
+                                  {hasMultipleSpeakers ? (
+                                    <div className="flex w-full items-center gap-2 md:hidden">
+                                      {session?.speakers?.map((speaker) => {
+                                        return (
+                                          <Speaker
+                                            key={speaker.name}
+                                            speaker={speaker.name}
+                                            className="mt-2 flex w-full max-w-none md:hidden print:text-black"
+                                          />
+                                        )
+                                      })}
+                                    </div>
+                                  ) : (
+                                    <>
+                                      {speaker && (
+                                        <Speaker
+                                          speaker={speaker}
+                                          className="mt-2 flex md:hidden print:text-black"
+                                        />
+                                      )}
+                                    </>
+                                  )}
+                                </div>
+                                {/* <p className="text-sm">{session.description}</p> */}
+                              </div>
+                              {hasMultipleSpeakers ? (
+                                <div className="hidden w-full items-center gap-2 md:flex">
+                                  {session?.speakers?.map((speaker) => {
+                                    return (
+                                      <Speaker
+                                        key={speaker.name}
+                                        speaker={speaker.name}
+                                        className="hidden w-full max-w-[200px] md:flex"
+                                      />
+                                    )
+                                  })}
+                                </div>
+                              ) : (
+                                <>
+                                  {speaker && (
+                                    <Speaker
+                                      speaker={speaker}
+                                      className="hidden w-full max-w-[200px] md:flex"
+                                    />
+                                  )}
+                                </>
+                              )}
+                            </div>
+                          </AccordionTriggerComp>
+                          <AccordionContent>
+                            <p className="px-4 pb-5 text-left text-sm leading-relaxed text-[#D6DEFF] md:ml-[160px] md:px-5 md:text-base print:text-black">
+                              {session.description}
+                            </p>
+                          </AccordionContent>
+                        </li>
+                      </AccordionItem>
+                    )
+                  })}
+                </ul>
+              </Accordion>
+            </div>
+          ))}
+        </div>
+      ))}
+    </section>
   )
 }
