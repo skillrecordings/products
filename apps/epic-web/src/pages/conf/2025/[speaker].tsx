@@ -599,6 +599,41 @@ const travelSponsors = {
     ),
     speakers: ['Zack Jackson', 'Ryan Florence'],
   },
+  codetv: {
+    logo: (
+      <Link href="https://codetv.dev" target="_blank" rel="noopener noreferrer">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="106"
+          height="25"
+          fill="none"
+          viewBox="0 0 106 25"
+        >
+          <path
+            fill="currentColor"
+            d="M17 10h-5V8h-1V7H6v1H5v9h1v1h5v-1h1v-2h5v4h-1v2h-1v1h-2v1H4v-1H2v-1H1v-2H0V6h1V4h1V3h2V2h9v1h2v1h1v2h1v4Z"
+          />
+          <path
+            fill="currentColor"
+            fill-rule="evenodd"
+            d="M24 2h9v1h2v1h1v2h1v13h-1v2h-1v1h-2v1h-9v-1h-2v-1h-1v-2h-1V6h1V4h1V3h2V2Zm2 6V7h5v1h1v9h-1v1h-5v-1h-1V8h1Zm14 15V2h12v1h2v1h1v2h1v13h-1v2h-1v1h-2v1H40ZM50 7h-5v11h5v-1h1V8h-1V7Z"
+            clip-rule="evenodd"
+          />
+          <path
+            fill="currentColor"
+            d="M59 2v21h16v-5H64v-3h9v-5h-9V7h11V2H59Z"
+          />
+          <path
+            fill="currentColor"
+            fill-rule="evenodd"
+            d="M82 0h20v1h2v1h1v2h1v17h-1v2h-1v1h-2v1H82v-1h-2v-1h-1v-2h-1V4h1V2h1V1h2V0Zm-1 11V7h10v4h-3v8h-4v-8h-3Zm11 4V7h4v6h1v1h1v-1h1V7h4v8h-1v1h-1v1h-1v1h-1v1h-3v-1h-1v-1h-1v-1h-1v-1h-1Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </Link>
+    ),
+    speakers: ['Jason Lengstorf'],
+  },
 }
 const getSponsorForSpeaker = (speakerSlug: string) => {
   for (const [sponsorKey, sponsor] of Object.entries(travelSponsors)) {
