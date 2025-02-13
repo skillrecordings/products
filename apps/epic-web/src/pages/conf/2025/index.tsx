@@ -1491,7 +1491,7 @@ export const Schedule: React.FC<{
       {schedule.map((day) => (
         <div key={day.date} className="mb-8">
           <h2 className="mb-4 px-4 text-2xl font-bold sm:px-0 print:text-black">
-            {format(parseISO(day.date), 'EEEE, dd/MM/yyyy')}
+            {format(parseISO(day.date), 'EEEE, MM/dd/yyyy')}
           </h2>
           {sortRoomsByPriority(day.rooms).map((room: Room) => (
             <div key={room.id} className="mb-6">
