@@ -1450,6 +1450,17 @@ const SpeakersList: React.FC<{
     </>
   )
 }
+const sortRoomsByPriority = (rooms: any[]): any[] => {
+  const roomPriority: any = {
+    'Registration Desk': 1,
+    // 'To be determined': 2,
+    Wasatch: 3,
+    Seminar: 4,
+    'Grand Ballroom C': 5,
+  }
+
+  return [...rooms].sort((a, b) => roomPriority[a.name] - roomPriority[b.name])
+}
 
 export const Schedule: React.FC<{
   schedule: Schedule
@@ -1482,14 +1493,14 @@ export const Schedule: React.FC<{
           <h2 className="mb-4 px-4 text-2xl font-bold sm:px-0 print:text-black">
             {format(parseISO(day.date), 'EEEE, dd/MM/yyyy')}
           </h2>
-          {day.rooms.map((room) => (
+          {sortRoomsByPriority(day.rooms).map((room: Room) => (
             <div key={room.id} className="mb-6">
               <h3 className="mb-2 px-4 text-lg font-semibold sm:px-0 print:text-black">
                 Room: {room.name}
               </h3>
               <Accordion type="multiple" className="w-full">
                 <ul className="flex flex-col divide-y divide-white/10">
-                  {room.sessions.map((session) => {
+                  {room.sessions.map((session: Session) => {
                     const hasMultipleSpeakers = session?.speakers?.length > 1
                     const speaker = session?.speakers[0]?.name
                     const talk = session?.talk
