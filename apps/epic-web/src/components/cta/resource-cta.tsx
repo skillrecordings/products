@@ -430,7 +430,7 @@ const ActivePromotionCTA = ({
 
 const DefaultCta = ({className}: {className?: string}) => {
   const title = 'Full Stack Vol 1'
-  const path = '/products/full-stack-vol-1'
+  const path = '/full-stack'
   const description = 'A comprehensive guide to full stack development'
   const image =
     'https://res.cloudinary.com/epic-web/image/upload/v1701332598/full-stack-vol-1.png'
