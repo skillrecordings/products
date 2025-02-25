@@ -115,7 +115,7 @@ const WorkshopsPage: React.FC<{
         <div className="flex flex-col items-center space-y-5 text-center lg:items-center lg:text-center">
           <h1 className="flex flex-col text-3xl font-semibold sm:text-4xl lg:text-5xl">
             <span className="mx-auto mb-4 inline-flex bg-gradient-to-r from-blue-500 to-fuchsia-600 bg-clip-text text-sm uppercase tracking-widest text-transparent dark:from-blue-300 dark:to-fuchsia-400">
-              ***Professional
+              Professional
             </span>{' '}
             Development Workshops
           </h1>
