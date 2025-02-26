@@ -104,7 +104,7 @@ const TypeScriptLearningPath = () => {
                   </>
                 ),
                 topics: [
-                  'TypeScritp setup',
+                  'TypeScript setup',
                   'Error checking',
                   'Tools for TS development',
                 ],
