@@ -978,8 +978,8 @@ const sponsorsData = {
   ],
   silver: [
     {
-      name: 'Optimize, by Prisma',
-      url: 'https://www.prisma.io/blog/prisma-optimize-early-access',
+      name: 'Prisma',
+      url: 'http://prisma.io/?utm_source=event&utm_campaign=epicweb25',
       logo: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -987,7 +987,7 @@ const sponsorsData = {
           viewBox="0 0 90 28"
           fill="none"
         >
-          <title>Optimize, by Prisma</title>
+          <title>Prisma</title>
           <path
             fillRule="evenodd"
             clipRule="evenodd"
