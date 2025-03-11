@@ -41,6 +41,12 @@ const nextConfig = {
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
   staticPageGenerationTimeout: 180,
+  rewrites: async () => [
+    {
+      source: '/typescript-go-rewrite',
+      destination: '/typescript-announces-go-rewrite',
+    },
+  ],
   images: {
     remotePatterns: [
       ...IMAGE_HOST_DOMAINS.map((domain) => ({
