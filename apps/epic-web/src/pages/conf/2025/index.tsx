@@ -720,9 +720,11 @@ const Sponsors = () => {
       <h2 className="pb-5 text-3xl font-semibold sm:text-4xl">Sponsors</h2>
       <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-16">
         {platinum.length > 0 && (
-          <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16 sm:px-10">
-            <p className="w-20 font-mono text-sm uppercase">Platinum:</p>
-            <div className="flex flex-col items-center gap-10 sm:flex-row sm:gap-16">
+          <div className="flex w-full flex-col items-center gap-10 px-5 sm:flex-col sm:px-10">
+            <div className="flex w-full items-center justify-center border-b py-2 sm:justify-start">
+              <p className="font-mono text-sm uppercase">Platinum Sponsors</p>
+            </div>
+            <div className="flex flex-col flex-wrap items-center gap-10 sm:flex-row sm:gap-20">
               {platinum.map(
                 (s: {name: string; url: string; logo: React.JSX.Element}) => {
                   return (
@@ -749,9 +751,11 @@ const Sponsors = () => {
           </div>
         )}
         {gold.length > 0 && (
-          <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16">
-            <p className="font-mono text-sm uppercase">Gold:</p>
-            <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-12">
+          <div className="flex w-full flex-col items-center gap-10 px-5 sm:flex-col sm:px-10">
+            <div className="flex w-full items-center justify-center border-b py-2 sm:justify-start">
+              <p className="font-mono text-sm uppercase">Gold Sponsors</p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-16">
               {gold.map((s) => {
                 return (
                   <Link
@@ -776,8 +780,10 @@ const Sponsors = () => {
           </div>
         )}
         {silver.length > 0 && (
-          <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16">
-            <p className="font-mono text-sm uppercase">Silver:</p>
+          <div className="flex w-full flex-col items-center gap-10 px-5 sm:flex-col sm:px-10">
+            <div className="flex w-full items-center justify-center border-b py-2 sm:justify-start">
+              <p className="font-mono text-sm uppercase">Silver Sponsors</p>
+            </div>
             <div className="flex flex-wrap items-center justify-center gap-10 md:justify-start lg:gap-16">
               {silver.map(
                 (s: {name: string; url: string; logo: React.JSX.Element}) => {
@@ -805,9 +811,11 @@ const Sponsors = () => {
           </div>
         )}
         {community.length > 0 && (
-          <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16 sm:px-10">
-            <p className="w-20 font-mono text-sm uppercase">Community:</p>
-            <div className="flex flex-wrap items-center justify-center gap-8 sm:justify-start sm:gap-x-16 sm:gap-y-10">
+          <div className="flex flex-col items-center gap-5 px-5 sm:flex-col sm:px-10">
+            <div className="flex w-full items-center justify-center border-b py-2 sm:justify-start">
+              <p className="font-mono text-sm uppercase">Community Sponsors</p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-x-16 sm:gap-y-5">
               {community.map(
                 (s: {name: string; url: string; logo: React.JSX.Element}) => {
                   return (
@@ -1040,7 +1048,7 @@ const sponsorsData = {
       logo: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="w-36"
+          className="w-40"
           viewBox="0 0 90 28"
           fill="none"
         >
@@ -1060,7 +1068,7 @@ const sponsorsData = {
       logo: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="w-44"
+          className="w-48"
           fill="none"
           viewBox="0 0 298 64"
         >
@@ -1312,7 +1320,7 @@ const sponsorsData = {
       url: 'https://www.geldata.com/',
       logo: (
         <svg
-          className="w-18"
+          className="w-20"
           viewBox="0 0 157 122"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
