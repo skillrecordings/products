@@ -283,6 +283,7 @@ const Body = ({
       </div>
 
       <Location />
+      <WebDevChallengeLocation />
       <Section
         position={1}
         title="Join us in March 2025"
@@ -1508,6 +1509,57 @@ const HotelSection = () => {
               here
             </a>{' '}
             to find your discounted room and book your stay today.
+          </span>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+const WebDevChallengeLocation = () => {
+  return (
+    <section
+      id="web-dev-challenge-location"
+      className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between gap-8 px-5 pb-0 sm:pb-24 md:flex-row lg:gap-14"
+    >
+      <div>
+        <Link
+          href="https://www.saltlakebrewingco.com/squatters"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative flex flex-col items-center justify-center before:absolute before:-bottom-1.5 before:h-3 before:w-3 before:rotate-45 before:border-b before:border-r before:border-[#313646] before:bg-[#1E212C] before:content-[''] md:before:-right-1.5 md:before:top-10 md:before:border-b-0 md:before:border-r md:before:border-t md:before:border-[#313646] md:before:bg-[#1E212C]"
+        >
+          <div className="flex items-center justify-center rounded-t border border-[#313646] bg-[#1E212C]">
+            <div className="flex items-center justify-center overflow-hidden rounded-tl">
+              <Image
+                src="/assets/conf/2025/bar.jpg"
+                alt="Squatters Pub Brewery"
+                width={180}
+                height={180}
+                priority
+                className="transition duration-300 ease-in-out group-hover:scale-105"
+              />
+            </div>
+            <div className="px-4 py-2 pr-5 sm:px-5 sm:py-5 sm:pr-7">
+              <h3 className="text-lg font-semibold leading-tight sm:text-xl sm:leading-tight">
+                Squatters Pub Brewery
+              </h3>
+              <div className="mt-3 inline-flex text-sm">
+                147 W Broadway
+                <br />
+                Salt Lake City, UT 84101
+              </div>
+            </div>
+          </div>
+        </Link>
+      </div>
+      <div className="w-full max-w-md text-center md:text-left lg:max-w-lg">
+        <h3 className="text-2xl font-semibold sm:text-3xl">
+          Web Dev Challenge Location
+        </h3>
+        <div className="mt-3 text-[#D6DEFF] sm:text-lg">
+          <span>
+            The Web Dev Challenge will be held at Squatters Pub Brewery.
           </span>
         </div>
       </div>
