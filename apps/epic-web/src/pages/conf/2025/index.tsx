@@ -32,6 +32,7 @@ import Icon from 'components/icons'
 
 import {useRouter} from 'next/router'
 import slugify from '@sindresorhus/slugify'
+import {trpc} from 'trpc/trpc.client'
 
 export const IS_PAST_CONF_25 = false
 export const CONF_25_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2025'
@@ -108,6 +109,9 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
   speakers,
   schedule,
 }) => {
+  const {data: livestreamData, status: livestreamStatus} =
+    trpc.conf.livestream.useQuery()
+
   return (
     <Layout
       className="bg-foreground pt-16 text-background dark:bg-background dark:text-foreground"
@@ -155,6 +159,19 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
       /> */}
       <TicketsMarquee />
       <Header />
+      {livestreamData?.showLivestream ? (
+        <div className="relative z-10 mx-auto mb-16 w-full max-w-screen-lg px-5 sm:-mt-24">
+          <iframe
+            src="https://www.youtube.com/live/SDuvi5eUqp0?si=dzNuvYGzmwzUq0iC"
+            title="YouTube video player"
+            className="aspect-video w-full rounded border border-white/5"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        </div>
+      ) : null}
       <Body speakers={speakers} schedule={schedule} />
 
       <Footer />
@@ -349,6 +366,9 @@ const Body = ({
 }
 
 const Header = () => {
+  const {data: livestreamData, status: livestreamStatus} =
+    trpc.conf.livestream.useQuery()
+
   return (
     <header className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#080B16]">
       <div className="relative z-10 mx-auto w-full max-w-screen-lg px-5 pb-10 pt-16 sm:pb-16 sm:pt-40">
@@ -417,6 +437,28 @@ const Header = () => {
             </Link>
           )}
         </Button>
+        {livestreamData?.showLivestream ? (
+          <Button
+            asChild
+            className="mt-10 h-12 gap-2 rounded-sm bg-gradient-to-b from-red-500 to-red-600 font-mono text-base font-bold uppercase tracking-wide text-white transition hover:brightness-110"
+            size="lg"
+          >
+            <Link
+              href={livestreamData.livestreamUrl}
+              target="_blank"
+              onClick={() => {
+                track('clicked watch live', {
+                  title: 'conf2025',
+                  type: 'event',
+                  location: 'top',
+                })
+              }}
+            >
+              <Icon name="Playmark" className="w-3" />
+              {'Watch Live'}
+            </Link>
+          </Button>
+        ) : null}
       </div>
       <div className="absolute -bottom-16 right-[-370px] flex items-center justify-center sm:bottom-auto sm:right-[-690px] xl:right-[-600px] 2xl:right-[-370px]">
         <Image
