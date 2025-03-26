@@ -160,7 +160,7 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
       <TicketsMarquee />
       <Header />
       {livestreamData?.showLivestream ? (
-        <div className="relative z-10 mx-auto mb-16 w-full max-w-screen-lg px-5 pt-12 sm:-mt-24">
+        <div className="relative z-10 mx-auto mb-16  w-full max-w-screen-lg px-5 pt-12 sm:-mt-16">
           <iframe
             src="https://www.youtube.com/embed/SDuvi5eUqp0?si=dzNuvYGzmwzUq0iC"
             title="YouTube video player"
@@ -399,7 +399,7 @@ const Header = () => {
             <div className="text-lg text-[#D6DEFF]">Salt Lake City, Utah</div>
           </div>
         </div>
-        <Button
+        {/* <Button
           asChild
           className="relative mt-10 h-12 overflow-hidden rounded-sm bg-gradient-to-b from-amber-500 to-amber-600 text-base font-semibold tracking-tight text-amber-950 shadow-lg shadow-amber-500/20 brightness-125 transition duration-300 hover:brightness-110"
           size="lg"
@@ -436,11 +436,11 @@ const Header = () => {
               </div>
             </Link>
           )}
-        </Button>
-        {livestreamData?.showLivestream ? (
+        </Button> */}
+        {/* {livestreamData?.showLivestream ? (
           <Button
             asChild
-            className="mt-10 h-12 gap-2 rounded-sm bg-gradient-to-b from-red-500 to-red-600 font-mono text-base font-bold uppercase tracking-wide text-white transition hover:brightness-110"
+            className="h-12 gap-2 rounded-sm bg-gradient-to-b from-red-500 to-red-600 font-mono text-base font-bold uppercase tracking-wide text-white transition hover:brightness-110"
             size="lg"
           >
             <Link
@@ -458,7 +458,7 @@ const Header = () => {
               {'Watch Live'}
             </Link>
           </Button>
-        ) : null}
+        ) : null} */}
       </div>
       <div className="absolute -bottom-16 right-[-370px] flex items-center justify-center sm:bottom-auto sm:right-[-690px] xl:right-[-600px] 2xl:right-[-370px]">
         <Image
