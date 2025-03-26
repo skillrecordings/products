@@ -159,10 +159,11 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
       /> */}
       <TicketsMarquee />
       <Header />
+
       {livestreamData?.showLivestream ? (
-        <div className="relative z-10 mx-auto mb-16 w-full max-w-screen-lg px-5 sm:-mt-24">
+        <div className="relative z-10 mx-auto mb-16 w-full max-w-screen-lg px-5 pt-12 sm:-mt-24">
           <iframe
-            src="https://www.youtube.com/live/SDuvi5eUqp0?si=dzNuvYGzmwzUq0iC"
+            src="https://www.youtube.com/embed/SDuvi5eUqp0?si=dzNuvYGzmwzUq0iC"
             title="YouTube video player"
             className="aspect-video w-full rounded border border-white/5"
             frameBorder="0"
@@ -454,7 +455,7 @@ const Header = () => {
                 })
               }}
             >
-              <Icon name="Playmark" className="w-3" />
+              <Icon name="Playmark" className="w-3 pl-2" />
               {'Watch Live'}
             </Link>
           </Button>
