@@ -635,7 +635,12 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
                         <Link
                           key={module.slug}
                           data-type={module.moduleType}
-                          href={`/workshops/${module.slug}`}
+                          href={`/workshops/${
+                            typeof module.slug === 'string'
+                              ? module.slug
+                              : // @ts-expect-error
+                                module.slug.current
+                          }`}
                           target="_blank"
                         >
                           {module?.image?.url || module?.image ? (
