@@ -18,19 +18,13 @@ import {track} from 'utils/analytics'
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
 
-  const isPastConf2025 = new Date().getTime() > new Date('2025-03-25').getTime()
-
   return {
-    props: {
-      isPastConf2025,
-    },
+    props: {},
     revalidate: 10,
   }
 }
 
-const Index: NextPage<{
-  isPastConf2025: boolean
-}> = ({isPastConf2025}) => {
+const Index: NextPage<{}> = () => {
   const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
@@ -50,7 +44,7 @@ const Index: NextPage<{
             href="/rss.xml"
           />
         </Head>
-        <Header isPastConf2025={isPastConf2025} />
+        <Header />
         <div className="mx-auto px-5 pb-32 pt-0 dark:prose-invert sm:prose-lg prose-headings:max-w-2xl prose-headings:font-bold prose-p:max-w-2xl prose-ul:max-w-2xl prose-ul:pl-0 sm:pt-5">
           <Article />
         </div>
@@ -62,12 +56,11 @@ const Index: NextPage<{
 
 export default Index
 
-const Header = ({isPastConf2025}: {isPastConf2025: boolean}) => {
-  const shouldReduceMotion = useReducedMotion()
+const Header = () => {
   return (
     <header className="relative mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#FFF6E7_0%,transparent_65%)] px-5 pb-16 pt-24 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)] sm:pt-28">
       <div className="relative z-10 flex flex-col items-center">
-        <Link
+        {/* <Link
           href="/conf/2025"
           className="relative flex w-auto scale-90 flex-row items-center justify-center overflow-hidden rounded-full border border-yellow-400 bg-gradient-to-t from-amber-500 to-yellow-400 px-4 py-1.5 text-sm font-semibold text-black shadow-xl"
           onClick={() => {
@@ -99,12 +92,8 @@ const Header = ({isPastConf2025}: {isPastConf2025: boolean}) => {
               }}
             />
           </div>
-        </Link>
-        <h1
-          className={cn('text-3xl font-bold sm:text-4xl lg:text-5xl', {
-            'sm:pt-10': isPastConf2025,
-          })}
-        >
+        </Link> */}
+        <h1 className={cn('text-3xl font-bold sm:text-4xl lg:text-5xl', {})}>
           <span className="inline-flex text-balance pb-4 text-xs font-semibold uppercase tracking-widest text-amber-600 shadow-cyan-200/50 dark:text-cyan-300 dark:brightness-110 dark:drop-shadow-xl sm:text-sm">
             Start your journey to becoming an Epic Web Developer
           </span>
