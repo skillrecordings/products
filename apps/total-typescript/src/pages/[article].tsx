@@ -12,6 +12,7 @@ import {
   extractMarkdownHeadings,
   type MarkdownHeading,
 } from '@/utils/extract-markdown-headings'
+import {take} from 'lodash'
 
 const ARTICLES_WITH_TOC = [
   'how-to-create-an-npm-package',
@@ -40,6 +41,16 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       },
     }))
 
+  const shortenedArticleBody =
+    articleBody &&
+    (await serializeMDX(take(article.body?.split('\n'), 6).join('\n'), {
+      useShikiTwoslash: true,
+      syntaxHighlighterOptions: {
+        authorization: process.env.SHIKI_AUTH_TOKEN,
+        endpoint: process.env.SHIKI_ENDPOINT,
+      },
+    }))
+
   // Fetch first 6 articles only
   const otherArticles = await getOtherArticles(article.slug, {limit: 6})
 
@@ -54,6 +65,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     props: {
       article,
       articleBody,
+      shortenedArticleBody: shortenedArticleBody,
       articles: otherArticles,
       toc,
     },
@@ -73,12 +85,14 @@ export type ArticlePageProps = {
   article: Article
   articles: Article[]
   articleBody: MDXRemoteSerializeResult
+  shortenedArticleBody: MDXRemoteSerializeResult
   toc: MarkdownHeading[]
 }
 
 const ArticleRoute: NextPage<ArticlePageProps> = ({
   article,
   articleBody,
+  shortenedArticleBody,
   articles,
   toc,
 }) => {
@@ -86,6 +100,7 @@ const ArticleRoute: NextPage<ArticlePageProps> = ({
     <ArticleTemplate
       article={article}
       articleBody={articleBody}
+      shortenedArticleBody={shortenedArticleBody}
       articles={articles}
       toc={toc}
     />

@@ -88,6 +88,12 @@ export default {
       type: 'text',
       validation: (Rule) => Rule.max(160),
     },
+    {
+      name: 'showLoginWall',
+      title: 'Show Login Wall',
+      type: 'boolean',
+      initialValue: false,
+    },
   ],
   preview: {
     select: {

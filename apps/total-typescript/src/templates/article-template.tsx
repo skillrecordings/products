@@ -29,31 +29,34 @@ import {
 } from '@/utils/extract-markdown-headings'
 import {useVisibleMarkdownHeading} from '@/components/book/use-visible-markdown-heading'
 import {MobileArticleToC} from '@/components/articles/mobile-article-toc'
+import {useSession} from 'next-auth/react'
 
 type ArticleTemplateProps = {
   article: Article
   articles: Article[]
   articleBody: MDXRemoteSerializeResult
+  shortenedArticleBody: MDXRemoteSerializeResult
   toc: MarkdownHeading[]
 }
 
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   article,
   articleBody,
+  shortenedArticleBody,
   articles,
   toc,
 }) => {
   const {body, title, slug, _createdAt, _updatedAt, image, description} =
     article
 
-  const {subscriber, loadingSubscriber} = useConvertkit()
+  const {data: session} = useSession()
+  const router = useRouter()
+
   const articleDescription = description
     ? description
     : body
     ? removeMarkdown(body.slice(0, 160))
     : ''
-  const {data: defaultCouponData, status: defaultCouponStatus} =
-    trpc.pricing.defaultCoupon.useQuery()
 
   const isBookTeaser = article.articleType === 'bookTeaser'
   const shouldReduceMotion = useReducedMotion()
@@ -62,6 +65,10 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
     rootMargin: '0% 0% -80% 0%',
     threshold: 0.5,
   })
+
+  const isLoggedIn = session?.user
+  const articleBodyDisplay =
+    article.showLoginWall && !isLoggedIn ? shortenedArticleBody : articleBody
 
   return (
     <Layout
@@ -179,7 +186,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           <div className="prose relative z-10 mx-auto w-full max-w-3xl sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
             {articleBody && (
               <MDX
-                contents={articleBody}
+                contents={articleBodyDisplay}
                 components={{
                   ShareImage: ShareImageMDX,
                   ArticleBodyCTA: ({children, ...props}) => (
@@ -192,6 +199,25 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
                   ),
                 }}
               />
+            )}
+            {!isLoggedIn && (
+              <div className="absolute bottom-0 left-0 z-20 flex h-64 w-full flex-col items-center justify-end bg-gradient-to-t from-background via-background to-transparent p-5 text-center">
+                <div className="rounded-lg border bg-background p-5 shadow-lg">
+                  <h3 className="mb-2 text-lg font-semibold text-white">
+                    Log in to read the full article
+                  </h3>
+                  <p className="mb-4 text-sm text-gray-400">
+                    Unlock this article and more by logging into your account.
+                  </p>
+                  <Link
+                    href={`/login?callbackUrl=${encodeURIComponent(
+                      router.asPath,
+                    )}`}
+                  >
+                    <Button>Log In</Button>
+                  </Link>
+                </div>
+              </div>
             )}
             <div className="mx-auto flex w-32 -rotate-6 items-center gap-2 text-slate-500">
               <Image
