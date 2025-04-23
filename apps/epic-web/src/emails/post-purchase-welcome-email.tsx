@@ -139,7 +139,7 @@ Don’t forget to check out our exclusive podcast series. These aren’t just an
     : ''
 }   
             `
-        case '5809fd2e-8072-42eb-afa2-aff7c9999d0c':
+        case 'cf54eeca-309b-493d-9628-1c31289a7515':
           return `
 This bundle is your key to transforming testing from a frustrating chore into a powerful tool that gives you confidence in every line of code.
 
@@ -276,7 +276,7 @@ ${calendarInvite}
         product.productId === 'kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002'
       ) {
         return `Thank you for purchasing the ${product.title} Bundle${forTeam}!`
-      } else if (product.productId === '5809fd2e-8072-42eb-afa2-aff7c9999d0c') {
+      } else if (product.productId === 'cf54eeca-309b-493d-9628-1c31289a7515') {
         return `Thank you for purchasing the ${product.title}${forTeam}!`
       } else {
         return `Thank you for purchasing the [${product.title}](https://www.epicweb.dev/workshops/${product.slug}) Workshop${forTeam}!`

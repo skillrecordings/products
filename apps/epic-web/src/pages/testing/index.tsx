@@ -48,12 +48,11 @@ import {
 } from '@skillrecordings/ui'
 import {Sparkles} from 'pages/buy'
 
-const productId = '5809fd2e-8072-42eb-afa2-aff7c9999d0c'
+const productId = 'cf54eeca-309b-493d-9628-1c31289a7515'
 
 export const getStaticProps: GetStaticProps = async () => {
   const sanityProduct = await getProduct(productId as string)
   const pricing = await getPricing('epic-testing')
-
   const products = pricing && pricing.products
   const availableBonuses = await getAvailableBonuses()
 
@@ -287,21 +286,21 @@ const Article: React.FC<{
                   </h3>
                   <p>
                     Hi! My name is Artem, and I love automated testing. So much
-                    so that I’ve built open-source software to promote the
-                    testing practices I believe in that’s now used in Google,
+                    so that I've built open-source software to promote the
+                    testing practices I believe in that's now used in Google,
                     Microsoft, Amazon, Netflix, and by hundreds of thousands of
                     developers out there.
                   </p>
                   <p>
-                    But it wasn’t always like that. I used to be afraid of
-                    testing. I didn’t know if the tests I was writing made any
+                    But it wasn't always like that. I used to be afraid of
+                    testing. I didn't know if the tests I was writing made any
                     sense. Until pattern after pattern, concept after concept,
-                    things “clicked”. Almost a decade later, I am here to make
+                    things "clicked". Almost a decade later, I am here to make
                     testing click for you.
                   </p>
                   <p>
                     I am honored to be your guide in the vast land of automated
-                    testing. Let’s go!
+                    testing. Let's go!
                   </p>
                 </div>
               </div>
