@@ -109,7 +109,7 @@ const Index: NextPage<{
       <Layout
         meta={{
           titleAppendSiteName: false,
-          title: 'Master Mocking for Better Web Applications using Vitest',
+          title: 'Master Testing for Better Web Applications Using Vitest',
           description:
             'Learn from the creator and maintainer of Mock Service Worker, Artem Zakharchenko.',
           ogImage: {
@@ -124,7 +124,7 @@ const Index: NextPage<{
           <section className="relative mt-16 flex flex-col items-center justify-start ">
             <div className="flex flex-col items-center justify-center px-5 pb-0 pt-0">
               <h2 className="max-w-xl text-balance text-center text-3xl font-bold sm:text-3xl lg:text-4xl">
-                Master Mocking for Better Web Applications using Vitest
+                Master Testing for Better Web Applications Using Vitest
               </h2>
               <h3 className="max-w-lg text-balance pt-5 text-center text-lg text-blue-600 dark:text-blue-300">
                 Learn from the creator and maintainer of Mock Service Worker,
@@ -408,7 +408,7 @@ const Header = () => {
           Everything You Need to Know to
         </span>
         <div className="text-balance text-gray-900 dark:text-white">
-          Master Mocking for Better Web Application Testing with{' '}
+          Master Testing for Better Web Applications with{' '}
           <svg
             className="inline-block w-12"
             xmlns="http://www.w3.org/2000/svg"
