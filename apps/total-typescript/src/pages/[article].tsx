@@ -42,7 +42,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     }))
 
   const shortenedArticleBody =
-    articleBody &&
+    article.body &&
     (await serializeMDX(take(article.body?.split('\n'), 6).join('\n'), {
       useShikiTwoslash: true,
       syntaxHighlighterOptions: {
