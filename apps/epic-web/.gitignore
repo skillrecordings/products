@@ -49,3 +49,4 @@ yarn-error.log*
 
 # Sanity
 .sanity
+.env*.local
