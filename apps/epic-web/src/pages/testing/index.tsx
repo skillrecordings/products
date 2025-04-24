@@ -158,6 +158,7 @@ const Index: NextPage<{
                           )}
                           index={i}
                           couponId={couponId}
+                          couponFromCode={commerceProps?.couponFromCode}
                         />
                       </div>
                     </PriceCheckProvider>
