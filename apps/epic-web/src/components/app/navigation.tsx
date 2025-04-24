@@ -974,7 +974,7 @@ export const productOnSalePathBuilder = (product: {
   if (product.type === 'live') {
     return `/events/${product.slug}`
   } else if (product.modules && product.modules.length > 1) {
-    return `/products/${product.slug}`
+    return `/${product.slug}`
   } else {
     return `/workshops/${product?.modules?.[0]?.slug?.current}`
   }
