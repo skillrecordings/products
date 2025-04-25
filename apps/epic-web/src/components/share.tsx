@@ -1,11 +1,10 @@
 import {HeartIcon} from '@heroicons/react/solid'
 import {
-  Bluesky,
-  Twitter,
   LinkedIn,
   Reddit,
   Facebook,
   CopyToClipboard,
+  Twitter,
 } from '@skillrecordings/react'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {type Contributor} from 'lib/contributors'
@@ -59,11 +58,6 @@ const Share: React.FC<{
           </div>
         )}
         <div className="flex w-full items-center justify-center divide-x divide-gray-200 border-t border-gray-200 pt-0 dark:divide-background dark:border-background sm:w-auto sm:border-t-0 dark:sm:border-t-0">
-          <Bluesky
-            svgClassName="w-4 h-4"
-            className={shareButtonClassName}
-            link={`${title} \n\n ${url}`}
-          />
           <Twitter
             className={shareButtonClassName}
             svgClassName="w-4 h-4"

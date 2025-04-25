@@ -72,6 +72,24 @@ export const ArticlesSchema = z.array(ArticleSchema)
 
 export type Article = z.infer<typeof ArticleSchema>
 
+const transformArticlePost = (post: ArticlePost): Article => {
+  return {
+    _id: post.id || '',
+    _type: 'article',
+    _updatedAt: post.updatedAt ? new Date(post.updatedAt).toISOString() : '',
+    _createdAt: post.createdAt ? new Date(post.createdAt).toISOString() : '',
+    title: post.fields.title || '',
+    slug: post.fields.slug || '',
+    description: post.fields.description || null,
+    body: post.fields.body || '',
+    state: post.fields.state || 'draft',
+    author: null,
+    image: null,
+    ogImage: null,
+    resources: [],
+  }
+}
+
 export const getAllArticles = async (): Promise<Article[]> => {
   const connection = await mysql.createConnection(access)
 
@@ -121,21 +139,9 @@ export const getAllArticles = async (): Promise<Article[]> => {
   const articleDocuments = ArticlesSchema.parse(data)
 
   // Transform articlePosts to match ArticleSchema format
-  const transformedArticlePosts = articlePosts.map((post) => ({
-    _id: post.id || '',
-    _type: 'article',
-    _updatedAt: post.updatedAt ? new Date(post.updatedAt).toISOString() : '',
-    _createdAt: post.createdAt ? new Date(post.createdAt).toISOString() : '',
-    title: post.fields.title || '',
-    slug: post.fields.slug || '',
-    description: post.fields.description || null,
-    body: post.fields.body || '',
-    state: post.fields.state || 'draft',
-    author: null,
-    image: null,
-    ogImage: null,
-    resources: [],
-  }))
+  const transformedArticlePosts = articlePosts.map((post) =>
+    transformArticlePost(post),
+  )
 
   // Merge and sort by createdAt
   const allArticles = ArticlesSchema.parse(
@@ -149,6 +155,19 @@ export const getAllArticles = async (): Promise<Article[]> => {
 }
 
 export const getArticle = async (slug: string): Promise<Article | null> => {
+  const connection = await mysql.createConnection(access)
+
+  const [rows] = await connection.execute(
+    'SELECT * FROM zEW_ContentResource WHERE JSON_EXTRACT(fields, "$.postType") = ? AND JSON_EXTRACT(fields, "$.slug") = ?',
+    ['article', slug],
+  )
+
+  const articlePost = ArticlePostsSchema.parse(rows)[0]
+
+  if (articlePost) {
+    return transformArticlePost(articlePost)
+  }
+
   const article = await sanityClient.fetch(
     groq`*[_type == "article" && slug.current == $slug][0] {
         _id,
