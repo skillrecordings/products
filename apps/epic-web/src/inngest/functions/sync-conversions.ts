@@ -29,7 +29,7 @@ export const syncConversions = inngest.createFunction(
                 '1b6e7ed6-8a15-48f1-8dd7-e76612581ee8',
                 '2267e543-51fa-4d71-a02f-ad9ba71a1f8e',
                 '2e5b2993-d069-4e43-a7f1-24cffa83f7ac',
-                '5809fd2e-8072-42eb-afa2-aff7c9999d0c',
+                'cf54eeca-309b-493d-9628-1c31289a7515',
                 '5ffdd0ef-a7a3-431e-b36b-f4232da7e454',
                 '7872d512-ba34-4108-b510-7db9cbcee98c',
                 'dc9b750c-e3bc-4b0a-b7d2-d04a481afa0d',

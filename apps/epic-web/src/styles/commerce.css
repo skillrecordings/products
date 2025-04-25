@@ -4,13 +4,13 @@
       @apply w-full max-w-sm;
       [data-pricing-product] {
         [data-pricing-product-image] {
-          @apply relative mx-auto -mb-24 h-56 w-56 rounded-none border-none bg-transparent;
+          @apply relative mx-auto -mb-24 h-80 w-80 rounded-none border-none bg-transparent;
           img {
             @apply rounded-none;
           }
         }
         article {
-          @apply pt-20;
+          @apply pt-32;
         }
       }
     }
@@ -1053,7 +1053,7 @@
           [data-main] {
             @apply px-5 py-5 text-base;
             strong {
-              @apply inline-flex pb-3 text-lg font-medium;
+              @apply inline-flex pb-3 pt-4 text-lg font-medium;
             }
             [data-workshops] {
               /* @apply hidden; */
