@@ -41,15 +41,20 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       },
     }))
 
-  const shortenedArticleBody =
-    article.body &&
-    (await serializeMDX(take(article.body?.split('\n'), 6).join('\n'), {
-      useShikiTwoslash: true,
-      syntaxHighlighterOptions: {
-        authorization: process.env.SHIKI_AUTH_TOKEN,
-        endpoint: process.env.SHIKI_ENDPOINT,
-      },
-    }))
+  let shortenedArticleBody
+  if (article.withEmailWall) {
+    shortenedArticleBody =
+      article.body &&
+      (await serializeMDX(take(article.body?.split('\n'), 6).join('\n'), {
+        useShikiTwoslash: true,
+        syntaxHighlighterOptions: {
+          authorization: process.env.SHIKI_AUTH_TOKEN,
+          endpoint: process.env.SHIKI_ENDPOINT,
+        },
+      }))
+  } else {
+    shortenedArticleBody = null
+  }
 
   // Fetch first 6 articles only
   const otherArticles = await getOtherArticles(article.slug, {limit: 6})

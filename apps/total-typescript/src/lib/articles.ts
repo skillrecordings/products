@@ -21,7 +21,7 @@ export const ArticleSchema = z.object({
   body: z.string().nullable().optional(),
   summary: z.string().nullable().optional(),
   state: z.enum(['published', 'draft']),
-  showLoginWall: z.boolean().nullish().default(false),
+  withEmailWall: z.boolean().nullish().default(false),
 })
 
 export const ArticlesSchema = z.array(ArticleSchema)
@@ -125,7 +125,7 @@ export const getArticle = async (
         state,
         description,
         "image": image.asset->url,
-        showLoginWall,
+        withEmailWall,
         summary,
         body
     }`,

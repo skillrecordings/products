@@ -20,7 +20,7 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {trpc} from '@/trpc/trpc.client'
 import Link from 'next/link'
 import config from '@/config'
-import {useRouter} from 'next/router'
+import {NextRouter, useRouter} from 'next/router'
 import {Button} from '@skillrecordings/ui'
 import {ArticleToC} from '@/components/articles/article-toc'
 import {
@@ -30,6 +30,14 @@ import {
 import {useVisibleMarkdownHeading} from '@/components/book/use-visible-markdown-heading'
 import {MobileArticleToC} from '@/components/articles/mobile-article-toc'
 import {useSession} from 'next-auth/react'
+import SubscribeToConvertkitForm, {
+  redirectUrlBuilder,
+} from '@skillrecordings/skill-lesson/convertkit/convertkit-subscribe-form'
+import {setUserId} from '@amplitude/analytics-browser'
+import {snakeCase} from 'lodash'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import toast from 'react-hot-toast'
+import React from 'react'
 
 type ArticleTemplateProps = {
   article: Article
@@ -48,7 +56,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
 }) => {
   const {body, title, slug, _createdAt, _updatedAt, image, description} =
     article
-
+  const {subscriber, loadingSubscriber} = useConvertkit()
   const {data: session} = useSession()
   const router = useRouter()
 
@@ -66,9 +74,12 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
     threshold: 0.5,
   })
 
-  const isLoggedIn = session?.user
+  React.useEffect(() => {
+    console.log('subscriber', subscriber)
+  }, [subscriber])
+
   const articleBodyDisplay =
-    article.showLoginWall && !isLoggedIn ? shortenedArticleBody : articleBody
+    article.withEmailWall && !subscriber ? shortenedArticleBody : articleBody
 
   return (
     <Layout
@@ -185,38 +196,30 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         >
           <div className="prose relative z-10 mx-auto w-full max-w-3xl sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
             {articleBody && (
-              <MDX
-                contents={articleBodyDisplay}
-                components={{
-                  ShareImage: ShareImageMDX,
-                  ArticleBodyCTA: ({children, ...props}) => (
-                    <ArticleBodyCTA {...props}>{children}</ArticleBodyCTA>
-                  ),
-                  ...linkedHeadingComponents,
-                  hr: () => <hr className="border-gray-700" />,
-                  FeedbackFormButton: (props) => (
-                    <FeedbackFormButton {...props} />
-                  ),
-                }}
-              />
+              <div className="relative">
+                <MDX
+                  contents={articleBodyDisplay}
+                  components={{
+                    ShareImage: ShareImageMDX,
+                    ArticleBodyCTA: ({children, ...props}) => (
+                      <ArticleBodyCTA {...props}>{children}</ArticleBodyCTA>
+                    ),
+                    ...linkedHeadingComponents,
+                    hr: () => <hr className="border-gray-700" />,
+                    FeedbackFormButton: (props) => (
+                      <FeedbackFormButton {...props} />
+                    ),
+                  }}
+                />
+                {!subscriber && article.withEmailWall && (
+                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-background to-transparent" />
+                )}
+              </div>
             )}
-            {!isLoggedIn && (
-              <div className="absolute bottom-0 left-0 z-20 flex h-64 w-full flex-col items-center justify-end bg-gradient-to-t from-background via-background to-transparent p-5 text-center">
-                <div className="rounded-lg border bg-background p-5 shadow-lg">
-                  <h3 className="mb-2 text-lg font-semibold text-white">
-                    Log in to read the full article
-                  </h3>
-                  <p className="mb-4 text-sm text-gray-400">
-                    Unlock this article and more by logging into your account.
-                  </p>
-                  <Link
-                    href={`/login?callbackUrl=${encodeURIComponent(
-                      router.asPath,
-                    )}`}
-                  >
-                    <Button>Log In</Button>
-                  </Link>
-                </div>
+            {!subscriber && !loadingSubscriber && article.withEmailWall && (
+              <div className="before:content-['']; relative -mt-12 flex items-center justify-center rounded border border-gray-700/50 bg-gray-800 p-5 shadow-2xl before:absolute before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50 before:bg-gray-800">
+                <div />
+                <SubscribeToViewArticle article={article} />
               </div>
             )}
             <div className="mx-auto flex w-32 -rotate-6 items-center gap-2 text-slate-500">
@@ -229,7 +232,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           {toc && <ArticleToC toc={toc} visibleHeadingId={visibleHeadingId} />}
         </div>
         <section className="relative z-10 overflow-hidden px-5 pb-24 pt-16">
-          <ArticleCTA article={article} />
+          {!article.withEmailWall && <ArticleCTA article={article} />}
           <Share
             title={title}
             contentType={
@@ -258,6 +261,50 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
 }
 
 export default ArticleTemplate
+
+const SubscribeToViewArticle: React.FC<{article: Article}> = ({article}) => {
+  const router = useRouter()
+  const handleOnSuccess = (subscriber?: any, email?: string) => {
+    if (subscriber) {
+      email && setUserId(email)
+      track('subscribed to email list', {
+        location: 'home',
+      })
+      router.reload()
+      toast.success(
+        'You are now subscribed to the newsletter, check your email to confirm.',
+      )
+    }
+  }
+
+  const readArticleField = {
+    // ex: read_writing_string_replace_in_typescript_on: 2022-09-02
+    [`read_${snakeCase(article?.slug)}_on`.toLowerCase()]: new Date()
+      .toISOString()
+      .slice(0, 10),
+  }
+
+  return (
+    <div id="article-cta" className="mx-auto w-full max-w-3xl pt-8">
+      <h2 className="text-center font-text text-3xl font-semibold lg:text-4xl">
+        Subscribe to read the full article
+      </h2>
+      <p className="mx-auto w-full max-w-xs pb-10 pt-5 text-center text-lg text-cyan-200">
+        Stay up-to-date on the latest news and updates from the world of
+        TypeScript.
+      </p>
+      <div className="relative flex items-center justify-center">
+        <SubscribeToConvertkitForm
+          actionLabel="Subscribe"
+          fields={article ? readArticleField : undefined}
+          onSuccess={(subscriber?: any, email?: string) => {
+            return handleOnSuccess(subscriber, email)
+          }}
+        />
+      </div>
+    </div>
+  )
+}
 
 const ArticleBodyCTA: React.FC<
   React.PropsWithChildren<{

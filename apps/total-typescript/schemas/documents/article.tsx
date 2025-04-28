@@ -89,8 +89,8 @@ export default {
       validation: (Rule) => Rule.max(160),
     },
     {
-      name: 'showLoginWall',
-      title: 'Show Login Wall',
+      name: 'withEmailWall',
+      title: 'Show Email Wall',
       type: 'boolean',
       initialValue: false,
     },
