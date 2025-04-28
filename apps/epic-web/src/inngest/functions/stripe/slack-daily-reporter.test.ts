@@ -58,7 +58,7 @@ describe('Financial Calculations', () => {
           status: 'pending',
           description: null,
           source: 'ch_3QPBI5IugVgg5liQ2gqDEHKC',
-          productId: '5809fd2e-8072-42eb-afa2-aff7c9999d0c',
+          productId: 'cf54eeca-309b-493d-9628-1c31289a7515',
           product: 'Mocking Techniques in Vitest Bundle',
           siteName: 'epic-web',
           chargeId: 'ch_3QPBI5IugVgg5liQ2gqDEHKC',
@@ -110,7 +110,7 @@ describe('Financial Calculations', () => {
         totals.productGroups['Mocking Techniques in Vitest Bundle'],
       ).toEqual({
         productName: 'Mocking Techniques in Vitest Bundle',
-        productId: '5809fd2e-8072-42eb-afa2-aff7c9999d0c',
+        productId: 'cf54eeca-309b-493d-9628-1c31289a7515',
         count: 1,
         amount: 125000,
         gross: 125000,
@@ -249,7 +249,7 @@ describe('Financial Calculations', () => {
         productGroups: {
           'Mocking Techniques in Vitest Bundle': {
             productName: 'Mocking Techniques in Vitest Bundle',
-            productId: '5809fd2e-8072-42eb-afa2-aff7c9999d0c',
+            productId: 'cf54eeca-309b-493d-9628-1c31289a7515',
             count: 1,
             amount: 125000,
             gross: 125000,
@@ -262,7 +262,7 @@ describe('Financial Calculations', () => {
       }
 
       const splits = {
-        '5809fd2e-8072-42eb-afa2-aff7c9999d0c': {
+        'cf54eeca-309b-493d-9628-1c31289a7515': {
           split1: {
             percent: 0.2,
             userId: '4ef27e5f-00b4-4aa3-b3c4-4a58ae76f50b',
