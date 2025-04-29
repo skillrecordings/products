@@ -42,6 +42,7 @@ export const ConvertkitProvider: React.FC<
       const learner = params.get('learner') || learnerId
       const subscriberLoaderParams = new URLSearchParams({
         ...(learner && {learner}),
+        ...(ckSubscriberId && {ck_subscriber_id: ckSubscriberId}),
         ...(ckSubscriberId && {ckSubscriberId}),
       })
 
@@ -54,20 +55,14 @@ export const ConvertkitProvider: React.FC<
       identify(subscriber)
 
       if (!isEmpty(ckSubscriberId)) {
-        if (router.asPath.match(/confirmToast=true/)) {
-          confirmSubscriptionToast(subscriber.email_address)
-        }
-        if (params.get(CK_SUBSCRIBER_KEY)) {
-          params.delete(CK_SUBSCRIBER_KEY)
-          await router.replace(
-            {
-              pathname: router.pathname,
-              query: params.toString(),
-            },
-            undefined,
-            {shallow: true},
-          )
-        }
+        params.delete(CK_SUBSCRIBER_KEY)
+        window.history.replaceState(
+          null,
+          document.title,
+          `${window.location.pathname}${
+            params.toString() ? `?${params.toString()}` : ''
+          }`,
+        )
       }
 
       return subscriber || false
