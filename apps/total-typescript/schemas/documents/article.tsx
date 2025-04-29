@@ -88,6 +88,12 @@ export default {
       type: 'text',
       validation: (Rule) => Rule.max(160),
     },
+    {
+      name: 'withEmailWall',
+      title: 'Show Email Wall',
+      type: 'boolean',
+      initialValue: false,
+    },
   ],
   preview: {
     select: {
