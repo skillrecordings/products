@@ -14,6 +14,7 @@ import {IS_PAST_CONF_24} from 'pages/conf/2024'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
+import {ConfLogo2025} from 'components/conf/conf-log-2025'
 
 export async function getStaticProps() {
   let conf24Talks = null
@@ -64,8 +65,8 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
         {conf24Talks && (
           <div className="relative flex w-full flex-col overflow-hidden border-y bg-card py-5 sm:p-5 md:rounded md:border">
             <div className="relative z-10 flex w-full flex-col items-center justify-center gap-4 p-5 text-center md:flex-row md:justify-start md:gap-12 md:text-left">
-              <Link href="/conf">
-                <ConfLogo />
+              <Link href="/conf/talks">
+                <ConfLogo2025 />
               </Link>
               <h3 className="text-balance text-lg sm:text-xl">
                 Talks from{' '}
