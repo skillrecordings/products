@@ -65,13 +65,13 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
         {conf24Talks && (
           <div className="relative flex w-full flex-col overflow-hidden border-y bg-card py-5 sm:p-5 md:rounded md:border">
             <div className="relative z-10 flex w-full flex-col items-center justify-center gap-4 p-5 text-center md:flex-row md:justify-start md:gap-12 md:text-left">
-              <Link href="/conf/talks">
+              <Link href="/conf/2025">
                 <ConfLogo2025 />
               </Link>
               <h3 className="text-balance text-lg sm:text-xl">
                 Talks from{' '}
-                <Link href="/conf" className="font-bold hover:underline">
-                  Epic Web Conf 2024
+                <Link href="/conf/2025" className="font-bold hover:underline">
+                  Epic Web Conf 2025
                 </Link>
               </h3>
             </div>
