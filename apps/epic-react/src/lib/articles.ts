@@ -132,10 +132,7 @@ function convertPostToArticle(post: any) {
     _createdAt: post?.createdAt,
     date: post?.updatedAt.toISOString(),
     title: post?.fields.title,
-    state:
-      post?.fields.state === 'published' && post?.fields.visibility === 'public'
-        ? 'published'
-        : 'draft',
+    state: post?.fields.state === 'published' ? 'published' : 'draft',
     slug: post?.fields.slug,
     description: post?.fields.description,
     summary: post?.fields.summary || post?.fields.description,
