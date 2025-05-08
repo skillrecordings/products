@@ -459,6 +459,24 @@ const Header = () => {
             </Link>
           </Button>
         ) : null} */}
+        <Button
+          asChild
+          className="mt-10 h-12 rounded-sm bg-gradient-to-b from-[#50BBFF] to-[#6397FF] font-mono text-base font-bold uppercase tracking-wide text-gray-950 transition hover:brightness-110"
+          size="lg"
+        >
+          <Link
+            href="/talks"
+            onClick={() => {
+              track('clicked watch recordings', {
+                title: 'conf2024',
+                type: 'event',
+                location: 'top',
+              })
+            }}
+          >
+            Watch Recordings
+          </Link>
+        </Button>
       </div>
       <div className="absolute -bottom-16 right-[-370px] flex items-center justify-center sm:bottom-auto sm:right-[-690px] xl:right-[-600px] 2xl:right-[-370px]">
         <Image
