@@ -17,25 +17,56 @@ import groq from 'groq'
 import {ConfLogo2025} from 'components/conf/conf-log-2025'
 
 export async function getStaticProps() {
-  let conf24Talks = null
-  if (IS_PAST_CONF_24) {
-    conf24Talks = await getAllConf24Talks()
-  }
   const talks = await getAllTalks()
+
+  // Filter talks by year based on _createdAt
+  const conf24Talks = talks.filter((talk) => {
+    const date = new Date(talk._createdAt || '')
+    return date.getFullYear() === 2024
+  })
+
+  const conf25Talks = talks
+    .filter((talk) => {
+      const date = new Date(talk._createdAt || '')
+      return date.getFullYear() === 2025
+    })
+    .sort((a, b) => {
+      // Put 'of-things-epic' talk first
+      if (a.slug === 'of-things-epic') return -1
+      if (b.slug === 'of-things-epic') return 1
+
+      // Sort remaining talks in ascending order (oldest to newest)
+      return (
+        new Date(a._createdAt || '').getTime() -
+        new Date(b._createdAt || '').getTime()
+      )
+    })
+
+  // Get remaining talks (not from 2024 or 2025)
+  const otherTalks = talks.filter((talk) => {
+    const date = new Date(talk._createdAt || '')
+    return date.getFullYear() !== 2024 && date.getFullYear() !== 2025
+  })
+
   return {
-    props: {talks, conf24Talks},
+    props: {conf24Talks, conf25Talks, otherTalks},
     revalidate: 10,
   }
 }
 
 type TalksIndex = {
-  talks: Talk[]
-  conf24Talks: Talk[] | null
+  conf24Talks: Talk[]
+  conf25Talks: Talk[]
+  otherTalks: Talk[]
 }
 
 const pageDescription = 'A Collection of Epic Web Development talks.'
 
-const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
+const TalksIndex: React.FC<TalksIndex> = ({
+  conf24Talks,
+  conf25Talks,
+  otherTalks,
+}) => {
   return (
     <Layout
       meta={{
@@ -62,7 +93,7 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
         </h2>
       </header>
       <main className="relative z-10 col-span-9 flex w-full flex-col items-center gap-5 sm:py-10">
-        {conf24Talks && (
+        {conf25Talks.length > 0 && (
           <div className="relative flex w-full flex-col overflow-hidden border-y bg-card py-5 sm:p-5 md:rounded md:border">
             <div className="relative z-10 flex w-full flex-col items-center justify-center gap-4 p-5 text-center md:flex-row md:justify-start md:gap-12 md:text-left">
               <Link href="/conf/2025">
@@ -76,28 +107,66 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
               </h3>
             </div>
             <ul className="relative z-10 flex w-full flex-col">
-              {conf24Talks.map((confTalk, i) => (
+              {conf25Talks.map((talk, i) => (
                 <TalkItem
                   thumbnailTime={18}
                   withBg={false}
-                  talk={confTalk}
+                  talk={talk}
                   i={i}
-                  key={confTalk.slug}
+                  key={talk.slug}
                 />
               ))}
             </ul>
           </div>
         )}
-        <ul className="flex w-full flex-col">
-          {talks
-            .filter(
-              (talk) =>
-                !conf24Talks?.some((confTalk) => confTalk.slug === talk.slug),
-            )
-            .map((talk, i) => (
-              <TalkItem talk={talk} i={i} key={talk.slug} />
-            ))}
-        </ul>
+
+        {conf24Talks.length > 0 && (
+          <div className="relative flex w-full flex-col overflow-hidden border-y bg-card py-5 sm:p-5 md:rounded md:border">
+            <div className="relative z-10 flex w-full flex-col items-center justify-center gap-4 p-5 text-center md:flex-row md:justify-start md:gap-12 md:text-left">
+              <Link href="/conf/2024">
+                <ConfLogo />
+              </Link>
+              <h3 className="text-balance text-lg sm:text-xl">
+                Talks from{' '}
+                <Link href="/conf/2024" className="font-bold hover:underline">
+                  Epic Web Conf 2024
+                </Link>
+              </h3>
+            </div>
+            <ul className="relative z-10 flex w-full flex-col">
+              {conf24Talks.map((talk, i) => (
+                <TalkItem
+                  thumbnailTime={18}
+                  withBg={false}
+                  talk={talk}
+                  i={i}
+                  key={talk.slug}
+                />
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {otherTalks.length > 0 && (
+          <div className="relative flex w-full flex-col overflow-hidden border-y bg-card py-5 sm:p-5 md:rounded md:border">
+            <div className="relative z-10 flex w-full flex-col items-center justify-center gap-4 p-5 text-center md:flex-row md:justify-start md:gap-12 md:text-left">
+              <h3 className="text-balance text-lg font-bold sm:text-xl">
+                More Talks
+              </h3>
+            </div>
+            <ul className="relative z-10 flex w-full flex-col">
+              {otherTalks.map((talk, i) => (
+                <TalkItem
+                  thumbnailTime={18}
+                  withBg={false}
+                  talk={talk}
+                  i={i}
+                  key={talk.slug}
+                />
+              ))}
+            </ul>
+          </div>
+        )}
       </main>
     </Layout>
   )
