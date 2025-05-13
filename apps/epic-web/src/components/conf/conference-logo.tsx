@@ -1,8 +1,9 @@
 export const ConfLogo = () => {
   return (
     <svg
-      className="w-40"
-      viewBox="0 0 167 44"
+      width="234"
+      height="76"
+      viewBox="0 0 234 76"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
