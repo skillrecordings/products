@@ -1047,6 +1047,9 @@ export const PriceDisplay = ({
           <div aria-live="polite" data-price="">
             {isNumber(formattedPrice?.calculatedPrice) &&
               formatUsd(formattedPrice?.calculatedPrice).dollars}
+            <span className="hidden" aria-hidden="true">
+              .
+            </span>
             <span className="sup text-sm" aria-hidden="true">
               {isNumber(formattedPrice?.calculatedPrice) &&
                 formatUsd(formattedPrice?.calculatedPrice).cents}
