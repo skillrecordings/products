@@ -80,7 +80,7 @@ const ContributorTemplate: React.FC<{
                   <li key={resource._id}>
                     <Link
                       className={cn(
-                        'group flex items-center gap-5 p-3.5 sm:p-5 md:gap-8 md:rounded',
+                        'group relative flex items-center gap-2 p-3.5 sm:p-5 md:rounded ',
                         {
                           'bg-card': i % 2 === 0,
                         },
@@ -89,8 +89,8 @@ const ContributorTemplate: React.FC<{
                         path ? `/${path}/${resource.slug}` : `/${resource.slug}`
                       }
                     >
-                      <div className="relative flex flex-shrink-0">
-                        <div className="absolute bottom-1 left-1 flex items-center gap-1.5 rounded-sm border bg-background p-1">
+                      <div className="flex flex-shrink-0">
+                        {/* <div className="absolute bottom-1 left-1 hidden items-center gap-1.5 rounded-sm border bg-background p-1 lg:flex">
                           <div className="relative z-10 opacity-100 [&_svg]:h-4 [&_svg]:w-4">
                             {getIcon(resourceType, true, theme)}
                           </div>
@@ -99,26 +99,30 @@ const ContributorTemplate: React.FC<{
                               {resourceType}
                             </span>
                           </span>
-                        </div>
+                        </div> */}
                         {resource.image && (
                           <Image
                             src={resource.image}
                             alt={resource.title}
                             width={200 / 1.5}
                             height={200 / 1.5}
-                            className={cn('rounded-sm', {
-                              'aspect-video': resourceType === 'article',
-                            })}
+                            className={cn(
+                              'mr-2 max-w-[80px] rounded-sm sm:max-w-full',
+                              {
+                                'aspect-square object-cover':
+                                  resourceType === 'article',
+                              },
+                            )}
                           />
                         )}
                         {resource.muxPlaybackId && (
                           <Image
-                            src={`https://image.mux.com/${resource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve&time=0`}
+                            src={`https://image.mux.com/${resource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve&time=16`}
                             alt={resource.title}
                             width={200 / 1.5}
                             height={113 / 1.5}
                             aria-hidden="true"
-                            className="rounded-sm"
+                            className="mr-2 aspect-square max-w-[80px] rounded-sm object-cover sm:max-w-full"
                           />
                         )}
                       </div>
@@ -126,6 +130,10 @@ const ContributorTemplate: React.FC<{
                         <h3 className="w-full text-base font-semibold md:text-lg">
                           {resource?.title}
                         </h3>
+                        <p className="flex text-sm capitalize opacity-75 ">
+                          {/* {getIcon(resourceType, true, theme)} */}
+                          {resourceType}
+                        </p>
                       </div>
                     </Link>
                   </li>
