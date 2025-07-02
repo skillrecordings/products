@@ -40,6 +40,8 @@ export default function EffectNewsletter() {
     <Layout
       meta={{
         title,
+        description:
+          "I'm thinking about building an Effect course. It'll be the most accessible, in-depth resource for Effect out there. Want to be the first to know about it? Sign up.",
         ogImage: {
           url: 'https://res.cloudinary.com/total-typescript/image/upload/v1751469055/total-effect-card_2x.jpg',
         },
