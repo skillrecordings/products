@@ -2,7 +2,7 @@ import {GetServerSideProps} from 'next'
 import {Feed} from 'feed'
 import config from '../config'
 import {getAllArticles} from 'lib/articles'
-import {getAllTips} from 'lib/tips'
+import {getAllTips} from 'lib/tips.server'
 import {getAllTutorials} from 'lib/tutorials'
 import {getAllWorkshops} from 'lib/workshops'
 

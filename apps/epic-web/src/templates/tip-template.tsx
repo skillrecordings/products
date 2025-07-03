@@ -139,7 +139,12 @@ const TipTemplate: React.FC<{
         <main className="mx-auto w-full" id="tip">
           <div className="relative z-10 flex items-center justify-center">
             <div className="flex w-full max-w-screen-lg flex-col">
-              <Video ref={muxPlayerRef} tips={tips} videoTitle={tip.title} />
+              <Video
+                ref={muxPlayerRef}
+                tips={tips}
+                videoTitle={tip.title}
+                muxPlaybackId={tip.muxPlaybackId}
+              />
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
@@ -201,7 +206,7 @@ const TipTemplate: React.FC<{
 }
 
 const Video: React.FC<any> = React.forwardRef(
-  ({tips, videoTitle}, ref: any) => {
+  ({tips, videoTitle, muxPlaybackId}, ref: any) => {
     const {muxPlayerProps, displayOverlay} = useMuxPlayer()
     const {videoResource} = useVideoResource()
 
@@ -219,7 +224,7 @@ const Video: React.FC<any> = React.forwardRef(
           <MuxPlayer
             ref={ref}
             {...(muxPlayerProps as MuxPlayerProps)}
-            playbackId={videoResource?.muxPlaybackId}
+            playbackId={muxPlaybackId || videoResource?.muxPlaybackId}
             metadata={{
               video_title: videoTitle,
             }}

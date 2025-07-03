@@ -2,7 +2,7 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {loadUserForToken} from 'lib/users'
 import {getCurrentAbility} from '@skillrecordings/skill-lesson'
-import {getTip} from 'lib/tips'
+import {getTip} from 'lib/tips.server'
 
 type GetTipVideoForDeviceProps = {
   tipSlug: string

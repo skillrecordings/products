@@ -1,8 +1,47 @@
-import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
-import groq from 'groq'
 import z from 'zod'
-import {pickBy} from 'lodash'
 import {ContributorSchema} from './contributors'
+
+// ----------------------------------
+// Tip Schemas and Types (client-safe)
+// ----------------------------------
+
+export const TipPostSchema = z.object({
+  id: z.string().nullish(),
+  organizationId: z.string().nullish(),
+  createdByOrganizationMembershipId: z.string().nullish(),
+  type: z.literal('post').nullish(),
+  createdById: z.string().nullish(),
+  fields: z.object({
+    body: z.string().nullish(),
+    summary: z.string().nullish(),
+    slug: z.string().nullish(),
+    state: z
+      .union([
+        z.literal('new'),
+        z.literal('processing'),
+        z.literal('reviewing'),
+        z.literal('published'),
+        z.literal('retired'),
+        z.literal('draft'),
+        z.literal(''),
+      ])
+      .nullish(),
+    title: z.string().nullish(),
+    github: z.string().nullish(),
+    postType: z.literal('tip').nullish(),
+    visibility: z.literal('public').nullish(),
+    description: z.string().nullish(),
+  }),
+  currentVersionId: z.string().nullish(),
+  createdAt: z.date().nullish(),
+  updatedAt: z.date().nullish(),
+  deletedAt: z.date().nullish(),
+})
+
+export type TipPost = z.infer<typeof TipPostSchema>
+
+export const TipPostsSchema = z.array(TipPostSchema)
+
 export const TipSchema = z.object({
   _id: z.string(),
   _type: z.string(),
@@ -36,88 +75,47 @@ export const TipsSchema = z.array(TipSchema)
 
 export type Tip = z.infer<typeof TipSchema>
 
-export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
-  const tips = await sanityClient.fetch(groq`*[_type == "tip" ${
-    onlyPublished ? `&& state == "published"` : ''
-  }] | order(_createdAt desc) {
-        _id,
-        _type,
-        _updatedAt,
-        _createdAt,
-        title,
-        state,
-        description,
-        summary,
-        body,
-        "instructor": contributors[@.role == 'instructor'][0].contributor->{
-          _id,
-          _type,
-          _updatedAt,
-          _createdAt,
-          name,
-          bio,
-          links[] {
-            url, label
-          },
-          picture {
-              "url": asset->url,
-              alt
-          },
-          "slug": slug.current,
-        },
-        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
-        "slug": slug.current,
-        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-        "tweetId":  resources[@._type == 'tweet'][0].tweetId
-  }`)
+// ----------------------------------
+// Helpers
+// ----------------------------------
 
-  return TipsSchema.parse(tips)
-}
+const allowedTipStates = [
+  'new',
+  'processing',
+  'reviewing',
+  'published',
+  'retired',
+] as const
 
-export const getTip = async (slug: string): Promise<Tip> => {
-  const tip = await sanityClient.fetch(
-    groq`*[_type == "tip" && slug.current == $slug][0] {
-        _id,
-        _type,
-        _updatedAt,
-        _createdAt,
-        title,
-        state,
-        description,
-        summary,
-        body,
-        "instructor": contributors[@.role == 'instructor'][0].contributor->{
-          _id,
-          _type,
-          _updatedAt,
-          _createdAt,
-          name,
-          bio,
-          links[] {
-            url, label
-          },
-          picture {
-              "url": asset->url,
-              alt
-          },
-          "slug": slug.current,
-        },
-        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-        "videoPosterUrl": resources[@->._type == 'videoResource'][0]->poster,
-        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
-        "slug": slug.current,
-        "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-        "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
-        "tweetId":  resources[@._type == 'tweet'][0].tweetId
+export const transformTipPost = (
+  post: TipPost & {videoFields?: any; videoResourceId?: string | null},
+): Tip => {
+  const rawState = post.fields.state || 'published'
+  const state = (
+    allowedTipStates.includes(rawState as any) ? rawState : 'published'
+  ) as (typeof allowedTipStates)[number]
 
-    }`,
-    {slug},
-  )
+  const videoFields = post.videoFields || null
 
-  if (tip.legacyTranscript && !tip.transcript) {
-    tip.transcript = tip.legacyTranscript
+  return {
+    _id: post.id || '',
+    _type: 'tip',
+    _updatedAt: post.updatedAt ? new Date(post.updatedAt).toISOString() : '',
+    _createdAt: post.createdAt ? new Date(post.createdAt).toISOString() : '',
+    title: post.fields.title || '',
+    slug: post.fields.slug || '',
+    description: post.fields.description || null,
+    body: post.fields.body || null,
+    summary: post.fields.summary || null,
+    muxPlaybackId: videoFields?.muxPlaybackId || null,
+    videoPosterUrl: null,
+    sandpack: null,
+    videoResourceId: post.videoResourceId || null,
+    transcript: null,
+    tweetId: null,
+    instructor: null,
+    state,
   }
-
-  return TipSchema.parse(pickBy(tip))
 }
+
+export {allowedTipStates}
