@@ -5,7 +5,7 @@ import {
   UserSchema,
 } from '@skillrecordings/skill-lesson'
 import {z} from 'zod'
-import {getAllTips, getTip, TipSchema} from '../../lib/tips'
+import {getAllTips, getTip, TipSchema} from 'lib/tips.server'
 import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-server'
 import {groupBy} from 'lodash'
 import {getToken} from 'next-auth/jwt'

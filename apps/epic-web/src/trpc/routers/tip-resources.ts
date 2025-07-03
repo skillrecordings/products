@@ -1,6 +1,6 @@
 import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 import {z} from 'zod'
-import {getTip} from '../../lib/tips'
+import {getTip} from 'lib/tips.server'
 
 export const tipResourcesRouter = router({
   bySlug: publicProcedure

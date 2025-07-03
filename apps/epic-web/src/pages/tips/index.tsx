@@ -1,6 +1,7 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {getAllTips, Tip} from 'lib/tips'
+import {getAllTips} from 'lib/tips.server'
+import type {Tip} from 'lib/tips'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'

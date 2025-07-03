@@ -15,7 +15,7 @@ import {getVideoResource} from '@skillrecordings/skill-lesson/lib/video-resource
 import {getWorkshop} from 'lib/workshops'
 import {ParsedUrlQuery} from 'querystring'
 import {getTutorial} from 'lib/tutorials'
-import {getTip} from 'lib/tips'
+import {getTip} from 'lib/tips.server'
 import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 import {getBonus} from 'lib/bonuses'
 import {getTalk} from 'lib/talks'
