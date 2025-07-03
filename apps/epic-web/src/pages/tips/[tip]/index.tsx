@@ -26,7 +26,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
         tipBodySerialized: tipBodySerialized || null,
         tips,
         ...(tip.transcript && {transcript: tip.transcript}),
-        videoResourceId: tip.videoResourceId,
+        videoResourceId: tip.videoResourceId || null,
       },
       revalidate: 10,
     }
@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const tips = await getAllTips()
+  const tips = await getAllTips(false)
   const paths = tips.map((tip) => ({
     params: {tip: tip.slug},
   }))
@@ -51,7 +51,7 @@ export type TipPageProps = {
   tipBodySerialized: MDXRemoteSerializeResult | null
   tips: Tip[]
   transcript: any[]
-  videoResourceId: string
+  videoResourceId: string | null
 }
 
 const TipPage: NextPage<TipPageProps> = ({
@@ -72,14 +72,23 @@ const TipPage: NextPage<TipPageProps> = ({
 
   return (
     <LessonProvider lesson={tip} module={module}>
-      <VideoResourceProvider videoResourceId={videoResourceId}>
+      {videoResourceId ? (
+        <VideoResourceProvider videoResourceId={videoResourceId}>
+          <TipTemplate
+            tip={tip}
+            tipBodySerialized={tipBodySerialized}
+            tips={tips}
+            transcript={transcript}
+          />
+        </VideoResourceProvider>
+      ) : (
         <TipTemplate
           tip={tip}
           tipBodySerialized={tipBodySerialized}
           tips={tips}
           transcript={transcript}
         />
-      </VideoResourceProvider>
+      )}
     </LessonProvider>
   )
 }
