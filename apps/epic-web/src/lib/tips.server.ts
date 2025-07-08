@@ -10,10 +10,75 @@ import {
   TipPostSchema,
   transformTipPost,
 } from './tips'
+import slugify from '@sindresorhus/slugify'
+import {prisma} from '@skillrecordings/database'
+import type {Contributor} from './contributors'
+import {ContributorSchema} from './contributors'
 
 // Establish connection options for the course-builder database (same as articles)
 const access: mysql.ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
+}
+
+// Helper to build a Contributor object from name / image and ids
+const buildContributor = ({
+  id,
+  name,
+  image,
+}: {
+  id: string
+  name: string | null
+  image: string | null
+}): Contributor => {
+  return {
+    _id: id,
+    _type: 'contributor',
+    _updatedAt: new Date().toISOString(),
+    _createdAt: new Date().toISOString(),
+    name: name || 'Unknown',
+    slug: slugify(name || 'unknown'),
+    bio: null,
+    links: null,
+    picture: image
+      ? {
+          url: image,
+          alt: name || 'Contributor',
+        }
+      : null,
+  }
+}
+
+// Helper to fetch contributor document from Sanity by userId
+const fetchContributorFromSanityByUserId = async (
+  userId: string,
+): Promise<Contributor | null> => {
+  try {
+    const contributor = await sanityClient.fetch(
+      groq`*[_type == "contributor" && userId == $userId][0] {
+        _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        name,
+        "slug": slug.current,
+        bio,
+        links[] {
+          url, label
+        },
+        picture {
+          "url": asset->url,
+          alt
+        }
+      }`,
+      {userId},
+    )
+    if (contributor && contributor._id) {
+      return ContributorSchema.parse(contributor)
+    }
+  } catch (err) {
+    console.error('Error fetching contributor from Sanity', err)
+  }
+  return null
 }
 
 export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
@@ -56,7 +121,106 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
   )
 
   const tipPosts = z.array(TipPostSchema.passthrough()).parse(rows)
-  const transformedTipPosts = tipPosts.map(transformTipPost)
+
+  const instructorsMap: Record<string, Contributor | null> = {}
+  for (const post of tipPosts) {
+    const userLookupId = post.createdById ?? null
+    const membershipLookupId = post.createdByOrganizationMembershipId ?? null
+    if (
+      (userLookupId || membershipLookupId) &&
+      !instructorsMap[userLookupId || membershipLookupId]
+    ) {
+      try {
+        // 0. Try to get contributor directly from Sanity using userId
+        if (userLookupId) {
+          const directContributor = await fetchContributorFromSanityByUserId(
+            userLookupId,
+          )
+          if (directContributor) {
+            instructorsMap[userLookupId] = directContributor
+            continue
+          }
+        }
+
+        let cbUser: any = null
+        if (userLookupId) {
+          // fetch user directly
+          const [userRows] = await connection.execute(
+            'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
+            [userLookupId],
+          )
+          if (Array.isArray(userRows) && userRows.length > 0) {
+            cbUser = userRows[0]
+          }
+        }
+
+        // If not found by direct id but we have organization membership id, resolve through membership table
+        if (!cbUser && membershipLookupId) {
+          const [membershipRows] = await connection.execute(
+            `SELECT userId FROM zEW_OrganizationMembership WHERE id = ? LIMIT 1`,
+            [membershipLookupId],
+          )
+          if (Array.isArray(membershipRows) && membershipRows.length > 0) {
+            const {userId} = membershipRows[0] as any
+            if (userId) {
+              const [userRows] = await connection.execute(
+                'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
+                [userId],
+              )
+              if (Array.isArray(userRows) && userRows.length > 0) {
+                cbUser = userRows[0]
+              }
+            }
+          }
+        }
+
+        if (cbUser) {
+          // try to find matching user in product DB
+          let productUser = null
+          if (cbUser.email) {
+            productUser = await prisma.user.findUnique({
+              where: {email: cbUser.email as string},
+            })
+          }
+
+          let contributor: Contributor | null = null
+          if (productUser?.id) {
+            contributor = await fetchContributorFromSanityByUserId(
+              productUser.id,
+            )
+          }
+
+          if (!contributor) {
+            contributor = buildContributor({
+              id: productUser?.id || cbUser.id,
+              name: productUser?.name || cbUser.name || cbUser.fullName || null,
+              image:
+                productUser?.image ||
+                cbUser.avatar_url ||
+                cbUser.avatarUrl ||
+                null,
+            })
+          }
+
+          instructorsMap[userLookupId || membershipLookupId] = contributor
+        } else {
+          instructorsMap[userLookupId || membershipLookupId] = null
+        }
+      } catch (error) {
+        console.error('Error fetching instructor for tip', error)
+        instructorsMap[userLookupId || membershipLookupId] = null
+      }
+    }
+  }
+
+  const transformedTipPosts = tipPosts.map((post) => {
+    const transformed = transformTipPost(post)
+    const key = post.createdById ?? post.createdByOrganizationMembershipId
+    if (key && instructorsMap[key]) {
+      transformed.instructor = instructorsMap[key]
+    }
+    return transformed
+  })
 
   // Close the connection as soon as we're done
   await connection.end()
@@ -162,8 +326,77 @@ export const getTip = async (slug: string): Promise<Tip> => {
   const tipPostsParsed = z.array(TipPostSchema.passthrough()).safeParse(rows)
 
   if (tipPostsParsed.success && tipPostsParsed.data.length > 0) {
+    const dbTip = transformTipPost(tipPostsParsed.data[0])
+    try {
+      const keyId = tipPostsParsed.data[0].createdById || null
+      if (keyId) {
+        const directContributor = await fetchContributorFromSanityByUserId(
+          keyId,
+        )
+        if (directContributor) {
+          dbTip.instructor = directContributor
+          await connection.end()
+          return dbTip
+        }
+      }
+
+      let cbUser: any = null
+      if (keyId) {
+        const [userRows] = await connection.execute(
+          'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
+          [keyId],
+        )
+        if (Array.isArray(userRows) && userRows.length > 0) {
+          cbUser = userRows[0]
+        }
+      }
+      const membershipId =
+        tipPostsParsed.data[0].createdByOrganizationMembershipId || null
+      if (!cbUser && membershipId) {
+        const [membershipRows] = await connection.execute(
+          `SELECT userId FROM zEW_OrganizationMembership WHERE id = ? LIMIT 1`,
+          [membershipId],
+        )
+        if (Array.isArray(membershipRows) && membershipRows.length > 0) {
+          const {userId} = membershipRows[0] as any
+          const [userRows] = await connection.execute(
+            'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
+            [userId],
+          )
+          if (Array.isArray(userRows) && userRows.length > 0) {
+            cbUser = userRows[0]
+          }
+        }
+      }
+      if (cbUser) {
+        let productUser = null
+        if (cbUser.email) {
+          productUser = await prisma.user.findUnique({
+            where: {email: cbUser.email as string},
+          })
+        }
+        let contributor: Contributor | null = null
+        if (productUser?.id) {
+          contributor = await fetchContributorFromSanityByUserId(productUser.id)
+        }
+        if (!contributor) {
+          contributor = buildContributor({
+            id: productUser?.id || cbUser.id,
+            name: productUser?.name || cbUser.name || cbUser.fullName || null,
+            image:
+              productUser?.image ||
+              cbUser.avatar_url ||
+              cbUser.avatarUrl ||
+              null,
+          })
+        }
+        dbTip.instructor = contributor
+      }
+    } catch (error) {
+      console.error('Error fetching instructor for tip', error)
+    }
     await connection.end()
-    return transformTipPost(tipPostsParsed.data[0])
+    return dbTip
   }
 
   await connection.end()
