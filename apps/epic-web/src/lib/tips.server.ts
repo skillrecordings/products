@@ -126,10 +126,9 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
   for (const post of tipPosts) {
     const userLookupId = post.createdById ?? null
     const membershipLookupId = post.createdByOrganizationMembershipId ?? null
-    if (
-      (userLookupId || membershipLookupId) &&
-      !instructorsMap[userLookupId || membershipLookupId]
-    ) {
+    const instructorKey = userLookupId ?? membershipLookupId
+
+    if (instructorKey && !instructorsMap[instructorKey]) {
       try {
         // 0. Try to get contributor directly from Sanity using userId
         if (userLookupId) {
@@ -137,7 +136,7 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
             userLookupId,
           )
           if (directContributor) {
-            instructorsMap[userLookupId] = directContributor
+            instructorsMap[instructorKey] = directContributor
             continue
           }
         }
@@ -202,13 +201,13 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
             })
           }
 
-          instructorsMap[userLookupId || membershipLookupId] = contributor
+          if (instructorKey) instructorsMap[instructorKey] = contributor
         } else {
-          instructorsMap[userLookupId || membershipLookupId] = null
+          if (instructorKey) instructorsMap[instructorKey] = null
         }
       } catch (error) {
         console.error('Error fetching instructor for tip', error)
-        instructorsMap[userLookupId || membershipLookupId] = null
+        if (instructorKey) instructorsMap[instructorKey] = null
       }
     }
   }
