@@ -35,26 +35,26 @@ export async function stripeRefund({
       throw new Error('Stripe client is missing')
     }
 
-    const merchantChargeId =
-      (req.query?.merchantChargeId as string) ||
-      (req.body?.merchantChargeId as string)
+    const stripeChargeId =
+      (req.query?.stripeChargeId as string) ||
+      (req.body?.stripeChargeId as string)
 
-    if (!merchantChargeId) {
+    if (!stripeChargeId) {
       return {
         status: 400,
         body: {
           error: true,
-          message: 'Missing required parameter: merchantChargeId',
+          message: 'Missing required parameter: stripeChargeId',
         },
       }
     }
 
     const processRefund = await stripe.refunds.create({
-      charge: merchantChargeId,
+      charge: stripeChargeId,
     })
 
     const updateResult = await updatePurchaseStatusForCharge(
-      merchantChargeId,
+      stripeChargeId,
       'Refunded',
     )
 
