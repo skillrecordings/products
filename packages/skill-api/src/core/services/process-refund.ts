@@ -37,14 +37,17 @@ export async function stripeRefund({
 
     const stripeChargeId =
       (req.query?.stripeChargeId as string) ||
-      (req.body?.stripeChargeId as string)
+      (req.body?.stripeChargeId as string) ||
+      (req.query?.merchantChargeId as string) ||
+      (req.body?.merchantChargeId as string)
 
     if (!stripeChargeId) {
       return {
         status: 400,
         body: {
           error: true,
-          message: 'Missing required parameter: stripeChargeId',
+          message:
+            'Missing required parameter: stripeChargeId (or merchantChargeId)',
         },
       }
     }
