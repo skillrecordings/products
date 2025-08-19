@@ -40,13 +40,13 @@ interface UserData {
   [userId: string]: string
 }
 
-interface SlackChannelIds {
+interface saleAnnounceChannelIds {
   [userId: string]: string | null
 }
 
 interface Contributor {
   userId: string
-  slackChannel: string
+  saleAnnounceChannel: string
 }
 
 export const slackDailyReporter = inngest.createFunction(
@@ -209,31 +209,29 @@ export const slackDailyReporter = inngest.createFunction(
       async () => calculateSplits(totalsThisMonth, splitsThisMonth, users),
     )
 
-    const slackChannelIds = await step.run(
+    const saleAnnounceChannelIds = await step.run(
       'load slack channel ids for all users',
-      async (): Promise<SlackChannelIds> => {
+      async (): Promise<saleAnnounceChannelIds> => {
         const userIds = Object.keys(users)
 
         const query = groq`*[_type == "contributor" && userId in $userIds] {
       userId,
-      slackChannel
+      saleAnnounceChannel
     }`
 
         const contributors: Contributor[] = await sanityClient.fetch(query, {
           userIds,
         })
 
-        const slackIds: SlackChannelIds = contributors.reduce<SlackChannelIds>(
-          (acc, contributor) => {
-            if (contributor.userId && contributor.slackChannel) {
-              acc[contributor.userId] = contributor.slackChannel
+        const slackIds: saleAnnounceChannelIds =
+          contributors.reduce<saleAnnounceChannelIds>((acc, contributor) => {
+            if (contributor.userId && contributor.saleAnnounceChannel) {
+              acc[contributor.userId] = contributor.saleAnnounceChannel
             } else {
               acc[contributor.userId] = null
             }
             return acc
-          },
-          {},
-        )
+          }, {})
 
         return slackIds
       },
@@ -253,7 +251,9 @@ export const slackDailyReporter = inngest.createFunction(
         error?: string
       }> = []
 
-      for (const [userId, channelId] of Object.entries(slackChannelIds)) {
+      for (const [userId, channelId] of Object.entries(
+        saleAnnounceChannelIds,
+      )) {
         const targetChannelId = SEND_SINGLE_CHANNEL ? LC_CHANNEL_ID : channelId
 
         if (targetChannelId) {
