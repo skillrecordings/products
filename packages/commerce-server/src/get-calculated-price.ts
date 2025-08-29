@@ -26,5 +26,5 @@ export function getCalculatedPrice({
     (fullPrice - fixedDiscount) *
     discountMultiplier
   ).toFixed(2)
-  return Number(calculatedPrice)
+  return Number(calculatedPrice) > 0 ? Number(calculatedPrice) : 1
 }
