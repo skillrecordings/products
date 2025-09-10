@@ -34,7 +34,7 @@
   "devDependencies": {
     "@types/async-retry": "1.4.2",
     "@types/cross-spawn": "6.0.0",
-    "@types/node": "^18.16.13",
+    "@types/node": "^22.0.0",
     "@types/prompts": "2.0.1",
     "@types/rimraf": "3.0.0",
     "@types/tar": "4.0.3",
@@ -53,6 +53,6 @@
     "validate-npm-package-name": "3.0.0"
   },
   "engines": {
-    "node": ">=12.22.0"
+    "node": "^22.0.0"
   }
 }
