@@ -53,7 +53,7 @@ export const router = t.router
 
 const isAdmin = t.middleware(({ctx, next}) => {
   const userRole = ctx.session?.user?.role || 'User'
-  const isAdmin = ['ADMIN', 'SUPERADMIN'].includes(userRole)
+  const isAdmin = ['ADMIN', 'SUPERADMIN', 'Contributor'].includes(userRole)
 
   if (!isAdmin) {
     throw new TRPCError({code: 'UNAUTHORIZED'})
