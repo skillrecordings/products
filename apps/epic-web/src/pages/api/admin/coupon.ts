@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 import * as Sentry from '@sentry/nextjs'
 import {getToken} from 'next-auth/jwt'
 import {getSdk, prisma} from '@skillrecordings/database'
-const ROLES_WITH_ACCESS = ['ADMIN', 'SUPERADMIN']
+const ROLES_WITH_ACCESS = ['ADMIN', 'SUPERADMIN', 'Contributor']
 
 /**
  * @link https://www.gavsblog.com/blog/find-closest-number-in-array-javascript
