@@ -22,7 +22,7 @@
     "@types/cookie": "^0.4.1",
     "@types/jest": "^29.5.1",
     "@types/lodash": "^4.14.179",
-    "@types/node": "^18.16.13",
+    "@types/node": "^22.0.0",
     "@types/nodemailer": "^6.4.4",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",

@@ -42,7 +42,7 @@
     "@skillrecordings/types": "workspace:*",
     "@tiptap/core": "^2.0.0-beta.181",
     "@types/jest": "^29.5.1",
-    "@types/node": "^18.16.13",
+    "@types/node": "^22.0.0",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "copyfiles": "^2.4.1",
