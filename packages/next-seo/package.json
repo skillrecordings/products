@@ -17,7 +17,7 @@
     "@skillrecordings/tsconfig": "workspace:*",
     "@types/cookie": "^0.4.1",
     "@types/lodash": "^4.14.179",
-    "@types/node": "^18.16.13",
+    "@types/node": "^22.0.0",
     "@types/node-fetch": "^2.6.2",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",

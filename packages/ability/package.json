@@ -34,7 +34,7 @@
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@types/jest": "^29.5.1",
-    "@types/node": "^18.16.13",
+    "@types/node": "^22.0.0",
     "eslint": "^8.12.0",
     "eslint-config-skill-recordings": "workspace:*",
     "rimraf": "^3.0.2",

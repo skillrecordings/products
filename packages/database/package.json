@@ -32,7 +32,7 @@
   "devDependencies": {
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/inngest": "workspace:*",
-    "@types/node": "^18.16.13",
+    "@types/node": "^22.0.0",
     "@types/uuid": "^9.0.2",
     "eslint": "^8.12.0",
     "eslint-config-skill-recordings": "workspace:*",

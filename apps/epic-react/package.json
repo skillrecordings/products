@@ -173,7 +173,7 @@
     "@types/mdx": "^2.0.2",
     "@types/mdx-js__react": "^1.5.5",
     "@types/mjml": "^4.7.0",
-    "@types/node": "^18.16.13",
+    "@types/node": "^22.0.0",
     "@types/node-fetch": "^2.6.2",
     "@types/nodemailer": "^6.4.4",
     "@types/nprogress": "^0.2.0",

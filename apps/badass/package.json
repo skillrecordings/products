@@ -138,7 +138,7 @@
     "@types/lodash": "^4.14.179",
     "@types/mdx": "^2.0.5",
     "@types/mdx-js__react": "^1.5.5",
-    "@types/node": "^18.16.13",
+    "@types/node": "^22.0.0",
     "@types/nodemailer": "^6.4.4",
     "@types/pluralize": "^0.0.29",
     "@types/react": "^18.2.6",
