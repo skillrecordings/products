@@ -75,23 +75,25 @@ const Index: NextPage<{
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
   const {subscriber, loadingSubscriber} = useConvertkit()
+  const pricingProduct = products?.[0] // The actual product being sold
+
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
       ...router.query,
-      productId: product.productId,
+      productId: pricingProduct.productId,
     })
 
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
     {
-      id: product.productId,
+      id: pricingProduct.productId,
       image: {
         url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
         width: 132,
         height: 112,
       },
-      title: product.title as string,
-      description: product?.description,
+      title: pricingProduct.title as string,
+      description: pricingProduct.description,
     },
   )
 
@@ -152,7 +154,7 @@ const Index: NextPage<{
                           bonuses={bonuses}
                           allowPurchase={ALLOW_PURCHASE}
                           userId={commerceProps?.userId}
-                          product={product}
+                          product={pricingProduct}
                           purchased={purchasedProductIds.includes(
                             product.productId,
                           )}
