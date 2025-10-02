@@ -5,7 +5,7 @@ const Unsubscribed = () => {
   const tagId = Number(router.query?.tag || router.query?.tagId)
   const sequence = router.query?.sequence
 
-  const message = (tagIdOrSequence: number | string) => {
+  const message = (tagIdOrSequence?: number | string) => {
     switch (tagIdOrSequence) {
       case 3320688: // unsubscribed: live workshop info
         return 'Total TypeScript Workshops'
