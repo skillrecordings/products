@@ -57,7 +57,7 @@ export const stripeCheckoutCompleted = inngest.createFunction(
         "slug": slug.current,
         modules[]->{
           "slug": slug.current,
-          "instructors": contributors[@.role == 'instructor'].contributor->{
+          "instructors": contributors[role in ['instructor', 'host']].contributor->{
               saleAnnounceChannel,
               "slug": slug.current,
           }
