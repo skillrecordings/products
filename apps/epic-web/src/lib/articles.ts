@@ -9,6 +9,38 @@ const access: mysql.ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
 }
 
+const fetchContributorFromSanityByUserId = async (
+  userId: string,
+): Promise<z.infer<typeof ContributorSchema> | null> => {
+  try {
+    const contributor = await sanityClient.fetch(
+      groq`*[_type == "contributor" && userId == $userId][0] {
+        _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        name,
+        "slug": slug.current,
+        bio,
+        links[] {
+          url, label
+        },
+        picture {
+          "url": asset->url,
+          alt
+        }
+      }`,
+      {userId},
+    )
+    if (contributor && contributor._id) {
+      return ContributorSchema.parse(contributor)
+    }
+  } catch (err) {
+    console.error('Error fetching contributor from Sanity', err)
+  }
+  return null
+}
+
 export const ArticlePostSchema = z.object({
   id: z.string().nullish(),
   organizationId: z.string().nullish(),
@@ -72,7 +104,13 @@ export const ArticlesSchema = z.array(ArticleSchema)
 
 export type Article = z.infer<typeof ArticleSchema>
 
-const transformArticlePost = (post: ArticlePost): Article => {
+const transformArticlePost = async (post: ArticlePost): Promise<Article> => {
+  let author: z.infer<typeof ContributorSchema> | null = null
+
+  if (post.createdById) {
+    author = await fetchContributorFromSanityByUserId(post.createdById)
+  }
+
   return {
     _id: post.id || '',
     _type: 'article',
@@ -83,7 +121,7 @@ const transformArticlePost = (post: ArticlePost): Article => {
     description: post.fields.description || null,
     body: post.fields.body || '',
     state: post.fields.state || 'draft',
-    author: null,
+    author,
     image: null,
     ogImage: null,
     resources: [],
@@ -94,14 +132,14 @@ export const getAllArticles = async (): Promise<Article[]> => {
   const connection = await mysql.createConnection(access)
 
   const [rows] = await connection.execute(
-    'SELECT * FROM zEW_ContentResource WHERE JSON_EXTRACT(fields, "$.postType") = ?',
-    ['article'],
+    'SELECT * FROM zEW_ContentResource WHERE JSON_EXTRACT(fields, "$.postType") = ? AND JSON_EXTRACT(fields, "$.state") = ?',
+    ['article', 'published'],
   )
 
   const articlePosts = ArticlePostsSchema.parse(rows)
 
   const data =
-    await sanityClient.fetch(groq`*[_type == "article"] | order(_createdAt desc) {
+    await sanityClient.fetch(groq`*[_type == "article" && state == "published"] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
@@ -139,8 +177,8 @@ export const getAllArticles = async (): Promise<Article[]> => {
   const articleDocuments = ArticlesSchema.parse(data)
 
   // Transform articlePosts to match ArticleSchema format
-  const transformedArticlePosts = articlePosts.map((post) =>
-    transformArticlePost(post),
+  const transformedArticlePosts = await Promise.all(
+    articlePosts.map((post) => transformArticlePost(post)),
   )
 
   // Merge and sort by createdAt
@@ -158,18 +196,18 @@ export const getArticle = async (slug: string): Promise<Article | null> => {
   const connection = await mysql.createConnection(access)
 
   const [rows] = await connection.execute(
-    'SELECT * FROM zEW_ContentResource WHERE JSON_EXTRACT(fields, "$.postType") = ? AND JSON_EXTRACT(fields, "$.slug") = ?',
-    ['article', slug],
+    'SELECT * FROM zEW_ContentResource WHERE JSON_EXTRACT(fields, "$.postType") = ? AND JSON_EXTRACT(fields, "$.slug") = ? AND JSON_EXTRACT(fields, "$.state") = ?',
+    ['article', slug, 'published'],
   )
 
   const articlePost = ArticlePostsSchema.parse(rows)[0]
 
   if (articlePost) {
-    return transformArticlePost(articlePost)
+    return await transformArticlePost(articlePost)
   }
 
   const article = await sanityClient.fetch(
-    groq`*[_type == "article" && slug.current == $slug][0] {
+    groq`*[_type == "article" && slug.current == $slug && state == "published"][0] {
         _id,
         _type,
         _updatedAt,
