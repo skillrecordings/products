@@ -1000,13 +1000,18 @@ export const Banner: React.FC<{
   const code = router.query.code
   const productOnSale = currentSale?.product
   const productPath = siteWideSale
-    ? '/workshops'
+    ? '/2025-50'
     : productOnSale && productOnSalePathBuilder(productOnSale)
 
   if (!currentSale && !activeEvent) return null
 
   // Don't show the banner on lesson pages
   if (router.query.lesson) {
+    return null
+  }
+
+  // Don't show the banner on 2025-50 page
+  if (router.pathname === '/2025-50') {
     return null
   }
 
