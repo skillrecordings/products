@@ -1089,7 +1089,7 @@ export const Banner: React.FC<{
             </div>
             <div className="flex-shrink-0 rounded bg-white px-2 py-0.5 font-semibold text-primary shadow-md">
               {siteWideSale
-                ? 'Browse all products'
+                ? 'Become an Epic Dev'
                 : productOnSale?.action ?? `Become an Epic Dev`}
             </div>
           </div>
