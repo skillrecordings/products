@@ -25,6 +25,7 @@ import {getAllWorkshops, type Workshop} from 'lib/workshops'
 import Link from 'next/link'
 import {motion} from 'framer-motion'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {Button} from '@skillrecordings/ui'
 
 type PageProps = {
   products: SanityProduct[]
@@ -96,14 +97,15 @@ const SalePage: NextPage<PageProps> = ({
         {/* Bundles Section */}
 
         {bundles.length > 0 && (
-          <section className="relative mx-auto max-w-screen-xl px-5 py-16">
+          <section className="relative mx-auto max-w-screen-xl px-5 pt-16">
             <div className="mb-12 text-center">
               <h2 className="text-3xl font-bold sm:text-4xl">
-                Workshop Bundles
+                Epic Web Bundles
               </h2>
               {/* <Sparkles /> */}
               <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-400">
-                Save even more with our curated workshop bundles
+                Curated workshop bundles to help you level up your web
+                development skills.
               </p>
             </div>
             <div className="flex flex-col items-center justify-center gap-8">
@@ -145,7 +147,158 @@ const SalePage: NextPage<PageProps> = ({
             </div>
           </section>
         )}
+        {/* Bottom CTA */}
+        <section className="relative mx-auto flex max-w-screen-xl flex-col items-center justify-center px-5 pb-16">
+          <div className="mx-auto flex items-center justify-center">
+            <PoweredByStripe />
+          </div>
+          <Image
+            className="mb-8 mt-3"
+            src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+            width={130}
+            height={130}
+            alt="30-Day Money Back Guarantee"
+          />
+        </section>
+        {/* Testing JavaScript Cross-sell */}
+        <section className="relative mx-auto max-w-screen-xl px-5 pb-16">
+          <div className="overflow-hidden rounded-2xl border border-amber-300 bg-gradient-to-br from-amber-50 via-amber-100/50 to-white dark:border-amber-500/20 dark:from-amber-950/40 dark:via-gray-900 dark:to-gray-900">
+            <div className="flex flex-col items-center gap-8 p-8 md:flex-row md:p-12">
+              {/* Image */}
+              <div className="flex-shrink-0">
+                <Image
+                  src="https://res.cloudinary.com/epic-web/image/upload/v1764076684/testingjs.png"
+                  width={280}
+                  quality={100}
+                  height={280}
+                  alt="Testing JavaScript"
+                  className="drop-shadow-2xl"
+                />
+              </div>
 
+              {/* Content */}
+              <div className="flex-1 space-y-5">
+                <div className="inline-block rounded-full bg-amber-500/20 px-3 py-1 text-sm font-medium text-amber-700 dark:bg-amber-500/10 dark:text-amber-400">
+                  Also from Kent C. Dodds
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
+                  Testing JavaScript
+                </h2>
+                <p className="text-lg text-amber-900/70 dark:text-amber-100/80">
+                  Learn the smart, efficient way to test any JavaScript
+                  application.
+                </p>
+                <p className="text-sm font-medium text-amber-600 dark:text-amber-400">
+                  Save up to $166 with the Testing JavaScript bundle
+                </p>
+                <ul className="grid grid-cols-1 gap-2 text-sm text-gray-700 dark:text-gray-300 sm:grid-cols-2">
+                  {[
+                    'Fundamentals of Testing in JavaScript',
+                    'JavaScript Mocking Fundamentals',
+                    'Static Analysis Testing JS Apps',
+                    'DOM Testing Library for any framework',
+                    'Configure Jest for Testing JS Apps',
+                    'Test React Components with Vitest',
+                    'Cypress for Web Applications',
+                    'Test Node.js Backends',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <svg
+                        className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600 dark:text-amber-500"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Button
+                  asChild
+                  className="mt-4 bg-amber-500 text-white hover:bg-amber-600 dark:text-gray-900 dark:hover:bg-amber-400"
+                >
+                  <Link href="https://testingjavascript.com" target="_blank">
+                    Learn more →
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* Epic React Cross-sell */}
+        <section className="relative mx-auto max-w-screen-xl px-5 pb-16">
+          <div className="overflow-hidden rounded-2xl border border-cyan-300 bg-gradient-to-br from-cyan-50 via-sky-100/50 to-white dark:border-cyan-500/20 dark:from-cyan-950/50 dark:via-slate-900 dark:to-slate-900">
+            <div className="flex flex-col items-center gap-8 p-8 md:flex-row md:p-12">
+              {/* Image */}
+              <div className="flex-shrink-0">
+                <Image
+                  src="https://res.cloudinary.com/epic-web/image/upload/v1723149668/React_Performance.png"
+                  width={280}
+                  quality={100}
+                  height={280}
+                  alt="Epic React"
+                  className="drop-shadow-2xl"
+                />
+              </div>
+
+              {/* Content */}
+              <div className="flex-1 space-y-5">
+                <div className="inline-block rounded-full bg-cyan-500/20 px-3 py-1 text-sm font-medium text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
+                  Also from Kent C. Dodds
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
+                  Epic React
+                </h2>
+                <p className="text-lg text-cyan-900/70 dark:text-cyan-100/80">
+                  Master React 19 with Fully Updated TypeScript Code Focused
+                  Workshops
+                </p>
+                <p className="text-sm font-medium text-cyan-600 dark:text-cyan-400">
+                  Save 50% and become the best React developer you can be.
+                </p>
+                <ul className="grid grid-cols-1 gap-2 text-sm text-gray-700 dark:text-gray-300 sm:grid-cols-2">
+                  {[
+                    'React Fundamentals',
+                    'React Hooks',
+                    'Advanced React APIs',
+                    'React Suspense',
+                    'Advanced React Patterns',
+                    'React Performance',
+                    'React Server Components',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <svg
+                        className="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-600 dark:text-cyan-500"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Button
+                  asChild
+                  className="mt-4 bg-cyan-500 text-white hover:bg-cyan-600 dark:text-slate-900 dark:hover:bg-cyan-400"
+                >
+                  <Link href="https://epicreact.dev#buy" target="_blank">
+                    Learn more →
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
         {/* Individual Workshops Section */}
         {/* <section className="relative mx-auto max-w-screen-xl px-5 py-16">
           <div
@@ -180,24 +333,6 @@ const SalePage: NextPage<PageProps> = ({
             })}
           </div>
         </section> */}
-
-        {/* Bottom CTA */}
-        <section className="relative mx-auto flex max-w-screen-xl flex-col items-center justify-center px-5 py-16">
-          <div
-            className="absolute left-1/2 top-0 h-px w-full max-w-3xl -translate-x-1/2 bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"
-            aria-hidden="true"
-          />
-          <div className="mx-auto flex items-center justify-center">
-            <PoweredByStripe />
-          </div>
-          <Image
-            className="mb-8 mt-3"
-            src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
-            width={130}
-            height={130}
-            alt="30-Day Money Back Guarantee"
-          />
-        </section>
 
         <AboutKent />
         <MoreCompanies />
