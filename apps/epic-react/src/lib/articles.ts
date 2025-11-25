@@ -6,7 +6,7 @@ const PostSchema = z.object({
   id: z.string(),
   updatedAt: z.date(),
   createdAt: z.date(),
-  resources: z.any().array().nullable().optional(),
+  resourceOf: z.any().array().nullable().optional(),
   fields: z.object({
     title: z.string(),
     slug: z.string(),
@@ -102,7 +102,11 @@ export const getAllArticles = async (): Promise<Article[]> => {
         },
       },
       include: {
-        resources: true,
+        resourceOf: {
+          include: {
+            resource: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
@@ -139,7 +143,16 @@ function convertPostToArticle(post: any) {
     body: post?.fields.body,
     image: post?.fields.image,
     ogImage: post?.fields.ogImage,
-    resources: post?.resources,
+    resources:
+      post?.resourceOf?.map((r: any) => ({
+        ...r.resource,
+        createdAt:
+          r.resource.createdAt?.toISOString?.() ?? r.resource.createdAt,
+        updatedAt:
+          r.resource.updatedAt?.toISOString?.() ?? r.resource.updatedAt,
+        deletedAt:
+          r.resource.deletedAt?.toISOString?.() ?? r.resource.deletedAt,
+      })) ?? [],
   })
 
   if (parsedArticle.success) {
@@ -153,19 +166,31 @@ function convertPostToArticle(post: any) {
 async function getPostAsArticle(slug: string) {
   const id = slug.split('~').pop() || slug
 
-  const parsedPost = PostSchema.nullable().safeParse(
-    await prisma.contentResource.findFirst({
-      where: {
-        fields: {
-          path: '$.slug',
-          string_contains: id,
+  const rawPost = await prisma.contentResource.findFirst({
+    where: {
+      fields: {
+        path: '$.slug',
+        string_contains: id,
+      },
+    },
+    include: {
+      resourceOf: {
+        include: {
+          resource: {
+            include: {
+              resourceOf: {
+                include: {
+                  resource: true,
+                },
+              },
+            },
+          },
         },
       },
-      include: {
-        resources: true,
-      },
-    }),
-  )
+    },
+  })
+
+  const parsedPost = PostSchema.nullable().safeParse(rawPost)
 
   if (parsedPost.success) {
     const post = parsedPost.data

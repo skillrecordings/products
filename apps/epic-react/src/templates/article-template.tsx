@@ -18,6 +18,7 @@ import {ChevronLeftIcon} from '@heroicons/react/outline'
 import {ArticleTeaser} from '@/pages/articles'
 import ReactAndStaleClosuresDemo from '@/components/mdx-components/how-react-uses-closures-to-avoid-bugs'
 import {getOgImage} from '@/utils/get-og-image'
+import MuxPlayer from '@mux/mux-player-react'
 
 const MoreArticles: React.FC<{articles: Article[]}> = ({articles}) => {
   return (
@@ -54,6 +55,12 @@ const ArticleTemplate: React.FC<ArticlePageProps> = ({
     (article) => article.slug !== slug,
   )
 
+  const video = article?.resources?.find(
+    (resource) => resource.type === 'videoResource',
+  )
+
+  console.log(video)
+
   return (
     <Layout
       meta={{
@@ -76,13 +83,23 @@ const ArticleTemplate: React.FC<ArticlePageProps> = ({
         description={pageDescription}
         url={url}
       />
+      {video && (
+        <div className="flex w-full items-center justify-center overflow-hidden bg-black">
+          <MuxPlayer
+            playbackId={video.fields.muxPlaybackId}
+            className="max-h-[80dvh]"
+          />
+        </div>
+      )}
       <main className="mx-auto flex w-full flex-col items-center px-5 py-10 sm:py-16">
-        <Link
-          href="/articles"
-          className="mb-8 inline-flex items-center gap-1 text-center text-sm opacity-50 transition hover:opacity-75"
-        >
-          <ChevronLeftIcon className="h-3 w-3 transition" /> Articles
-        </Link>
+        {!video && (
+          <Link
+            href="/articles"
+            className="mb-8 inline-flex items-center gap-1 text-center text-sm opacity-50 transition hover:opacity-75"
+          >
+            <ChevronLeftIcon className="h-3 w-3 transition" /> Articles
+          </Link>
+        )}
         <h1 className="mx-auto mb-8 w-full max-w-screen-lg text-balance px-5 text-center text-4xl font-bold leading-tight sm:px-0 sm:text-5xl">
           {title}
         </h1>
