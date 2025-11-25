@@ -82,7 +82,7 @@ const SalePage: NextPage<PageProps> = ({
         title: `Save ${percentageDiscount}% on Everything at Epic Web`,
         description: `Get ${percentageDiscount}% off all Epic Web workshops. Master full-stack web development with Kent C. Dodds.`,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1764066376/50-sale-card.jpg',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1764066820/50-sale-card.jpg',
         },
       }}
       withContentNav={false}
