@@ -93,6 +93,75 @@ const SalePage: NextPage<PageProps> = ({
         percentageDiscount={percentageDiscount}
       />
 
+      {/* Bridge Section */}
+      <section className="relative mx-auto max-w-screen-xl px-5 py-16">
+        <div
+          className="absolute left-1/2 top-0 h-px w-full max-w-3xl -translate-x-1/2 bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"
+          aria-hidden="true"
+        />
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400 sm:text-xl">
+            You&apos;ve spent years bouncing between docs, tutorials, and Stack
+            Overflow—piecing together knowledge that never quite sticks.{' '}
+            <span className="text-gray-900 dark:text-white">
+              What if you could skip all that and learn the way senior devs
+              actually think?
+            </span>
+          </p>
+        </div>
+
+        {/* Testimonials */}
+        <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Testimonial 1 */}
+          <div className="rounded-xl border border-gray-200 bg-white/50 p-6 dark:border-gray-800 dark:bg-gray-900/50">
+            <p className="text-gray-600 dark:text-gray-300">
+              &ldquo;The workshop format really works for knowledge retention.{' '}
+              <strong className="text-gray-900 dark:text-white">
+                I learned a lot and I&apos;ve been doing React for about 5
+                years!
+              </strong>
+              &rdquo;
+            </p>
+            <div className="mt-4 flex items-center gap-3">
+              <Image
+                src="/testimonials-images/aaron-mcadam.jpg"
+                alt="Aaron McAdam"
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+              <span className="text-sm font-medium text-gray-900 dark:text-white">
+                Aaron McAdam
+              </span>
+            </div>
+          </div>
+
+          {/* Testimonial 2 */}
+          <div className="rounded-xl border border-gray-200 bg-white/50 p-6 dark:border-gray-800 dark:bg-gray-900/50">
+            <p className="text-gray-600 dark:text-gray-300">
+              &ldquo;Since taking Kent&apos;s Epic React course, I&apos;ve
+              introduced exactly{' '}
+              <strong className="text-gray-900 dark:text-white">
+                zero bugs
+              </strong>{' '}
+              to prod 👍&rdquo;
+            </p>
+            <div className="mt-4 flex items-center gap-3">
+              <Image
+                src="/testimonials-images/imyjimmy.jpg"
+                alt="imyjimmy"
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+              <span className="text-sm font-medium text-gray-900 dark:text-white">
+                imyjimmy
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <main className="relative">
         {/* Bundles Section */}
 
