@@ -80,10 +80,10 @@ const SalePage: NextPage<PageProps> = ({
     <Layout
       meta={{
         titleAppendSiteName: false,
-        title: `Save ${percentageDiscount}% on Everything at Epic Web`,
-        description: `Get ${percentageDiscount}% off all Epic Web workshops. Master full-stack web development with Kent C. Dodds.`,
+        title: `${percentageDiscount}% Off: Finally Ship Code You're Proud Of`,
+        description: `Stop piecing together random tutorials. Epic Web workshops cut years off your learning curve. ${percentageDiscount}% off this week only.`,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1764066820/50-sale-card.jpg',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1764079214/50-sale-card.jpg',
         },
       }}
       withContentNav={false}
@@ -100,12 +100,11 @@ const SalePage: NextPage<PageProps> = ({
           <section className="relative mx-auto max-w-screen-xl px-5 pt-16">
             <div className="mb-12 text-center">
               <h2 className="text-3xl font-bold sm:text-4xl">
-                Epic Web Bundles
+                The Complete Systems
               </h2>
-              {/* <Sparkles /> */}
-              <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-400">
-                Curated workshop bundles to help you level up your web
-                development skills.
+              <p className="mx-auto mt-4 max-w-2xl text-balance text-lg text-gray-600 dark:text-gray-400">
+                Stop duct-taping tutorials together. Each bundle is a complete
+                learning path—start to finish.
               </p>
             </div>
             <div className="flex flex-col items-center justify-center gap-8">
@@ -177,32 +176,37 @@ const SalePage: NextPage<PageProps> = ({
               </div>
 
               {/* Content */}
-              <div className="flex-1 space-y-5">
+              <div className="flex-1 space-y-4">
                 <div className="inline-block rounded-full bg-amber-500/20 px-3 py-1 text-sm font-medium text-amber-700 dark:bg-amber-500/10 dark:text-amber-400">
-                  Also from Kent C. Dodds
+                  ✨ Ship code without the anxiety
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
-                  Testing JavaScript
+                  Stop Being Afraid to Refactor
                 </h2>
-                <p className="text-lg text-amber-900/70 dark:text-amber-100/80">
-                  Learn the smart, efficient way to test any JavaScript
-                  application.
+                <p className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
+                  Your test suite is either non-existent, painfully slow, or so
+                  flaky that nobody trusts it. You&apos;re manually clicking
+                  through your app before every deploy.{' '}
+                  <span className="italic text-amber-700 dark:text-amber-400">
+                    Sound familiar?
+                  </span>
                 </p>
-                <p className="text-sm font-medium text-amber-600 dark:text-amber-400">
-                  Save up to $166 with the Testing JavaScript bundle
+                <p className="text-base text-gray-700 dark:text-gray-200">
+                  <strong>Testing JavaScript</strong> teaches you exactly what
+                  to test (and what not to), so you can ship with confidence and
+                  actually go home on time.
                 </p>
-                <ul className="grid grid-cols-1 gap-2 text-sm text-gray-700 dark:text-gray-300 sm:grid-cols-2">
+                <ul className="grid grid-cols-1 gap-2 pt-2 text-sm sm:grid-cols-2">
                   {[
-                    'Fundamentals of Testing in JavaScript',
-                    'JavaScript Mocking Fundamentals',
-                    'Static Analysis Testing JS Apps',
-                    'DOM Testing Library for any framework',
-                    'Configure Jest for Testing JS Apps',
-                    'Test React Components with Vitest',
-                    'Cypress for Web Applications',
-                    'Test Node.js Backends',
+                    'Write tests that catch real bugs',
+                    'Refactor without fear',
+                    'Stop the "works on my machine" nightmare',
+                    'Tests that run in seconds, not minutes',
                   ].map((item) => (
-                    <li key={item} className="flex items-start gap-2">
+                    <li
+                      key={item}
+                      className="flex items-start gap-2 text-gray-700 dark:text-gray-300"
+                    >
                       <svg
                         className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600 dark:text-amber-500"
                         fill="currentColor"
@@ -218,14 +222,20 @@ const SalePage: NextPage<PageProps> = ({
                     </li>
                   ))}
                 </ul>
-                <Button
-                  asChild
-                  className="mt-4 bg-amber-500 text-white hover:bg-amber-600 dark:text-gray-900 dark:hover:bg-amber-400"
-                >
-                  <Link href="https://testingjavascript.com" target="_blank">
-                    Learn more →
-                  </Link>
-                </Button>
+                <div className="flex flex-wrap items-center gap-4 pt-2">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-amber-500 text-white shadow-lg shadow-amber-500/25 hover:bg-amber-600 dark:text-gray-900 dark:hover:bg-amber-400"
+                  >
+                    <Link href="https://testingjavascript.com" target="_blank">
+                      Start testing like a pro →
+                    </Link>
+                  </Button>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    Save up to $166 with the bundle
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -247,31 +257,38 @@ const SalePage: NextPage<PageProps> = ({
               </div>
 
               {/* Content */}
-              <div className="flex-1 space-y-5">
+              <div className="flex-1 space-y-4">
                 <div className="inline-block rounded-full bg-cyan-500/20 px-3 py-1 text-sm font-medium text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
-                  Also from Kent C. Dodds
+                  🚀 Updated for React 19
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
-                  Epic React
+                  Finally Understand What You&apos;re Building
                 </h2>
-                <p className="text-lg text-cyan-900/70 dark:text-cyan-100/80">
-                  Master React 19 with Fully Updated TypeScript Code Focused
-                  Workshops
+                <p className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
+                  React 19 dropped. Server Components are everywhere. Your
+                  useEffect spaghetti isn&apos;t cutting it anymore. And
+                  honestly?{' '}
+                  <span className="italic text-cyan-700 dark:text-cyan-400">
+                    You&apos;re not sure you fully understand how any of it
+                    works.
+                  </span>
                 </p>
-                <p className="text-sm font-medium text-cyan-600 dark:text-cyan-400">
-                  Save 50% and become the best React developer you can be.
+                <p className="text-base text-gray-700 dark:text-gray-200">
+                  <strong>Epic React</strong> takes you from copying code off
+                  StackOverflow to being the React expert your team asks for
+                  help. 7 workshops. 240 lessons. All hands-on, all TypeScript.
                 </p>
-                <ul className="grid grid-cols-1 gap-2 text-sm text-gray-700 dark:text-gray-300 sm:grid-cols-2">
+                <ul className="grid grid-cols-1 gap-2 pt-2 text-sm sm:grid-cols-2">
                   {[
-                    'React Fundamentals',
-                    'React Hooks',
-                    'Advanced React APIs',
-                    'React Suspense',
-                    'Advanced React Patterns',
-                    'React Performance',
-                    'React Server Components',
+                    'Stop guessing, start understanding',
+                    "Build apps that don't tank on load",
+                    'Server Components that make sense',
+                    'Be the expert, not the one asking',
                   ].map((item) => (
-                    <li key={item} className="flex items-start gap-2">
+                    <li
+                      key={item}
+                      className="flex items-start gap-2 text-gray-700 dark:text-gray-300"
+                    >
                       <svg
                         className="mt-0.5 h-4 w-4 flex-shrink-0 text-cyan-600 dark:text-cyan-500"
                         fill="currentColor"
@@ -287,14 +304,20 @@ const SalePage: NextPage<PageProps> = ({
                     </li>
                   ))}
                 </ul>
-                <Button
-                  asChild
-                  className="mt-4 bg-cyan-500 text-white hover:bg-cyan-600 dark:text-slate-900 dark:hover:bg-cyan-400"
-                >
-                  <Link href="https://epicreact.dev#buy" target="_blank">
-                    Learn more →
-                  </Link>
-                </Button>
+                <div className="flex flex-wrap items-center gap-4 pt-2">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-cyan-500 text-white shadow-lg shadow-cyan-500/25 hover:bg-cyan-600 dark:text-slate-900 dark:hover:bg-cyan-400"
+                  >
+                    <Link href="https://epicreact.dev#buy" target="_blank">
+                      Become the React expert →
+                    </Link>
+                  </Button>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    Save 50% this week only
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -380,14 +403,31 @@ const Header: React.FC<{
         transition={{duration: 0.5, delay: 0.1}}
         className="relative z-10 max-w-4xl text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl"
       >
-        <span className="block text-gray-900 dark:text-white">Save</span>
-        <span className="block bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 bg-clip-text text-6xl text-transparent sm:text-7xl lg:text-8xl">
-          {percentageDiscount}%
+        <span className="block text-gray-900 dark:text-white">
+          Finally Ship Code
         </span>
         <span className="block text-gray-900 dark:text-white">
-          on Every Bundle
+          You&apos;re{' '}
+          <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 bg-clip-text text-transparent">
+            Actually Proud Of
+          </span>
         </span>
       </motion.h1>
+
+      {/* Discount callout */}
+      <motion.div
+        initial={{y: 20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{duration: 0.5, delay: 0.15}}
+        className="relative z-10 mt-6 rounded-lg border border-amber-300 bg-amber-100/50 px-4 py-2 dark:border-amber-500/30 dark:bg-amber-900/20"
+      >
+        <span className="text-lg font-bold text-amber-700 dark:text-amber-400">
+          {percentageDiscount}% OFF everything
+        </span>
+        <span className="ml-2 text-gray-600 dark:text-gray-400">
+          — this week only
+        </span>
+      </motion.div>
 
       {/* Subheadline */}
       <motion.p
@@ -397,8 +437,8 @@ const Header: React.FC<{
         className="relative z-10 mx-auto mt-6 max-w-2xl text-lg text-gray-600 dark:text-gray-400 sm:text-xl"
       >
         <Balancer>
-          Master full-stack web development with professional workshops from
-          Kent C. Dodds and other industry experts.
+          Stop piecing together random tutorials. These workshops cut years off
+          your learning curve—from testing to auth to full-stack architecture.
         </Balancer>
       </motion.p>
 
