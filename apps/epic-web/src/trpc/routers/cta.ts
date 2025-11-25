@@ -405,10 +405,22 @@ export const ctaRouter = router({
         }
       }
 
+      const activeDefaultCoupons = await prisma.coupon.findMany({
+        where: {
+          default: true,
+          expires: {
+            gt: new Date(),
+          },
+        },
+      })
+
+      const SITE_WIDE_SALE = activeDefaultCoupons.length > 1
+
       return {
         CURRENT_ACTIVE_LIVE_EVENT,
         CURRENT_ACTIVE_PROMOTION,
         HAS_PRODUCT,
+        SITE_WIDE_SALE,
       }
     }),
 })

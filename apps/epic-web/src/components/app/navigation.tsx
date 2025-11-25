@@ -993,12 +993,15 @@ export const Banner: React.FC<{
     })
 
   const currentSale = cta?.CURRENT_ACTIVE_PROMOTION
+  const siteWideSale = cta?.SITE_WIDE_SALE
 
   const activeEvent = cta?.CURRENT_ACTIVE_LIVE_EVENT
   const {bannerHeight, scrollDirection} = useGlobalBanner()
   const code = router.query.code
   const productOnSale = currentSale?.product
-  const productPath = productOnSale && productOnSalePathBuilder(productOnSale)
+  const productPath = siteWideSale
+    ? '/workshops'
+    : productOnSale && productOnSalePathBuilder(productOnSale)
 
   if (!currentSale && !activeEvent) return null
 
@@ -1022,6 +1025,8 @@ export const Banner: React.FC<{
   if (router.pathname === `/${productOnSale?.slug}`) {
     return null
   }
+
+  console.log('cta', cta)
 
   return (
     <div
@@ -1056,7 +1061,9 @@ export const Banner: React.FC<{
             <div className="flex w-full flex-col sm:w-auto sm:flex-row sm:items-center sm:space-x-2">
               <strong>
                 Save {(Number(currentSale.percentageDiscount) * 100).toString()}
-                % {productOnSale.title && `on ${productOnSale.title}`}
+                %{' '}
+                {productOnSale.title &&
+                  `on ${siteWideSale ? 'everything' : productOnSale.title}`}
               </strong>
               <Countdown
                 date={currentSale.expires?.toString()}
@@ -1076,7 +1083,9 @@ export const Banner: React.FC<{
               />
             </div>
             <div className="flex-shrink-0 rounded bg-white px-2 py-0.5 font-semibold text-primary shadow-md">
-              {productOnSale?.action ?? `Become an Epic Dev`}
+              {siteWideSale
+                ? 'Browse all products'
+                : productOnSale?.action ?? `Become an Epic Dev`}
             </div>
           </div>
         </Link>
