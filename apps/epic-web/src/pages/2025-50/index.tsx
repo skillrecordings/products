@@ -59,6 +59,11 @@ const SalePage: NextPage<PageProps> = ({
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
 
+  // Get the megabundle product
+  const megabundle = products.find(
+    (p) => p.slug === 'megabundle' && p.state === 'active',
+  )
+
   // Only show specific bundles: Testing Bundle and Full Stack Vol 1
   const FEATURED_BUNDLE_SLUGS = ['full-stack', 'testing']
   const bundles = products.filter(
@@ -163,6 +168,75 @@ const SalePage: NextPage<PageProps> = ({
       </section>
 
       <main className="relative">
+        {/* Mega Bundle Section */}
+        {megabundle && (
+          <section className="relative mx-auto max-w-screen-xl px-5 py-16">
+            <div className="overflow-hidden rounded-2xl border border-purple-300 bg-gradient-to-br from-purple-50 via-violet-100/50 to-white dark:border-purple-500/20 dark:from-purple-950/50 dark:via-gray-900 dark:to-gray-900">
+              <div className="flex flex-col gap-8 p-8 md:p-12">
+                <div className="space-y-6">
+                  <div className="inline-block rounded-full bg-purple-500/20 px-3 py-1 text-sm font-medium text-purple-700 dark:bg-purple-500/10 dark:text-purple-400">
+                    🎯 Everything you need to ship
+                  </div>
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
+                    {megabundle.title || 'The Complete Epic Web Mega Bundle'}
+                  </h2>
+                  <div className="space-y-4 text-base leading-relaxed text-gray-700 dark:text-gray-200">
+                    <p>
+                      For one low price, you can learn the ins & outs of Epic
+                      Web Development, from the basics of React to shipping full
+                      scale production web applications—not just the
+                      technologies and techniques, you&apos;ll also learn the
+                      why, the principles I&apos;ve used to pick the right
+                      problems, choose the right tools, architect my projects in
+                      a way that lasts.
+                    </p>
+                    <p>
+                      This is not a sit-on-your-butt-and-watch-lectures bundle.
+                      This is a learn-with-your-hands-on-the-keyboard bundle.
+                      The Epic Way is active learning because the most powerful
+                      learning is doing. Every course in this bundle is chock
+                      full of challenges and exercises to get you coding (with
+                      enough explanation to get you going, of course).
+                    </p>
+                  </div>
+                  <div className="pt-4">
+                    <PriceCheckProvider
+                      purchasedProductIds={purchasedProductIds}
+                    >
+                      <div data-pricing-container="">
+                        <Pricing
+                          bonuses={bonuses}
+                          allowPurchase={true}
+                          userId={commerceProps?.userId}
+                          product={megabundle}
+                          purchased={purchasedProductIds.includes(
+                            megabundle.productId,
+                          )}
+                          index={0}
+                          couponId={couponId}
+                          couponFromCode={commerceProps?.couponFromCode}
+                          options={{
+                            withGuaranteeBadge: true,
+                            saleCountdownRenderer: (props: any) => (
+                              <div className="pb-5">
+                                <SaleCountdown
+                                  data-pricing-product-sale-countdown=""
+                                  size="lg"
+                                  {...props}
+                                />
+                              </div>
+                            ),
+                          }}
+                        />
+                      </div>
+                    </PriceCheckProvider>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Bundles Section */}
 
         {bundles.length > 0 && (
