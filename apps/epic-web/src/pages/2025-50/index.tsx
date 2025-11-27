@@ -197,7 +197,15 @@ const SalePage: NextPage<PageProps> = ({
                           bonuses={bonuses}
                           allowPurchase={true}
                           userId={commerceProps?.userId}
-                          product={product}
+                          product={{
+                            ...product,
+                            image: isMegabundle
+                              ? {
+                                  url: 'https://res.cloudinary.com/epic-web/image/upload/v1764258781/megabundle-treasure-chest_2x.png',
+                                  alt: product.image?.alt || 'Mega Bundle',
+                                }
+                              : product.image,
+                          }}
                           purchased={purchasedProductIds.includes(
                             product.productId,
                           )}
