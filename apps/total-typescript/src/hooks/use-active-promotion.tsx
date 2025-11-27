@@ -63,7 +63,7 @@ export const ActivePromotionProvider: React.FC<React.PropsWithChildren> = ({
     ? `promo_${activePromotion.expires}`
     : `promo_${activePromotion.createdAt}`
   const isBundle = product?.modules && product.modules.length > 1
-  const buyUrl = isBundle ? '/#buy' : '/workshops' + product.slug
+  const buyUrl = '/#buy' // isBundle ? '/#buy' : '/workshops' + product.slug
   const isOnProductPage = router.asPath.includes(buyUrl)
 
   if (isOnProductPage && !isBundle)
