@@ -11,19 +11,44 @@ export const MOCKING_TECHNIQUES_IN_VITEST_PRODUCT_ID =
   'f3f85931-e67e-456f-85c4-eec95a0e4ddd'
 export const TESTING_FUNDAMENTALS_PRODUCT_ID =
   '7872d512-ba34-4108-b510-7db9cbcee98c'
+export const REACT_COMPONENT_TESTING_WITH_VITEST_PRODUCT_ID =
+  '2c475c54-2518-4cf6-a496-ec932dccfd54'
+export const ADVANCED_VITEST_PATTERNS_PRODUCT_ID =
+  '7ae13696-1076-4e1f-9559-4e6927db1227'
 
 // Constants for product values (from CSV)
 const PRODUCT_VALUES = {
-  [FULL_STACK_VOL_ONE_PRODUCT_ID]: 35,
-  [EPIC_REACT_PRO_PRODUCT_ID]: 20,
-  [TESTING_JAVASCRIPT_PRODUCT_ID]: 10,
-  [TESTING_FUNDAMENTALS_PRODUCT_ID]: 5,
-  [MOCKING_TECHNIQUES_IN_VITEST_PRODUCT_ID]: 6,
+  [FULL_STACK_VOL_ONE_PRODUCT_ID]: 32,
+  [EPIC_REACT_PRO_PRODUCT_ID]: 18,
+  [EPIC_REACT_PRO_V1_PRODUCT_ID]: 16,
+  [TESTING_JAVASCRIPT_PRODUCT_ID]: 9,
+  [MOCKING_TECHNIQUES_IN_VITEST_PRODUCT_ID]: 5,
   [PIXEL_PERFECT_TAILWIND_PRODUCT_ID]: 6,
-  [EPIC_REACT_PRO_V1_PRODUCT_ID]: 18,
+  [TESTING_FUNDAMENTALS_PRODUCT_ID]: 4,
+  [REACT_COMPONENT_TESTING_WITH_VITEST_PRODUCT_ID]: 5,
+  [ADVANCED_VITEST_PATTERNS_PRODUCT_ID]: 5,
 }
 
-// Discount code constants
+/**
+ * Discount code constants for the megabundle promotion.
+ *
+ * IMPORTANT: These coupon IDs are hardcoded and must be kept in sync with the
+ * actual coupon codes in the database/Stripe.
+ *
+ * - TIER_0: Default discount for customers with no existing purchases
+ * - TIER_70-90: Progressive discounts based on existing purchase value
+ *
+ * To update discount codes:
+ * 1. Update the coupon IDs in the DISCOUNT_CODES object below
+ * 2. Ensure the discount percentages in calculateOptimalDiscount match the tier names
+ * 3. Update expiry dates in the database
+ * 4. Update tests in mega-bundle-discount-calculator.test.ts
+ *
+ * Note: When new products are added to the megabundle, update PRODUCT_VALUES
+ * and recalculate TOTAL_VALUE_POINTS. This may require adjusting the value
+ * ratio thresholds (0.15, 0.3, 0.5, 0.7) in calculateOptimalDiscount if it's not equal to 100.
+ * When new products are added, we need to also update the inngest functions to give access to the right content.
+ */
 const DISCOUNT_CODES = {
   TIER_0: '9f8d2cb3-b667-47cc-80a2-839e2b75b99e',
   TIER_70: 'megabundle-2024-70',
@@ -40,8 +65,19 @@ const TOTAL_VALUE_POINTS = Object.values(PRODUCT_VALUES).reduce(
 )
 
 /**
- * Calculates the optimal discount tier based on existing purchases
- * @param {string[]} existingPurchases - Array of product names the customer already owns
+ * Calculates the optimal discount tier based on existing purchases.
+ *
+ * The discount tier is determined by calculating the ratio of existing purchase
+ * value to total possible value, then applying the appropriate discount:
+ *
+ * - valueRatio >= 0.7: 90% discount (TIER_90)
+ * - valueRatio >= 0.5: 85% discount (TIER_85)
+ * - valueRatio >= 0.3: 80% discount (TIER_80)
+ * - valueRatio >= 0.15: 75% discount (TIER_75)
+ * - valueRatio > 0: 70% discount (TIER_70)
+ * - valueRatio === 0: 50% discount (whatever the discount is set for the sale, doesn't have to be 50%) (TIER_0 - default for new customers)
+ *
+ * @param {string[]} existingPurchaseProductIds - Array of product IDs the customer already owns
  * @returns {{
  *   discountCode: string,
  *   discountPercentage: number,
