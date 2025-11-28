@@ -122,7 +122,6 @@ export const ctaRouter = router({
     // CURRENT_ACTIVE_PROMOTION
 
     const products = [...selfPacedProducts]
-    console.log({products})
 
     // Get ALL default coupons for these products
     const allDefaultCoupons = await getDefaultCouponsForProducts(
@@ -158,7 +157,6 @@ export const ctaRouter = router({
       }
     }
 
-    console.log({allDefaultCoupons, defaultCoupon})
     if (DEBUG_MODE) {
       return {
         id: 'dummy',
