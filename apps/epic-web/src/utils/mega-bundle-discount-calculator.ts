@@ -25,7 +25,7 @@ const PRODUCT_VALUES = {
 
 // Discount code constants
 const DISCOUNT_CODES = {
-  TIER_0: 'ace70b71-0cfa-40bb-883a-799e63211fb3',
+  TIER_0: '9f8d2cb3-b667-47cc-80a2-839e2b75b99e',
   TIER_70: 'megabundle-2024-70',
   TIER_75: 'megabundle-2024-75',
   TIER_80: 'megabundle-2024-80',
