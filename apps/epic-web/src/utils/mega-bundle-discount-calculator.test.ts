@@ -13,7 +13,7 @@ describe('calculateOptimalDiscount', () => {
   test('returns TIER_0 for no purchases', () => {
     const result = calculateOptimalDiscount([])
     expect(result).toEqual({
-      discountCode: 'ace70b71-0cfa-40bb-883a-799e63211fb3',
+      discountCode: '9f8d2cb3-b667-47cc-80a2-839e2b75b99e',
       discountPercentage: 0,
       existingValuePoints: 0,
       totalValuePoints: 100,

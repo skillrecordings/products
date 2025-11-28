@@ -452,18 +452,50 @@ const Subscribe: React.FC<SubscribeProps> = ({subscriber}) => {
 export default Index
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {query} = context
+  const {req, res, query} = context
+  const token = await getToken({req})
+  const {user, subscriber} = await getUserAndSubscriber({req, res, query})
+  const sanityProduct = await getProduct(productId as string)
+  const pricing = await getPricing('megabundle-2025')
 
-  // Redirect to megabundle-2025, preserving query parameters (like coupon codes)
-  const queryString = new URLSearchParams(
-    query as Record<string, string>,
-  ).toString()
-  const destination = `/megabundle-2025${queryString ? `?${queryString}` : ''}`
+  const purchasedProductIds =
+    user?.purchases?.map((purchase: any) => purchase.productId) || []
+
+  const couponIdOrCode = query.coupon || query.code
+
+  const coupon = couponIdOrCode
+    ? couponIdOrCode
+    : calculateOptimalDiscount(purchasedProductIds).discountCode
+
+  const products = pricing && pricing.products
+  const availableBonuses = await getAvailableBonuses()
+
+  const {props: commerceProps} = await propsForCommerce({
+    query: {
+      ...query,
+      coupon,
+    },
+    token,
+    products,
+  })
+
+  const hasPurchased = purchasedProductIds.includes(productId)
+
+  if (hasPurchased) {
+    return {
+      redirect: {
+        destination: '/purchases',
+        permanent: false,
+      },
+    }
+  }
 
   return {
-    redirect: {
-      destination,
-      permanent: false,
+    props: {
+      product: sanityProduct,
+      products,
+      bonuses: availableBonuses,
+      commerceProps,
     },
   }
 }
@@ -585,13 +617,13 @@ Note that if you use the PPP discount your purchase will be restricted to the co
 
 No, discounts do not stack so choose the best one for you?
 
-## How do the “team” seats work? What is a “seat” in this context
+## How do the "team" seats work? What is a "seat" in this context
 
 When you buy a team seat, you receive a link that can be used to register for the number of accounts you have purchased. The license is non-transferable (you cannot reassign a license from one person to another).
 
 ## If I buy a lower tier, can I upgrade later?
 
-Yes. You pay the difference from what you paid for the lower tier to the price of Pro at the time you upgrade. This means that unless there’s still a discount on Pro, you’ll not get a discounted upgrade.
+Yes. You pay the difference from what you paid for the lower tier to the price of Pro at the time you upgrade. This means that unless there's still a discount on Pro, you'll not get a discounted upgrade.
 
 ## What is PPP?
 
@@ -603,7 +635,7 @@ Yes, you can! Simply enter their email address instead of your own.
 
 Or you can purchase a team license with 1 seat and send them the code. 
 
-There might be a verification code they receive that you’ll have to request from them. Also, if you buy a PPP license, then make sure you’re both in the same country otherwise they won’t be able to access the content in their country.
+There might be a verification code they receive that you'll have to request from them. Also, if you buy a PPP license, then make sure you're both in the same country otherwise they won't be able to access the content in their country.
 
 ## Is it possible to buy the course some other way? Installments? PayPal/etc?
 
@@ -625,11 +657,11 @@ They cannot be transferred or "passed around"
 
 ## Can I customize the invoice? VAT/company details?
 
-Yes, there’s a textarea that allows you to put any arbitrary information into the invoice PDF/printable.
+Yes, there's a textarea that allows you to put any arbitrary information into the invoice PDF/printable.
 
 ## Who is the Epic Megabundle for?
 
-Epic Megabundle is for anyone with a moderate understanding of JavaScript! Give this blog post a read: [https://kentcdodds.com/blog/javascript-to-know-for-react](https://kentcdodds.com/blog/javascript-to-know-for-react). If you’re comfortable with the features in that post, then you should be good to go. If not, then you’ll struggle a little bit with the syntax and JavaScript features used in the workshops.
+Epic Megabundle is for anyone with a moderate understanding of JavaScript! Give this blog post a read: [https://kentcdodds.com/blog/javascript-to-know-for-react](https://kentcdodds.com/blog/javascript-to-know-for-react). If you're comfortable with the features in that post, then you should be good to go. If not, then you'll struggle a little bit with the syntax and JavaScript features used in the workshops.
 
 ## What if I've been working with and studying React for years?
 
@@ -653,7 +685,7 @@ In addition, [the Discord Community](https://epicweb.dev/discord) is very active
 
 ## How can I join a learning club to study with other users?
 
-Visit this link to learn about how to join a club [https://kcd.im/discord-active-clubs](https://kcd.im/discord-active-clubs). The learning clubs are student-driven, so if you don’t see one that has openings then feel free to create your own. Check the following link for more information about creating your own club: [https://kcd.im/clubs](https://kcd.im/clubs)
+Visit this link to learn about how to join a club [https://kcd.im/discord-active-clubs](https://kcd.im/discord-active-clubs). The learning clubs are student-driven, so if you don't see one that has openings then feel free to create your own. Check the following link for more information about creating your own club: [https://kcd.im/clubs](https://kcd.im/clubs)
 
 ## Can I join an Epic Web club without buying it and just use the open source repositories?
 
