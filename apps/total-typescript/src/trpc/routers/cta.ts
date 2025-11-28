@@ -86,10 +86,10 @@ export const ctaRouter = router({
     let CURRENT_ACTIVE_PROMOTION
 
     const token = await getToken({req: ctx.req})
-    const {getDefaultCoupon, getPurchasesForUser} = getSdk()
+    const {getPurchasesForUser, getDefaultCouponsForProducts} = getSdk()
 
     const selfPacedProducts =
-      await sanityClient.fetch(groq`*[_type == 'product' && state == 'active'] | order(_createdAt desc) {
+      await sanityClient.fetch(groq`*[_type == 'product' && state == 'active'] | order(unitAmount desc) {
             _id,
             title,
             type,
@@ -122,11 +122,43 @@ export const ctaRouter = router({
     // CURRENT_ACTIVE_PROMOTION
 
     const products = [...selfPacedProducts]
-    const defaultCoupons = await getDefaultCoupon(
+    console.log({products})
+
+    // Get ALL default coupons for these products
+    const allDefaultCoupons = await getDefaultCouponsForProducts(
       products.map((product: {productId: string}) => product.productId),
     )
-    const defaultCoupon = defaultCoupons?.defaultCoupon
-    console.log({defaultCoupon})
+
+    // If all coupons have the same discount, pick the one for the most expensive product
+    // Products are already sorted by unitAmount desc, so iterate through them
+    let defaultCoupon
+    if (allDefaultCoupons.length > 0) {
+      // Get the highest discount percentage
+      const maxDiscount = Math.max(
+        ...allDefaultCoupons.map((c: any) => Number(c.percentageDiscount)),
+      )
+
+      // Filter to only coupons with the highest discount
+      const couponsWithMaxDiscount = allDefaultCoupons.filter(
+        (c: any) => Number(c.percentageDiscount) === maxDiscount,
+      )
+
+      // Find the coupon for the most expensive product
+      // Products are sorted by unitAmount desc, so take the first match
+      for (const product of products) {
+        const coupon = couponsWithMaxDiscount.find(
+          (c: any) =>
+            c.restrictedToProductId === product.productId ||
+            c.restrictedToProductId === null,
+        )
+        if (coupon) {
+          defaultCoupon = coupon
+          break
+        }
+      }
+    }
+
+    console.log({allDefaultCoupons, defaultCoupon})
     if (DEBUG_MODE) {
       return {
         id: 'dummy',
