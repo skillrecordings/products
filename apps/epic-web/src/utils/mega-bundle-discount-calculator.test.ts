@@ -7,6 +7,8 @@ import {
   MOCKING_TECHNIQUES_IN_VITEST_PRODUCT_ID,
   PIXEL_PERFECT_TAILWIND_PRODUCT_ID,
   EPIC_REACT_PRO_V1_PRODUCT_ID,
+  REACT_COMPONENT_TESTING_WITH_VITEST_PRODUCT_ID,
+  ADVANCED_VITEST_PATTERNS_PRODUCT_ID,
 } from './mega-bundle-discount-calculator'
 
 describe('calculateOptimalDiscount', () => {
@@ -22,70 +24,71 @@ describe('calculateOptimalDiscount', () => {
   })
 
   test('returns TIER_70 for value ratio > 0 and < 0.15', () => {
-    const result = calculateOptimalDiscount([TESTING_FUNDAMENTALS_PRODUCT_ID]) // 5 points
+    const result = calculateOptimalDiscount([TESTING_FUNDAMENTALS_PRODUCT_ID]) // 4 points
     expect(result).toEqual({
       discountCode: 'megabundle-2024-70',
       discountPercentage: 70,
-      existingValuePoints: 5,
+      existingValuePoints: 4,
       totalValuePoints: 100,
-      valueRatio: 0.05,
+      valueRatio: 0.04,
     })
   })
 
   test('returns TIER_75 for value ratio >= 0.15 and < 0.3', () => {
     const result = calculateOptimalDiscount([
-      TESTING_JAVASCRIPT_PRODUCT_ID,
-      TESTING_FUNDAMENTALS_PRODUCT_ID,
-    ]) // 15 points
+      TESTING_JAVASCRIPT_PRODUCT_ID, // 9
+      TESTING_FUNDAMENTALS_PRODUCT_ID, // 4
+      MOCKING_TECHNIQUES_IN_VITEST_PRODUCT_ID, // 5
+    ]) // Total: 18 points (0.18 ratio)
     expect(result).toEqual({
       discountCode: 'megabundle-2024-75',
       discountPercentage: 75,
-      existingValuePoints: 15,
+      existingValuePoints: 18,
       totalValuePoints: 100,
-      valueRatio: 0.15,
+      valueRatio: 0.18,
     })
   })
 
   test('returns TIER_80 for value ratio >= 0.3 and < 0.5', () => {
     const result = calculateOptimalDiscount([
-      FULL_STACK_VOL_ONE_PRODUCT_ID, // 35 points
+      FULL_STACK_VOL_ONE_PRODUCT_ID, // 32 points
     ])
     expect(result).toEqual({
       discountCode: 'megabundle-2024-80',
       discountPercentage: 80,
-      existingValuePoints: 35,
+      existingValuePoints: 32,
       totalValuePoints: 100,
-      valueRatio: 0.35,
+      valueRatio: 0.32,
     })
   })
 
   test('returns TIER_85 for value ratio >= 0.5 and < 0.7', () => {
     const result = calculateOptimalDiscount([
-      FULL_STACK_VOL_ONE_PRODUCT_ID, // 35
-      EPIC_REACT_PRO_PRODUCT_ID, // 20
-    ]) // Total: 55 points
+      FULL_STACK_VOL_ONE_PRODUCT_ID, // 32
+      EPIC_REACT_PRO_PRODUCT_ID, // 18
+    ]) // Total: 50 points
     expect(result).toEqual({
       discountCode: 'megabundle-2024-85',
       discountPercentage: 85,
-      existingValuePoints: 55,
+      existingValuePoints: 50,
       totalValuePoints: 100,
-      valueRatio: 0.55,
+      valueRatio: 0.5,
     })
   })
 
   test('returns TIER_90 for value ratio >= 0.7', () => {
     const result = calculateOptimalDiscount([
-      FULL_STACK_VOL_ONE_PRODUCT_ID, // 35
-      EPIC_REACT_PRO_PRODUCT_ID, // 20
-      TESTING_JAVASCRIPT_PRODUCT_ID, // 10
-      EPIC_REACT_PRO_V1_PRODUCT_ID, // 18
-    ]) // Total: 83 points
+      FULL_STACK_VOL_ONE_PRODUCT_ID, // 32
+      EPIC_REACT_PRO_PRODUCT_ID, // 18
+      TESTING_JAVASCRIPT_PRODUCT_ID, // 9
+      EPIC_REACT_PRO_V1_PRODUCT_ID, // 16
+    ]) // Total: 75 points
     expect(result).toEqual({
       discountCode: 'megabundle-2024-90',
       discountPercentage: 90,
-      existingValuePoints: 83,
+      existingValuePoints: 75,
       totalValuePoints: 100,
-      valueRatio: 0.83,
+      valueRatio: 0.75,
     })
   })
 
@@ -97,22 +100,24 @@ describe('calculateOptimalDiscount', () => {
     expect(result).toEqual({
       discountCode: 'megabundle-2024-70',
       discountPercentage: 70,
-      existingValuePoints: 5,
+      existingValuePoints: 4,
       totalValuePoints: 100,
-      valueRatio: 0.05,
+      valueRatio: 0.04,
     })
   })
 
   test('handles edge case with all products', () => {
     const result = calculateOptimalDiscount([
-      FULL_STACK_VOL_ONE_PRODUCT_ID,
-      EPIC_REACT_PRO_PRODUCT_ID,
-      TESTING_JAVASCRIPT_PRODUCT_ID,
-      TESTING_FUNDAMENTALS_PRODUCT_ID,
-      MOCKING_TECHNIQUES_IN_VITEST_PRODUCT_ID,
-      PIXEL_PERFECT_TAILWIND_PRODUCT_ID,
-      EPIC_REACT_PRO_V1_PRODUCT_ID,
-    ])
+      FULL_STACK_VOL_ONE_PRODUCT_ID, // 32
+      EPIC_REACT_PRO_PRODUCT_ID, // 18
+      EPIC_REACT_PRO_V1_PRODUCT_ID, // 16
+      TESTING_JAVASCRIPT_PRODUCT_ID, // 9
+      MOCKING_TECHNIQUES_IN_VITEST_PRODUCT_ID, // 5
+      PIXEL_PERFECT_TAILWIND_PRODUCT_ID, // 6
+      TESTING_FUNDAMENTALS_PRODUCT_ID, // 4
+      REACT_COMPONENT_TESTING_WITH_VITEST_PRODUCT_ID, // 5
+      ADVANCED_VITEST_PATTERNS_PRODUCT_ID, // 5
+    ]) // Total: 100 points
     expect(result).toEqual({
       discountCode: 'megabundle-2024-90',
       discountPercentage: 90,
