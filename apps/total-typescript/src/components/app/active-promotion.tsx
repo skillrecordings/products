@@ -53,7 +53,8 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
   }, [activePromotion, getCookie])
 
   const hasPurchasedComplete = purchases.some(
-    (purchase) => purchase.productId === 'tt_product_clxjgl7fg000108l8eifn69dt',
+    (purchase: any) =>
+      purchase.productId === 'tt_product_clxjgl7fg000108l8eifn69dt',
   )
   const NavCTA = () => {
     return new Date() < new Date('2024-12-20T07:59:59Z') &&

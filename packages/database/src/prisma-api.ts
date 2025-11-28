@@ -916,6 +916,40 @@ export function getSdk(
         if (validForProductId) return {defaultMerchantCoupon, defaultCoupon}
       }
     },
+    async getDefaultCouponsForProducts(productIds?: string[]) {
+      const activeSaleCoupons = await ctx.prisma.coupon.findMany({
+        where: {
+          default: true,
+          expires: {
+            gte: new Date(),
+          },
+          OR: [
+            {
+              ...(productIds && {
+                restrictedToProductId: {
+                  in: productIds,
+                },
+              }),
+            },
+            {
+              restrictedToProductId: null,
+            },
+          ],
+        },
+        include: {
+          merchantCoupon: true,
+          product: true,
+        },
+      })
+
+      return activeSaleCoupons.filter((coupon) => {
+        const {restrictedToProductId} = coupon
+        const validForProductId = restrictedToProductId
+          ? productIds?.includes(restrictedToProductId)
+          : true
+        return validForProductId
+      })
+    },
     async transferPurchasesToNewUser({
       fromUserId,
       userId,
