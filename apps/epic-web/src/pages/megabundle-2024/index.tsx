@@ -456,7 +456,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const token = await getToken({req})
   const {user, subscriber} = await getUserAndSubscriber({req, res, query})
   const sanityProduct = await getProduct(productId as string)
-  const pricing = await getPricing('megabundle-2024')
+  const pricing = await getPricing('megabundle-2025')
 
   const purchasedProductIds =
     user?.purchases?.map((purchase: any) => purchase.productId) || []
