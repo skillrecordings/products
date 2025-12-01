@@ -24,19 +24,31 @@ import {Product} from 'lib/products'
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
   const {getPurchaseDetails} = getSdk()
+  const slug = params?.slug as string
+
+  // Redirect megabundle-2024 -> megabundle-2025, preserving query params
+  if (slug === 'megabundle-2024') {
+    const {slug: _, ...queryWithoutSlug} = query
+    const queryString = new URLSearchParams(
+      queryWithoutSlug as Record<string, string>,
+    ).toString()
+    return {
+      redirect: {
+        destination: `/products/megabundle-2025${
+          queryString ? `?${queryString}` : ''
+        }`,
+        permanent: false,
+      },
+    }
+  }
+
   const availableBonuses = await getAvailableBonuses()
   const token = await getToken({req})
-  const slug = params?.slug as string
   let product = await getProductBySlug(slug)
 
   // Retry once if Sanity returns null (occasional CDN/edge issues)
   if (!product) {
     product = await getProductBySlug(slug)
-  }
-
-  // Fallback: megabundle-2024 -> megabundle-2025
-  if (!product && slug === 'megabundle-2024') {
-    product = await getProductBySlug('megabundle-2025')
   }
 
   if (!product) {
