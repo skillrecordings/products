@@ -26,15 +26,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {getPurchaseDetails} = getSdk()
   const availableBonuses = await getAvailableBonuses()
   const token = await getToken({req})
-  const product = await getProductBySlug(params?.slug as string)
-  const workshop = await getWorkshop(params?.slug as string)
-  const mdx = product.body && (await serializeMDX(product.body))
+  let product = await getProductBySlug(params?.slug as string)
+
+  // Retry once if Sanity returns null (occasional CDN/edge issues)
+  if (!product) {
+    product = await getProductBySlug(params?.slug as string)
+  }
 
   if (!product) {
+    console.error(`Product not found for slug: ${params?.slug}`)
     return {
       notFound: true,
     }
   }
+
+  const workshop = await getWorkshop(params?.slug as string)
+  const mdx = product.body ? await serializeMDX(product.body) : null
 
   const commerceProps = await propsForCommerce({
     query,
