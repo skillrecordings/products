@@ -453,35 +453,143 @@ export default Index
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, res, query} = context
-  const token = await getToken({req})
-  const {user, subscriber} = await getUserAndSubscriber({req, res, query})
-  const sanityProduct = await getProduct(productId as string)
-  const pricing = await getPricing('megabundle-2025')
+
+  console.log('[megabundle-2025] ====== START getServerSideProps ======')
+  console.log('[megabundle-2025] Query params:', JSON.stringify(query))
+  console.log('[megabundle-2025] Target productId:', productId)
+
+  let token = null
+  try {
+    token = await getToken({req})
+    console.log(
+      '[megabundle-2025] Token retrieved:',
+      token ? `user: ${token.email}` : 'no token',
+    )
+  } catch (err) {
+    console.error('[megabundle-2025] ERROR getting token:', err)
+    token = null
+  }
+
+  let user, subscriber
+  try {
+    const userResult = await getUserAndSubscriber({req, res, query})
+    user = userResult.user
+    subscriber = userResult.subscriber
+    console.log(
+      '[megabundle-2025] User:',
+      user ? `id: ${user.id}, email: ${user.email}` : 'no user',
+    )
+    console.log(
+      '[megabundle-2025] User purchases:',
+      user?.purchases?.length ?? 0,
+    )
+    console.log('[megabundle-2025] Subscriber:', subscriber ? 'yes' : 'no')
+  } catch (err) {
+    console.error('[megabundle-2025] ERROR getting user/subscriber:', err)
+  }
+
+  let sanityProduct
+  try {
+    sanityProduct = await getProduct(productId as string)
+    console.log(
+      '[megabundle-2025] Sanity product:',
+      sanityProduct
+        ? `title: ${sanityProduct.title}, modules: ${
+            sanityProduct.modules?.length ?? 0
+          }`
+        : 'NULL/UNDEFINED',
+    )
+  } catch (err) {
+    console.error('[megabundle-2025] ERROR getting sanity product:', err)
+  }
+
+  let pricing
+  try {
+    pricing = await getPricing('megabundle-2025')
+    console.log(
+      '[megabundle-2025] Pricing:',
+      pricing ? `products: ${pricing.products?.length ?? 0}` : 'NULL/UNDEFINED',
+    )
+    if (pricing?.products) {
+      console.log(
+        '[megabundle-2025] Pricing products:',
+        pricing.products.map((p: any) => p.slug || p.productId).join(', '),
+      )
+    }
+  } catch (err) {
+    console.error('[megabundle-2025] ERROR getting pricing:', err)
+  }
 
   const purchasedProductIds =
     user?.purchases?.map((purchase: any) => purchase.productId) || []
+  console.log('[megabundle-2025] Purchased product IDs:', purchasedProductIds)
 
   const couponIdOrCode = query.coupon || query.code
+  console.log('[megabundle-2025] Coupon from query:', couponIdOrCode || 'none')
+
+  let calculatedDiscount
+  try {
+    calculatedDiscount = calculateOptimalDiscount(purchasedProductIds)
+    console.log(
+      '[megabundle-2025] Calculated discount:',
+      JSON.stringify(calculatedDiscount),
+    )
+  } catch (err) {
+    console.error('[megabundle-2025] ERROR calculating discount:', err)
+    calculatedDiscount = {discountCode: undefined}
+  }
 
   const coupon = couponIdOrCode
     ? couponIdOrCode
-    : calculateOptimalDiscount(purchasedProductIds).discountCode
+    : calculatedDiscount.discountCode
+  console.log('[megabundle-2025] Final coupon:', coupon || 'none')
 
   const products = pricing && pricing.products
-  const availableBonuses = await getAvailableBonuses()
+  console.log(
+    '[megabundle-2025] Products to pass:',
+    products?.length ?? 'undefined/null',
+  )
 
-  const {props: commerceProps} = await propsForCommerce({
-    query: {
-      ...query,
-      coupon,
-    },
-    token,
-    products,
-  })
+  let availableBonuses
+  try {
+    availableBonuses = await getAvailableBonuses()
+    console.log(
+      '[megabundle-2025] Available bonuses:',
+      availableBonuses?.length ?? 0,
+    )
+  } catch (err) {
+    console.error('[megabundle-2025] ERROR getting bonuses:', err)
+    availableBonuses = []
+  }
+
+  let commerceProps
+  try {
+    const commerceResult = await propsForCommerce({
+      query: {
+        ...query,
+        coupon,
+      },
+      token,
+      products,
+    })
+    commerceProps = commerceResult.props
+    console.log('[megabundle-2025] Commerce props:', {
+      userId: commerceProps?.userId,
+      hasCouponFromCode: !!commerceProps?.couponFromCode,
+      couponDiscount: commerceProps?.couponFromCode?.percentageDiscount,
+      purchasesCount: commerceProps?.purchases?.length ?? 0,
+    })
+  } catch (err) {
+    console.error('[megabundle-2025] ERROR getting commerce props:', err)
+  }
 
   const hasPurchased = purchasedProductIds.includes(productId)
+  console.log('[megabundle-2025] Has purchased megabundle:', hasPurchased)
 
   if (hasPurchased) {
+    console.log(
+      '[megabundle-2025] Redirecting to /purchases (already purchased)',
+    )
     return {
       redirect: {
         destination: '/purchases',
@@ -489,6 +597,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   }
+
+  // Validation checks
+  if (!sanityProduct) {
+    console.error(
+      '[megabundle-2025] FATAL: No sanity product found for productId:',
+      productId,
+    )
+  }
+  if (!products || products.length === 0) {
+    console.error('[megabundle-2025] FATAL: No products from pricing')
+  }
+  if (!commerceProps) {
+    console.error('[megabundle-2025] FATAL: No commerce props')
+  }
+
+  console.log(
+    '[megabundle-2025] ====== END getServerSideProps (returning props) ======',
+  )
 
   return {
     props: {
