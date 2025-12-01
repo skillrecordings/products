@@ -26,15 +26,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {getPurchaseDetails} = getSdk()
   const availableBonuses = await getAvailableBonuses()
   const token = await getToken({req})
-  let product = await getProductBySlug(params?.slug as string)
+  const slug = params?.slug as string
+  let product = await getProductBySlug(slug)
 
   // Retry once if Sanity returns null (occasional CDN/edge issues)
   if (!product) {
-    product = await getProductBySlug(params?.slug as string)
+    product = await getProductBySlug(slug)
+  }
+
+  // Fallback: megabundle-2024 -> megabundle-2025
+  if (!product && slug === 'megabundle-2024') {
+    product = await getProductBySlug('megabundle-2025')
   }
 
   if (!product) {
-    console.error(`Product not found for slug: ${params?.slug}`)
+    console.error(`Product not found for slug: ${slug}`)
     return {
       notFound: true,
     }
