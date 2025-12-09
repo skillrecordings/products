@@ -9,6 +9,12 @@ export async function getUser(userId: string) {
       name: true,
       email: true,
       image: true,
+      accounts: {
+        select: {
+          provider: true,
+          providerAccountId: true,
+        },
+      },
       purchases: {
         select: {
           id: true,
