@@ -316,7 +316,7 @@ const Header: React.FC<{
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
               <Link
-                href={canView ? purchasedUrl : `/`}
+                href={canView ? purchasedUrl : `/#buy`}
                 className={cx(
                   'flex w-full min-w-[208px] items-center justify-center rounded  px-5 py-4 font-semibold leading-tight transition  md:w-auto',
                   {
