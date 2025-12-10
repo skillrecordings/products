@@ -19,16 +19,11 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from '@skillrecordings/ui'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {cn} from '../utils/cn'
 import {format} from 'date-fns'
-import {CalendarIcon} from 'lucide-react'
+import {CalendarIcon, Check, ChevronsUpDown, Search} from 'lucide-react'
 import Spinner from '../spinner'
 import toast from 'react-hot-toast'
 
@@ -59,6 +54,8 @@ const CouponGeneratorForm = ({
     },
   })
   const [codes, setCodes] = React.useState<string[]>([])
+  const [open, setOpen] = React.useState(false)
+  const [searchTerm, setSearchTerm] = React.useState('')
   const {data: products} = trpcSkillLessons.products.getAllProducts.useQuery()
   const expiresAtDateTime = form.watch('expires')?.setHours(23, 59, 0, 0)
   const createCouponsMutation = trpcSkillLessons.coupons.create.useMutation()
@@ -131,32 +128,83 @@ const CouponGeneratorForm = ({
                   Restricted to Product
                 </FormLabel>
                 <FormControl>
-                  <Select
-                    required
-                    {...field}
-                    disabled={!Boolean(form.watch('restrictedToProductId'))}
-                    onValueChange={field.onChange}
-                  >
-                    <SelectTrigger>
-                      <SelectValue
-                        placeholder={
-                          Boolean(form.watch('restrictedToProductId'))
-                            ? 'Select a product'
-                            : 'Global'
-                        }
-                      />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {products?.map((product: SanityProduct) => (
-                        <SelectItem
-                          key={product.productId}
-                          value={product.productId}
-                        >
-                          {product.title || product.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={open}
+                        className="w-full justify-between font-normal"
+                        disabled={!Boolean(form.watch('restrictedToProductId'))}
+                      >
+                        {field.value
+                          ? products?.find(
+                              (product: SanityProduct) =>
+                                product.productId === field.value,
+                            )?.title ||
+                            products?.find(
+                              (product: SanityProduct) =>
+                                product.productId === field.value,
+                            )?.name
+                          : Boolean(form.watch('restrictedToProductId'))
+                          ? 'Select a product'
+                          : 'Global'}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[300px] p-0" align="start">
+                      <div className="flex items-center border-b px-3">
+                        <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+                        <input
+                          className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                          placeholder="Search products..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                      </div>
+                      <div className="max-h-[300px] overflow-y-auto p-1">
+                        {products
+                          ?.filter((product: SanityProduct) =>
+                            (product.title || product.name || '')
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase()),
+                          )
+                          .map((product: SanityProduct) => (
+                            <div
+                              key={product.productId}
+                              className={cn(
+                                'relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground',
+                                field.value === product.productId &&
+                                  'bg-accent text-accent-foreground',
+                              )}
+                              onClick={() => {
+                                field.onChange(product.productId)
+                                setOpen(false)
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  'mr-2 h-4 w-4',
+                                  field.value === product.productId
+                                    ? 'opacity-100'
+                                    : 'opacity-0',
+                                )}
+                              />
+                              {product.title || product.name}
+                            </div>
+                          ))}
+                        {products?.filter((product: SanityProduct) =>
+                          (product.title || product.name || '')
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase()),
+                        ).length === 0 && (
+                          <div className="py-6 text-center text-sm">
+                            No product found.
+                          </div>
+                        )}
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </FormControl>
               </FormItem>
             )}
