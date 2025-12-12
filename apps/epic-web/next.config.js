@@ -75,6 +75,11 @@ const nextConfig = {
         destination: '/conf/2025/:path*',
         permanent: false,
       },
+      {
+        source: '/why-i-wont-use-nextjs',
+        destination: 'https://kentcdodds.com/blog/why-i-love-remix',
+        permanent: true,
+      },
     ]
   },
   sentry: {
