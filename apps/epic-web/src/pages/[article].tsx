@@ -8,6 +8,16 @@ import readingTime from 'reading-time'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
+
+  if (params?.article === 'why-i-wont-use-nextjs') {
+    return {
+      redirect: {
+        destination: 'https://kentcdodds.com/blog/why-i-love-remix',
+        permanent: true,
+      },
+    }
+  }
+
   const article = await getArticle(params?.article as string)
 
   if (!article) {
