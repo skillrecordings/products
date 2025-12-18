@@ -86,47 +86,59 @@ export const stripeCheckoutCompleted = inngest.createFunction(
         .parse(productToAnnounce)
     })
 
+    // Collect unique instructors to notify (by slug to avoid duplicates)
+    const instructorsToNotify = new Map<
+      string,
+      {saleAnnounceChannel: string; slug: string}
+    >()
+
     for (const module of product.modules) {
       for (const instructor of module.instructors) {
         if (
           instructor.saleAnnounceChannel &&
-          instructor.slug !== `kent-c-dodds`
+          instructor.slug !== `kent-c-dodds` &&
+          !instructorsToNotify.has(instructor.slug)
         ) {
-          await step.run('send slack message', async () => {
-            try {
-              if (process.env.SLACK_TOKEN) {
-                return await postToSlack({
-                  webClient: new WebClient(process.env.SLACK_TOKEN),
-                  channel: instructor.saleAnnounceChannel,
-                  text:
-                    process.env.NODE_ENV === 'production'
-                      ? `Someone purchased ${product.title}`
-                      : `Someone purchased ${product.title} in ${process.env.NODE_ENV}`,
-                  attachments: [
-                    {
-                      fallback: `Sold (${quantity}) ${product.title}`,
-                      text: `Somebody (${
-                        purchase.user?.email || 'unknown'
-                      }) bought ${quantity} ${pluralize('copy', quantity)} of ${
-                        product.title
-                      } for ${`$${purchase.totalAmount}`}${
-                        isEmpty(purchase.upgradedFromId) ? '' : ' as an upgrade'
-                      }`,
-                      color:
-                        process.env.NODE_ENV === 'production'
-                          ? '#eba234'
-                          : '#5ceb34',
-                      title: `Sold (${quantity}) ${product.title}`,
-                    },
-                  ],
-                })
-              }
-            } catch (e) {
-              return `error sending slack message: ${(e as Error).message}`
-            }
-          })
+          instructorsToNotify.set(instructor.slug, instructor)
         }
       }
+    }
+
+    // Send one notification per instructor
+    for (const instructor of Array.from(instructorsToNotify.values())) {
+      await step.run('send slack message', async () => {
+        try {
+          if (process.env.SLACK_TOKEN) {
+            return await postToSlack({
+              webClient: new WebClient(process.env.SLACK_TOKEN),
+              channel: instructor.saleAnnounceChannel,
+              text:
+                process.env.NODE_ENV === 'production'
+                  ? `Someone purchased ${product.title}`
+                  : `Someone purchased ${product.title} in ${process.env.NODE_ENV}`,
+              attachments: [
+                {
+                  fallback: `Sold (${quantity}) ${product.title}`,
+                  text: `Somebody (${
+                    purchase.user?.email || 'unknown'
+                  }) bought ${quantity} ${pluralize('copy', quantity)} of ${
+                    product.title
+                  } for ${`$${purchase.totalAmount}`}${
+                    isEmpty(purchase.upgradedFromId) ? '' : ' as an upgrade'
+                  }`,
+                  color:
+                    process.env.NODE_ENV === 'production'
+                      ? '#eba234'
+                      : '#5ceb34',
+                  title: `Sold (${quantity}) ${product.title}`,
+                },
+              ],
+            })
+          }
+        } catch (e) {
+          return `error sending slack message: ${(e as Error).message}`
+        }
+      })
     }
 
     if (teamPurchase) {
