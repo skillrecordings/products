@@ -56,7 +56,17 @@ export const lessonsRouter = router({
           ? section?.lessons
           : module?.lessons || module?.resources
 
-      if (!lessons) return null
+      if (!lessons) {
+        console.log('[getNextLesson] No lessons found', {
+          module: input.module,
+          section: input.section,
+          hasSection: !!section,
+          hasModule: !!module,
+          sectionLessons: section?.lessons?.length,
+          moduleLessons: module?.lessons?.length,
+        })
+        return null
+      }
 
       let currentLesson
 
@@ -72,7 +82,21 @@ export const lessonsRouter = router({
           currentLesson = find(lessons, {_id: exerciseForSolution._id})
           break
         default:
-          currentLesson = find(lessons, {slug: input.slug})
+          currentLesson = find(lessons, (l: any) => {
+            const lessonSlug =
+              typeof l.slug === 'string' ? l.slug : l.slug?.current || l.slug
+            return lessonSlug === input.slug
+          })
+      }
+
+      if (!currentLesson) {
+        console.log('[getNextLesson] Current lesson not found', {
+          slug: input.slug,
+          availableSlugs: lessons.map((l: any) =>
+            typeof l.slug === 'string' ? l.slug : l.slug?.current || l.slug,
+          ),
+        })
+        return null
       }
 
       const nextLessonIndex = indexOf(lessons, currentLesson) + 1

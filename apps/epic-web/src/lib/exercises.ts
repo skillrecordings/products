@@ -2,6 +2,12 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 import {ResourceSchema} from '@skillrecordings/skill-lesson/schemas/resource'
+import * as mysql from 'mysql2/promise'
+
+// Establish connection options for the course-builder database
+const access: mysql.ConnectionOptions = {
+  uri: process.env.COURSE_BUILDER_DATABASE_URL,
+}
 
 export const ExerciseSchema = z
   .object({
@@ -103,6 +109,214 @@ export const getExercise = async (
   slug: string,
   includeMedia: boolean = true,
 ): Promise<Exercise | null> => {
+  const connection = await mysql.createConnection(access)
+
+  const [rows] = await connection.execute(
+    `SELECT * FROM zEW_ContentResource 
+     WHERE (type = 'post' OR type = 'lesson' OR type = 'exercise' OR type = 'explainer')
+     AND JSON_EXTRACT(fields, "$.slug") = ?
+     AND deletedAt IS NULL`,
+    [slug],
+  )
+
+  if (Array.isArray(rows) && rows.length > 0) {
+    const lessonRow = rows[0] as any
+    const fields =
+      typeof lessonRow.fields === 'string'
+        ? JSON.parse(lessonRow.fields)
+        : lessonRow.fields || {}
+
+    let transcript: string | null = null
+    let legacyTranscript: string | null = null
+    if (fields.transcript) {
+      if (typeof fields.transcript === 'string') {
+        transcript = fields.transcript
+      } else if (
+        fields.transcript.text &&
+        typeof fields.transcript.text === 'string'
+      ) {
+        transcript = fields.transcript.text
+      } else if (Array.isArray(fields.transcript)) {
+        transcript = JSON.stringify(fields.transcript)
+      }
+    }
+
+    if (fields.castingwords?.transcript) {
+      if (typeof fields.castingwords.transcript === 'string') {
+        legacyTranscript = fields.castingwords.transcript
+      } else if (Array.isArray(fields.castingwords.transcript)) {
+        legacyTranscript = JSON.stringify(fields.castingwords.transcript)
+      }
+    }
+
+    let videoResourceId: string | null = null
+
+    const [videoRows] = await connection.execute(
+      `
+      SELECT
+        resource.id,
+        resource.fields
+      FROM
+        zEW_ContentResourceResource crr
+      JOIN
+        zEW_ContentResource resource ON crr.resourceId = resource.id
+      WHERE
+        crr.resourceOfId = ?
+        AND resource.type = 'videoResource'
+        AND crr.deletedAt IS NULL
+        AND resource.deletedAt IS NULL
+      LIMIT 1
+      `,
+      [lessonRow.id],
+    )
+
+    if (Array.isArray(videoRows) && videoRows.length > 0) {
+      const videoRow = videoRows[0] as any
+      videoResourceId = videoRow.id
+      const videoFields =
+        typeof videoRow.fields === 'string'
+          ? JSON.parse(videoRow.fields)
+          : videoRow.fields || {}
+
+      if (!transcript) {
+        transcript =
+          (videoFields.transcript?.text &&
+          typeof videoFields.transcript.text === 'string'
+            ? videoFields.transcript.text
+            : null) ||
+          (typeof videoFields.transcript === 'string'
+            ? videoFields.transcript
+            : null) ||
+          (Array.isArray(videoFields.transcript)
+            ? JSON.stringify(videoFields.transcript)
+            : null) ||
+          (videoFields.castingwords?.transcript &&
+          typeof videoFields.castingwords.transcript === 'string'
+            ? videoFields.castingwords.transcript
+            : null) ||
+          (Array.isArray(videoFields.castingwords?.transcript)
+            ? JSON.stringify(videoFields.castingwords.transcript)
+            : null) ||
+          null
+      }
+      if (!legacyTranscript) {
+        legacyTranscript =
+          (videoFields.castingwords?.transcript &&
+          typeof videoFields.castingwords.transcript === 'string'
+            ? videoFields.castingwords.transcript
+            : null) ||
+          (Array.isArray(videoFields.castingwords?.transcript)
+            ? JSON.stringify(videoFields.castingwords.transcript)
+            : null) ||
+          null
+      }
+    }
+
+    let solution: any = null
+    const [solutionRows] = await connection.execute(
+      `
+      SELECT
+        resource.id,
+        resource.fields,
+        resource.type
+      FROM
+        zEW_ContentResourceResource crr
+      JOIN
+        zEW_ContentResource resource ON crr.resourceId = resource.id
+      WHERE
+        crr.resourceOfId = ?
+        AND resource.type = 'solution'
+        AND crr.deletedAt IS NULL
+        AND resource.deletedAt IS NULL
+      LIMIT 1
+      `,
+      [lessonRow.id],
+    )
+
+    if (Array.isArray(solutionRows) && solutionRows.length > 0) {
+      const solutionRow = solutionRows[0] as any
+      const solutionFields =
+        typeof solutionRow.fields === 'string'
+          ? JSON.parse(solutionRow.fields)
+          : solutionRow.fields || {}
+
+      let solutionVideoResourceId: string | null = null
+      let solutionTranscript: string | null = null
+      let solutionLegacyTranscript: string | null = null
+
+      const [solutionVideoRows] = await connection.execute(
+        `
+        SELECT
+          resource.id,
+          resource.fields
+        FROM
+          zEW_ContentResourceResource crr
+        JOIN
+          zEW_ContentResource resource ON crr.resourceId = resource.id
+        WHERE
+          crr.resourceOfId = ?
+          AND resource.type = 'videoResource'
+          AND crr.deletedAt IS NULL
+          AND resource.deletedAt IS NULL
+        LIMIT 1
+        `,
+        [solutionRow.id],
+      )
+
+      if (Array.isArray(solutionVideoRows) && solutionVideoRows.length > 0) {
+        const solutionVideoRow = solutionVideoRows[0] as any
+        solutionVideoResourceId = solutionVideoRow.id
+        const solutionVideoFields =
+          typeof solutionVideoRow.fields === 'string'
+            ? JSON.parse(solutionVideoRow.fields)
+            : solutionVideoRow.fields || {}
+        solutionTranscript = solutionVideoFields.transcript?.text || null
+        solutionLegacyTranscript =
+          solutionVideoFields.castingwords?.transcript || null
+      }
+
+      solution = {
+        _key: solutionRow.id,
+        _type: 'solution',
+        _updatedAt: lessonRow.updatedAt
+          ? new Date(lessonRow.updatedAt).toISOString()
+          : new Date().toISOString(),
+        title: solutionFields.title || '',
+        description: solutionFields.description || null,
+        body: solutionFields.body || null,
+        videoResourceId: solutionVideoResourceId,
+        transcript: solutionTranscript,
+        legacyTranscript: solutionLegacyTranscript,
+        slug: solutionFields.slug || slug,
+        workshopApp: solutionFields.workshopApp || null,
+      }
+    }
+
+    await connection.end()
+
+    const exercise = {
+      _id: lessonRow.id,
+      _type: lessonRow.type === 'post' ? 'lesson' : lessonRow.type || 'lesson',
+      _updatedAt: lessonRow.updatedAt
+        ? new Date(lessonRow.updatedAt).toISOString()
+        : new Date().toISOString(),
+      title: fields.title || '',
+      description: fields.description || null,
+      slug: fields.slug || slug,
+      body: fields.body || null,
+      github: fields.github || null,
+      videoResourceId,
+      transcript,
+      legacyTranscript,
+      workshopApp: fields.workshopApp || null,
+      solution,
+    }
+
+    return ExerciseSchema.nullable().parse(exercise)
+  }
+
+  await connection.end()
+
   const exercise = await sanityClient.fetch(
     `*[_type in ['exercise', 'explainer', 'interview', 'lesson'] && slug.current == $slug][0]{
       _id,
