@@ -123,8 +123,9 @@ export const getAllModules = async () => await sanityClient.fetch(modulesQuery)
 
 export const getModule = async (slug: string) => {
   if (process.env.COURSE_BUILDER_DATABASE_URL) {
+    let connection: any = null
     try {
-      const connection = await mysql.createConnection(access)
+      connection = await mysql.createConnection(access)
 
       const [rows] = await connection.execute(
         `SELECT * FROM zEW_ContentResource 
@@ -235,8 +236,7 @@ export const getModule = async (slug: string) => {
 
         const allLessons = sections.flatMap((section) => section.lessons || [])
 
-        await connection.end()
-        return {
+        const result = {
           id: tutorialRow.id,
           _id: tutorialRow.id,
           _type: 'module',
@@ -258,10 +258,13 @@ export const getModule = async (slug: string) => {
           sections,
           lessons: allLessons,
         }
+        await connection.end()
+        connection = null
+        return result
       }
-      await connection.end()
     } catch (error) {
       console.error('[getModule] Error fetching tutorial from database:', error)
+    } finally {
       if (connection) await connection.end()
     }
   }

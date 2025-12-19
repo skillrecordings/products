@@ -40,8 +40,9 @@ export const getAllSections = async () =>
 
 export const getSection = async (slug: string) => {
   if (process.env.COURSE_BUILDER_DATABASE_URL) {
+    let connection: any = null
     try {
-      const connection = await mysql.createConnection(access)
+      connection = await mysql.createConnection(access)
 
       const [rows] = await connection.execute(
         `SELECT * FROM zEW_ContentResource 
@@ -106,8 +107,7 @@ export const getSection = async (slug: string) => {
           }
         }
 
-        await connection.end()
-        return {
+        const result = {
           id: sectionRow.id,
           _id: sectionRow.id,
           _type: 'section',
@@ -126,12 +126,15 @@ export const getSection = async (slug: string) => {
           resources: [],
           image: null,
         }
+        await connection.end()
+        connection = null
+        return result
       }
-      await connection.end()
     } catch (error) {
       console.error('[getSection] Error fetching from database:', error)
-      if (connection) await connection.end()
       // Fall through to Sanity
+    } finally {
+      if (connection) await connection.end()
     }
   }
 

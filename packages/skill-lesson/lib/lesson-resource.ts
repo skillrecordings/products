@@ -34,8 +34,9 @@ export type Lesson = z.infer<typeof LessonSchema>
 
 export const getLesson = async (slug: string): Promise<Lesson> => {
   if (process.env.COURSE_BUILDER_DATABASE_URL) {
+    let connection: any = null
     try {
-      const connection = await mysql.createConnection(access)
+      connection = await mysql.createConnection(access)
 
       const [rows] = await connection.execute(
         `SELECT * FROM zEW_ContentResource 
@@ -108,12 +109,15 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
           solution,
         }
 
+        const result = LessonSchema.parse(lesson)
         await connection.end()
-        return LessonSchema.parse(lesson)
+        connection = null
+        return result
       }
-      await connection.end()
     } catch (error) {
       console.error('[getLesson] Error fetching from database:', error)
+    } finally {
+      if (connection) await connection.end()
     }
   }
 
