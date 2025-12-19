@@ -170,8 +170,10 @@ const transformTutorialPost = async (
           })
         }
       }
+      await connection.end()
     } catch (error) {
       console.error('Error fetching instructor for tutorial', error)
+      if (connection) await connection.end()
     }
   }
 
@@ -413,6 +415,8 @@ const fetchTutorialSections = async (tutorialId: string): Promise<any[]> => {
       error,
     )
     return []
+  } finally {
+    await connection.end()
   }
 }
 
@@ -440,6 +444,8 @@ export const getAllTutorials = async (onlyPublished = true) => {
       return await transformTutorialPost(post, sections)
     }),
   )
+
+  await connection.end()
 
   const sanityTutorials = await sanityClient.fetch(
     groq`*[_type == "module" && moduleType == 'tutorial' ${
@@ -538,12 +544,14 @@ export const getTutorial = async (slug: string) => {
     const post = tutorialPostsParsed.data[0]
     const sections = await fetchTutorialSections(post.id || '')
     const dbTutorial = await transformTutorialPost(post, sections)
+    await connection.end()
     return dbTutorial
   } else {
     console.error(
       '[getTutorial] Failed to parse or no tutorial found in database, error:',
       tutorialPostsParsed.success ? 'none' : tutorialPostsParsed.error,
     )
+    await connection.end()
   }
 
   const sanityTutorial = await sanityClient.fetch(
