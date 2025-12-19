@@ -1,6 +1,12 @@
 import groq from 'groq'
 import {sanityClient} from '../utils/sanity-client'
 import {z} from 'zod'
+import * as mysql from 'mysql2/promise'
+import slugify from '@sindresorhus/slugify'
+
+const access: mysql.ConnectionOptions = {
+  uri: process.env.COURSE_BUILDER_DATABASE_URL,
+}
 
 const CoreResourceSchema = z.object({
   _id: z.string(),
@@ -115,8 +121,149 @@ const modulesQuery = groq`*[_type == "module" && state == 'published'] | order(_
 
 export const getAllModules = async () => await sanityClient.fetch(modulesQuery)
 
-export const getModule = async (slug: string) =>
-  await sanityClient.fetch(
+export const getModule = async (slug: string) => {
+  if (process.env.COURSE_BUILDER_DATABASE_URL) {
+    try {
+      const connection = await mysql.createConnection(access)
+
+      const [rows] = await connection.execute(
+        `SELECT * FROM zEW_ContentResource 
+         WHERE type = 'tutorial'
+         AND JSON_EXTRACT(fields, "$.slug") = ?
+         AND deletedAt IS NULL`,
+        [slug],
+      )
+
+      if (Array.isArray(rows) && rows.length > 0) {
+        const tutorialRow = rows[0] as any
+        const fields =
+          typeof tutorialRow.fields === 'string'
+            ? JSON.parse(tutorialRow.fields)
+            : tutorialRow.fields || {}
+
+        const [sectionRows] = await connection.execute(
+          `
+          SELECT
+            resource.id,
+            resource.fields,
+            resource.type,
+            crr.position
+          FROM
+            zEW_ContentResourceResource crr
+          JOIN
+            zEW_ContentResource resource ON crr.resourceId = resource.id
+          WHERE
+            crr.resourceOfId = ?
+            AND resource.type = 'section'
+            AND crr.deletedAt IS NULL
+            AND resource.deletedAt IS NULL
+          ORDER BY
+            crr.position ASC
+          `,
+          [tutorialRow.id],
+        )
+
+        const sections: any[] = []
+        if (Array.isArray(sectionRows)) {
+          for (const sectionRow of sectionRows as any[]) {
+            const sectionFields =
+              typeof sectionRow.fields === 'string'
+                ? JSON.parse(sectionRow.fields)
+                : sectionRow.fields || {}
+
+            const [lessonRows] = await connection.execute(
+              `
+              SELECT
+                resource.id,
+                resource.type,
+                resource.fields,
+                crr.position
+              FROM
+                zEW_ContentResourceResource crr
+              JOIN
+                zEW_ContentResource resource ON crr.resourceId = resource.id
+              WHERE
+                crr.resourceOfId = ?
+                AND crr.deletedAt IS NULL
+                AND resource.deletedAt IS NULL
+                AND (resource.type = 'post' OR resource.type = 'lesson' OR resource.type = 'exercise' OR resource.type = 'explainer')
+              ORDER BY
+                crr.position ASC
+              `,
+              [sectionRow.id],
+            )
+
+            const lessons: any[] = []
+            if (Array.isArray(lessonRows)) {
+              for (const lessonRow of lessonRows as any[]) {
+                const lessonFields =
+                  typeof lessonRow.fields === 'string'
+                    ? JSON.parse(lessonRow.fields)
+                    : lessonRow.fields || {}
+
+                lessons.push({
+                  _id: lessonRow.id,
+                  _type:
+                    lessonRow.type === 'post'
+                      ? 'lesson'
+                      : lessonRow.type || 'lesson',
+                  _updatedAt: lessonRow.updatedAt
+                    ? new Date(lessonRow.updatedAt).toISOString()
+                    : new Date().toISOString(),
+                  title: lessonFields.title || '',
+                  description: lessonFields.description || null,
+                  slug: lessonFields.slug || slugify(lessonFields.title || ''),
+                  solution: null,
+                })
+              }
+            }
+
+            sections.push({
+              _id: sectionRow.id,
+              _type: 'section',
+              _updatedAt: sectionRow.updatedAt
+                ? new Date(sectionRow.updatedAt).toISOString()
+                : new Date().toISOString(),
+              title: sectionFields.title || '',
+              description: sectionFields.description || null,
+              slug: sectionFields.slug || slugify(sectionFields.title || ''),
+              lessons,
+              resources: [],
+            })
+          }
+        }
+
+        const allLessons = sections.flatMap((section) => section.lessons || [])
+
+        return {
+          id: tutorialRow.id,
+          _id: tutorialRow.id,
+          _type: 'module',
+          title: fields.title || '',
+          state:
+            fields.state ||
+            (fields.visibility === 'public' ? 'published' : 'draft'),
+          slug: {current: fields.slug || slug},
+          body: fields.body || null,
+          moduleType: 'tutorial',
+          github: fields.github || null,
+          ogImage: null,
+          description: fields.description || null,
+          _updatedAt: tutorialRow.updatedAt
+            ? new Date(tutorialRow.updatedAt).toISOString()
+            : new Date().toISOString(),
+          image: null,
+          product: null,
+          sections,
+          lessons: allLessons,
+        }
+      }
+    } catch (error) {
+      console.error('[getModule] Error fetching tutorial from database:', error)
+    }
+  }
+
+  return await sanityClient.fetch(
     groq`*[_type == "module" && slug.current == $slug][0]{
         "id": _id,
         _type,
@@ -185,6 +332,7 @@ export const getModule = async (slug: string) =>
     }`,
     {slug: `${slug}`},
   )
+}
 export const getModuleById = async (id: string) =>
   await sanityClient.fetch(
     groq`*[_type == "module" && _id == $id][0]{

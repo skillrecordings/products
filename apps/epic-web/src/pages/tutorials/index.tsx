@@ -188,7 +188,10 @@ const TutorialsPage: React.FC<{
           <ul className={cn('grid grid-cols-1 gap-5 md:grid-cols-2', {})}>
             {resultsForQuery.map((workshop: SearchResult) => {
               return (
-                <ModuleProgressProvider moduleSlug={workshop.slug.current}>
+                <ModuleProgressProvider
+                  key={workshop._id}
+                  moduleSlug={workshop.slug.current}
+                >
                   <Teaser module={workshop} key={workshop.slug.current} />
                 </ModuleProgressProvider>
               )

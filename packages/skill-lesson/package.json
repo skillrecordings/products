@@ -117,6 +117,8 @@
     "shiki": "1.6.2",
     "shortid": "^2.2.16",
     "slugify": "^1.6.2",
+    "@sindresorhus/slugify": "^2.1.0",
+    "mysql2": "^3.11.3",
     "speakingurl": "^14.0.1",
     "styled-jsx": "5.1.1",
     "superjson": "=1.11.0",

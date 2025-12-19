@@ -4021,6 +4021,9 @@ importers:
       '@shikijs/twoslash':
         specifier: ^1.6.2
         version: 1.6.2(typescript@5.5.4)
+      '@sindresorhus/slugify':
+        specifier: ^2.1.0
+        version: 2.2.1
       '@skillrecordings/ability':
         specifier: workspace:*
         version: link:../ability
@@ -4162,6 +4165,9 @@ importers:
       mjml-react:
         specifier: ^2.0.8
         version: 2.0.8(mjml@4.14.1)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
+      mysql2:
+        specifier: ^3.11.3
+        version: 3.11.3
       next:
         specifier: 14.2.0-canary.30
         version: 14.2.0-canary.30(@babel/core@7.23.9)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)(sass@1.70.0)
