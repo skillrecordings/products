@@ -189,6 +189,7 @@ export const getAllArticles = async (): Promise<Article[]> => {
     ),
   )
 
+  await connection.end()
   return allArticles
 }
 
@@ -203,8 +204,11 @@ export const getArticle = async (slug: string): Promise<Article | null> => {
   const articlePost = ArticlePostsSchema.parse(rows)[0]
 
   if (articlePost) {
+    await connection.end()
     return await transformArticlePost(articlePost)
   }
+
+  await connection.end()
 
   const article = await sanityClient.fetch(
     groq`*[_type == "article" && slug.current == $slug && state == "published"][0] {

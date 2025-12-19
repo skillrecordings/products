@@ -106,6 +106,7 @@ export const getSection = async (slug: string) => {
           }
         }
 
+        await connection.end()
         return {
           id: sectionRow.id,
           _id: sectionRow.id,
@@ -126,8 +127,10 @@ export const getSection = async (slug: string) => {
           image: null,
         }
       }
+      await connection.end()
     } catch (error) {
       console.error('[getSection] Error fetching from database:', error)
+      if (connection) await connection.end()
       // Fall through to Sanity
     }
   }

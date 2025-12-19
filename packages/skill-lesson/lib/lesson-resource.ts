@@ -108,8 +108,10 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
           solution,
         }
 
+        await connection.end()
         return LessonSchema.parse(lesson)
       }
+      await connection.end()
     } catch (error) {
       console.error('[getLesson] Error fetching from database:', error)
     }

@@ -235,6 +235,7 @@ export const getModule = async (slug: string) => {
 
         const allLessons = sections.flatMap((section) => section.lessons || [])
 
+        await connection.end()
         return {
           id: tutorialRow.id,
           _id: tutorialRow.id,
@@ -258,8 +259,10 @@ export const getModule = async (slug: string) => {
           lessons: allLessons,
         }
       }
+      await connection.end()
     } catch (error) {
       console.error('[getModule] Error fetching tutorial from database:', error)
+      if (connection) await connection.end()
     }
   }
 

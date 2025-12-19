@@ -39,10 +39,13 @@ export const getVideoResource = async (id: string): Promise<VideoResource> => {
           duration: fields.duration || null,
         }
 
+        await connection.end()
         return VideoResourceSchema.parse(videoResource)
       }
+      await connection.end()
     } catch (error) {
       console.error('[getVideoResource] Error fetching from database:', error)
+      if (connection) await connection.end()
       // Fall through to Sanity
     }
   }

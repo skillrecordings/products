@@ -279,6 +279,7 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
       new Date(a._createdAt || '').getTime(),
   )
 
+  await connection.end()
   return TipsSchema.parse(allTips)
 }
 
