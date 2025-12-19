@@ -12,8 +12,9 @@ const access: mysql.ConnectionOptions = {
 
 export const getVideoResource = async (id: string): Promise<VideoResource> => {
   if (process.env.COURSE_BUILDER_DATABASE_URL) {
+    let connection: any = null
     try {
-      const connection = await mysql.createConnection(access)
+      connection = await mysql.createConnection(access)
 
       const [rows] = await connection.execute(
         `SELECT * FROM zEW_ContentResource 
@@ -39,14 +40,16 @@ export const getVideoResource = async (id: string): Promise<VideoResource> => {
           duration: fields.duration || null,
         }
 
+        const result = VideoResourceSchema.parse(videoResource)
         await connection.end()
-        return VideoResourceSchema.parse(videoResource)
+        connection = null
+        return result
       }
-      await connection.end()
     } catch (error) {
       console.error('[getVideoResource] Error fetching from database:', error)
-      if (connection) await connection.end()
       // Fall through to Sanity
+    } finally {
+      if (connection) await connection.end()
     }
   }
 
