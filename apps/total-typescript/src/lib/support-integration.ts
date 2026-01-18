@@ -53,7 +53,7 @@ export const integration: SupportIntegration = {
       id: user.id,
       email: user.email,
       name: user.name ?? undefined,
-      createdAt: new Date(user.createdAt ?? Date.now()),
+      createdAt: new Date(),
     }
   },
 
