@@ -2092,8 +2092,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/react
       '@skillrecordings/sdk':
-        specifier: 0.2.0
-        version: 0.2.0
+        specifier: 0.2.1
+        version: 0.2.1
       '@skillrecordings/skill-api':
         specifier: workspace:*
         version: link:../../packages/skill-api
@@ -16797,8 +16797,8 @@ packages:
     resolution: {integrity: sha512-gSJujtLx4v8kC94IzBM36Npp/xpqTmgt/Z0ZbwiSJ95oOeqSGxP+MJIe8R/PFLt8e0q8Gkxx8dhJXrQoXA6wlw==}
     dev: false
 
-  /@skillrecordings/sdk@0.2.0:
-    resolution: {integrity: sha512-ZPUPKBbRPVWeiPI1TIkiIUWixfd1f8k9BGBVqGOVIDYW5O9lHaXuWy1hPeRMH/RYsrk0gXFMAOQKqV2kRHNXKg==}
+  /@skillrecordings/sdk@0.2.1:
+    resolution: {integrity: sha512-+uh+/ZrwOa9qNEnmaVZ/iomSWbtwBLOT4LVn3le8g+NQ3VTFw0Te1eiG02jw27Blmq8jthUszQm3NcmMLL3EwQ==}
     dev: false
 
   /@skillrecordings/time@0.0.12:
