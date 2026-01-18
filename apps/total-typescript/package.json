@@ -90,6 +90,7 @@
     "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
+    "@skillrecordings/sdk": "0.2.0",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/skill-lesson": "workspace:*",
     "@skillrecordings/time": "workspace:*",
