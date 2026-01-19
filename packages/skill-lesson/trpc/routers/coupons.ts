@@ -106,11 +106,18 @@ export const couponsRouter = router({
         percentOff: z.string(),
         buyUrl: z.string().optional(),
         queryParam: z.string().optional(),
+        setAsDefault: z.boolean().optional(),
       }),
     )
     .mutation(async ({ctx, input}) => {
       const quantityToGenerate = Number(input.quantity)
-      const {percentOff, maxUses, expires, restrictedToProductId} = input
+      const {
+        percentOff,
+        maxUses,
+        expires,
+        restrictedToProductId,
+        setAsDefault,
+      } = input
       const token = await getToken({req: ctx.req})
       const percentageDiscount = findClosestDiscount(Number(percentOff))
 
@@ -136,7 +143,7 @@ export const couponsRouter = router({
             expires: expires
               ? new Date(expires?.setHours(23, 59, 0, 0)).toISOString()
               : null,
-            default: !restrictedToProductId,
+            default: setAsDefault ?? false,
           },
         })
         codes += `${input.buyUrl || process.env.NEXT_PUBLIC_URL}?${
