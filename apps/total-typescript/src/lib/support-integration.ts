@@ -11,8 +11,12 @@ import type {
   Purchase,
   ActionResult,
   ClaimedSeat,
+  ContentSearchRequest,
+  ContentSearchResponse,
+  ContentSearchResult,
 } from '@skillrecordings/sdk/integration'
 import {prisma} from '@skillrecordings/database'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {createVerificationUrl} from '@skillrecordings/skill-api'
 import {nextAuthOptions} from '../pages/api/auth/[...nextauth]'
 
@@ -311,4 +315,173 @@ export const integration: SupportIntegration = {
         claimedAt: new Date(p.createdAt),
       }))
   },
+
+  /**
+   * Search product content for agent recommendations
+   *
+   * Uses Sanity GROQ queries to find relevant workshops, tutorials,
+   * articles, tips, and exercises that match the customer's query.
+   */
+  async searchContent(
+    request: ContentSearchRequest,
+  ): Promise<ContentSearchResponse> {
+    const {query, types, limit = 5} = request
+
+    try {
+      // Map SDK types to Sanity _type values
+      const typeMapping: Record<string, string[]> = {
+        course: ['module'],
+        lesson: ['exercise', 'explainer'],
+        article: ['article', 'tip'],
+        resource: ['chapterResource'],
+      }
+
+      // Build Sanity type filter
+      let sanityTypes = ['article', 'tip', 'module', 'exercise', 'explainer']
+      if (types?.length) {
+        sanityTypes = types.flatMap((t) => typeMapping[t] || [])
+      }
+
+      const typeFilter = sanityTypes.map((t) => `"${t}"`).join(', ')
+
+      const results = await sanityClient.fetch(
+        `*[_type in [${typeFilter}] && state == "published" && moduleType != 'chapter' && moduleType != 'book']
+          | score(
+            title match $searchQuery
+            || _type match "module"
+            || description match $searchQuery
+            || pt::text(body) match $searchQuery
+            || body match $searchQuery
+            || boost(body match $searchQuery + "*", 0.5)
+            || boost(pt::text(body) match $searchQuery + "*", 0.5)
+          )
+          | order(_score desc)
+          {
+            _id,
+            _score,
+            _type,
+            title,
+            description,
+            "slug": slug.current,
+            moduleType
+          }
+          [_score > 0][0..${limit - 1}]`,
+        {searchQuery: query},
+      )
+
+      const contentResults: ContentSearchResult[] = results.map(
+        (doc: {
+          _id: string
+          _score: number
+          _type: string
+          title: string
+          description?: string
+          slug: string
+          moduleType?: string
+        }) => ({
+          id: doc._id,
+          type: mapSanityTypeToContentType(doc._type, doc.moduleType),
+          title: doc.title,
+          description: doc.description?.slice(0, 200),
+          url: buildContentUrl(doc._type, doc.slug, doc.moduleType),
+          score: doc._score > 0 ? Math.min(doc._score / 10, 1) : undefined,
+        }),
+      )
+
+      return {
+        results: contentResults,
+        quickLinks: getQuickLinks(),
+        meta: {
+          totalResults: results.length,
+        },
+      }
+    } catch (error) {
+      console.error('[support-integration] Content search failed:', error)
+      return {
+        results: [],
+        quickLinks: getQuickLinks(),
+      }
+    }
+  },
+}
+
+/**
+ * Map Sanity _type to SDK content type
+ */
+function mapSanityTypeToContentType(
+  sanityType: string,
+  moduleType?: string,
+): ContentSearchResult['type'] {
+  if (sanityType === 'module') {
+    return moduleType === 'tutorial' ? 'course' : 'course'
+  }
+  switch (sanityType) {
+    case 'exercise':
+    case 'explainer':
+      return 'lesson'
+    case 'article':
+    case 'tip':
+      return 'article'
+    case 'chapterResource':
+      return 'resource'
+    default:
+      return 'article'
+  }
+}
+
+/**
+ * Build URL for content based on type
+ */
+function buildContentUrl(
+  sanityType: string,
+  slug: string,
+  moduleType?: string,
+): string {
+  const baseUrl = 'https://www.totaltypescript.com'
+
+  if (sanityType === 'module') {
+    if (moduleType === 'tutorial') {
+      return `${baseUrl}/tutorials/${slug}`
+    }
+    return `${baseUrl}/workshops/${slug}`
+  }
+
+  switch (sanityType) {
+    case 'article':
+      return `${baseUrl}/articles/${slug}`
+    case 'tip':
+      return `${baseUrl}/tips/${slug}`
+    case 'exercise':
+    case 'explainer':
+      // Exercises are part of modules, but standalone URL works
+      return `${baseUrl}/workshops`
+    default:
+      return `${baseUrl}/${slug}`
+  }
+}
+
+/**
+ * Static quick links for Total TypeScript
+ */
+function getQuickLinks(): ContentSearchResult[] {
+  return [
+    {
+      id: 'quick-discord',
+      type: 'social',
+      title: 'Total TypeScript Discord',
+      url: 'https://totaltypescript.com/discord',
+    },
+    {
+      id: 'quick-twitter',
+      type: 'social',
+      title: 'Matt Pocock on Twitter',
+      url: 'https://x.com/mattpocockuk',
+    },
+    {
+      id: 'quick-support',
+      type: 'resource',
+      title: 'Contact Support',
+      url: 'mailto:team@totaltypescript.com',
+    },
+  ]
 }
