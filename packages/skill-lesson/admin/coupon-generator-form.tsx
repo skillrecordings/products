@@ -34,6 +34,7 @@ const formSchema = z.object({
   expires: z.date().optional(),
   restrictedToProductId: z.string().optional(),
   percentOff: z.string(),
+  setAsDefault: z.boolean(),
 })
 
 const CouponGeneratorForm = ({
@@ -51,6 +52,7 @@ const CouponGeneratorForm = ({
       restrictedToProductId: undefined,
       percentOff: '20',
       expires: undefined,
+      setAsDefault: false,
     },
   })
   const [codes, setCodes] = React.useState<string[]>([])
@@ -83,7 +85,7 @@ const CouponGeneratorForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <fieldset className="grid-cols-4 gap-5 md:grid space-y-5 md:space-y-0">
+        <fieldset className="grid-cols-5 gap-5 md:grid space-y-5 md:space-y-0">
           <FormField
             name="percentOff"
             render={({field}) => (
@@ -320,6 +322,28 @@ const CouponGeneratorForm = ({
                     />
                   )}
                 </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="setAsDefault"
+            render={({field}) => (
+              <FormItem className="flex flex-col gap-0.5">
+                <FormLabel
+                  htmlFor="setAsDefault"
+                  className="mt-1.5 flex items-center gap-1.5"
+                >
+                  <Checkbox
+                    id="setAsDefault"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                  Auto apply
+                </FormLabel>
+                <FormDescription>
+                  When enabled, this coupon gets applied automatically (sets
+                  default flag)
+                </FormDescription>
               </FormItem>
             )}
           />
