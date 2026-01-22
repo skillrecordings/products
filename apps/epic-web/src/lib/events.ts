@@ -64,6 +64,19 @@ export const EventSchema = z.object({
       productId: z.string(),
     })
     .nullable(),
+  products: z
+    .array(
+      z.object({
+        _id: z.string(),
+        slug: z.string(),
+        title: z.string(),
+        productId: z.string(),
+        type: z.enum(['live', 'self-paced']).optional(),
+        isBundle: z.boolean().optional(),
+      }),
+    )
+    .nullable()
+    .optional(),
 })
 
 export const EventsSchema = z.array(EventSchema)
@@ -110,6 +123,14 @@ export const getAllEvents = async (onlyPublished = true): Promise<Event[]> => {
           productId,
           "slug": slug.current,
           title
+        },
+        "products": *[_type == "product" && references(^._id)]{
+          _id,
+          productId,
+          "slug": slug.current,
+          title,
+          type,
+          "isBundle": count(modules[@->._type == "event"]) > 1
         }
   }`)
 
@@ -158,13 +179,20 @@ export const getEvent = async (slug: string): Promise<Event | null> => {
         body,
         image,
         ogImage,
-        "product": *[_type in ['product'] && references(^._id)][0]{
+        "product": *[_type == "product" && ^._id in modules[]->_id][0]{
           _id,
           productId,
           "slug": slug.current,
           title
         },
-        
+        "products": *[_type == "product" && references(^._id)]{
+          _id,
+          productId,
+          "slug": slug.current,
+          title,
+          type,
+          "isBundle": count(modules[@->._type == "event"]) > 1
+        }
     }`,
     {slug: `${slug}`},
   )

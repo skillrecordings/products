@@ -35,6 +35,14 @@ const EventTemplate: React.FC<
     quantityAvailable: number
     purchaseCount: number
     totalQuantity: number
+    bundleProduct?: SanityProduct
+    allProducts?: Array<{
+      product: SanityProduct
+      quantityAvailable: number
+      totalQuantity: number
+      purchaseCount: number
+      isBundle: boolean
+    }>
   } & CommerceProps
 > = (props) => {
   const {
@@ -44,6 +52,8 @@ const EventTemplate: React.FC<
     quantityAvailable,
     purchaseCount,
     totalQuantity,
+    bundleProduct,
+    allProducts = [],
     ...commerceProps
   } = props
 
@@ -60,7 +70,17 @@ const EventTemplate: React.FC<
     ogImage: _ogImage,
     host,
   } = event
-  const product = products && products[0]
+
+  const individualProductData = allProducts.find((p) => !p.isBundle)
+  const bundleProductData = allProducts.find((p) => p.isBundle)
+  const product =
+    individualProductData?.product ||
+    bundleProductData?.product ||
+    (products && products[0])
+  const productQuantityAvailable =
+    individualProductData?.quantityAvailable ??
+    bundleProductData?.quantityAvailable ??
+    quantityAvailable
   const image = event?.image?.secure_url
   const ogImage = _ogImage?.secure_url
     ? {url: _ogImage.secure_url, alt: title}
@@ -168,6 +188,10 @@ const EventTemplate: React.FC<
         </div>
         <aside className="relative mx-auto w-full max-w-xs">
           <div className="flex w-full flex-col items-center rounded-xl bg-white pb-5 shadow-soft-xl dark:bg-foreground/5">
+            {/* Only show bundle CTA on individual event pages, not on the bundle's own page */}
+            {bundleProduct?.slug && !bundleProductData && (
+              <BundleCTA bundleProduct={bundleProduct} />
+            )}
             {image && (
               <div className="relative flex h-full w-full items-center justify-center px-3">
                 <Image
@@ -193,15 +217,19 @@ const EventTemplate: React.FC<
                 </Button>
               </div>
             )}
-            {product && product.state !== 'unavailable' && isUpcoming && (
-              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-                <EventPricingWidget
-                  commerceProps={{...commerceProps, products}}
-                  product={product as SanityProduct}
-                  quantityAvailable={quantityAvailable}
-                />
-              </PriceCheckProvider>
-            )}
+            {product &&
+              product.state !== 'unavailable' &&
+              (isUpcoming ||
+                router.query.allowPurchase === 'true' ||
+                bundleProductData) && (
+                <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+                  <EventPricingWidget
+                    commerceProps={{...commerceProps, products}}
+                    product={product as SanityProduct}
+                    quantityAvailable={productQuantityAvailable}
+                  />
+                </PriceCheckProvider>
+              )}
             <EventDetails event={event} />
           </div>
         </aside>
@@ -352,6 +380,49 @@ export const EventDetails: React.FC<{
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+const BundleCTA: React.FC<{bundleProduct: SanityProduct}> = ({
+  bundleProduct,
+}) => {
+  if (!bundleProduct || !bundleProduct.slug) {
+    return null
+  }
+
+  return (
+    <div className="relative z-10 -mx-5 mb-1.5 w-[calc(100%+2.5rem)] rounded-lg border-2 border-amber-400 bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-100 p-4 shadow-lg dark:border-amber-500 dark:from-amber-100 dark:via-yellow-100 dark:to-amber-200">
+      <div className="flex items-start gap-3">
+        <div className="flex-shrink-0">
+          <svg
+            className="h-5 w-5 text-amber-600 dark:text-amber-700"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </div>
+        <div className="flex-1">
+          <p className="text-base font-semibold text-gray-900 dark:text-black">
+            This event is part of a bundle
+          </p>
+          <p className="mt-1 text-base text-gray-700 dark:text-black">
+            <Link
+              href={`/events/${bundleProduct.slug}`}
+              className="font-semibold text-amber-700 underline hover:text-amber-800 dark:text-amber-800 dark:hover:text-amber-900"
+            >
+              Check out the bundle and save
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   )
 }
