@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const individualProduct = event.products?.find((p) => !p.isBundle)
-  const bundleProduct = event.products?.find((p) => p.isBundle)
+  const bundleProductFromEvent = event.products?.find((p) => p.isBundle)
 
   const fallbackProduct = event.product
 
@@ -104,7 +104,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   )
 
   // If we only have a bundle product, use it; otherwise prefer individual
-  const selectedProduct = individualProduct || bundleProduct || fallbackProduct
+  const selectedProduct =
+    individualProduct || bundleProductFromEvent || fallbackProduct
   const product =
     selectedProduct && (await getProductBySlug(selectedProduct?.slug as string))
   const mdx = event.body && (await serializeMDX(event.body))
@@ -139,6 +140,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       .filter((p): p is SanityProduct => Boolean(p)),
   })
 
+  const bundleProductData = allProducts.find((p) => p.isBundle)
+
+  const bundleProduct = bundleProductData?.product
+    ? (bundleProductData.product as SanityProduct)
+    : undefined
+
   const baseProps = {
     ...commerceProps.props,
     event,
@@ -148,9 +155,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     totalQuantity: selectedProductData.totalQuantity,
     product,
     purchaseCount: selectedProductData.purchaseCount,
-    bundleProduct: bundleProduct || null,
+    bundleProduct,
     allProducts: allProducts.map((p) => ({
-      product: p?.product,
+      product: p?.product as SanityProduct,
       quantityAvailable: p?.quantityAvailable || -1,
       totalQuantity: p?.totalQuantity || -1,
       purchaseCount: p?.purchaseCount || 0,
@@ -203,9 +210,9 @@ export type EventPageProps = {
   existingPurchase: {id: string; product: {id: string; name: string}}
   purchases: Purchase[]
   userId: string
-  bundleProduct?: Product
+  bundleProduct?: SanityProduct
   allProducts: Array<{
-    product: Product
+    product: SanityProduct
     quantityAvailable: number
     totalQuantity: number
     purchaseCount: number
