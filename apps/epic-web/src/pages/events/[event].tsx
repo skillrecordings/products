@@ -37,11 +37,83 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
+  const individualProduct = event.products?.find((p) => !p.isBundle)
+  const bundleProduct = event.products?.find((p) => p.isBundle)
+
+  const fallbackProduct = event.product
+
+  // If there's only a bundle product (no individual), include it
+  // Otherwise, only load individual products
+  const productsToLoad = event.products
+    ? event.products.filter((p) => {
+        // Include bundle only if there's no individual product
+        if (p.isBundle && !individualProduct) {
+          return true
+        }
+        // Otherwise, only include individual products
+        return !p.isBundle
+      })
+    : event.product
+    ? [event.product]
+    : []
+
+  const allProductsRaw = await Promise.all(
+    productsToLoad.map(async (p) => {
+      const product = await getProductBySlug(p.slug)
+      if (!product) return null
+
+      const purchaseCount = await prisma.purchase.count({
+        where: {
+          productId: product.productId,
+          status: {
+            in: ['VALID', 'RESTRICTED'],
+          },
+        },
+      })
+
+      const productWithQuantityAvailable = await prisma.product.findUnique({
+        where: {
+          id: product.productId,
+        },
+        select: {
+          quantityAvailable: true,
+        },
+      })
+
+      let quantityAvailable = -1
+      if (productWithQuantityAvailable) {
+        quantityAvailable =
+          productWithQuantityAvailable.quantityAvailable - purchaseCount
+      }
+      if (quantityAvailable < 0) {
+        quantityAvailable = -1
+      }
+
+      return {
+        product,
+        quantityAvailable,
+        totalQuantity: productWithQuantityAvailable?.quantityAvailable || -1,
+        purchaseCount,
+        isBundle: ('isBundle' in p && p.isBundle) || false,
+      }
+    }),
+  )
+
+  const allProducts = allProductsRaw.filter(
+    (p): p is NonNullable<typeof p> => p !== null,
+  )
+
+  // If we only have a bundle product, use it; otherwise prefer individual
+  const selectedProduct = individualProduct || bundleProduct || fallbackProduct
   const product =
-    event.product && (await getProductBySlug(event.product?.slug as string))
+    selectedProduct && (await getProductBySlug(selectedProduct?.slug as string))
   const mdx = event.body && (await serializeMDX(event.body))
 
-  if (!product) {
+  const selectedProductData = allProducts.find(
+    (p) => p?.product.productId === product?.productId,
+  )
+
+  if (!product || !selectedProductData) {
     return {
       props: {
         event,
@@ -49,55 +121,39 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         availableBonuses,
         quantityAvailable: -1,
         totalQuantity: -1,
-        product,
+        product: null,
         purchaseCount: 0,
+        allProducts: [],
       },
     }
   }
 
+  const allProductIds = allProducts
+    .map((p) => p?.product.productId)
+    .filter(Boolean)
   const commerceProps = await propsForCommerce({
     query,
     token,
-    products: [product],
+    products: allProducts.map((p) => p?.product).filter(Boolean) as any[],
   })
-
-  const purchaseCount = await prisma.purchase.count({
-    where: {
-      productId: product.productId,
-      status: {
-        in: ['VALID', 'RESTRICTED'],
-      },
-    },
-  })
-
-  const productWithQuantityAvailable = await prisma.product.findUnique({
-    where: {
-      id: product.productId,
-    },
-    select: {
-      quantityAvailable: true,
-    },
-  })
-
-  let quantityAvailable = -1
-
-  if(productWithQuantityAvailable) {
-    quantityAvailable = productWithQuantityAvailable.quantityAvailable - purchaseCount
-  }
-
-  if(quantityAvailable < 0) {
-    quantityAvailable = -1
-  }
 
   const baseProps = {
     ...commerceProps.props,
     event,
     mdx,
     availableBonuses,
-    quantityAvailable,
-    totalQuantity: productWithQuantityAvailable?.quantityAvailable,
+    quantityAvailable: selectedProductData.quantityAvailable,
+    totalQuantity: selectedProductData.totalQuantity,
     product,
-    purchaseCount,
+    purchaseCount: selectedProductData.purchaseCount,
+    bundleProduct: bundleProduct || null,
+    allProducts: allProducts.map((p) => ({
+      product: p?.product,
+      quantityAvailable: p?.quantityAvailable || -1,
+      totalQuantity: p?.totalQuantity || -1,
+      purchaseCount: p?.purchaseCount || 0,
+      isBundle: p?.isBundle || false,
+    })),
   }
 
   if (!token?.sub) {
@@ -108,7 +164,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const purchaseForProduct = commerceProps.props.purchases?.find(
     (purchase: Purchase) => {
-      return purchase.productId === product.productId
+      return allProducts.some(
+        (p) => p?.product.productId === purchase.productId,
+      )
     },
   )
 
@@ -137,21 +195,34 @@ export type EventPageProps = {
   quantityAvailable: number
   totalQuantity: number
   purchaseCount: number
-  product: Product
+  product: Product | null
   mdx: MDXRemoteSerializeResult
   hasPurchasedCurrentProduct: boolean
   existingPurchase: {id: string; product: {id: string; name: string}}
   purchases: Purchase[]
   userId: string
+  bundleProduct?: Product | null
+  allProducts: Array<{
+    product: Product
+    quantityAvailable: number
+    totalQuantity: number
+    purchaseCount: number
+    isBundle: boolean
+  }>
 } & CommerceProps
 
 const EventPage = (props: EventPageProps) => {
-  const {hasPurchasedCurrentProduct} = props
+  const {hasPurchasedCurrentProduct, allProducts} = props
+
+  // Get all purchased product IDs (individual + bundle)
+  const purchasedProductIds = allProducts
+    .map((p) => p.product?.productId)
+    .filter(Boolean)
 
   return (
     <>
       {hasPurchasedCurrentProduct ? (
-        <PriceCheckProvider purchasedProductIds={[props.product?.productId]}>
+        <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
           <PurchasedEventTemplate {...props} />
         </PriceCheckProvider>
       ) : (
