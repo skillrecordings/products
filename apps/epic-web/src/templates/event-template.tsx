@@ -35,9 +35,9 @@ const EventTemplate: React.FC<
     quantityAvailable: number
     purchaseCount: number
     totalQuantity: number
-    bundleProduct?: any
+    bundleProduct?: SanityProduct
     allProducts?: Array<{
-      product: any
+      product: SanityProduct
       quantityAvailable: number
       totalQuantity: number
       purchaseCount: number
@@ -384,7 +384,9 @@ export const EventDetails: React.FC<{
   )
 }
 
-const BundleCTA: React.FC<{bundleProduct: any}> = ({bundleProduct}) => {
+const BundleCTA: React.FC<{bundleProduct: SanityProduct}> = ({
+  bundleProduct,
+}) => {
   if (!bundleProduct || !bundleProduct.slug) {
     return null
   }

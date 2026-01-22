@@ -4,6 +4,13 @@ import {prisma} from '@skillrecordings/database'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 
+type SanityModule = {
+  _id: string
+  _type: string
+  slug: string
+  title: string
+}
+
 export const liveEventBundle = inngest.createFunction(
   {
     id: 'live-event-bundle',
@@ -72,7 +79,7 @@ export const liveEventBundle = inngest.createFunction(
 
     // Filter modules to only events
     const eventModules = (product.modules || []).filter(
-      (module: any) => module._type === 'event',
+      (module: SanityModule) => module._type === 'event',
     )
 
     // Check if this is a bundle (has more than 1 event)
