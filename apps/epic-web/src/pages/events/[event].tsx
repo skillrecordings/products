@@ -134,7 +134,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const commerceProps = await propsForCommerce({
     query,
     token,
-    products: allProducts.map((p) => p?.product).filter(Boolean) as any[],
+    products: allProducts
+      .map((p) => p?.product)
+      .filter((p): p is SanityProduct => Boolean(p)),
   })
 
   const baseProps = {
