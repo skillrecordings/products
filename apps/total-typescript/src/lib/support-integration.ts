@@ -14,6 +14,7 @@ import type {
   ContentSearchRequest,
   ContentSearchResponse,
   ContentSearchResult,
+  ProductStatus,
 } from '@skillrecordings/sdk/integration'
 import {prisma} from '@skillrecordings/database'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
@@ -314,6 +315,64 @@ export const integration: SupportIntegration = {
         email: p.user!.email,
         claimedAt: new Date(p.createdAt),
       }))
+  },
+
+  /**
+   * Get product availability status
+   *
+   * Returns seat availability, sold out status, and enrollment windows
+   * for live workshops and cohort-based products.
+   */
+  async getProductStatus(productId: string): Promise<ProductStatus | null> {
+    // Try to find product by ID or slug (key field)
+    const product = await prisma.product.findFirst({
+      where: {
+        OR: [{id: productId}, {key: productId}],
+      },
+    })
+
+    if (!product) return null
+
+    // Count active purchases for this product
+    const activePurchaseCount = await prisma.purchase.count({
+      where: {
+        productId: product.id,
+        status: {in: ['Valid', 'Restricted', 'Pending']},
+      },
+    })
+
+    const quantityAvailable = product.quantityAvailable
+    const isUnlimited = quantityAvailable === -1
+    const quantityRemaining = isUnlimited
+      ? -1
+      : Math.max(0, quantityAvailable - activePurchaseCount)
+    const soldOut = !isUnlimited && quantityRemaining <= 0
+
+    // Map product status (Int) to ProductState
+    // TT uses: 0=draft, 1=active, 2=unavailable (assumed pattern)
+    const stateMap: Record<number, ProductStatus['state']> = {
+      0: 'draft',
+      1: 'active',
+      2: 'unavailable',
+      3: 'archived',
+    }
+    const state = stateMap[product.status] ?? 'active'
+
+    // Map productType to SDK type
+    const productType = (product.productType ??
+      'self-paced') as ProductStatus['productType']
+
+    return {
+      productId: product.id,
+      productType,
+      available: state === 'active' && !soldOut,
+      soldOut,
+      quantityAvailable,
+      quantityRemaining,
+      state,
+      // TT doesn't have event dates in the Product model
+      // Would need to be added if live workshops need scheduling
+    }
   },
 
   /**
