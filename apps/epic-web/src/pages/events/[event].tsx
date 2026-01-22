@@ -140,13 +140,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       .filter((p): p is SanityProduct => Boolean(p)),
   })
 
-  const bundleProductData = allProducts.find((p) => p.isBundle)
+  const bundleProductRaw = bundleProductFromEvent
+    ? await getProductBySlug(bundleProductFromEvent.slug)
+    : null
 
-  const bundleProduct = bundleProductData?.product
-    ? (bundleProductData.product as SanityProduct)
-    : undefined
-
-  const baseProps = {
+  const baseProps: Omit<
+    EventPageProps,
+    'hasPurchasedCurrentProduct' | 'existingPurchase'
+  > = {
     ...commerceProps.props,
     event,
     mdx,
@@ -155,13 +156,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     totalQuantity: selectedProductData.totalQuantity,
     product,
     purchaseCount: selectedProductData.purchaseCount,
-    bundleProduct,
+    ...(bundleProductRaw && {
+      bundleProduct: bundleProductRaw as SanityProduct,
+    }),
     allProducts: allProducts.map((p) => ({
-      product: p?.product as SanityProduct,
-      quantityAvailable: p?.quantityAvailable || -1,
-      totalQuantity: p?.totalQuantity || -1,
-      purchaseCount: p?.purchaseCount || 0,
-      isBundle: p?.isBundle || false,
+      product: p.product,
+      quantityAvailable: p.quantityAvailable,
+      totalQuantity: p.totalQuantity,
+      purchaseCount: p.purchaseCount,
+      isBundle: p.isBundle,
     })),
   }
 
