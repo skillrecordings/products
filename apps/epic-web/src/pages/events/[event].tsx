@@ -195,13 +195,13 @@ export type EventPageProps = {
   quantityAvailable: number
   totalQuantity: number
   purchaseCount: number
-  product: Product | null
+  product: Product
   mdx: MDXRemoteSerializeResult
   hasPurchasedCurrentProduct: boolean
   existingPurchase: {id: string; product: {id: string; name: string}}
   purchases: Purchase[]
   userId: string
-  bundleProduct?: Product | null
+  bundleProduct?: Product
   allProducts: Array<{
     product: Product
     quantityAvailable: number
