@@ -1,7 +1,12 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import * as mysql from 'mysql2/promise'
 import groq from 'groq'
 import {z} from 'zod'
+
+const access: mysql.ConnectionOptions = {
+  uri: process.env.COURSE_BUILDER_DATABASE_URL,
+}
 
 // Mux API response schemas
 const MuxPlaybackIdResponseSchema = z.object({
@@ -66,6 +71,10 @@ const MUX_AUTH = Buffer.from(
   `${process.env.MUX_TOKEN_ID}:${process.env.MUX_TOKEN_SECRET}`,
 ).toString('base64')
 
+const COURSE_BUILDER_MUX_TOKEN_SECRET = Buffer.from(
+  `${process.env.COURSE_BUILDER_MUX_TOKEN_ID}:${process.env.COURSE_BUILDER_MUX_TOKEN_SECRET}`,
+).toString('base64')
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -81,25 +90,81 @@ export default async function handler(
   }
 
   try {
-    // 1. Validate playbackId exists in Sanity
-    const videoResource = await sanityClient.fetch(
-      groq`*[_type == "videoResource" && muxAsset.muxPlaybackId == $playbackId][0]{
-        _id,
-        "muxPlaybackId": muxAsset.muxPlaybackId
-      }`,
-      {
-        playbackId,
-      },
-    )
+    // 1. Validate playbackId exists in database or Sanity
+    let videoResourceFound = false
+    let sanityVideoResourceFound = false
+    // Check database first if URL is configured
+    if (process.env.COURSE_BUILDER_DATABASE_URL) {
+      let connection: any = null
+      try {
+        connection = await mysql.createConnection(access)
 
-    if (!videoResource) {
+        // DEBUG: Print all video resources
+        const [allVideos] = await connection.execute(
+          'SELECT id, JSON_EXTRACT(fields, "$.muxPlaybackId") as muxPlaybackId FROM zEW_ContentResource WHERE type = ? AND deletedAt IS NULL LIMIT 10',
+          ['videoResource'],
+        )
+        console.log('[video API] All video resources:', allVideos)
+
+        const [rows] = await connection.execute(
+          'SELECT id FROM zEW_ContentResource WHERE type = ? AND deletedAt IS NULL AND JSON_EXTRACT(fields, "$.muxPlaybackId") = ?',
+          ['videoResource', playbackId],
+        )
+        console.log(
+          '[video API] Matching rows for playbackId',
+          playbackId,
+          ':',
+          rows,
+        )
+
+        if (Array.isArray(rows) && rows.length > 0) {
+          videoResourceFound = true
+          sanityVideoResourceFound = false
+        }
+
+        await connection.end()
+        connection = null
+      } catch (error) {
+        console.error('[video API] Error checking database:', error)
+        // Fall through to Sanity
+      } finally {
+        if (connection) await connection.end()
+      }
+    }
+
+    // Fall back to Sanity if not found in database
+    if (!videoResourceFound) {
+      const sanityResource = await sanityClient.fetch(
+        groq`*[_type == "videoResource" && muxAsset.muxPlaybackId == $playbackId][0]{
+         _id,
+         "muxPlaybackId": muxAsset.muxPlaybackId
+       }`,
+        {
+          playbackId,
+        },
+      )
+      if (sanityResource) {
+        videoResourceFound = true
+        sanityVideoResourceFound = true
+      }
+    }
+
+    if (!videoResourceFound) {
       return res.status(404).json({error: 'Video not found'})
     }
 
     // 2. Fetch from Mux: playback-ids endpoint
     const playbackRes = await fetch(
       `https://api.mux.com/video/v1/playback-ids/${playbackId}`,
-      {headers: {Authorization: `Basic ${MUX_AUTH}`}},
+      {
+        headers: {
+          Authorization: `Basic ${
+            sanityVideoResourceFound
+              ? MUX_AUTH
+              : COURSE_BUILDER_MUX_TOKEN_SECRET
+          }`,
+        },
+      },
     )
 
     if (!playbackRes.ok) {
@@ -115,7 +180,15 @@ export default async function handler(
     const assetId = playbackData.data.object.id
     const assetRes = await fetch(
       `https://api.mux.com/video/v1/assets/${assetId}`,
-      {headers: {Authorization: `Basic ${MUX_AUTH}`}},
+      {
+        headers: {
+          Authorization: `Basic ${
+            sanityVideoResourceFound
+              ? MUX_AUTH
+              : COURSE_BUILDER_MUX_TOKEN_SECRET
+          }`,
+        },
+      },
     )
 
     if (!assetRes.ok) {
