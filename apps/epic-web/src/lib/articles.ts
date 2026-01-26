@@ -176,9 +176,67 @@ export const getAllArticles = async (): Promise<Article[]> => {
 
   const articleDocuments = ArticlesSchema.parse(data)
 
-  // Transform articlePosts to match ArticleSchema format
+  // Transform articlePosts to match ArticleSchema format and fetch videos
   const transformedArticlePosts = await Promise.all(
-    articlePosts.map((post) => transformArticlePost(post)),
+    articlePosts.map(async (post) => {
+      const article = await transformArticlePost(post)
+
+      // Fetch related videos from the database
+      if (post.id) {
+        try {
+          const [videoRows] = await connection.execute(
+            `
+            SELECT
+              resource.id,
+              resource.fields
+            FROM
+              zEW_ContentResourceResource crr
+            JOIN
+              zEW_ContentResource resource ON crr.resourceId = resource.id
+            WHERE
+              crr.resourceOfId = ?
+              AND resource.type = 'videoResource'
+              AND crr.deletedAt IS NULL
+              AND resource.deletedAt IS NULL
+            LIMIT 1
+            `,
+            [post.id],
+          )
+
+          if (Array.isArray(videoRows) && videoRows.length > 0) {
+            const videoRow = videoRows[0] as any
+            const videoFields =
+              typeof videoRow.fields === 'string'
+                ? JSON.parse(videoRow.fields)
+                : videoRow.fields || {}
+
+            // Format video resource to match expected structure
+            article.resources = [
+              {
+                _id: videoRow.id,
+                type: 'videoResource',
+                fields: {
+                  muxPlaybackId: videoFields.muxPlaybackId || null,
+                  transcript:
+                    videoFields.transcript?.text ||
+                    videoFields.castingwords?.transcript ||
+                    null,
+                  poster: videoFields.poster || null,
+                  duration: videoFields.duration || null,
+                },
+              },
+            ]
+          }
+        } catch (error) {
+          console.error(
+            '[getAllArticles] Error fetching video for article:',
+            error,
+          )
+        }
+      }
+
+      return article
+    }),
   )
 
   // Merge and sort by createdAt
@@ -204,8 +262,61 @@ export const getArticle = async (slug: string): Promise<Article | null> => {
   const articlePost = ArticlePostsSchema.parse(rows)[0]
 
   if (articlePost) {
+    const article = await transformArticlePost(articlePost)
+
+    // Fetch related videos from the database
+    if (articlePost.id) {
+      try {
+        const [videoRows] = await connection.execute(
+          `
+          SELECT
+            resource.id,
+            resource.fields
+          FROM
+            zEW_ContentResourceResource crr
+          JOIN
+            zEW_ContentResource resource ON crr.resourceId = resource.id
+          WHERE
+            crr.resourceOfId = ?
+            AND resource.type = 'videoResource'
+            AND crr.deletedAt IS NULL
+            AND resource.deletedAt IS NULL
+          LIMIT 1
+          `,
+          [articlePost.id],
+        )
+
+        if (Array.isArray(videoRows) && videoRows.length > 0) {
+          const videoRow = videoRows[0] as any
+          const videoFields =
+            typeof videoRow.fields === 'string'
+              ? JSON.parse(videoRow.fields)
+              : videoRow.fields || {}
+
+          // Format video resource to match expected structure
+          article.resources = [
+            {
+              _id: videoRow.id,
+              type: 'videoResource',
+              fields: {
+                muxPlaybackId: videoFields.muxPlaybackId || null,
+                transcript:
+                  videoFields.transcript?.text ||
+                  videoFields.castingwords?.transcript ||
+                  null,
+                poster: videoFields.poster || null,
+                duration: videoFields.duration || null,
+              },
+            },
+          ]
+        }
+      } catch (error) {
+        console.error('[getArticle] Error fetching video for article:', error)
+      }
+    }
+
     await connection.end()
-    return await transformArticlePost(articlePost)
+    return article
   }
 
   await connection.end()
