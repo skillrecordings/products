@@ -17,6 +17,7 @@ import ResourceContributor from 'components/resource-contributor'
 import Head from 'next/head'
 import {getOgImage} from 'utils/get-og-image'
 import {ResourceCTA} from 'components/cta/resource-cta'
+import MuxPlayer from '@mux/mux-player-react'
 
 const ArticleTemplate: React.FC<{
   article: Article
@@ -47,6 +48,10 @@ const ArticleTemplate: React.FC<{
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
   const {subscriber, loadingSubscriber} = useConvertkit()
 
+  const video = article?.resources?.find(
+    (resource) => resource.type === 'videoResource',
+  )
+
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
       <Head>
@@ -62,7 +67,11 @@ const ArticleTemplate: React.FC<{
         type="Article"
         url={url}
       />
-      <Header article={article} estimatedReadingTime={estimatedReadingTime} />
+      <Header
+        article={article}
+        estimatedReadingTime={estimatedReadingTime}
+        video={video}
+      />
       {/* <TableOfContents article={article} /> */}
       <main className="invert-svg prose mx-auto w-full max-w-3xl px-5 py-8 dark:prose-invert md:prose-xl prose-code:break-words prose-pre:bg-gray-900 prose-pre:leading-relaxed md:py-16 md:prose-code:break-normal">
         <MDX contents={articleBodySerialized} />
@@ -93,9 +102,14 @@ export default ArticleTemplate
 type HeaderProps = {
   article: Article
   estimatedReadingTime: number
+  video?: any
 }
 
-const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
+const Header: React.FC<HeaderProps> = ({
+  article,
+  estimatedReadingTime,
+  video,
+}) => {
   const router = useRouter()
   const {title, author, _updatedAt, image} = article
   return (
@@ -147,6 +161,14 @@ const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
             </div>
           </div>
         </div>
+        {video && video.fields?.muxPlaybackId && (
+          <div className="mx-auto mt-12 flex w-full max-w-4xl items-center justify-center overflow-hidden px-5 sm:mt-16">
+            <MuxPlayer
+              playbackId={video.fields.muxPlaybackId}
+              className="max-h-[80dvh] w-full"
+            />
+          </div>
+        )}
       </header>
     </div>
   )
