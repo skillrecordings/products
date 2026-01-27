@@ -484,7 +484,7 @@ export const integration: SupportIntegration = {
     const now = new Date()
     const coupons = await prisma.coupon.findMany({
       where: {
-        status: 1,
+        status: {in: [0, 1]},
         OR: [{expires: null}, {expires: {gt: now}}],
         merchantCouponId: {not: null},
       },
@@ -500,8 +500,8 @@ export const integration: SupportIntegration = {
       name: c.product
         ? `${c.product.name} discount`
         : c.code
-          ? `Coupon: ${c.code}`
-          : 'Site-wide discount',
+        ? `Coupon: ${c.code}`
+        : 'Site-wide discount',
       code: c.code ?? undefined,
       discountType: 'percent' as const,
       discountAmount: Number(c.percentageDiscount) * 100,
@@ -608,17 +608,13 @@ export const integration: SupportIntegration = {
     })
 
     // Build product access list
-    const products = purchases.map((p) => {
-      const isRefunded = p.status === 'Refunded'
-      return {
-        productId: p.productId,
-        productName: p.product?.name ?? 'Unknown Product',
-        accessLevel: isRefunded
-          ? ('expired' as const)
-          : ('full' as const),
-        // TT doesn't have module-level gating — full access or nothing
-      }
-    })
+    // Query already filters to Valid/Restricted status, so all results have full access
+    const products = purchases.map((p) => ({
+      productId: p.productId,
+      productName: p.product?.name ?? 'Unknown Product',
+      accessLevel: 'full' as const,
+      // TT doesn't have module-level gating — full access or nothing
+    }))
 
     // Check for team membership via redeemed bulk coupon
     let teamMembership: ContentAccess['teamMembership']
@@ -632,7 +628,9 @@ export const integration: SupportIntegration = {
       if (bulkPurchase) {
         teamMembership = {
           teamId: teamPurchase.redeemedBulkCouponId!,
-          teamName: `Team license (${bulkPurchase.user?.email ?? 'unknown admin'})`,
+          teamName: `Team license (${
+            bulkPurchase.user?.email ?? 'unknown admin'
+          })`,
           role: 'member',
           seatClaimedAt: teamPurchase.createdAt.toISOString(),
         }
@@ -654,8 +652,8 @@ export const integration: SupportIntegration = {
    * and access debugging.
    */
   async getRecentActivity(userId: string): Promise<UserActivity> {
-    // Get total lesson completions
-    const allProgress = await prisma.lessonProgress.findMany({
+    // Get total lesson completions (count only, don't load all records)
+    const lessonsCompleted = await prisma.lessonProgress.count({
       where: {
         userId,
         completedAt: {not: null},
@@ -669,8 +667,6 @@ export const integration: SupportIntegration = {
       take: 30,
     })
 
-    const lessonsCompleted = allProgress.length
-
     // Build recent items from lesson progress
     const recentItems: UserActivity['recentItems'] = recentProgress
       .filter((lp) => lp.completedAt || lp.updatedAt)
@@ -680,7 +676,11 @@ export const integration: SupportIntegration = {
           ? ('lesson_completed' as const)
           : ('exercise_submitted' as const),
         title: lp.lessonSlug ?? lp.lessonId ?? 'Unknown lesson',
-        timestamp: (lp.completedAt ?? lp.updatedAt ?? lp.createdAt).toISOString(),
+        timestamp: (
+          lp.completedAt ??
+          lp.updatedAt ??
+          lp.createdAt
+        ).toISOString(),
       }))
 
     // Determine last active timestamp
@@ -697,9 +697,7 @@ export const integration: SupportIntegration = {
     // The agent will understand this is a relative metric
     const totalLessons = Math.max(lessonsCompleted, 1)
     const completionPercent =
-      totalLessons > 0
-        ? Math.round((lessonsCompleted / totalLessons) * 100)
-        : 0
+      totalLessons > 0 ? Math.round((lessonsCompleted / totalLessons) * 100) : 0
 
     return {
       userId,

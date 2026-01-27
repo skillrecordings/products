@@ -29,6 +29,7 @@ jest.mock('@skillrecordings/database', () => ({
     },
     lessonProgress: {
       findMany: jest.fn(),
+      count: jest.fn(),
     },
     product: {
       findFirst: jest.fn(),
@@ -510,6 +511,33 @@ describe('SupportIntegration', () => {
 
       expect(result!.restrictionType).toBe('ppp')
     })
+
+    it('marks maxed-out coupon as invalid', async () => {
+      const mockCoupon = {
+        id: 'coupon-maxed',
+        code: 'MAXED_OUT',
+        status: 0,
+        expires: null,
+        maxUses: 50,
+        usedCount: 50,
+        percentageDiscount: 0.25,
+        merchantCouponId: 'mc-maxed',
+        merchantCoupon: {
+          id: 'mc-maxed',
+          type: 'general',
+          percentageDiscount: 0.25,
+        },
+      }
+
+      mockPrisma.coupon.findUnique.mockResolvedValue(mockCoupon as any)
+
+      const result = await integration.getCouponInfo!('MAXED_OUT')
+
+      expect(result).not.toBeNull()
+      expect(result!.valid).toBe(false)
+      expect(result!.usageCount).toBe(50)
+      expect(result!.maxUses).toBe(50)
+    })
   })
 
   describe('getRefundPolicy', () => {
@@ -596,11 +624,6 @@ describe('SupportIntegration', () => {
   describe('getRecentActivity', () => {
     it('returns activity with lesson progress', async () => {
       const now = new Date()
-      const mockAllProgress = [
-        {id: '1', completedAt: now, userId: 'user-1'},
-        {id: '2', completedAt: now, userId: 'user-1'},
-        {id: '3', completedAt: now, userId: 'user-1'},
-      ]
 
       const mockRecentProgress = [
         {
@@ -621,12 +644,10 @@ describe('SupportIntegration', () => {
         },
       ]
 
-      // First call: all completed progress
-      mockPrisma.lessonProgress.findMany.mockResolvedValueOnce(
-        mockAllProgress as any,
-      )
-      // Second call: recent progress
-      mockPrisma.lessonProgress.findMany.mockResolvedValueOnce(
+      // count() call for total completed lessons
+      ;(mockPrisma.lessonProgress.count as jest.Mock).mockResolvedValue(3)
+      // findMany call for recent progress
+      mockPrisma.lessonProgress.findMany.mockResolvedValue(
         mockRecentProgress as any,
       )
 
@@ -638,9 +659,13 @@ describe('SupportIntegration', () => {
       expect(result.recentItems).toHaveLength(2)
       expect(result.recentItems[0].type).toBe('lesson_completed')
       expect(result.recentItems[0].title).toBe('typescript-generics')
+      expect(mockPrisma.lessonProgress.count).toHaveBeenCalledWith({
+        where: {userId: 'user-1', completedAt: {not: null}},
+      })
     })
 
     it('returns empty activity for user with no progress', async () => {
+      ;(mockPrisma.lessonProgress.count as jest.Mock).mockResolvedValue(0)
       mockPrisma.lessonProgress.findMany.mockResolvedValue([])
 
       const result = await integration.getRecentActivity!('user-no-progress')
