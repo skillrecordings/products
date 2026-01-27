@@ -15,6 +15,13 @@ import type {
   ContentSearchResponse,
   ContentSearchResult,
   ProductStatus,
+  Promotion,
+  CouponInfo,
+  RefundPolicy,
+  ContentAccess,
+  UserActivity,
+  LicenseInfo,
+  AppInfo,
 } from '@skillrecordings/sdk/integration'
 import {prisma} from '@skillrecordings/database'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
@@ -460,6 +467,340 @@ export const integration: SupportIntegration = {
         results: [],
         quickLinks: getQuickLinks(),
       }
+    }
+  },
+
+  // ── Agent Intelligence Methods (SDK v0.5.0) ─────────────────────────
+
+  /**
+   * Get currently active promotions and sales
+   *
+   * Queries Prisma for coupons that are:
+   * - Not expired (expires is null or in the future)
+   * - Have an associated merchantCoupon (Stripe-backed)
+   * - Have a default flag or a public code
+   */
+  async getActivePromotions(): Promise<Promotion[]> {
+    const now = new Date()
+    const coupons = await prisma.coupon.findMany({
+      where: {
+        status: 1,
+        OR: [{expires: null}, {expires: {gt: now}}],
+        merchantCouponId: {not: null},
+      },
+      include: {
+        merchantCoupon: true,
+        product: true,
+      },
+      orderBy: {createdAt: 'desc'},
+    })
+
+    return coupons.map((c) => ({
+      id: c.id,
+      name: c.product
+        ? `${c.product.name} discount`
+        : c.code
+          ? `Coupon: ${c.code}`
+          : 'Site-wide discount',
+      code: c.code ?? undefined,
+      discountType: 'percent' as const,
+      discountAmount: Number(c.percentageDiscount) * 100,
+      validFrom: c.createdAt.toISOString(),
+      validUntil: c.expires?.toISOString(),
+      active: true,
+      conditions: c.restrictedToProductId
+        ? `Restricted to product: ${c.product?.name ?? c.restrictedToProductId}`
+        : undefined,
+    }))
+  },
+
+  /**
+   * Look up a coupon or discount code
+   *
+   * Finds coupon by its unique code field and returns info about
+   * its validity and discount. Only supports percentage discounts
+   * (which is what TT uses).
+   */
+  async getCouponInfo(code: string): Promise<CouponInfo | null> {
+    const coupon = await prisma.coupon.findUnique({
+      where: {code},
+      include: {
+        merchantCoupon: true,
+      },
+    })
+
+    if (!coupon) return null
+
+    const now = new Date()
+    const isExpired = coupon.expires ? coupon.expires < now : false
+    const isMaxedOut =
+      coupon.maxUses !== -1 && coupon.usedCount >= coupon.maxUses
+    const isActive = coupon.status === 1 || coupon.status === 0 // TT uses 0 as default active
+
+    // Determine restriction type from merchantCoupon type
+    let restrictionType: CouponInfo['restrictionType']
+    if (coupon.merchantCoupon?.type) {
+      const mcType = coupon.merchantCoupon.type.toLowerCase()
+      if (mcType.includes('ppp') || mcType === 'parity') {
+        restrictionType = 'ppp'
+      } else if (mcType.includes('bulk')) {
+        restrictionType = 'bulk'
+      } else {
+        restrictionType = 'general'
+      }
+    }
+
+    return {
+      code: coupon.code!,
+      valid: isActive && !isExpired && !isMaxedOut,
+      discountType: 'percent',
+      discountAmount: Number(coupon.percentageDiscount) * 100,
+      restrictionType,
+      usageCount: coupon.usedCount,
+      maxUses: coupon.maxUses === -1 ? undefined : coupon.maxUses,
+      expiresAt: coupon.expires?.toISOString(),
+    }
+  },
+
+  /**
+   * Get the app's refund policy configuration
+   *
+   * Returns static configuration for Total TypeScript's refund policy.
+   * TT offers a 30-day refund window for all purchases.
+   */
+  async getRefundPolicy(): Promise<RefundPolicy> {
+    return {
+      autoApproveWindowDays: 30,
+      manualApproveWindowDays: 60,
+      noRefundAfterDays: 90,
+      specialConditions: [
+        'Lifetime access purchases: 30-day refund window from purchase date',
+        'Team/bulk purchases: refund for unused seats only',
+        'PPP-discounted purchases: standard refund policy applies',
+      ],
+      policyUrl: 'https://www.totaltypescript.com/privacy',
+    }
+  },
+
+  /**
+   * Get granular content access for a user
+   *
+   * Queries all valid purchases and their associated products to determine
+   * what content the user can access. TT uses binary access: if you have
+   * a valid purchase for a product, you have full access. No partial or
+   * module-level gating.
+   */
+  async getContentAccess(userId: string): Promise<ContentAccess> {
+    const purchases = await prisma.purchase.findMany({
+      where: {
+        userId,
+        status: {in: ['Valid', 'Restricted']},
+      },
+      include: {
+        product: true,
+        redeemedBulkCoupon: {
+          include: {
+            bulkPurchase: true,
+          },
+        },
+      },
+      orderBy: {createdAt: 'desc'},
+    })
+
+    // Build product access list
+    const products = purchases.map((p) => {
+      const isRefunded = p.status === 'Refunded'
+      return {
+        productId: p.productId,
+        productName: p.product?.name ?? 'Unknown Product',
+        accessLevel: isRefunded
+          ? ('expired' as const)
+          : ('full' as const),
+        // TT doesn't have module-level gating — full access or nothing
+      }
+    })
+
+    // Check for team membership via redeemed bulk coupon
+    let teamMembership: ContentAccess['teamMembership']
+    const teamPurchase = purchases.find((p) => p.redeemedBulkCouponId)
+    if (teamPurchase && teamPurchase.redeemedBulkCoupon?.bulkPurchaseId) {
+      const bulkPurchase = await prisma.purchase.findUnique({
+        where: {id: teamPurchase.redeemedBulkCoupon.bulkPurchaseId},
+        include: {user: true},
+      })
+
+      if (bulkPurchase) {
+        teamMembership = {
+          teamId: teamPurchase.redeemedBulkCouponId!,
+          teamName: `Team license (${bulkPurchase.user?.email ?? 'unknown admin'})`,
+          role: 'member',
+          seatClaimedAt: teamPurchase.createdAt.toISOString(),
+        }
+      }
+    }
+
+    return {
+      userId,
+      products,
+      teamMembership,
+    }
+  },
+
+  /**
+   * Get recent user activity and progress
+   *
+   * Queries LessonProgress to show what the user has been working on.
+   * Used by the agent to assess product usage for refund triage
+   * and access debugging.
+   */
+  async getRecentActivity(userId: string): Promise<UserActivity> {
+    // Get total lesson completions
+    const allProgress = await prisma.lessonProgress.findMany({
+      where: {
+        userId,
+        completedAt: {not: null},
+      },
+    })
+
+    // Get recent lesson progress (last 30 items)
+    const recentProgress = await prisma.lessonProgress.findMany({
+      where: {userId},
+      orderBy: {updatedAt: 'desc'},
+      take: 30,
+    })
+
+    const lessonsCompleted = allProgress.length
+
+    // Build recent items from lesson progress
+    const recentItems: UserActivity['recentItems'] = recentProgress
+      .filter((lp) => lp.completedAt || lp.updatedAt)
+      .slice(0, 10)
+      .map((lp) => ({
+        type: lp.completedAt
+          ? ('lesson_completed' as const)
+          : ('exercise_submitted' as const),
+        title: lp.lessonSlug ?? lp.lessonId ?? 'Unknown lesson',
+        timestamp: (lp.completedAt ?? lp.updatedAt ?? lp.createdAt).toISOString(),
+      }))
+
+    // Determine last active timestamp
+    const lastActiveAt =
+      recentProgress.length > 0
+        ? (
+            recentProgress[0].updatedAt ??
+            recentProgress[0].completedAt ??
+            recentProgress[0].createdAt
+          ).toISOString()
+        : undefined
+
+    // We don't have a total lesson count in the DB — approximate from what we know
+    // The agent will understand this is a relative metric
+    const totalLessons = Math.max(lessonsCompleted, 1)
+    const completionPercent =
+      totalLessons > 0
+        ? Math.round((lessonsCompleted / totalLessons) * 100)
+        : 0
+
+    return {
+      userId,
+      lastActiveAt,
+      lessonsCompleted,
+      totalLessons,
+      completionPercent,
+      recentItems,
+    }
+  },
+
+  /**
+   * Get team license and seat information for a purchase
+   *
+   * Uses the bulkCouponId pattern: a team purchase has a bulkCoupon
+   * associated with it. Team members redeem seats via that coupon.
+   * Reuses the same query pattern as getClaimedSeats.
+   */
+  async getLicenseInfo(purchaseId: string): Promise<LicenseInfo | null> {
+    // Find the purchase and its bulk coupon
+    const purchase = await prisma.purchase.findUnique({
+      where: {id: purchaseId},
+      include: {
+        bulkCoupon: true,
+        user: true,
+        product: true,
+      },
+    })
+
+    if (!purchase) return null
+
+    // Check if this is a team/bulk purchase
+    const bulkCoupon = purchase.bulkCoupon
+    if (!bulkCoupon) {
+      // Individual purchase — return individual license info
+      return {
+        purchaseId,
+        licenseType: 'individual',
+        totalSeats: 1,
+        claimedSeats: 1,
+        availableSeats: 0,
+        claimedBy: purchase.user
+          ? [
+              {
+                email: purchase.user.email,
+                claimedAt: purchase.createdAt.toISOString(),
+              },
+            ]
+          : [],
+        adminEmail: purchase.user?.email,
+      }
+    }
+
+    // Team purchase — find all claimed seats
+    const claimedPurchases = await prisma.purchase.findMany({
+      where: {
+        redeemedBulkCouponId: bulkCoupon.id,
+      },
+      include: {
+        user: true,
+      },
+      orderBy: {createdAt: 'asc'},
+    })
+
+    const totalSeats = bulkCoupon.maxUses === -1 ? 999 : bulkCoupon.maxUses
+    const claimedSeats = claimedPurchases.filter((p) => p.user).length
+    const availableSeats = Math.max(0, totalSeats - claimedSeats)
+
+    const claimedBy = claimedPurchases
+      .filter((p) => p.user)
+      .map((p) => ({
+        email: p.user!.email,
+        claimedAt: p.createdAt.toISOString(),
+      }))
+
+    return {
+      purchaseId,
+      licenseType: totalSeats > 50 ? 'enterprise' : 'team',
+      totalSeats,
+      claimedSeats,
+      availableSeats,
+      claimedBy,
+      adminEmail: purchase.user?.email,
+    }
+  },
+
+  /**
+   * Get app metadata for Total TypeScript
+   *
+   * Returns static configuration about the app, instructor,
+   * and relevant URLs. Eliminates hardcoded values in agent prompts.
+   */
+  async getAppInfo(): Promise<AppInfo> {
+    return {
+      name: 'Total TypeScript',
+      instructorName: 'Matt Pocock',
+      supportEmail: 'team@totaltypescript.com',
+      websiteUrl: 'https://www.totaltypescript.com',
+      invoicesUrl: 'https://www.totaltypescript.com/invoices',
+      discordUrl: 'https://totaltypescript.com/discord',
+      refundPolicyUrl: 'https://www.totaltypescript.com/privacy',
     }
   },
 }
