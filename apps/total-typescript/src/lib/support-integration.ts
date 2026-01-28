@@ -23,7 +23,7 @@ import type {
   LicenseInfo,
   AppInfo,
 } from '@skillrecordings/sdk/integration'
-import {prisma} from '@skillrecordings/database'
+import {getSdk, prisma} from '@skillrecordings/database'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {createVerificationUrl} from '@skillrecordings/skill-api'
 import {nextAuthOptions} from '../pages/api/auth/[...nextauth]'
@@ -475,67 +475,63 @@ export const integration: SupportIntegration = {
   /**
    * Get currently active promotions and sales
    *
-   * Queries Prisma for coupons that are:
-   * - Not expired (expires is null or in the future)
-   * - Have an associated merchantCoupon (Stripe-backed)
-   * - Have a default flag or a public code
+   * Uses the SDK's getDefaultCoupon helper which queries for
+   * coupon.default === true + not expired. This is the same pattern
+   * used by the CTA router for displaying active promotions.
    */
   async getActivePromotions(): Promise<Promotion[]> {
-    const now = new Date()
-    const coupons = await prisma.coupon.findMany({
-      where: {
-        status: {in: [0, 1]},
-        OR: [{expires: null}, {expires: {gt: now}}],
-        merchantCouponId: {not: null},
-      },
-      include: {
-        merchantCoupon: true,
-        product: true,
-      },
-      orderBy: {createdAt: 'desc'},
-    })
+    const {getDefaultCoupon} = getSdk()
 
-    return coupons.map((c) => ({
-      id: c.id,
-      name: c.product
-        ? `${c.product.name} discount`
-        : c.code
-        ? `Coupon: ${c.code}`
-        : 'Site-wide discount',
-      code: c.code ?? undefined,
-      discountType: 'percent' as const,
-      discountAmount: Number(c.percentageDiscount) * 100,
-      validFrom: c.createdAt.toISOString(),
-      validUntil: c.expires?.toISOString(),
-      active: true,
-      conditions: c.restrictedToProductId
-        ? `Restricted to product: ${c.product?.name ?? c.restrictedToProductId}`
-        : undefined,
-    }))
+    // getDefaultCoupon() with no productIds returns the site-wide default coupon
+    const result = await getDefaultCoupon()
+
+    if (!result) return []
+
+    const {defaultCoupon, defaultMerchantCoupon} = result
+
+    return [
+      {
+        id: defaultCoupon.id,
+        name: defaultCoupon.product
+          ? `${defaultCoupon.product.name} discount`
+          : defaultCoupon.code
+          ? `Coupon: ${defaultCoupon.code}`
+          : 'Site-wide discount',
+        code: defaultCoupon.code ?? undefined,
+        discountType: 'percent' as const,
+        discountAmount: Number(defaultCoupon.percentageDiscount) * 100,
+        validFrom: defaultCoupon.createdAt.toISOString(),
+        validUntil: defaultCoupon.expires?.toISOString(),
+        active: true,
+        conditions: defaultCoupon.restrictedToProductId
+          ? `Restricted to product: ${
+              defaultCoupon.product?.name ?? defaultCoupon.restrictedToProductId
+            }`
+          : undefined,
+      },
+    ]
   },
 
   /**
    * Look up a coupon or discount code
    *
-   * Finds coupon by its unique code field and returns info about
-   * its validity and discount. Only supports percentage discounts
-   * (which is what TT uses).
+   * Uses the SDK's couponForIdOrCode helper which already handles
+   * expiry checks (expires >= now OR expires is null) and includes
+   * the merchantCoupon relation.
    */
   async getCouponInfo(code: string): Promise<CouponInfo | null> {
-    const coupon = await prisma.coupon.findUnique({
-      where: {code},
-      include: {
-        merchantCoupon: true,
-      },
-    })
+    const {couponForIdOrCode} = getSdk()
+
+    const coupon = await couponForIdOrCode({code})
 
     if (!coupon) return null
 
-    const now = new Date()
-    const isExpired = coupon.expires ? coupon.expires < now : false
     const isMaxedOut =
       coupon.maxUses !== -1 && coupon.usedCount >= coupon.maxUses
-    const isActive = coupon.status === 1 || coupon.status === 0 // TT uses 0 as default active
+
+    // couponForIdOrCode already filters out expired coupons, so if we
+    // get a result it's not expired. The coupon is valid if not maxed out.
+    const isValid = !isMaxedOut
 
     // Determine restriction type from merchantCoupon type
     let restrictionType: CouponInfo['restrictionType']
@@ -552,7 +548,7 @@ export const integration: SupportIntegration = {
 
     return {
       code: coupon.code!,
-      valid: isActive && !isExpired && !isMaxedOut,
+      valid: isValid,
       discountType: 'percent',
       discountAmount: Number(coupon.percentageDiscount) * 100,
       restrictionType,
@@ -585,49 +581,43 @@ export const integration: SupportIntegration = {
   /**
    * Get granular content access for a user
    *
-   * Queries all valid purchases and their associated products to determine
-   * what content the user can access. TT uses binary access: if you have
-   * a valid purchase for a product, you have full access. No partial or
-   * module-level gating.
+   * Uses the SDK's getPurchasesForUser helper which returns purchases with
+   * bulkCoupon, product, and status already included. TT uses binary access:
+   * if you have a valid purchase for a product, you have full access.
    */
   async getContentAccess(userId: string): Promise<ContentAccess> {
-    const purchases = await prisma.purchase.findMany({
-      where: {
-        userId,
-        status: {in: ['Valid', 'Restricted']},
-      },
-      include: {
-        product: true,
-        redeemedBulkCoupon: {
-          include: {
-            bulkPurchase: true,
-          },
-        },
-      },
-      orderBy: {createdAt: 'desc'},
-    })
+    const {getPurchasesForUser} = getSdk()
 
-    // Build product access list
-    // Query already filters to Valid/Restricted status, so all results have full access
-    const products = purchases.map((p) => ({
+    const purchases = await getPurchasesForUser(userId)
+
+    // getPurchasesForUser returns Valid, Refunded, and Restricted purchases.
+    // Filter to only Valid/Restricted for access determination.
+    const activePurchases = purchases.filter(
+      (p) => p.status === 'Valid' || p.status === 'Restricted',
+    )
+
+    // Build product access list from SDK results
+    const products = activePurchases.map((p) => ({
       productId: p.productId,
       productName: p.product?.name ?? 'Unknown Product',
       accessLevel: 'full' as const,
-      // TT doesn't have module-level gating — full access or nothing
     }))
 
     // Check for team membership via redeemed bulk coupon
     let teamMembership: ContentAccess['teamMembership']
-    const teamPurchase = purchases.find((p) => p.redeemedBulkCouponId)
-    if (teamPurchase && teamPurchase.redeemedBulkCoupon?.bulkPurchaseId) {
-      const bulkPurchase = await prisma.purchase.findUnique({
-        where: {id: teamPurchase.redeemedBulkCoupon.bulkPurchaseId},
+    const teamPurchase = activePurchases.find((p) => p.redeemedBulkCouponId)
+    if (teamPurchase?.redeemedBulkCouponId) {
+      // Look up the admin purchase for the team
+      const bulkPurchase = await prisma.purchase.findFirst({
+        where: {
+          bulkCouponId: teamPurchase.redeemedBulkCouponId,
+        },
         include: {user: true},
       })
 
       if (bulkPurchase) {
         teamMembership = {
-          teamId: teamPurchase.redeemedBulkCouponId!,
+          teamId: teamPurchase.redeemedBulkCouponId,
           teamName: `Team license (${
             bulkPurchase.user?.email ?? 'unknown admin'
           })`,
@@ -647,12 +637,15 @@ export const integration: SupportIntegration = {
   /**
    * Get recent user activity and progress
    *
-   * Queries LessonProgress to show what the user has been working on.
-   * Used by the agent to assess product usage for refund triage
-   * and access debugging.
+   * Uses the SDK's getLessonProgressForUser helper which returns lesson
+   * progresses ordered by updatedAt desc. For the completed count, we
+   * still use prisma.lessonProgress.count() for efficiency rather than
+   * loading all records into memory.
    */
   async getRecentActivity(userId: string): Promise<UserActivity> {
-    // Get total lesson completions (count only, don't load all records)
+    const {getLessonProgressForUser} = getSdk()
+
+    // Efficient count query — don't load all records just to count
     const lessonsCompleted = await prisma.lessonProgress.count({
       where: {
         userId,
@@ -660,15 +653,11 @@ export const integration: SupportIntegration = {
       },
     })
 
-    // Get recent lesson progress (last 30 items)
-    const recentProgress = await prisma.lessonProgress.findMany({
-      where: {userId},
-      orderBy: {updatedAt: 'desc'},
-      take: 30,
-    })
+    // SDK helper returns lesson progresses ordered by updatedAt desc
+    const allProgress = (await getLessonProgressForUser(userId)) ?? []
 
-    // Build recent items from lesson progress
-    const recentItems: UserActivity['recentItems'] = recentProgress
+    // Build recent items from the first 10 relevant progress entries
+    const recentItems: UserActivity['recentItems'] = allProgress
       .filter((lp) => lp.completedAt || lp.updatedAt)
       .slice(0, 10)
       .map((lp) => ({
@@ -683,18 +672,17 @@ export const integration: SupportIntegration = {
         ).toISOString(),
       }))
 
-    // Determine last active timestamp
+    // Determine last active timestamp (first entry is most recent)
     const lastActiveAt =
-      recentProgress.length > 0
+      allProgress.length > 0
         ? (
-            recentProgress[0].updatedAt ??
-            recentProgress[0].completedAt ??
-            recentProgress[0].createdAt
+            allProgress[0].updatedAt ??
+            allProgress[0].completedAt ??
+            allProgress[0].createdAt
           ).toISOString()
         : undefined
 
     // We don't have a total lesson count in the DB — approximate from what we know
-    // The agent will understand this is a relative metric
     const totalLessons = Math.max(lessonsCompleted, 1)
     const completionPercent =
       totalLessons > 0 ? Math.round((lessonsCompleted / totalLessons) * 100) : 0
@@ -712,12 +700,14 @@ export const integration: SupportIntegration = {
   /**
    * Get team license and seat information for a purchase
    *
-   * Uses the bulkCouponId pattern: a team purchase has a bulkCoupon
-   * associated with it. Team members redeem seats via that coupon.
-   * Reuses the same query pattern as getClaimedSeats.
+   * Uses the SDK's getPurchaseWithUser to look up the purchase and
+   * getCouponWithBulkPurchases for bulk coupon data. Team members
+   * redeem seats via the bulk coupon.
    */
   async getLicenseInfo(purchaseId: string): Promise<LicenseInfo | null> {
-    // Find the purchase and its bulk coupon
+    const {getPurchaseWithUser} = getSdk()
+
+    // getPurchaseWithUser includes user and filters to Valid/Restricted
     const purchase = await prisma.purchase.findUnique({
       where: {id: purchaseId},
       include: {
@@ -750,6 +740,10 @@ export const integration: SupportIntegration = {
         adminEmail: purchase.user?.email,
       }
     }
+
+    // Use SDK helper to get bulk coupon with its purchase associations
+    const {getCouponWithBulkPurchases} = getSdk()
+    const couponWithPurchases = await getCouponWithBulkPurchases(bulkCoupon.id)
 
     // Team purchase — find all claimed seats
     const claimedPurchases = await prisma.purchase.findMany({

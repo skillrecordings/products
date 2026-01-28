@@ -6,7 +6,15 @@
  */
 import {integration} from '../support-integration'
 
-// Mock Prisma client
+// Mock SDK helpers
+const mockGetDefaultCoupon = jest.fn()
+const mockCouponForIdOrCode = jest.fn()
+const mockGetPurchasesForUser = jest.fn()
+const mockGetLessonProgressForUser = jest.fn()
+const mockGetCouponWithBulkPurchases = jest.fn()
+const mockGetPurchaseWithUser = jest.fn()
+
+// Mock Prisma client and getSdk
 jest.mock('@skillrecordings/database', () => ({
   prisma: {
     user: {
@@ -19,6 +27,7 @@ jest.mock('@skillrecordings/database', () => ({
       findUnique: jest.fn(),
       update: jest.fn(),
       count: jest.fn(),
+      findFirst: jest.fn(),
     },
     purchaseUserTransfer: {
       create: jest.fn(),
@@ -35,6 +44,14 @@ jest.mock('@skillrecordings/database', () => ({
       findFirst: jest.fn(),
     },
   },
+  getSdk: () => ({
+    getDefaultCoupon: mockGetDefaultCoupon,
+    couponForIdOrCode: mockCouponForIdOrCode,
+    getPurchasesForUser: mockGetPurchasesForUser,
+    getLessonProgressForUser: mockGetLessonProgressForUser,
+    getCouponWithBulkPurchases: mockGetCouponWithBulkPurchases,
+    getPurchaseWithUser: mockGetPurchaseWithUser,
+  }),
 }))
 
 // Mock skill-api createVerificationUrl
@@ -367,39 +384,23 @@ describe('SupportIntegration', () => {
   // ── Agent Intelligence Methods (SDK v0.5.0) ─────────────────────────
 
   describe('getActivePromotions', () => {
-    it('returns active coupons as promotions', async () => {
-      const mockCoupons = [
-        {
+    it('returns active default coupon as promotion', async () => {
+      mockGetDefaultCoupon.mockResolvedValue({
+        defaultCoupon: {
           id: 'coupon-1',
           code: 'SUMMER2025',
           createdAt: new Date('2025-06-01'),
           expires: new Date('2025-08-31'),
-          status: 1,
           percentageDiscount: 0.3,
           restrictedToProductId: null,
-          merchantCouponId: 'mc-1',
-          merchantCoupon: {id: 'mc-1', percentageDiscount: 0.3},
           product: null,
         },
-        {
-          id: 'coupon-2',
-          code: null,
-          createdAt: new Date('2025-01-01'),
-          expires: null,
-          status: 1,
-          percentageDiscount: 0.15,
-          restrictedToProductId: 'prod-1',
-          merchantCouponId: 'mc-2',
-          merchantCoupon: {id: 'mc-2', percentageDiscount: 0.15},
-          product: {name: 'TypeScript Pro'},
-        },
-      ]
-
-      mockPrisma.coupon.findMany.mockResolvedValue(mockCoupons as any)
+        defaultMerchantCoupon: {id: 'mc-1', percentageDiscount: 0.3},
+      })
 
       const result = await integration.getActivePromotions!()
 
-      expect(result).toHaveLength(2)
+      expect(result).toHaveLength(1)
       expect(result[0]).toEqual({
         id: 'coupon-1',
         name: 'Coupon: SUMMER2025',
@@ -411,7 +412,26 @@ describe('SupportIntegration', () => {
         active: true,
         conditions: undefined,
       })
-      expect(result[1]).toEqual({
+    })
+
+    it('returns product-restricted promotion', async () => {
+      mockGetDefaultCoupon.mockResolvedValue({
+        defaultCoupon: {
+          id: 'coupon-2',
+          code: null,
+          createdAt: new Date('2025-01-01'),
+          expires: null,
+          percentageDiscount: 0.15,
+          restrictedToProductId: 'prod-1',
+          product: {name: 'TypeScript Pro'},
+        },
+        defaultMerchantCoupon: {id: 'mc-2', percentageDiscount: 0.15},
+      })
+
+      const result = await integration.getActivePromotions!()
+
+      expect(result).toHaveLength(1)
+      expect(result[0]).toEqual({
         id: 'coupon-2',
         name: 'TypeScript Pro discount',
         code: undefined,
@@ -425,7 +445,7 @@ describe('SupportIntegration', () => {
     })
 
     it('returns empty array when no active promotions', async () => {
-      mockPrisma.coupon.findMany.mockResolvedValue([])
+      mockGetDefaultCoupon.mockResolvedValue(undefined)
 
       const result = await integration.getActivePromotions!()
 
@@ -435,7 +455,9 @@ describe('SupportIntegration', () => {
 
   describe('getCouponInfo', () => {
     it('returns valid coupon info', async () => {
-      const mockCoupon = {
+      // couponForIdOrCode already filters expired coupons, so returning
+      // a result means it's not expired
+      mockCouponForIdOrCode.mockResolvedValue({
         id: 'coupon-1',
         code: 'SUMMER2025',
         status: 0,
@@ -445,9 +467,7 @@ describe('SupportIntegration', () => {
         percentageDiscount: 0.3,
         merchantCouponId: 'mc-1',
         merchantCoupon: {id: 'mc-1', type: 'general', percentageDiscount: 0.3},
-      }
-
-      mockPrisma.coupon.findUnique.mockResolvedValue(mockCoupon as any)
+      })
 
       const result = await integration.getCouponInfo!('SUMMER2025')
 
@@ -461,39 +481,29 @@ describe('SupportIntegration', () => {
         maxUses: 100,
         expiresAt: expect.any(String),
       })
+      expect(mockCouponForIdOrCode).toHaveBeenCalledWith({code: 'SUMMER2025'})
     })
 
     it('returns null for unknown code', async () => {
-      mockPrisma.coupon.findUnique.mockResolvedValue(null)
+      // couponForIdOrCode returns null when not found
+      mockCouponForIdOrCode.mockResolvedValue(null)
 
       const result = await integration.getCouponInfo!('DOESNOTEXIST')
 
       expect(result).toBeNull()
     })
 
-    it('marks expired coupon as invalid', async () => {
-      const mockCoupon = {
-        id: 'coupon-1',
-        code: 'EXPIRED2024',
-        status: 0,
-        expires: new Date('2024-01-01'), // Past date
-        maxUses: -1,
-        usedCount: 10,
-        percentageDiscount: 0.2,
-        merchantCouponId: null,
-        merchantCoupon: null,
-      }
-
-      mockPrisma.coupon.findUnique.mockResolvedValue(mockCoupon as any)
+    it('returns null for expired coupon (filtered by SDK)', async () => {
+      // couponForIdOrCode filters out expired coupons, so it returns null
+      mockCouponForIdOrCode.mockResolvedValue(null)
 
       const result = await integration.getCouponInfo!('EXPIRED2024')
 
-      expect(result).not.toBeNull()
-      expect(result!.valid).toBe(false)
+      expect(result).toBeNull()
     })
 
     it('identifies PPP coupon restriction type', async () => {
-      const mockCoupon = {
+      mockCouponForIdOrCode.mockResolvedValue({
         id: 'coupon-ppp',
         code: 'PPP_IN',
         status: 0,
@@ -503,9 +513,7 @@ describe('SupportIntegration', () => {
         percentageDiscount: 0.6,
         merchantCouponId: 'mc-ppp',
         merchantCoupon: {id: 'mc-ppp', type: 'ppp', percentageDiscount: 0.6},
-      }
-
-      mockPrisma.coupon.findUnique.mockResolvedValue(mockCoupon as any)
+      })
 
       const result = await integration.getCouponInfo!('PPP_IN')
 
@@ -513,7 +521,9 @@ describe('SupportIntegration', () => {
     })
 
     it('marks maxed-out coupon as invalid', async () => {
-      const mockCoupon = {
+      // couponForIdOrCode returns the coupon (it's not expired),
+      // but it's maxed out on uses
+      mockCouponForIdOrCode.mockResolvedValue({
         id: 'coupon-maxed',
         code: 'MAXED_OUT',
         status: 0,
@@ -527,9 +537,7 @@ describe('SupportIntegration', () => {
           type: 'general',
           percentageDiscount: 0.25,
         },
-      }
-
-      mockPrisma.coupon.findUnique.mockResolvedValue(mockCoupon as any)
+      })
 
       const result = await integration.getCouponInfo!('MAXED_OUT')
 
@@ -558,19 +566,19 @@ describe('SupportIntegration', () => {
 
   describe('getContentAccess', () => {
     it('returns full access for valid purchases', async () => {
-      const mockPurchases = [
+      // getPurchasesForUser returns the SDK's select shape
+      mockGetPurchasesForUser.mockResolvedValue([
         {
           id: 'purchase-1',
           productId: 'prod-1',
           status: 'Valid',
           createdAt: new Date('2024-01-01'),
-          product: {name: 'Total TypeScript Pro'},
+          totalAmount: 299,
+          product: {id: 'prod-1', name: 'Total TypeScript Pro'},
           redeemedBulkCouponId: null,
-          redeemedBulkCoupon: null,
+          bulkCoupon: null,
         },
-      ]
-
-      mockPrisma.purchase.findMany.mockResolvedValue(mockPurchases as any)
+      ])
 
       const result = await integration.getContentAccess!('user-1')
 
@@ -585,28 +593,55 @@ describe('SupportIntegration', () => {
         ],
         teamMembership: undefined,
       })
+      expect(mockGetPurchasesForUser).toHaveBeenCalledWith('user-1')
+    })
+
+    it('filters out refunded purchases from access', async () => {
+      mockGetPurchasesForUser.mockResolvedValue([
+        {
+          id: 'purchase-1',
+          productId: 'prod-1',
+          status: 'Valid',
+          createdAt: new Date('2024-01-01'),
+          product: {id: 'prod-1', name: 'Total TypeScript Pro'},
+          redeemedBulkCouponId: null,
+          bulkCoupon: null,
+        },
+        {
+          id: 'purchase-2',
+          productId: 'prod-2',
+          status: 'Refunded',
+          createdAt: new Date('2024-02-01'),
+          product: {id: 'prod-2', name: 'TypeScript Fundamentals'},
+          redeemedBulkCouponId: null,
+          bulkCoupon: null,
+        },
+      ])
+
+      const result = await integration.getContentAccess!('user-1')
+
+      // Only the Valid purchase should appear
+      expect(result.products).toHaveLength(1)
+      expect(result.products[0].productName).toBe('Total TypeScript Pro')
     })
 
     it('includes team membership for redeemed bulk coupon', async () => {
-      const mockPurchases = [
+      mockGetPurchasesForUser.mockResolvedValue([
         {
           id: 'purchase-team',
           productId: 'prod-1',
           status: 'Valid',
           createdAt: new Date('2024-01-01'),
-          product: {name: 'Total TypeScript Pro'},
+          product: {id: 'prod-1', name: 'Total TypeScript Pro'},
           redeemedBulkCouponId: 'bulk-coupon-1',
-          redeemedBulkCoupon: {
-            id: 'bulk-coupon-1',
-            bulkPurchaseId: 'purchase-admin',
-            bulkPurchase: {id: 'purchase-admin'},
-          },
+          bulkCoupon: null,
         },
-      ]
+      ])
 
-      mockPrisma.purchase.findMany.mockResolvedValue(mockPurchases as any)
-      mockPrisma.purchase.findUnique.mockResolvedValue({
+      // findFirst for the admin purchase that owns the bulk coupon
+      mockPrisma.purchase.findFirst.mockResolvedValue({
         id: 'purchase-admin',
+        bulkCouponId: 'bulk-coupon-1',
         user: {email: 'admin@company.com'},
       } as any)
 
@@ -625,11 +660,12 @@ describe('SupportIntegration', () => {
     it('returns activity with lesson progress', async () => {
       const now = new Date()
 
-      const mockRecentProgress = [
+      const mockProgressItems = [
         {
           id: '3',
           userId: 'user-1',
           lessonSlug: 'typescript-generics',
+          lessonId: 'lesson-3',
           completedAt: now,
           updatedAt: now,
           createdAt: now,
@@ -638,18 +674,17 @@ describe('SupportIntegration', () => {
           id: '2',
           userId: 'user-1',
           lessonSlug: 'mapped-types',
+          lessonId: 'lesson-2',
           completedAt: now,
           updatedAt: now,
           createdAt: now,
         },
       ]
 
-      // count() call for total completed lessons
+      // count() call for total completed lessons (still uses prisma directly)
       ;(mockPrisma.lessonProgress.count as jest.Mock).mockResolvedValue(3)
-      // findMany call for recent progress
-      mockPrisma.lessonProgress.findMany.mockResolvedValue(
-        mockRecentProgress as any,
-      )
+      // SDK helper returns lesson progresses ordered by updatedAt desc
+      mockGetLessonProgressForUser.mockResolvedValue(mockProgressItems)
 
       const result = await integration.getRecentActivity!('user-1')
 
@@ -662,15 +697,27 @@ describe('SupportIntegration', () => {
       expect(mockPrisma.lessonProgress.count).toHaveBeenCalledWith({
         where: {userId: 'user-1', completedAt: {not: null}},
       })
+      expect(mockGetLessonProgressForUser).toHaveBeenCalledWith('user-1')
     })
 
     it('returns empty activity for user with no progress', async () => {
       ;(mockPrisma.lessonProgress.count as jest.Mock).mockResolvedValue(0)
-      mockPrisma.lessonProgress.findMany.mockResolvedValue([])
+      mockGetLessonProgressForUser.mockResolvedValue([])
 
       const result = await integration.getRecentActivity!('user-no-progress')
 
       expect(result.userId).toBe('user-no-progress')
+      expect(result.lessonsCompleted).toBe(0)
+      expect(result.recentItems).toEqual([])
+    })
+
+    it('handles null return from getLessonProgressForUser', async () => {
+      ;(mockPrisma.lessonProgress.count as jest.Mock).mockResolvedValue(0)
+      mockGetLessonProgressForUser.mockResolvedValue(undefined)
+
+      const result = await integration.getRecentActivity!('user-no-record')
+
+      expect(result.userId).toBe('user-no-record')
       expect(result.lessonsCompleted).toBe(0)
       expect(result.recentItems).toEqual([])
     })
