@@ -38,7 +38,7 @@
     "eslint": "^8.19.0",
     "eslint-config-skill-recordings": "workspace:*",
     "jest-localstorage-mock": "^2.4.14",
-    "next": "14.2.0-canary.30",
+    "next": "14.2.35",
     "react": "18.3.0-canary-a870b2d54-20240314",
     "react-dom": "18.3.0-canary-a870b2d54-20240314",
     "rimraf": "^3.0.2",

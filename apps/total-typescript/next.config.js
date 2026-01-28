@@ -37,7 +37,7 @@ const nextConfig = {
   transpilePackages: ['@skillrecordings/skill-lesson', '@skillrecordings/ui'],
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   eslint: {ignoreDuringBuilds: true},
-  experimental: {scrollRestoration: true, mdxRs: true, ppr: true},
+  experimental: {scrollRestoration: true, mdxRs: true},
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
   staticPageGenerationTimeout: 180,
@@ -61,9 +61,6 @@ const nextConfig = {
   },
   async redirects() {
     return []
-  },
-  sentry: {
-    hideSourceMaps: false,
   },
   webpack: (config, {dev, isServer, webpack, nextRuntime}) => {
     config.module.rules.push({
