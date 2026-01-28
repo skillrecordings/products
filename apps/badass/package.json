@@ -80,7 +80,7 @@
     "lodash": "^4.17.21",
     "mdx-prism": "^0.3.4",
     "mjml": "^4.12.0",
-    "next": "14.2.0-canary.30",
+    "next": "14.2.35",
     "next-mdx-remote": "=4.4.1",
     "next-sitemap": "^3.0.5",
     "next-themes": "^0.2.1",

@@ -61,7 +61,7 @@
     "esbuild-node-tsc": "^1.6.1",
     "eslint": "^8.19.0",
     "lodash": "^4.17.21",
-    "next": "14.2.0-canary.30",
+    "next": "14.2.35",
     "react": "18.3.0-canary-a870b2d54-20240314",
     "react-dom": "18.3.0-canary-a870b2d54-20240314",
     "react-test-renderer": "^18.2.0",

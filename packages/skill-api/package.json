@@ -97,7 +97,7 @@
     "i": "^0.3.7",
     "jest-mock-extended": "^3.0.4",
     "msw": "^0.35.0",
-    "next": "14.2.0-canary.30",
+    "next": "14.2.35",
     "next-auth": "^4.24.7",
     "nodemailer": "^6.7.2",
     "nodemailer-postmark-transport": "^5.2.1",
