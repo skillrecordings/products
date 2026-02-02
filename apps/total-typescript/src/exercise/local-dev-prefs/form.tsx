@@ -75,6 +75,7 @@ export default function LocalDevPrefsForm({
       ![
         'vscode://file/',
         'jetbrains://web-storm/navigate/reference?path=',
+        'cursor://file/',
       ].includes(userPrefs.editorLaunchProtocol)
     ) {
       setDisplayCustomEditorLaunchProtocolField(true)
@@ -133,8 +134,8 @@ export default function LocalDevPrefsForm({
                     WebStorm{' '}
                     <code>jetbrains://web-storm/navigate/reference?path=</code>
                   </SelectItem>
-                  <SelectItem value="cursor://open">
-                    Cursor <code>cursor://open</code>
+                  <SelectItem value="cursor://file/">
+                    Cursor <code>cursor://file</code>
                   </SelectItem>
                   <SelectItem value="custom">
                     <div className="flex items-center gap-1">

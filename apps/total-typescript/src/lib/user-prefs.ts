@@ -10,7 +10,11 @@ export const localPrefsFieldsSchema = z.object({
   // Represents the protocol used to launch the user's preferred IDE via a deep link.
   // This could be something like `vscode://` or `jetbrains://`, depending on the user's preference.
   editorLaunchProtocol: z
-    .enum(['vscode://file/', 'jetbrains://web-storm/navigate/reference?path='])
+    .enum([
+      'vscode://file/',
+      'jetbrains://web-storm/navigate/reference?path=',
+      'cursor://file/',
+    ])
     .or(z.string())
     .default('vscode://file/'),
 })
