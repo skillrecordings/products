@@ -26,6 +26,8 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 const ExerciseOverlay = () => {
   const {lesson, module} = useLesson()
   const router = useRouter()
+  const {data: session} = useSession()
+  const [isTooltipDialogOpen, setIsTooltipDialogOpen] = React.useState(false)
   const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
     slug: router.query.lesson as string,
     type: lesson._type,
@@ -59,7 +61,38 @@ const ExerciseOverlay = () => {
           </div>
           <div className="relative hidden h-[500px] w-full sm:block xl:h-[750px]">
             <StackBlitzIframe exercise={lesson} module={module} />
+            <div className="absolute bottom-3 right-3 flex items-center gap-2 rounded-md bg-gray-900/90 px-3 py-2 text-sm text-gray-300 backdrop-blur-sm">
+              <span>
+                💡 Terminal unavailable in embed. Run locally instead.
+              </span>
+              {session?.user ? (
+                <Button
+                  size="sm"
+                  className="h-7 gap-1 bg-primary/90 px-2 text-xs font-semibold hover:bg-primary"
+                  onClick={() => setIsTooltipDialogOpen(true)}
+                >
+                  <CogIcon className="h-3 w-3" /> Configure
+                </Button>
+              ) : (
+                <Link
+                  href="/login"
+                  className="text-xs text-primary underline hover:text-primary/80"
+                >
+                  Log in to configure
+                </Link>
+              )}
+            </div>
           </div>
+          {session?.user && (
+            <SetLocalDevPrefsDialog
+              resourceId={module._id}
+              resourceTitle={module.title}
+              githubRepositoryName={module.github?.title as string}
+              githubRepositoryUrl={`https://github.com/total-typescript/${module.github?.repo}`}
+              isDialogOpen={isTooltipDialogOpen}
+              onOpenChange={setIsTooltipDialogOpen}
+            />
+          )}
           {!isStackblitzCompatibleBrowser && (
             <div className="mx-2 mt-2 hidden rounded-md bg-gray-800 px-4 py-3 text-base sm:block">
               <p className="pb-1 font-semibold">

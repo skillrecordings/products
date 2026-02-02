@@ -21,6 +21,7 @@ export default function SetLocalDevPrefsDialog({
   githubRepositoryUrl,
   githubRepositoryName,
   isDialogOpen = false,
+  onOpenChange,
 }: {
   children?: React.ReactNode
   resourceId: string
@@ -28,10 +29,15 @@ export default function SetLocalDevPrefsDialog({
   githubRepositoryUrl: string
   githubRepositoryName: string
   isDialogOpen?: boolean
+  onOpenChange?: (open: boolean) => void
 }) {
   const gitCloneCommand = `git clone ${githubRepositoryUrl}.git`
   return (
-    <Dialog defaultOpen={isDialogOpen}>
+    <Dialog
+      defaultOpen={!onOpenChange ? isDialogOpen : undefined}
+      open={onOpenChange ? isDialogOpen : undefined}
+      onOpenChange={onOpenChange}
+    >
       {children || <DialogTrigger>Open</DialogTrigger>}
       <DialogContent className="max-h-screen overflow-y-auto">
         <DialogHeader>
