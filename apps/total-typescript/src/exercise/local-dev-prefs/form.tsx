@@ -133,6 +133,9 @@ export default function LocalDevPrefsForm({
                     WebStorm{' '}
                     <code>jetbrains://web-storm/navigate/reference?path=</code>
                   </SelectItem>
+                  <SelectItem value="cursor://open">
+                    Cursor <code>cursor://open</code>
+                  </SelectItem>
                   <SelectItem value="custom">
                     <div className="flex items-center gap-1">
                       <AlertCircle className="w-3" />
