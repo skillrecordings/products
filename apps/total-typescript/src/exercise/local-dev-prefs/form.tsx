@@ -135,7 +135,7 @@ export default function LocalDevPrefsForm({
                     <code>jetbrains://web-storm/navigate/reference?path=</code>
                   </SelectItem>
                   <SelectItem value="cursor://file/">
-                    Cursor <code>cursor://file</code>
+                    Cursor <code>cursor://file/</code>
                   </SelectItem>
                   <SelectItem value="custom">
                     <div className="flex items-center gap-1">
