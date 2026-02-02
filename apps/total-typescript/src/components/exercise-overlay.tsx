@@ -91,7 +91,9 @@ const ExerciseOverlay = () => {
               githubRepositoryUrl={`https://github.com/total-typescript/${module.github?.repo}`}
               isDialogOpen={isTooltipDialogOpen}
               onOpenChange={setIsTooltipDialogOpen}
-            />
+            >
+              <></>
+            </SetLocalDevPrefsDialog>
           )}
           {!isStackblitzCompatibleBrowser && (
             <div className="mx-2 mt-2 hidden rounded-md bg-gray-800 px-4 py-3 text-base sm:block">
