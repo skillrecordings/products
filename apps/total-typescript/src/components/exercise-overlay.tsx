@@ -23,6 +23,8 @@ import {CogIcon} from 'lucide-react'
 import {useSession} from 'next-auth/react'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
+const enableTerminalTooltip = false
+
 const ExerciseOverlay = () => {
   const {lesson, module} = useLesson()
   const router = useRouter()
@@ -61,27 +63,29 @@ const ExerciseOverlay = () => {
           </div>
           <div className="relative hidden h-[500px] w-full sm:block xl:h-[750px]">
             <StackBlitzIframe exercise={lesson} module={module} />
-            <div className="absolute bottom-3 right-3 flex items-center gap-2 rounded-md bg-gray-900/90 px-3 py-2 text-sm text-gray-300 backdrop-blur-sm">
-              <span>
-                💡 Terminal unavailable in embed. Run locally instead.
-              </span>
-              {session?.user ? (
-                <Button
-                  size="sm"
-                  className="h-7 gap-1 bg-primary/90 px-2 text-xs font-semibold hover:bg-primary"
-                  onClick={() => setIsTooltipDialogOpen(true)}
-                >
-                  <CogIcon className="h-3 w-3" /> Configure
-                </Button>
-              ) : (
-                <Link
-                  href="/login"
-                  className="text-xs text-primary underline hover:text-primary/80"
-                >
-                  Log in to configure
-                </Link>
-              )}
-            </div>
+            {enableTerminalTooltip && (
+              <div className="absolute bottom-3 right-3 flex items-center gap-2 rounded-md bg-gray-900/90 px-3 py-2 text-sm text-gray-300 backdrop-blur-sm">
+                <span>
+                  💡 Terminal unavailable in embed. Run locally instead.
+                </span>
+                {session?.user ? (
+                  <Button
+                    size="sm"
+                    className="h-7 gap-1 bg-primary/90 px-2 text-xs font-semibold hover:bg-primary"
+                    onClick={() => setIsTooltipDialogOpen(true)}
+                  >
+                    <CogIcon className="h-3 w-3" /> Configure
+                  </Button>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="text-xs text-primary underline hover:text-primary/80"
+                  >
+                    Log in to configure
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
           {session?.user && (
             <SetLocalDevPrefsDialog
