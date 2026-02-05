@@ -72,7 +72,9 @@ const WorkshopTemplate: React.FC<{
   const purchases = commerceProps?.purchases || []
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' || product.state === 'active'
+    router.query.allowPurchase === 'true' ||
+    product.state === 'active' ||
+    product.state === 'published'
   const hasPurchasedUpgrade =
     upgradableTo && purchasedProductIds.includes(upgradableTo.productId)
 
@@ -90,7 +92,7 @@ const WorkshopTemplate: React.FC<{
         },
       }}
     >
-      <CourseMeta product={product} />
+      {product && <CourseMeta product={product} />}
       {workshop.state === 'draft' && (
         <div className="sm:px-3">
           <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
@@ -191,7 +193,7 @@ const WorkshopTemplate: React.FC<{
                     <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
                   </div>
                   <Collection.Sections>
-                    {moduleProgressStatus === 'success' ? (
+                    {moduleProgressStatus !== 'loading' ? (
                       <Collection.Section className="border border-border shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-border dark:shadow-none dark:hover:brightness-125 [&_[data-check-icon]]:text-emerald-600 [&_[data-check-icon]]:opacity-100 [&_[data-check-icon]]:dark:text-emerald-400 [&_[data-progress='100']]:bg-transparent [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-emerald-500 [&_[data-progress]]:dark:bg-emerald-400">
                         <Collection.Lessons className="border-border">
                           <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&_svg]:text-teal-600 [&_svg]:opacity-100 [&_svg]:dark:text-teal-300" />
@@ -203,7 +205,7 @@ const WorkshopTemplate: React.FC<{
                   </Collection.Sections>
                   {/* Used if module has either none or single section so they can be styled differently */}
                   <Collection.Lessons className="overflow-hidden rounded-md border border-gray-100 py-0 shadow-xl shadow-gray-500/10 dark:border-gray-900 dark:shadow-none">
-                    {moduleProgressStatus === 'success' ? (
+                    {moduleProgressStatus !== 'loading' ? (
                       <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300 [&_[data-item]]:py-3" />
                     ) : (
                       <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-6 first-of-type:rounded-t last-of-type:rounded-b" />
@@ -244,7 +246,9 @@ const Header: React.FC<{module: Workshop; canView: boolean}> = ({
   const firstLesson = first(firstSection?.lessons || module.lessons)
   const router = useRouter()
   const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' || product.state === 'active'
+    router.query.allowPurchase === 'true' ||
+    product.state === 'active' ||
+    product.state === 'published'
 
   return (
     <>
@@ -445,7 +449,9 @@ const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
   const purchases = commerceProps?.purchases || []
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' || product.state === 'active'
+    router.query.allowPurchase === 'true' ||
+    product.state === 'active' ||
+    product.state === 'published'
   const {merchantCoupon, setMerchantCoupon, quantity} = usePriceCheck()
   const upgradableTo = product?.upgradableTo
   const hasPurchasedUpgrade =

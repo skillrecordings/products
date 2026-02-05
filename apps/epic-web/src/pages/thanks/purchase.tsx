@@ -169,7 +169,8 @@ const ThanksVerify: React.FC<
   stripeProductName,
   purchase,
 }) => {
-  const isProductActive: boolean = product.state === 'active'
+  const isProductActive: boolean =
+    product.state === 'active' || product.state === 'published'
   let inviteTeam = (
     <InlineTeamInvite
       bulkCouponId={bulkCouponId}

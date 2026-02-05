@@ -94,7 +94,9 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
             <div data-pricing-container="">
               <Pricing
                 bonuses={availableBonuses}
-                allowPurchase={product.state === 'active'}
+                allowPurchase={
+                  product.state === 'active' || product.state === 'published'
+                }
                 userId={userId}
                 product={product as unknown as SanityProduct}
                 purchased={purchasedProductIds.includes(product.productId)}

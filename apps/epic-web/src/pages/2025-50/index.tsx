@@ -20,7 +20,7 @@ import SaleCountdown from '@skillrecordings/skill-lesson/path-to-purchase/sale-c
 import {PoweredByStripe} from 'components/powered-by-stripe'
 import Testimonials from 'components/testimonials'
 import {MoreCompanies} from 'components/more-companies'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getAllProducts} from 'lib/products'
 import {getAllWorkshops, type Workshop} from 'lib/workshops'
 import Link from 'next/link'
 import {motion} from 'framer-motion'
@@ -692,7 +692,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const allProducts = await getAllProducts()
   const activeProducts = allProducts.filter(
     (product: {type: string; state: string}) =>
-      product.type === 'self-paced' && product.state === 'active',
+      product.type === 'self-paced' &&
+      (product.state === 'active' || product.state === 'published'),
   )
 
   // Fetch workshops for descriptions

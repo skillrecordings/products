@@ -5,11 +5,81 @@ import * as mysql from 'mysql2/promise'
 import {prisma} from '@skillrecordings/database'
 import type {Contributor} from './contributors'
 import {ContributorSchema} from './contributors'
-import {ModuleSchema} from '@skillrecordings/skill-lesson/schemas/module'
 import {ProductSchema} from './products'
 import slugify from '@sindresorhus/slugify'
 import type {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import type {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
+
+// CourseBuilder Database Row Schemas
+const CBContentResourceRowSchema = z.object({
+  id: z.string(),
+  type: z.string(),
+  fields: z.union([z.string(), z.record(z.unknown())]),
+  createdAt: z.date().nullable(),
+  updatedAt: z.date().nullable(),
+  deletedAt: z.date().nullable(),
+  organizationId: z.string().nullable(),
+  createdById: z.string().nullable(),
+  createdByOrganizationMembershipId: z.string().nullable(),
+  currentVersionId: z.string().nullable(),
+})
+type CBContentResourceRow = z.infer<typeof CBContentResourceRowSchema>
+
+const CBResourceRowSchema = CBContentResourceRowSchema.extend({
+  resourceId: z.string(),
+  position: z.number(),
+})
+type CBResourceRow = z.infer<typeof CBResourceRowSchema>
+
+const CBProductRowSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  status: z.number(),
+  fields: z.union([z.string(), z.record(z.unknown())]),
+  createdAt: z.date().nullable(),
+  updatedAt: z.date().nullable(),
+})
+type CBProductRow = z.infer<typeof CBProductRowSchema>
+
+const CBUserRowSchema = z.object({
+  id: z.string(),
+  name: z.string().nullable(),
+  fullName: z.string().nullable(),
+  email: z.string().nullable(),
+  image: z.string().nullable(),
+  avatar_url: z.string().nullable(),
+  avatarUrl: z.string().nullable(),
+})
+type CBUserRow = z.infer<typeof CBUserRowSchema>
+
+const CBOrganizationMembershipRowSchema = z.object({
+  id: z.string(),
+  userId: z.string().nullable(),
+})
+type CBOrganizationMembershipRow = z.infer<
+  typeof CBOrganizationMembershipRowSchema
+>
+
+// Transformed Product Schema for workshops
+const WorkshopProductSchema = z.object({
+  _id: z.string(),
+  name: z.string(),
+  title: z.string(),
+  slug: z.string(),
+  productId: z.string(),
+  state: z.string(),
+  description: z.string().nullable(),
+  action: z.string().nullable(),
+  image: z
+    .object({
+      url: z.string(),
+      alt: z.string(),
+    })
+    .nullable(),
+  modules: z.array(z.unknown()),
+  upgradableTo: z.unknown().nullable(),
+})
+type WorkshopProduct = z.infer<typeof WorkshopProductSchema>
 
 const access: mysql.ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
@@ -358,10 +428,103 @@ const fullStackVol1WorkshopsQuery = groq`*[_type == "product" && slug.current ==
   }
 }`
 
+const fetchWorkshopProduct = async (
+  workshopId: string,
+): Promise<WorkshopProduct | null> => {
+  const connection = await mysql.createConnection(access)
+  try {
+    // Find product that contains this workshop via zEW_ContentResourceProduct
+    const [productRows] = await connection.execute(
+      `
+      SELECT p.*
+      FROM zEW_ContentResourceProduct crp
+      JOIN zEW_Product p ON crp.productId = p.id
+      WHERE crp.resourceId = ?
+        AND crp.deletedAt IS NULL
+        AND p.status = 1
+      ORDER BY p.createdAt DESC
+      LIMIT 1
+      `,
+      [workshopId],
+    )
+
+    if (!Array.isArray(productRows) || productRows.length === 0) {
+      return null
+    }
+
+    const productRow = productRows[0] as CBProductRow
+    const fields =
+      typeof productRow.fields === 'string'
+        ? (JSON.parse(productRow.fields) as Record<string, unknown>)
+        : (productRow.fields as Record<string, unknown>) || {}
+
+    // Transform to match expected product structure
+    const imageField = fields.image as {url?: string} | undefined
+    const product: WorkshopProduct = {
+      _id: productRow.id,
+      name: productRow.name,
+      title: productRow.name,
+      slug: (fields.slug as string) || slugify(productRow.name),
+      productId: productRow.id,
+      state: (fields.state as string) || 'draft',
+      description: (fields.description as string) || null,
+      action: (fields.action as string) || null,
+      image: imageField?.url
+        ? {url: imageField.url, alt: productRow.name}
+        : null,
+      modules: [],
+      upgradableTo: null,
+    }
+
+    return product
+  } catch (error) {
+    console.error('[fetchWorkshopProduct] Error:', error)
+    return null
+  } finally {
+    await connection.end()
+  }
+}
+
+// Transformed Workshop Schema (returned from transformWorkshopPost)
+const TransformedWorkshopSchema = z.object({
+  id: z.string(),
+  _id: z.string(),
+  _type: z.string(),
+  _updatedAt: z.string(),
+  _createdAt: z.string(),
+  title: z.string(),
+  slug: z.object({current: z.string()}),
+  description: z.string().nullable(),
+  body: z.string().nullable(),
+  moduleType: z.string(),
+  state: z.string(),
+  image: z.string().nullable(),
+  ogImage: z.string().nullable(),
+  workshopApp: z
+    .object({
+      path: z.string().nullable().optional(),
+      localhost: z.object({path: z.string().optional()}).optional(),
+      external: z.object({url: z.string().optional()}).optional(),
+    })
+    .nullable()
+    .optional(),
+  github: z
+    .object({
+      repo: z.string(),
+      title: z.null(),
+    })
+    .nullable(),
+  instructor: ContributorSchema.nullable(),
+  sections: z.array(z.custom<Section>()),
+  product: WorkshopProductSchema.nullable(),
+})
+type TransformedWorkshop = z.infer<typeof TransformedWorkshopSchema>
+
 const transformWorkshopPost = async (
   post: WorkshopPost,
-  sections: any[] = [],
-): Promise<any> => {
+  sections: Section[] = [],
+  product: WorkshopProduct | null = null,
+): Promise<TransformedWorkshop> => {
   let instructor: Contributor | null = null
 
   if (post.createdById) {
@@ -371,13 +534,13 @@ const transformWorkshopPost = async (
   if (!instructor && post.createdById) {
     const connection = await mysql.createConnection(access)
     try {
-      let cbUser: any = null
+      let cbUser: CBUserRow | null = null
       const [userRows] = await connection.execute(
         'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
         [post.createdById],
       )
       if (Array.isArray(userRows) && userRows.length > 0) {
-        cbUser = userRows[0]
+        cbUser = userRows[0] as CBUserRow
       }
 
       if (!cbUser && post.createdByOrganizationMembershipId) {
@@ -386,14 +549,14 @@ const transformWorkshopPost = async (
           [post.createdByOrganizationMembershipId],
         )
         if (Array.isArray(membershipRows) && membershipRows.length > 0) {
-          const {userId} = membershipRows[0] as any
-          if (userId) {
+          const membership = membershipRows[0] as CBOrganizationMembershipRow
+          if (membership.userId) {
             const [userRows] = await connection.execute(
               'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
-              [userId],
+              [membership.userId],
             )
             if (Array.isArray(userRows) && userRows.length > 0) {
-              cbUser = userRows[0]
+              cbUser = userRows[0] as CBUserRow
             }
           }
         }
@@ -431,6 +594,7 @@ const transformWorkshopPost = async (
   }
 
   const transformed = {
+    id: post.id || '',
     _id: post.id || '',
     _type: 'module',
     _updatedAt: post.updatedAt ? new Date(post.updatedAt).toISOString() : '',
@@ -456,12 +620,15 @@ const transformWorkshopPost = async (
       : null,
     instructor,
     sections: sections || [],
+    product: product,
   }
 
   return transformed
 }
 
-const fetchWorkshopSections = async (workshopId: string): Promise<any[]> => {
+const fetchWorkshopSections = async (
+  workshopId: string,
+): Promise<Section[]> => {
   const connection = await mysql.createConnection(access)
   try {
     const [allResourceRows] = await connection.execute(
@@ -492,14 +659,14 @@ const fetchWorkshopSections = async (workshopId: string): Promise<any[]> => {
       return []
     }
 
-    const sectionRows: any[] = []
-    const directLessonRows: any[] = []
+    const sectionRows: CBResourceRow[] = []
+    const directLessonRows: CBResourceRow[] = []
 
-    for (const row of allResourceRows as any[]) {
+    for (const row of allResourceRows as CBResourceRow[]) {
       const fields =
         typeof row.fields === 'string'
-          ? JSON.parse(row.fields)
-          : row.fields || {}
+          ? (JSON.parse(row.fields) as Record<string, unknown>)
+          : (row.fields as Record<string, unknown>) || {}
       const resourceType = row.type || ''
 
       if (
@@ -527,25 +694,26 @@ const fetchWorkshopSections = async (workshopId: string): Promise<any[]> => {
       }
     }
 
-    const sections: any[] = []
+    const sections: Section[] = []
 
     if (sectionRows.length > 0) {
       for (const sectionRow of sectionRows) {
         const sectionFields =
           typeof sectionRow.fields === 'string'
-            ? JSON.parse(sectionRow.fields)
-            : sectionRow.fields || {}
+            ? (JSON.parse(sectionRow.fields) as Record<string, unknown>)
+            : (sectionRow.fields as Record<string, unknown>) || {}
 
         const sectionSlug =
-          sectionFields.slug || slugify(sectionFields.title || '')
+          (sectionFields.slug as string) ||
+          slugify((sectionFields.title as string) || '')
         const section: Section = {
           _id: sectionRow.id,
           _type: 'section',
           _updatedAt: sectionRow.updatedAt
             ? new Date(sectionRow.updatedAt).toISOString()
             : new Date().toISOString(),
-          title: sectionFields.title || '',
-          description: sectionFields.description || null,
+          title: (sectionFields.title as string) || '',
+          description: (sectionFields.description as string) || null,
           slug: sectionSlug,
           lessons: [] as Lesson[],
           resources: [],
@@ -576,11 +744,11 @@ const fetchWorkshopSections = async (workshopId: string): Promise<any[]> => {
         )
 
         if (Array.isArray(sectionResourceRows)) {
-          for (const resourceRow of sectionResourceRows as any[]) {
+          for (const resourceRow of sectionResourceRows as CBResourceRow[]) {
             const resourceFields =
               typeof resourceRow.fields === 'string'
-                ? JSON.parse(resourceRow.fields)
-                : resourceRow.fields || {}
+                ? (JSON.parse(resourceRow.fields) as Record<string, unknown>)
+                : (resourceRow.fields as Record<string, unknown>) || {}
             const resourceType = resourceRow.type || ''
 
             if (
@@ -592,7 +760,8 @@ const fetchWorkshopSections = async (workshopId: string): Promise<any[]> => {
               resourceFields.resourceType === 'lesson'
             ) {
               const lessonSlug =
-                resourceFields.slug || slugify(resourceFields.title || '')
+                (resourceFields.slug as string) ||
+                slugify((resourceFields.title as string) || '')
               const lesson: Lesson = {
                 _id: resourceRow.id,
                 _type:
@@ -600,8 +769,8 @@ const fetchWorkshopSections = async (workshopId: string): Promise<any[]> => {
                 _updatedAt: resourceRow.updatedAt
                   ? new Date(resourceRow.updatedAt).toISOString()
                   : new Date().toISOString(),
-                title: resourceFields.title || '',
-                description: resourceFields.description || null,
+                title: (resourceFields.title as string) || '',
+                description: (resourceFields.description as string) || null,
                 slug: lessonSlug,
               }
               if (section.lessons) {
@@ -630,11 +799,12 @@ const fetchWorkshopSections = async (workshopId: string): Promise<any[]> => {
       for (const lessonRow of directLessonRows) {
         const lessonFields =
           typeof lessonRow.fields === 'string'
-            ? JSON.parse(lessonRow.fields)
-            : lessonRow.fields || {}
+            ? (JSON.parse(lessonRow.fields) as Record<string, unknown>)
+            : (lessonRow.fields as Record<string, unknown>) || {}
 
         const lessonSlug =
-          lessonFields.slug || slugify(lessonFields.title || '')
+          (lessonFields.slug as string) ||
+          slugify((lessonFields.title as string) || '')
         const lesson: Lesson = {
           _id: lessonRow.id,
           _type:
@@ -642,8 +812,8 @@ const fetchWorkshopSections = async (workshopId: string): Promise<any[]> => {
           _updatedAt: lessonRow.updatedAt
             ? new Date(lessonRow.updatedAt).toISOString()
             : new Date().toISOString(),
-          title: lessonFields.title || '',
-          description: lessonFields.description || null,
+          title: (lessonFields.title as string) || '',
+          description: (lessonFields.description as string) || null,
           slug: lessonSlug,
         }
         if (defaultSection.lessons) {
@@ -653,11 +823,6 @@ const fetchWorkshopSections = async (workshopId: string): Promise<any[]> => {
 
       sections.push(defaultSection)
     }
-
-    const totalLessons = sections.reduce(
-      (acc, section) => acc + section.lessons.length,
-      0,
-    )
 
     return sections
   } catch (error) {
@@ -692,7 +857,8 @@ export const getAllWorkshops = async (onlyPublished = true) => {
   const transformedWorkshopPosts = await Promise.all(
     workshopPosts.map(async (post) => {
       const sections = await fetchWorkshopSections(post.id || '')
-      return await transformWorkshopPost(post, sections)
+      const product = await fetchWorkshopProduct(post.id || '')
+      return await transformWorkshopPost(post, sections, product)
     }),
   )
   await connection.end()
@@ -701,12 +867,22 @@ export const getAllWorkshops = async (onlyPublished = true) => {
   const sanityWorkshops = await sanityClient.fetch(workshopsQuery)
 
   // 3. Merge and sort
-  let allWorkshops = [...sanityWorkshops, ...transformedWorkshopPosts]
+  type WorkshopItem = {
+    slug: {current: string}
+    state?: string
+    _createdAt?: string
+  }
+  let allWorkshops: WorkshopItem[] = [
+    ...sanityWorkshops,
+    ...transformedWorkshopPosts,
+  ]
   if (onlyPublished) {
-    allWorkshops = allWorkshops.filter((w: any) => w.state === 'published')
+    allWorkshops = allWorkshops.filter(
+      (w: WorkshopItem) => w.state === 'published',
+    )
   }
   allWorkshops.sort(
-    (a: any, b: any) =>
+    (a: WorkshopItem, b: WorkshopItem) =>
       new Date(b._createdAt || '').getTime() -
       new Date(a._createdAt || '').getTime(),
   )
@@ -745,13 +921,17 @@ export const getWorkshop = async (slug: string) => {
   if (workshopPostsParsed.success && workshopPostsParsed.data.length > 0) {
     const post = workshopPostsParsed.data[0]
     const sections = await fetchWorkshopSections(post.id || '')
-    const dbWorkshop = await transformWorkshopPost(post, sections)
+    const product = await fetchWorkshopProduct(post.id || '')
+    const dbWorkshop = await transformWorkshopPost(post, sections, product)
     await connection.end()
     return dbWorkshop
   } else {
+    const errorMessage = !workshopPostsParsed.success
+      ? workshopPostsParsed.error
+      : 'none'
     console.error(
       '[getWorkshop] Failed to parse or no workshop found in database, error:',
-      workshopPostsParsed.success ? 'none' : workshopPostsParsed.error,
+      errorMessage,
     )
     await connection.end()
   }
