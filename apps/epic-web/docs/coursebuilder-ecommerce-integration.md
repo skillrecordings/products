@@ -159,8 +159,192 @@ allProducts.filter(p => p.state === 'active' || p.state === 'published')
 }
 ```
 
+## Lesson Progress Tracking
+
+Progress is stored in the **OG Database** (Prisma/PostgreSQL) in the `LessonProgress` table. The `lessonId` field stores the content resource ID, which works for both Sanity and CourseBuilder content.
+
+### Progress Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         PROGRESS TRACKING                                │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   User completes lesson                                                  │
+│         │                                                                │
+│         ▼                                                                │
+│   ┌─────────────────────────────────────────┐                            │
+│   │  progress.add / progress.toggle         │                            │
+│   │  (TRPC mutation)                        │                            │
+│   └────────┬────────────────────────────────┘                            │
+│            │                                                             │
+│            ▼                                                             │
+│   ┌─────────────────────────────────────────┐                            │
+│   │  getLesson(lessonSlug)                  │                            │
+│   │  ─────────────────────────────────────  │                            │
+│   │  1. Query CourseBuilder first           │                            │
+│   │  2. Fall back to Sanity                 │                            │
+│   │  3. Returns lesson with _id             │                            │
+│   └────────┬────────────────────────────────┘                            │
+│            │                                                             │
+│            ▼                                                             │
+│   ┌─────────────────────────────────────────┐                            │
+│   │  completeLessonProgressForUser()        │                            │
+│   │  ─────────────────────────────────────  │                            │
+│   │  Stores in OG Database:                 │                            │
+│   │  LessonProgress { lessonId, userId }    │                            │
+│   └─────────────────────────────────────────┘                            │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Module Progress
+
+Module progress aggregates lesson progress to show completion percentages:
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         MODULE PROGRESS                                  │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   getModuleProgress({ moduleId, userId })                                │
+│         │                                                                │
+│         ▼                                                                │
+│   ┌─────────────────────────────────────────┐                            │
+│   │  getModuleStructure(moduleId)           │                            │
+│   │  ─────────────────────────────────────  │                            │
+│   │  1. Query CourseBuilder first           │                            │
+│   │  2. Fall back to Sanity                 │                            │
+│   │  3. Returns module with all lesson IDs  │                            │
+│   └────────┬────────────────────────────────┘                            │
+│            │                                                             │
+│            ▼                                                             │
+│   ┌─────────────────────────────────────────┐                            │
+│   │  Query LessonProgress table             │                            │
+│   │  WHERE lessonId IN (all module lessons) │                            │
+│   │  AND userId = currentUser               │                            │
+│   └────────┬────────────────────────────────┘                            │
+│            │                                                             │
+│            ▼                                                             │
+│   ┌─────────────────────────────────────────┐                            │
+│   │  Return ModuleProgress:                 │                            │
+│   │  - percentComplete                      │                            │
+│   │  - completedLessonCount                 │                            │
+│   │  - nextLesson                           │                            │
+│   │  - moduleCompleted                      │                            │
+│   └─────────────────────────────────────────┘                            │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `packages/skill-lesson/trpc/routers/progress.ts` | TRPC endpoints for progress tracking |
+| `packages/skill-lesson/lib/module-progress.ts` | Module progress calculation |
+| `packages/skill-lesson/lib/lesson-resource.ts` | Lesson fetching (CourseBuilder + Sanity) |
+| `packages/skill-lesson/lib/modules.ts` | Module structure fetching |
+| `packages/database/src/prisma-api.ts` | Database SDK for LessonProgress table |
+
+## Video Access & Ability Rules
+
+Video playback is gated by CASL-based ability rules. Admin users have access regardless of purchase status.
+
+### Access Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         VIDEO ACCESS CHECK                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   User navigates to lesson                                               │
+│         │                                                                │
+│         ▼                                                                │
+│   ┌─────────────────────────────────────────┐                            │
+│   │  modules.rules TRPC query               │                            │
+│   │  ─────────────────────────────────────  │                            │
+│   │  Fetches: module, lesson, section       │                            │
+│   │  from CourseBuilder or Sanity           │                            │
+│   └────────┬────────────────────────────────┘                            │
+│            │                                                             │
+│            ▼                                                             │
+│   ┌─────────────────────────────────────────┐                            │
+│   │  defineRulesForPurchases()              │                            │
+│   │  ─────────────────────────────────────  │                            │
+│   │  1. Check user role (admin/superadmin)  │◄── Admins get full access  │
+│   │  2. Check purchased modules             │                            │
+│   │  3. Return ability rules                │                            │
+│   └────────┬────────────────────────────────┘                            │
+│            │                                                             │
+│            ▼                                                             │
+│   ┌─────────────────────────────────────────┐                            │
+│   │  Client receives rules                  │                            │
+│   │  ─────────────────────────────────────  │                            │
+│   │  canShowVideo = ability.can('view',     │                            │
+│   │                            'Content')   │                            │
+│   └────────┬────────────────────────────────┘                            │
+│            │                                                             │
+│            ▼                                                             │
+│   ┌─────────────────────────────────────────┐                            │
+│   │  Video playback decision                │                            │
+│   │  ─────────────────────────────────────  │                            │
+│   │  IF canShowVideo && muxPlaybackId:      │                            │
+│   │    Show MuxPlayer                       │                            │
+│   │  ELSE:                                  │                            │
+│   │    Show BlockedOverlay                  │                            │
+│   └─────────────────────────────────────────┘                            │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Admin Access
+
+Admins bypass purchase checks via role detection in `ability.ts`:
+
+```typescript
+const userRole = ((user?.role as string) || (user?.roles as string) || '')
+  .toLowerCase()
+  .trim()
+if (['admin', 'superadmin', 'contributor'].includes(userRole)) {
+  can('create', 'Content')
+  can('view', 'Content')  // Grants video access
+  can('view', 'Invoice')
+  can('view', 'Team')
+  can('invite', 'Team')
+}
+```
+
+### Video Resource Fetching
+
+Video resources are fetched from CourseBuilder with fallback to Sanity:
+
+```typescript
+// packages/skill-lesson/lib/video-resources.ts
+const videoResource = {
+  _id: videoRow.id,
+  // Check both possible locations in CourseBuilder
+  muxPlaybackId:
+    fields.muxPlaybackId ||
+    fields.muxAsset?.muxPlaybackId ||
+    null,
+  transcript: fields.transcript?.text || fields.castingwords?.transcript || null,
+  // ...
+}
+```
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `packages/skill-lesson/utils/ability.ts` | CASL ability rules definition |
+| `packages/skill-lesson/trpc/routers/modules.ts` | Rules endpoint |
+| `packages/skill-lesson/lib/video-resources.ts` | Video resource fetching |
+| `packages/skill-lesson/video/video.tsx` | Video player component |
+
 ## Testing Checklist
 
+### E-Commerce
 - [ ] Product appears on `/products` page
 - [ ] Workshop appears on `/workshops` page
 - [ ] Workshop detail page loads (`/workshops/[slug]`)
@@ -168,3 +352,25 @@ allProducts.filter(p => p.state === 'active' || p.state === 'published')
 - [ ] Purchase webhook completes successfully
 - [ ] Purchase appears in user's purchased products
 - [ ] User can access purchased workshop content
+
+### Video Access
+- [ ] Admin users can view all workshop videos
+- [ ] Non-admin users see overlay for unpurchased content
+- [ ] Purchased content plays correctly
+- [ ] Video resources load from CourseBuilder
+
+### Progress Tracking
+- [x] Lesson completion saves correctly
+- [ ] Module progress percentage updates
+- [ ] Next lesson suggestion works
+- [ ] Progress persists across sessions
+
+## Known Issues & Fixes
+
+### Schema Validation for CourseBuilder Lessons
+
+**Issue:** `getLesson()` was failing silently because `videoResourceId` field was missing.
+
+**Root Cause:** `ResourceSchema` requires `videoResourceId`, but the CourseBuilder response didn't include it. Zod validation failed, error was caught, and function fell through to Sanity (returning null).
+
+**Fix:** Added query to fetch `videoResourceId` from `zEW_ContentResourceResource` for both lesson and solution objects in `lesson-resource.ts`.

@@ -17,7 +17,7 @@ export const getVideoResource = async (id: string): Promise<VideoResource> => {
       connection = await mysql.createConnection(access)
 
       const [rows] = await connection.execute(
-        `SELECT * FROM zEW_ContentResource 
+        `SELECT * FROM zEW_ContentResource
          WHERE type = 'videoResource'
          AND id = ?
          AND deletedAt IS NULL`,
@@ -33,7 +33,8 @@ export const getVideoResource = async (id: string): Promise<VideoResource> => {
 
         const videoResource = {
           _id: videoRow.id,
-          muxPlaybackId: fields.muxPlaybackId || null,
+          muxPlaybackId:
+            fields.muxPlaybackId || fields.muxAsset?.muxPlaybackId || null,
           transcript:
             fields.transcript?.text || fields.castingwords?.transcript || null,
           poster: fields.poster || null,
@@ -47,7 +48,6 @@ export const getVideoResource = async (id: string): Promise<VideoResource> => {
       }
     } catch (error) {
       console.error('[getVideoResource] Error fetching from database:', error)
-      // Fall through to Sanity
     } finally {
       if (connection) await connection.end()
     }

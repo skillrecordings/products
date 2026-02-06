@@ -55,7 +55,7 @@ export const progressRouter = router({
       try {
         const lesson = await getLesson(input.lessonSlug)
         if (token) {
-          completeLessonProgressForUser({
+          await completeLessonProgressForUser({
             userId: token.id as string,
             lessonId: lesson._id,
           })
@@ -88,7 +88,7 @@ export const progressRouter = router({
             return
           }
 
-          completeLessonProgressForUser({
+          await completeLessonProgressForUser({
             userId: user.id,
             lessonId: lesson._id,
           })

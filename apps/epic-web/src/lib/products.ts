@@ -107,7 +107,9 @@ const transformProductPost = async (post: ProductPost): Promise<any> => {
   return transformed
 }
 
-const fetchProductModules = async (productId: string): Promise<any[]> => {
+export const fetchProductModules = async (
+  productId: string,
+): Promise<any[]> => {
   const connection = await mysql.createConnection(access)
   try {
     // Use zEW_ContentResourceProduct to link products to workshops

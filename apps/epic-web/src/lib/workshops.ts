@@ -5,7 +5,7 @@ import * as mysql from 'mysql2/promise'
 import {prisma} from '@skillrecordings/database'
 import type {Contributor} from './contributors'
 import {ContributorSchema} from './contributors'
-import {ProductSchema} from './products'
+import {ProductSchema, fetchProductModules} from './products'
 import slugify from '@sindresorhus/slugify'
 import type {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import type {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
@@ -460,6 +460,10 @@ const fetchWorkshopProduct = async (
 
     // Transform to match expected product structure
     const imageField = fields.image as {url?: string} | undefined
+
+    // Fetch the modules (workshops) linked to this product
+    const modules = await fetchProductModules(productRow.id)
+
     const product: WorkshopProduct = {
       _id: productRow.id,
       name: productRow.name,
@@ -472,7 +476,7 @@ const fetchWorkshopProduct = async (
       image: imageField?.url
         ? {url: imageField.url, alt: productRow.name}
         : null,
-      modules: [],
+      modules: modules,
       upgradableTo: null,
     }
 

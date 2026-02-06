@@ -30,8 +30,8 @@ export const modulesRouter = router({
       const module = input.moduleSlug && (await getModule(input.moduleSlug))
 
       const lesson = input.lessonSlug
-        ? await getLesson(input.lessonSlug)
-        : undefined
+        ? await getLesson(input.lessonSlug).catch(() => null)
+        : null
       const section = input.sectionSlug
         ? await getSection(input.sectionSlug)
         : undefined
@@ -57,7 +57,7 @@ export const modulesRouter = router({
         }),
         country,
         module,
-        lesson,
+        ...(lesson && {lesson}),
         section,
         purchasedModules,
         isSolution: input.isSolution,
