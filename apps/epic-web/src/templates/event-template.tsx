@@ -441,7 +441,9 @@ const EventPricingWidget: React.FC<{
   const purchases = commerceProps?.purchases || []
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' || product.state === 'active'
+    router.query.allowPurchase === 'true' ||
+    product.state === 'active' ||
+    product.state === 'published'
   const cancelUrl = process.env.NEXT_PUBLIC_URL + router.asPath
   const hasPurchased = purchasedProductIds.includes(product.productId)
   return (

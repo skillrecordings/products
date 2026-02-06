@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getAllProducts} from 'lib/products'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {Purchase} from '@skillrecordings/database'
@@ -37,15 +37,17 @@ import {Bonuses, PurchasedBadge} from 'templates/purchased-product-template'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const products = await getAllProducts()
+  const filteredProducts = products.filter(
+    (product: {type: string; state: string}) => product.type === 'self-paced',
+  )
+
   const {req, query} = context
   const token = await getToken({req})
 
   return await propsForCommerce({
     query,
     token,
-    products: products.filter(
-      (product: {type: string; state: string}) => product.type === 'self-paced',
-    ),
+    products: filteredProducts,
   })
 }
 
@@ -174,6 +176,7 @@ const ProductCard: React.FC<{
   return (
     <>
       {(product.state === 'active' ||
+        product.state === 'published' ||
         (product.state === 'unavailable' && purchase)) && (
         <Card className="relative">
           <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">

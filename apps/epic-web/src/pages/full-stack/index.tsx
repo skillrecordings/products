@@ -59,7 +59,9 @@ const Index: NextPage<{
 }> = ({product, products, bonuses, interviewImages}) => {
   const router = useRouter()
   const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' || product.state === 'active'
+    router.query.allowPurchase === 'true' ||
+    product.state === 'active' ||
+    product.state === 'published'
 
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({

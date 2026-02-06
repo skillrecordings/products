@@ -1,8 +1,7 @@
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {getSdk} from '@skillrecordings/database'
 import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
-import {getProduct, type Product} from 'lib/products'
+import {getProduct, getAllProducts, type Product} from 'lib/products'
 import {getWorkshop} from 'lib/workshops'
 import {NextApiRequest, NextApiResponse} from 'next'
 
@@ -40,7 +39,9 @@ const contextualShareCard = async (
     } else {
       products = await getAllProducts()
       const defaultCoupons = await getDefaultCoupon(
-        products.map((product: Product) => product.productId),
+        products
+          .map((product: Product) => product.productId)
+          .filter((id): id is string => Boolean(id)),
       )
       defaultCoupon = defaultCoupons?.defaultCoupon
     }

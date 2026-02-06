@@ -41,9 +41,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     purchaseType,
   } = purchaseInfo
 
-  const stripeProductName = merchantProduct.name
+  const stripeProductName = merchantProduct?.name
 
-  const purchase = await getSdk().getPurchaseForStripeCharge(chargeIdentifier)
+  // Retry mechanism to handle webhook race condition
+  // The redirect can arrive before the webhook finishes creating the purchase
+  const maxRetries = 10
+  const retryDelay = 500 // 500ms between retries = up to 5 seconds total
+  let purchase = null
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    purchase = await getSdk().getPurchaseForStripeCharge(chargeIdentifier)
+    if (purchase) break
+    if (attempt < maxRetries - 1) {
+      await new Promise((resolve) => setTimeout(resolve, retryDelay))
+    }
+  }
 
   if (!purchase || !email) {
     return {
@@ -169,7 +181,8 @@ const ThanksVerify: React.FC<
   stripeProductName,
   purchase,
 }) => {
-  const isProductActive: boolean = product.state === 'active'
+  const isProductActive: boolean =
+    product.state === 'active' || product.state === 'published'
   let inviteTeam = (
     <InlineTeamInvite
       bulkCouponId={bulkCouponId}
