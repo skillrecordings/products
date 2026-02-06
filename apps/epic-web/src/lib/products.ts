@@ -173,47 +173,72 @@ export const fetchProductModules = async (
 }
 
 export async function getProduct(productId: string): Promise<Product> {
-  // First, try to fetch from CourseBuilder database
-  const connection = await mysql.createConnection(access)
+  // CourseBuilder product IDs start with 'product-', Sanity IDs start with 'kcd_product-'
+  const isCourseBuilderProduct = productId.startsWith('product-')
 
-  try {
-    const [rows] = await connection.execute(
-      `SELECT * FROM zEW_ContentResource
-       WHERE type = 'product'
-       AND JSON_EXTRACT(fields, "$.productId") = ?
-       AND deletedAt IS NULL
-       LIMIT 1`,
-      [productId],
-    )
+  if (isCourseBuilderProduct) {
+    // Retry logic for cold connection issues
+    const maxRetries = 3
+    let lastError: Error | null = null
 
-    // Parse JSON fields from database
-    const parsedRows = (rows as any[]).map((row) => ({
-      ...row,
-      fields:
-        typeof row.fields === 'string'
-          ? JSON.parse(row.fields)
-          : row.fields || {},
-    }))
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      const connection = await mysql.createConnection({
+        ...access,
+        connectTimeout: 10000,
+      })
 
-    const productPostsParsed = z
-      .array(ProductPostSchema.passthrough())
-      .safeParse(parsedRows)
+      try {
+        const [rows] = await connection.execute(
+          `SELECT * FROM zEW_Product
+           WHERE id = ?
+           AND status = 1
+           LIMIT 1`,
+          [productId],
+        )
 
-    if (productPostsParsed.success && productPostsParsed.data.length > 0) {
-      const post = productPostsParsed.data[0]
-      const dbProduct = await transformProductPost(post)
-      const modules = await fetchProductModules(post.id || '')
-      dbProduct.modules = modules
-      await connection.end()
-      return ProductSchema.parse(dbProduct)
+        // Parse JSON fields from database
+        const parsedRows = (rows as any[]).map((row) => ({
+          ...row,
+          fields:
+            typeof row.fields === 'string'
+              ? JSON.parse(row.fields)
+              : row.fields || {},
+        }))
+
+        const productPostsParsed = z
+          .array(ProductPostSchema.passthrough())
+          .safeParse(parsedRows)
+
+        if (productPostsParsed.success && productPostsParsed.data.length > 0) {
+          const post = productPostsParsed.data[0]
+          const dbProduct = await transformProductPost(post)
+          const modules = await fetchProductModules(post.id || '')
+          dbProduct.modules = modules
+          return ProductSchema.parse(dbProduct)
+        }
+
+        // No rows found - break and throw
+        break
+      } catch (error) {
+        lastError = error as Error
+        console.error(`[getProduct] Attempt ${attempt + 1} failed:`, error)
+        if (attempt < maxRetries - 1) {
+          await new Promise((resolve) => setTimeout(resolve, 500))
+        }
+      } finally {
+        await connection.end()
+      }
     }
-  } catch (error) {
-    console.error('[getProduct] Error fetching from CourseBuilder:', error)
-  } finally {
-    await connection.end()
+
+    if (lastError) {
+      throw lastError
+    }
+    throw new Error(
+      `[getProduct] CourseBuilder product not found: ${productId}`,
+    )
   }
 
-  // Fall back to Sanity
+  // Sanity products (kcd_product-* IDs)
   const product = await sanityClient.fetch(
     groq`*[_type == "product" && productId == $productId][0] {
         _id,
@@ -238,7 +263,7 @@ export async function getProduct(productId: string): Promise<Product> {
             ...,
             "description": "",
             "image": image.asset->{url},
-          }  
+          }
         },
         modules[]->{
           ...,
@@ -248,7 +273,7 @@ export async function getProduct(productId: string): Promise<Product> {
               picture {
                 "url": asset->url,
                 alt
-              }, 
+              },
               "slug": slug.current,
           },
         }
