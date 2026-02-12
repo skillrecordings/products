@@ -15,6 +15,7 @@ export function useConvertkitForm({
   onError,
   validationSchema,
   validateOnChange = false,
+  formLoadedAt,
 }: {
   submitUrl?: string
   formId?: string
@@ -23,6 +24,7 @@ export function useConvertkitForm({
   fields?: any
   validationSchema?: Yup.ObjectSchema<any>
   validateOnChange?: boolean
+  formLoadedAt?: number
 }): {
   isSubmitting: boolean
   status: string
@@ -37,6 +39,7 @@ export function useConvertkitForm({
       initialValues: {
         email: '',
         first_name: '',
+        website: '',
       },
       validationSchema:
         validationSchema ||
@@ -48,7 +51,18 @@ export function useConvertkitForm({
         }),
       validateOnChange: validateOnChange,
       enableReinitialize: true,
-      onSubmit: async ({email, first_name}, {setStatus}) => {
+      onSubmit: async ({email, first_name, website}, {setStatus}) => {
+        // Honeypot: if the hidden field is filled, silently "succeed" (don't tell bots they failed)
+        if (website) {
+          setStatus('success')
+          return
+        }
+        // Timing: reject submissions faster than 1.5s (bots fill forms instantly)
+        const elapsed = formLoadedAt ? Date.now() - formLoadedAt : Infinity
+        if (elapsed < 1500) {
+          setStatus('success')
+          return
+        }
         return axios
           .post(submitUrl, {email, first_name, form: formId, fields})
           .then((response: any) => {

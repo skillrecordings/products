@@ -78,6 +78,7 @@ export const SubscribeToConvertkitForm: React.FC<
   validateOnChange,
   ...rest
 }) => {
+  const [formLoadedAt] = React.useState(() => Date.now())
   const {isSubmitting, status, handleChange, handleSubmit, errors, touched} =
     useConvertkitForm({
       formId,
@@ -87,6 +88,7 @@ export const SubscribeToConvertkitForm: React.FC<
       submitUrl: subscribeApiURL,
       validationSchema,
       validateOnChange,
+      formLoadedAt,
     })
 
   return (
@@ -96,6 +98,29 @@ export const SubscribeToConvertkitForm: React.FC<
       className={className}
       {...rest}
     >
+      {/* Honeypot field — hidden from humans, bots will fill it */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          top: '-9999px',
+          opacity: 0,
+          height: 0,
+          overflow: 'hidden',
+        }}
+        tabIndex={-1}
+      >
+        <label htmlFor={id ? `website_${id}` : 'website_url_hp'}>Website</label>
+        <input
+          type="text"
+          name="website"
+          id={id ? `website_${id}` : 'website_url_hp'}
+          onChange={handleChange}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
       <div data-sr-fieldset="" className="w-full">
         <Label
           data-sr-input-label=""
