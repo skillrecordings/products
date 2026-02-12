@@ -2,6 +2,7 @@ import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 import {z} from 'zod'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {getAllTutorials} from 'lib/tutorials'
+import {getAllWorkshops} from 'lib/workshops'
 
 function getOrder(orderBy: (typeof searchQuerySchema)['_output']['orderBy']) {
   switch (orderBy) {
@@ -99,6 +100,81 @@ export const searchRouter = router({
     [_score > 0][0..${input.numResults}]`,
         {searchQuery: input.query},
       )
+
+      // Fetch all workshops from both Sanity and CourseBuilder
+      if (resourceType === 'module' && moduleTypes?.includes('workshop')) {
+        try {
+          const allWorkshops = await getAllWorkshops(true)
+
+          if (allWorkshops.length > 0) {
+            const transformedWorkshops = allWorkshops.map((workshop: any) => {
+              let score = 0
+              if (query && query.trim()) {
+                const queryLower = query.toLowerCase()
+                if (workshop.title?.toLowerCase().includes(queryLower))
+                  score += 10
+                if (workshop.description?.toLowerCase().includes(queryLower))
+                  score += 5
+                if (workshop.body?.toLowerCase().includes(queryLower))
+                  score += 2
+              } else {
+                score = 1
+              }
+
+              return {
+                description: workshop.description,
+                _score: score,
+                _id: workshop._id || workshop.id,
+                title: workshop.title,
+                slug: workshop.slug,
+                _type: workshop._type || 'module',
+                image: workshop.image,
+                _createdAt: workshop._createdAt,
+                lessonCount:
+                  workshop.sections?.reduce(
+                    (acc: number, section: any) =>
+                      acc + (section.lessons?.length || 0),
+                    0,
+                  ) ||
+                  workshop.lessonCount ||
+                  0,
+                instructor: workshop.instructor,
+                moduleType: workshop.moduleType || 'workshop',
+                section: null,
+                module: null,
+              }
+            })
+
+            // Sort by score (if searching) or by date (if browsing)
+            transformedWorkshops.sort((a: any, b: any) => {
+              if (query && query.trim() && b._score !== a._score) {
+                return b._score - a._score
+              }
+              if (orderBy === 'newest') {
+                const aDate = a._createdAt
+                  ? new Date(a._createdAt).getTime()
+                  : 0
+                const bDate = b._createdAt
+                  ? new Date(b._createdAt).getTime()
+                  : 0
+                return bDate - aDate
+              }
+              return 0
+            })
+
+            let filteredResults = transformedWorkshops
+            if (contributor) {
+              filteredResults = transformedWorkshops.filter(
+                (r: any) => r.instructor?.slug === contributor,
+              )
+            }
+
+            return filteredResults.slice(0, input.numResults)
+          }
+        } catch (error) {
+          console.error('[search] Error fetching workshops:', error)
+        }
+      }
 
       if (resourceType === 'module' && moduleTypes?.includes('tutorial')) {
         try {

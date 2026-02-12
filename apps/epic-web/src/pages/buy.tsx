@@ -152,7 +152,8 @@ const BuyPage: React.FC<
           .map((product, i) => {
             const ALLOW_PURCHASE =
               router.query.allowPurchase === 'true' ||
-              product.state === 'active'
+              product.state === 'active' ||
+              product.state === 'published'
             return (
               <PriceCheckProvider
                 key={product.slug}

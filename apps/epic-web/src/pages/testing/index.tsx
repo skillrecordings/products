@@ -73,7 +73,9 @@ const Index: NextPage<{
 }> = ({product, products, bonuses}) => {
   const router = useRouter()
   const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' || product.state === 'active'
+    router.query.allowPurchase === 'true' ||
+    product.state === 'active' ||
+    product.state === 'published'
   const {subscriber, loadingSubscriber} = useConvertkit()
   const pricingProduct = products?.[0] // The actual product being sold
 

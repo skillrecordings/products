@@ -86,8 +86,118 @@ export const getModuleStructure = async ({
   id?: string
   slug?: string
 }) => {
-  const result = await sanityClient.fetch(moduleStructureQuery, {slug, id})
+  if (process.env.COURSE_BUILDER_DATABASE_URL) {
+    let connection: any = null
+    try {
+      connection = await mysql.createConnection(access)
 
+      const whereClause = id ? `id = ?` : `JSON_EXTRACT(fields, "$.slug") = ?`
+      const param = id || slug
+
+      const [rows] = await connection.execute(
+        `SELECT * FROM zEW_ContentResource
+         WHERE type IN ('tutorial', 'workshop')
+         AND ${whereClause}
+         AND deletedAt IS NULL`,
+        [param],
+      )
+
+      if (Array.isArray(rows) && rows.length > 0) {
+        const moduleRow = rows[0] as any
+        const fields =
+          typeof moduleRow.fields === 'string'
+            ? JSON.parse(moduleRow.fields)
+            : moduleRow.fields || {}
+        const moduleType = fields.moduleType || moduleRow.type || 'tutorial'
+
+        const [sectionRows] = await connection.execute(
+          `SELECT resource.id, resource.fields, resource.type, crr.position
+           FROM zEW_ContentResourceResource crr
+           JOIN zEW_ContentResource resource ON crr.resourceId = resource.id
+           WHERE crr.resourceOfId = ?
+             AND resource.type = 'section'
+             AND crr.deletedAt IS NULL
+             AND resource.deletedAt IS NULL
+           ORDER BY crr.position ASC`,
+          [moduleRow.id],
+        )
+
+        const sections: any[] = []
+        const allResources: any[] = []
+
+        if (Array.isArray(sectionRows)) {
+          for (const sectionRow of sectionRows as any[]) {
+            const sectionFields =
+              typeof sectionRow.fields === 'string'
+                ? JSON.parse(sectionRow.fields)
+                : sectionRow.fields || {}
+
+            const [lessonRows] = await connection.execute(
+              `SELECT resource.id, resource.type, resource.fields, crr.position
+               FROM zEW_ContentResourceResource crr
+               JOIN zEW_ContentResource resource ON crr.resourceId = resource.id
+               WHERE crr.resourceOfId = ?
+                 AND crr.deletedAt IS NULL
+                 AND resource.deletedAt IS NULL
+                 AND resource.type IN ('post', 'lesson', 'exercise', 'explainer')
+               ORDER BY crr.position ASC`,
+              [sectionRow.id],
+            )
+
+            const lessons: any[] = []
+            if (Array.isArray(lessonRows)) {
+              for (const lessonRow of lessonRows as any[]) {
+                const lessonFields =
+                  typeof lessonRow.fields === 'string'
+                    ? JSON.parse(lessonRow.fields)
+                    : lessonRow.fields || {}
+
+                const lesson = {
+                  _id: lessonRow.id,
+                  slug: lessonFields.slug || slugify(lessonFields.title || ''),
+                  title: lessonFields.title || '',
+                }
+                lessons.push(lesson)
+              }
+            }
+
+            const section = {
+              _id: sectionRow.id,
+              _type: 'section',
+              slug: sectionFields.slug || slugify(sectionFields.title || ''),
+              title: sectionFields.title || '',
+              lessons,
+              resources: lessons,
+            }
+            sections.push(section)
+            allResources.push(section)
+          }
+        }
+
+        const allLessons = sections.flatMap((section) => section.lessons || [])
+
+        const result = {
+          _id: moduleRow.id,
+          slug: fields.slug || slug || id,
+          title: fields.title || '',
+          moduleType,
+          sections,
+          lessons: allLessons,
+          resources: allResources,
+        }
+
+        await connection.end()
+        connection = null
+        return ModuleSchema.parse(result)
+      }
+    } catch (error) {
+      console.error('[getModuleStructure] Error fetching from database:', error)
+    } finally {
+      if (connection) await connection.end()
+    }
+  }
+
+  const result = await sanityClient.fetch(moduleStructureQuery, {slug, id})
   return ModuleSchema.parse(result)
 }
 
@@ -128,40 +238,31 @@ export const getModule = async (slug: string) => {
       connection = await mysql.createConnection(access)
 
       const [rows] = await connection.execute(
-        `SELECT * FROM zEW_ContentResource 
-         WHERE type = 'tutorial'
+        `SELECT * FROM zEW_ContentResource
+         WHERE type IN ('tutorial', 'workshop')
          AND JSON_EXTRACT(fields, "$.slug") = ?
          AND deletedAt IS NULL`,
         [slug],
       )
 
       if (Array.isArray(rows) && rows.length > 0) {
-        const tutorialRow = rows[0] as any
+        const moduleRow = rows[0] as any
         const fields =
-          typeof tutorialRow.fields === 'string'
-            ? JSON.parse(tutorialRow.fields)
-            : tutorialRow.fields || {}
+          typeof moduleRow.fields === 'string'
+            ? JSON.parse(moduleRow.fields)
+            : moduleRow.fields || {}
+        const moduleType = fields.moduleType || moduleRow.type || 'tutorial'
 
         const [sectionRows] = await connection.execute(
-          `
-          SELECT
-            resource.id,
-            resource.fields,
-            resource.type,
-            crr.position
-          FROM
-            zEW_ContentResourceResource crr
-          JOIN
-            zEW_ContentResource resource ON crr.resourceId = resource.id
-          WHERE
-            crr.resourceOfId = ?
-            AND resource.type = 'section'
-            AND crr.deletedAt IS NULL
-            AND resource.deletedAt IS NULL
-          ORDER BY
-            crr.position ASC
-          `,
-          [tutorialRow.id],
+          `SELECT resource.id, resource.fields, resource.type, crr.position
+           FROM zEW_ContentResourceResource crr
+           JOIN zEW_ContentResource resource ON crr.resourceId = resource.id
+           WHERE crr.resourceOfId = ?
+             AND resource.type = 'section'
+             AND crr.deletedAt IS NULL
+             AND resource.deletedAt IS NULL
+           ORDER BY crr.position ASC`,
+          [moduleRow.id],
         )
 
         const sections: any[] = []
@@ -173,24 +274,14 @@ export const getModule = async (slug: string) => {
                 : sectionRow.fields || {}
 
             const [lessonRows] = await connection.execute(
-              `
-              SELECT
-                resource.id,
-                resource.type,
-                resource.fields,
-                crr.position
-              FROM
-                zEW_ContentResourceResource crr
-              JOIN
-                zEW_ContentResource resource ON crr.resourceId = resource.id
-              WHERE
-                crr.resourceOfId = ?
-                AND crr.deletedAt IS NULL
-                AND resource.deletedAt IS NULL
-                AND (resource.type = 'post' OR resource.type = 'lesson' OR resource.type = 'exercise' OR resource.type = 'explainer')
-              ORDER BY
-                crr.position ASC
-              `,
+              `SELECT resource.id, resource.type, resource.fields, crr.position
+               FROM zEW_ContentResourceResource crr
+               JOIN zEW_ContentResource resource ON crr.resourceId = resource.id
+               WHERE crr.resourceOfId = ?
+                 AND crr.deletedAt IS NULL
+                 AND resource.deletedAt IS NULL
+                 AND (resource.type = 'post' OR resource.type = 'lesson' OR resource.type = 'exercise' OR resource.type = 'explainer')
+               ORDER BY crr.position ASC`,
               [sectionRow.id],
             )
 
@@ -236,9 +327,39 @@ export const getModule = async (slug: string) => {
 
         const allLessons = sections.flatMap((section) => section.lessons || [])
 
+        // Fetch the associated product for this module
+        let product: any = null
+        const [productRows] = await connection.execute(
+          `SELECT p.id, p.name, p.fields as product_fields
+           FROM zEW_ContentResourceProduct crp
+           JOIN zEW_Product p ON crp.productId = p.id
+           WHERE crp.resourceId = ?
+             AND crp.deletedAt IS NULL
+             AND p.status = 1`,
+          [moduleRow.id],
+        )
+
+        if (Array.isArray(productRows) && productRows.length > 0) {
+          const productRow = productRows[0] as any
+          const productFields =
+            typeof productRow.product_fields === 'string'
+              ? JSON.parse(productRow.product_fields)
+              : productRow.product_fields || {}
+
+          product = {
+            productId: productRow.id,
+            slug: productFields.slug || null,
+            name: productRow.name || productFields.name || productFields.title,
+            title: productRow.name || productFields.name || productFields.title,
+            state: productFields.state || 'published',
+            description: productFields.description || null,
+            image: productFields.image || null,
+          }
+        }
+
         const result = {
-          id: tutorialRow.id,
-          _id: tutorialRow.id,
+          id: moduleRow.id,
+          _id: moduleRow.id,
           _type: 'module',
           title: fields.title || '',
           state:
@@ -246,15 +367,15 @@ export const getModule = async (slug: string) => {
             (fields.visibility === 'public' ? 'published' : 'draft'),
           slug: {current: fields.slug || slug},
           body: fields.body || null,
-          moduleType: 'tutorial',
+          moduleType: moduleType,
           github: fields.github || null,
           ogImage: null,
           description: fields.description || null,
-          _updatedAt: tutorialRow.updatedAt
-            ? new Date(tutorialRow.updatedAt).toISOString()
+          _updatedAt: moduleRow.updatedAt
+            ? new Date(moduleRow.updatedAt).toISOString()
             : new Date().toISOString(),
-          image: null,
-          product: null,
+          image: fields.image || null,
+          product,
           sections,
           lessons: allLessons,
         }
@@ -263,7 +384,7 @@ export const getModule = async (slug: string) => {
         return result
       }
     } catch (error) {
-      console.error('[getModule] Error fetching tutorial from database:', error)
+      console.error('[getModule] Error fetching module from database:', error)
     } finally {
       if (connection) await connection.end()
     }

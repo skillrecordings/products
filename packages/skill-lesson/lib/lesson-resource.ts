@@ -39,7 +39,7 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
       connection = await mysql.createConnection(access)
 
       const [rows] = await connection.execute(
-        `SELECT * FROM zEW_ContentResource 
+        `SELECT * FROM zEW_ContentResource
          WHERE (type = 'post' OR type = 'lesson' OR type = 'exercise' OR type = 'explainer')
          AND JSON_EXTRACT(fields, "$.slug") = ?
          AND deletedAt IS NULL`,
@@ -55,21 +55,14 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
 
         let solution: any = null
         const [solutionRows] = await connection.execute(
-          `
-          SELECT
-            resource.id,
-            resource.fields
-          FROM
-            zEW_ContentResourceResource crr
-          JOIN
-            zEW_ContentResource resource ON crr.resourceId = resource.id
-          WHERE
-            crr.resourceOfId = ?
-            AND resource.type = 'solution'
-            AND crr.deletedAt IS NULL
-            AND resource.deletedAt IS NULL
-          LIMIT 1
-          `,
+          `SELECT resource.id, resource.fields
+           FROM zEW_ContentResourceResource crr
+           JOIN zEW_ContentResource resource ON crr.resourceId = resource.id
+           WHERE crr.resourceOfId = ?
+             AND resource.type = 'solution'
+             AND crr.deletedAt IS NULL
+             AND resource.deletedAt IS NULL
+           LIMIT 1`,
           [lessonRow.id],
         )
 
@@ -79,6 +72,26 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
             typeof solutionRow.fields === 'string'
               ? JSON.parse(solutionRow.fields)
               : solutionRow.fields || {}
+
+          // Fetch videoResourceId for the solution
+          let solutionVideoResourceId: string | null = null
+          const [solutionVideoRows] = await connection.execute(
+            `SELECT resource.id
+             FROM zEW_ContentResourceResource crr
+             JOIN zEW_ContentResource resource ON crr.resourceId = resource.id
+             WHERE crr.resourceOfId = ?
+               AND resource.type = 'videoResource'
+               AND crr.deletedAt IS NULL
+               AND resource.deletedAt IS NULL
+             LIMIT 1`,
+            [solutionRow.id],
+          )
+          if (
+            Array.isArray(solutionVideoRows) &&
+            solutionVideoRows.length > 0
+          ) {
+            solutionVideoResourceId = (solutionVideoRows[0] as any).id
+          }
 
           solution = {
             _key: solutionRow.id,
@@ -91,7 +104,25 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
             description: solutionFields.description || null,
             body: solutionFields.body || null,
             slug: solutionFields.slug || slug,
+            videoResourceId: solutionVideoResourceId,
           }
+        }
+
+        // Fetch videoResourceId for this lesson
+        let videoResourceId: string | null = null
+        const [videoRows] = await connection.execute(
+          `SELECT resource.id
+           FROM zEW_ContentResourceResource crr
+           JOIN zEW_ContentResource resource ON crr.resourceId = resource.id
+           WHERE crr.resourceOfId = ?
+             AND resource.type = 'videoResource'
+             AND crr.deletedAt IS NULL
+             AND resource.deletedAt IS NULL
+           LIMIT 1`,
+          [lessonRow.id],
+        )
+        if (Array.isArray(videoRows) && videoRows.length > 0) {
+          videoResourceId = (videoRows[0] as any).id
         }
 
         const lesson = {
@@ -106,6 +137,7 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
           description: fields.description || null,
           slug: fields.slug || slug,
           body: fields.body || null,
+          videoResourceId,
           solution,
         }
 
@@ -131,6 +163,7 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
       description,
       "slug": slug.current,
       body,
+      "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
@@ -140,13 +173,14 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
         description,
         body,
         "slug": slug.current,
+        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       }
     }`,
     {slug},
   )
 
   if (!exercise) {
-    throw new Error(`Lesson not found with slug: ${slug}`)
+    throw new Error(`Lesson not found: ${slug}`)
   }
 
   return LessonSchema.parse(exercise)
