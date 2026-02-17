@@ -81,5 +81,21 @@ export default defineType({
       type: 'number',
       readOnly: true,
     }),
+    defineField({
+      name: 'deepgramRequestId',
+      title: 'Deepgram Request ID',
+      description: 'Tracking ID for the Deepgram transcription request',
+      type: 'string',
+      readOnly: true,
+    }),
+    defineField({
+      name: 'generatedDescription',
+      title: 'AI Generated Description',
+      description:
+        'SEO description auto-generated from transcript. Can be copied to parent resource.',
+      type: 'text',
+      rows: 3,
+      readOnly: true,
+    }),
   ],
 })

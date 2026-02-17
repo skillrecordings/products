@@ -1,48 +1,91 @@
 import * as Sentry from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
-import {createMuxAsset} from '@skillrecordings/skill-lesson/lib/mux'
-import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-server'
+import {inngest} from 'inngest/inngest.server'
+import {VIDEO_RESOURCE_CREATED_EVENT} from 'inngest/events'
 
-// at this point we have the video resource which gives us the original media url
-// and an object to deal with. we are going to pass that into a cloudflare worker
-// that will do the following:
-
-async function initiateVideoTextProcessing({
-  videoResourceId,
-  originalMediaUrl,
-}: {
-  videoResourceId: string
-  originalMediaUrl: string
-}) {
-  return fetch(
-    `https://deepgram-wrangler.skillstack.workers.dev/transcript?videoUrl=${originalMediaUrl}&videoResourceId=${videoResourceId}`,
-  )
+// Disable body parsing so we can access the raw body for signature validation
+export const config = {
+  api: {
+    bodyParser: false,
+  },
 }
 
+// Helper to read raw body
+async function readBody(req: NextApiRequest): Promise<string> {
+  const chunks: Buffer[] = []
+  for await (const chunk of req) {
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk)
+  }
+  return Buffer.concat(chunks).toString('utf8')
+}
+
+/**
+ * Sanity Webhook: Video Resource Created
+ *
+ * Triggered when a new videoResource document is created in Sanity.
+ * Emits VIDEO_RESOURCE_CREATED_EVENT to start the video processing pipeline:
+ * 1. Create Mux asset
+ * 2. Order Deepgram transcript
+ * 3. (After Deepgram callback) Add SRT to Mux + Generate SEO description
+ */
 const sanityVideoResourceWebhook = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
+  if (req.method !== 'POST') {
+    return res.status(405).json({error: 'Method not allowed'})
+  }
+
+  // Read raw body for signature validation
+  const rawBody = await readBody(req)
   const signature = req.headers[SIGNATURE_HEADER_NAME] as string
+
   const isValid = await isValidSignature(
-    JSON.stringify(req.body),
+    rawBody,
     signature,
     process.env.SANITY_WEBHOOK_SECRET,
   )
 
-  try {
-    if (isValid) {
-      const {_id, originalMediaUrl, muxAsset, duration} = req.body
-      console.info('processing Sanity webhook: Video Resource created', _id)
+  if (!isValid) {
+    console.error('Sanity webhook: Invalid signature')
+    return res.status(401).json({error: 'Invalid signature'})
+  }
 
-      res.status(200).json({success: true})
-    } else {
-      res.status(500).json({success: false})
+  // Parse the body after validation
+  const body = JSON.parse(rawBody)
+
+  try {
+    const {_id, originalMediaUrl} = body
+
+    if (!_id || !originalMediaUrl) {
+      console.error('Sanity webhook: Missing required fields', {
+        _id,
+        originalMediaUrl,
+      })
+      return res.status(400).json({error: 'Missing _id or originalMediaUrl'})
     }
-  } catch (e) {
-    Sentry.captureException(e)
-    res.status(200).json({success: true})
+
+    console.info(`Sanity webhook: Video Resource created - ${_id}`)
+
+    // Emit event to trigger video processing pipeline
+    await inngest.send({
+      name: VIDEO_RESOURCE_CREATED_EVENT,
+      data: {
+        videoResourceId: _id,
+        originalMediaUrl,
+      },
+    })
+
+    console.info(
+      `Sanity webhook: Emitted VIDEO_RESOURCE_CREATED_EVENT for ${_id}`,
+    )
+
+    return res.status(200).json({success: true, videoResourceId: _id})
+  } catch (error) {
+    console.error('Sanity webhook error:', error)
+    Sentry.captureException(error)
+    return res.status(500).json({error: 'Internal server error'})
   }
 }
 

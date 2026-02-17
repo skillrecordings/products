@@ -3,6 +3,8 @@ import Mux from '@mux/mux-node'
 import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-server'
 import {TIP_VIDEO_SRT_READY_EVENT} from 'inngest/events'
 
+const BASE_URL = process.env.NEXT_PUBLIC_URL || 'https://www.epicweb.dev'
+
 export const addSrtToMuxAsset = inngest.createFunction(
   {
     id: 'add-srt-mux-asset',
@@ -53,7 +55,7 @@ export const addSrtToMuxAsset = inngest.createFunction(
       await step.run('Update Mux with SRT', async () => {
         const {Video} = new Mux()
         return await Video.Assets.createTrack(event.data.muxAssetId, {
-          url: `https://www.epicweb.dev/api/videoResource/${event.data.videoResourceId}/srt`,
+          url: `${BASE_URL}/api/videoResource/${event.data.videoResourceId}/srt`,
           type: 'text',
           text_type: 'subtitles',
           closed_captions: false,
