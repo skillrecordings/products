@@ -63,8 +63,8 @@ importers:
         specifier: ^7.3.1
         version: 7.3.5
       '@mux/mux-player-react':
-        specifier: 2.3.2
-        version: 2.3.2(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: 3.11.4
+        version: 3.11.4(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       '@next/mdx':
         specifier: ^14.1.3
         version: 14.1.3(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
@@ -463,8 +463,8 @@ importers:
         specifier: ^7.3.1
         version: 7.3.5
       '@mux/mux-player-react':
-        specifier: 2.3.2
-        version: 2.3.2(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: 3.11.4
+        version: 3.11.4(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       '@next-auth/prisma-adapter':
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@5.2.0)(next-auth@4.24.7)
@@ -1046,8 +1046,8 @@ importers:
         specifier: ^7.3.1
         version: 7.3.5
       '@mux/mux-player-react':
-        specifier: 2.3.2
-        version: 2.3.2(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: 3.11.4
+        version: 3.11.4(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       '@next-auth/prisma-adapter':
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@5.2.0)(next-auth@4.24.7)
@@ -1599,8 +1599,8 @@ importers:
         specifier: ^7.3.1
         version: 7.3.5
       '@mux/mux-player-react':
-        specifier: 2.3.2
-        version: 2.3.2(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: 3.11.4
+        version: 3.11.4(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       '@next-auth/prisma-adapter':
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@5.2.0)(next-auth@4.24.7)
@@ -1990,8 +1990,8 @@ importers:
         specifier: ^7.3.1
         version: 7.3.5
       '@mux/mux-player-react':
-        specifier: 2.3.2
-        version: 2.3.2(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: 3.11.4
+        version: 3.11.4(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       '@next/mdx':
         specifier: ^14.1.3
         version: 14.1.3(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
@@ -3962,8 +3962,8 @@ importers:
         specifier: ^7.3.1
         version: 7.3.5
       '@mux/mux-player-react':
-        specifier: 2.3.2
-        version: 2.3.2(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: 3.11.4
+        version: 3.11.4(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       '@portabletext/react':
         specifier: ^3.0.11
         version: 3.0.11(react@18.3.0-canary-a870b2d54-20240314)
@@ -12422,6 +12422,12 @@ packages:
       - supports-color
     dev: true
 
+  /@mux/mux-data-google-ima@0.3.4:
+    resolution: {integrity: sha512-j8IOD5kw1qIOkbpipEQRGQ7vXB6+CArrhIAvtvj8YFqy0PHi7JcHk4WR3ZBVy5+5yaRCH+nzHkmJmGsg8g6O5g==}
+    dependencies:
+      mux-embed: 5.16.1
+    dev: false
+
   /@mux/mux-node@7.3.5:
     resolution: {integrity: sha512-lM0DIKiNAQoT0jBCuOfbzwfky4UYrF9h2xbidEYT/I2ftO2q4891+5dFXDUmi1IJtsdIxRARsggZKqrwdsd4Eg==}
     engines: {node: '>=14'}
@@ -12455,12 +12461,45 @@ packages:
       react-dom: 18.3.0-canary-a870b2d54-20240314(react@18.3.0-canary-a870b2d54-20240314)
     dev: false
 
+  /@mux/mux-player-react@3.11.4(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314):
+    resolution: {integrity: sha512-bW0k7eC1d2hmttdWrmRNjiVa77lQ30V8Lz199GnyhwQhBbMa3unEiO5NbcYBuYNZTuXqxgVRiehMktuzbvY7VA==}
+    peerDependencies:
+      '@types/react': ^17.0.0 || ^17.0.0-0 || ^18 || ^18.0.0-0 || ^19 || ^19.0.0-0
+      '@types/react-dom': '*'
+      react: ^17.0.2 || ^17.0.0-0 || ^18 || ^18.0.0-0 || ^19 || ^19.0.0-0
+      react-dom: ^17.0.2 || ^17.0.2-0 || ^18 || ^18.0.0-0 || ^19 || ^19.0.0-0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@mux/mux-player': 3.11.4(react@18.3.0-canary-a870b2d54-20240314)
+      '@mux/playback-core': 0.33.1
+      '@types/react': 18.2.48
+      '@types/react-dom': 18.2.18
+      prop-types: 15.8.1
+      react: 18.3.0-canary-a870b2d54-20240314
+      react-dom: 18.3.0-canary-a870b2d54-20240314(react@18.3.0-canary-a870b2d54-20240314)
+    dev: false
+
   /@mux/mux-player@2.3.2:
     resolution: {integrity: sha512-ar58+vNGHCytUDM9+Q+yasFCRayqvw5UwyqUVibPR4k0yRML7PTqejAZNzi9obqgUW/yKsZEbV7foKDYcJL6uw==}
     dependencies:
       '@mux/mux-video': 0.17.2
       '@mux/playback-core': 0.22.1
       media-chrome: 2.1.0
+    dev: false
+
+  /@mux/mux-player@3.11.4(react@18.3.0-canary-a870b2d54-20240314):
+    resolution: {integrity: sha512-E7A6GIx3ECXjDIFuhkmuU0PRnnkTluKoi+jCuVtZWDnBLmeM9WxNTVIDyAJQX2Ro/BkTuZChMspObj9OgngLTg==}
+    dependencies:
+      '@mux/mux-video': 0.30.2
+      '@mux/playback-core': 0.33.1
+      media-chrome: 4.17.2(react@18.3.0-canary-a870b2d54-20240314)
+      player.style: 0.3.1(react@18.3.0-canary-a870b2d54-20240314)
+    transitivePeerDependencies:
+      - react
     dev: false
 
   /@mux/mux-video@0.17.2:
@@ -12472,11 +12511,28 @@ packages:
       media-tracks: 0.3.0
     dev: false
 
+  /@mux/mux-video@0.30.2:
+    resolution: {integrity: sha512-JwNH7FwLSmPGdU355LvCL1MWyrMFl2dy6mSzyqiHp+14eBaoRu1Os4Dg2khw5dECJSIm7Z4ZMeDnHQc/rj7/YQ==}
+    dependencies:
+      '@mux/mux-data-google-ima': 0.3.4
+      '@mux/playback-core': 0.33.1
+      castable-video: 1.1.11
+      custom-media-element: 1.4.5
+      media-tracks: 0.3.4
+    dev: false
+
   /@mux/playback-core@0.22.1:
     resolution: {integrity: sha512-tsPMpcu/xYHQtO6USZwg80CDaXyc7UbyJGoqMU9P1o0e15X/KDcz179nhr6k0CXafg/yiwAlxPNGXnpwToWJ4w==}
     dependencies:
       hls.js: 1.4.14
       mux-embed: 4.30.0
+    dev: false
+
+  /@mux/playback-core@0.33.1:
+    resolution: {integrity: sha512-lyfvZQuc5UebfJBqjZ+TiFHD3B08otJrNG+pYU2klv6ywYjpvnSCbWBif7YtaC4gIPUJjkErspXWND3w34ctIg==}
+    dependencies:
+      hls.js: 1.6.15
+      mux-embed: 5.17.6
     dev: false
 
   /@next-auth/prisma-adapter@1.0.7(@prisma/client@5.2.0)(next-auth@4.24.7):
@@ -21401,12 +21457,26 @@ packages:
       custom-media-element: 1.2.2
     dev: false
 
+  /castable-video@1.1.11:
+    resolution: {integrity: sha512-LCRTK6oe7SB1SiUQFzZCo6D6gcEzijqBTVIuj3smKpQdesXM18QTbCVqWgh9MfOeQgTx/i9ji5jGcdqNPeWg2g==}
+    dependencies:
+      custom-media-element: 1.4.5
+    dev: false
+
   /ccount@1.1.0:
     resolution: {integrity: sha512-vlNK021QdI7PNeiUh/lKkC/mNHHfV0m/Ad5JoI0TYtlBnJAslM/JIkm/tGC88bkLIwO6OQ5uV6ztS6kVAtCDlg==}
     dev: false
 
   /ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
+
+  /ce-la-react@0.3.2(react@18.3.0-canary-a870b2d54-20240314):
+    resolution: {integrity: sha512-QJ6k4lOD/btI08xG8jBPxRCGXvCnusGGkTsiXk0u3NqUu/W+BXRnFD4PYjwtqh8AWmGa5LDbGk0fLQsqr0nSMA==}
+    peerDependencies:
+      react: '>=17.0.0'
+    dependencies:
+      react: 18.3.0-canary-a870b2d54-20240314
+    dev: false
 
   /chainsaw@0.1.0:
     resolution: {integrity: sha512-75kWfWt6MEKNC8xYXIdRpDehRYY/tNSgwKaJq+dbbDcxORuVrrQ+SEHoWsniVn9XPYfP4gmdWIeDk/4YNp1rNQ==}
@@ -22562,6 +22632,10 @@ packages:
 
   /custom-media-element@1.2.2:
     resolution: {integrity: sha512-tI+NjVRS485QlSxHeM3JIjdEZSJMLOZVp41/vvWukDmIkZSoYG9gLYl9GFZGBpY42UbRVo1eMlF7XkI/IiDHzQ==}
+    dev: false
+
+  /custom-media-element@1.4.5:
+    resolution: {integrity: sha512-cjrsQufETwxjvwZbYbKBCJNvmQ2++G9AvT45zDi7NXL9k2PdVcs2h0jQz96J6G4TMKRCcEsoJ+QTgQD00Igtjw==}
     dev: false
 
   /cyclist@1.0.2:
@@ -26916,6 +26990,10 @@ packages:
     resolution: {integrity: sha512-UppQjyvPVclg+6t2KY/Rv03h0+bA5u6zwqVoz4LAC/L0fgYmIaCD7ZCrwe8WI1Gv01be1XL0QFsRbSdIHV/Wbw==}
     dev: false
 
+  /hls.js@1.6.15:
+    resolution: {integrity: sha512-E3a5VwgXimGHwpRGV+WxRTKeSp2DW5DI5MWv34ulL3t5UNmyJWCQ1KmLEHbYzcfThfXG8amBL+fCYPneGHC4VA==}
+    dev: false
+
   /hoist-non-react-statics@2.5.5:
     resolution: {integrity: sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==}
     dev: false
@@ -30970,8 +31048,28 @@ packages:
     resolution: {integrity: sha512-ceUEE9tHVIe7KNmjtWq4oCOx1oYq09VyL3A9EP1MDGnFot0eOoLuDfaye/koe8+4tzhB4/yGyn8pIGuvzF85lg==}
     dev: false
 
+  /media-chrome@4.16.1(react@18.3.0-canary-a870b2d54-20240314):
+    resolution: {integrity: sha512-qtFlsy0lNDVCyVo//ZCAfRPKwgehfOYp6rThZzDUuZ5ypv41yqUfAxK+P9TOs+XSVWXATPTT2WRV0fbW0BH4vQ==}
+    dependencies:
+      ce-la-react: 0.3.2(react@18.3.0-canary-a870b2d54-20240314)
+    transitivePeerDependencies:
+      - react
+    dev: false
+
+  /media-chrome@4.17.2(react@18.3.0-canary-a870b2d54-20240314):
+    resolution: {integrity: sha512-o/IgiHx0tdSVwRxxqF5H12FK31A/A8T71sv3KdAvh7b6XeBS9dXwqvIFwlR9kdEuqg3n7xpmRIuL83rmYq8FTg==}
+    dependencies:
+      ce-la-react: 0.3.2(react@18.3.0-canary-a870b2d54-20240314)
+    transitivePeerDependencies:
+      - react
+    dev: false
+
   /media-tracks@0.3.0:
     resolution: {integrity: sha512-kicD8eOFwe6nD7jn7iM/0yuLzWuo6abWHURYwY7NhxL1dBif+lt0on4rLTs6VhKwAEE/BjT3wr+0vn1w8SBpag==}
+    dev: false
+
+  /media-tracks@0.3.4:
+    resolution: {integrity: sha512-5SUElzGMYXA7bcyZBL1YzLTxH9Iyw1AeYNJxzByqbestrrtB0F3wfiWUr7aROpwodO4fwnxOt78Xjb3o3ONNQg==}
     dev: false
 
   /memoize-one@3.1.1:
@@ -32274,6 +32372,14 @@ packages:
 
   /mux-embed@4.30.0:
     resolution: {integrity: sha512-XAgAp4CEvsiZL26GbruzeG1g33OWyrzuskDMavXUxDufTxS0/AxAhwoTTRqEzEJS9vnZa/X9R2GV3xRX1XMp2w==}
+    dev: false
+
+  /mux-embed@5.16.1:
+    resolution: {integrity: sha512-XWeOG/nzrfRjdyDajW9VNiP0FuKZhEIHMh8Ybpo8uudQByRSOKH8qOaL+MEGdm7KAHzJunwoyYNodD059Spw/A==}
+    dev: false
+
+  /mux-embed@5.17.6:
+    resolution: {integrity: sha512-/RmlTtXtH4igmDC/+CApNm+UpnwGGvdMU2K5mC7QdD8U2m+XoMIIlmM0Yk9XP81eqQayjKieVBs9IOwTu2u5pA==}
     dev: false
 
   /mysql2@3.11.3:
@@ -33684,6 +33790,14 @@ packages:
       confbox: 0.1.7
       mlly: 1.7.1
       pathe: 1.1.2
+    dev: false
+
+  /player.style@0.3.1(react@18.3.0-canary-a870b2d54-20240314):
+    resolution: {integrity: sha512-z/T8hJGaTkHT9vdXgWdOgF37eB1FV7/j52VXQZ2lgEhpru9oT8TaUWIxp6GoxTnhPBM4X6nSbpkAHrT7UTjUKg==}
+    dependencies:
+      media-chrome: 4.16.1(react@18.3.0-canary-a870b2d54-20240314)
+    transitivePeerDependencies:
+      - react
     dev: false
 
   /please-upgrade-node@3.2.0:
