@@ -49,6 +49,14 @@ import {
   SANITY_WEBHOOK_EVENT,
   SanityWebhookEvent,
 } from './functions/sanity/sanity-inngest-events'
+import {
+  WORKSHOP_MIGRATION_EVENT,
+  type WorkshopMigrationEvent,
+  WORKSHOP_AWS_MIGRATION_EVENT,
+  type WorkshopAwsMigrationEvent,
+  WORKSHOP_AWS_SECTION_EVENT,
+  type WorkshopAwsSectionEvent,
+} from './functions/sanity/workshop-migration'
 
 export type IngestEvents = {
   // Tip video events
@@ -78,6 +86,9 @@ export type IngestEvents = {
   [CHARGE_REFUNDED_EVENT]: ChargeRefunded
   // Sanity events
   [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
+  [WORKSHOP_MIGRATION_EVENT]: WorkshopMigrationEvent
+  [WORKSHOP_AWS_MIGRATION_EVENT]: WorkshopAwsMigrationEvent
+  [WORKSHOP_AWS_SECTION_EVENT]: WorkshopAwsSectionEvent
   // Auth events
   [OAUTH_PROVIDER_ACCOUNT_LINKED_EVENT]: OauthProviderAccountLinked
   'user/login': {}

@@ -1,0 +1,46 @@
+{
+  "Introduction": [
+    {
+      "type": "lesson",
+      "title": "Welcome to the Workshop",
+      "awsUrl": "https://your-bucket.s3.amazonaws.com/videos/01-intro.mp4",
+      "code": null
+    }
+  ],
+  "Getting Started": [
+    {
+      "type": "lesson",
+      "title": "Intro to Getting Started",
+      "awsUrl": "https://your-bucket.s3.amazonaws.com/videos/02-getting-started-intro.mp4",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Setup Your Environment",
+      "awsUrl": "https://your-bucket.s3.amazonaws.com/videos/02-01-setup-problem.mp4",
+      "code": "/02/01/problem",
+      "solution": {
+        "title": "Setup Your Environment (Solution)",
+        "awsUrl": "https://your-bucket.s3.amazonaws.com/videos/02-01-setup-solution.mp4",
+        "code": "/02/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "First Steps",
+      "awsUrl": "https://your-bucket.s3.amazonaws.com/videos/02-02-first-steps-problem.mp4",
+      "code": "/02/02/problem",
+      "solution": {
+        "title": "First Steps (Solution)",
+        "awsUrl": "https://your-bucket.s3.amazonaws.com/videos/02-02-first-steps-solution.mp4",
+        "code": "/02/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break",
+      "awsUrl": "https://your-bucket.s3.amazonaws.com/videos/02-break.mp4",
+      "code": null
+    }
+  ]
+}

@@ -1,0 +1,289 @@
+{
+  "Introduction to Advanced TypeScript": [
+    {
+      "type": "lesson",
+      "title": "Intro to Advanced TypeScript",
+      "awsUrl": "https://www.dropbox.com/scl/fi/x25ixueud7chepcybqjhy/00.intro.mp4?rlkey=5zkq3kdpf589jm9a2wjseuocc&dl=1",
+      "code": null
+    }
+  ],
+  "Promises": [
+    {
+      "type": "lesson",
+      "title": "Intro to Promises",
+      "awsUrl": "https://www.dropbox.com/scl/fi/acz6mh3j3a1l4oafgp1hb/00.intro.mp4?rlkey=pgd4qdc30q2lnyzprark7yb3x&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Creation",
+      "awsUrl": "https://www.dropbox.com/scl/fi/m0gt080qdnh8vkd5poy94/01.problem.creation.mp4?rlkey=k2kg9ohn14jqlw6rk9p4kt4tj&dl=1",
+      "code": "/01/01/problem",
+      "solution": {
+        "title": "Creation",
+        "awsUrl": "https://www.dropbox.com/scl/fi/723b37wwys5d6xomq1xck/01.solution.creation.mp4?rlkey=sshawcs75x8m028p358byb6yn&dl=1",
+        "code": "/01/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Chaining",
+      "awsUrl": "https://www.dropbox.com/scl/fi/aved6h7up61u1bc82b2m2/02.problem.chaining.mp4?rlkey=6nkhra5xq83p03cdp0mcmynct&dl=1",
+      "code": "/01/02/problem",
+      "solution": {
+        "title": "Chaining",
+        "awsUrl": "https://www.dropbox.com/scl/fi/ndula3cdhc7pkygehz0x9/02.solution.chaining.mp4?rlkey=qjqha2odgmejokq5z8ejozgfs&dl=1",
+        "code": "/01/02/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Rejection",
+      "awsUrl": "https://www.dropbox.com/scl/fi/n7lnzdhj0hcfc7palukqt/03.problem.rejection.mp4?rlkey=bux0riz98ge67hetvmk37l5wa&dl=1",
+      "code": "/01/03/problem",
+      "solution": {
+        "title": "Rejection",
+        "awsUrl": "https://www.dropbox.com/scl/fi/arl7xdrjne2822x5p187v/03.solution.rejection.mp4?rlkey=xcwr5ozgynk7exy1crknkc3vj&dl=1",
+        "code": "/01/03/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Promises",
+      "awsUrl": "https://www.dropbox.com/scl/fi/0x8by3ylbnlwdgwjroub7/99.break.mp4?rlkey=lpf2nvi1ztowdfjiog2pk45hs&dl=1",
+      "code": null
+    }
+  ],
+  "Async/Await": [
+    {
+      "type": "lesson",
+      "title": "Intro to Async/Await",
+      "awsUrl": "https://www.dropbox.com/scl/fi/ib70jji971exd80urk8e2/00.intro.mp4?rlkey=rwducfskvm7ffoi6tvm7appdy&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Linear Flow",
+      "awsUrl": "https://www.dropbox.com/scl/fi/tu0r1xqaps9f203yqcxju/01.problem.linear-flow.mp4?rlkey=53t5o5gvefglviys3hy2zxr6v&dl=1",
+      "code": "/02/01/problem",
+      "solution": {
+        "title": "Linear Flow",
+        "awsUrl": "https://www.dropbox.com/scl/fi/3iojigwq3cwujvwo71rg6/01.solution.linear-flow.mp4?rlkey=h6616iwq8067cc2ql5r5dgjfq&dl=1",
+        "code": "/02/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Error Handling",
+      "awsUrl": "https://www.dropbox.com/scl/fi/ywwrct942wlif9mto881u/02.problem.error-handling.mp4?rlkey=2jqhowrl0dh99snd3i97iv6vq&dl=1",
+      "code": "/02/02/problem",
+      "solution": {
+        "title": "Error Handling",
+        "awsUrl": "https://www.dropbox.com/scl/fi/vdvsipwu9mquebqimh1lu/02.solution.error-handling.mp4?rlkey=vjag9ijl63tpsaxuj8txj37mn&dl=1",
+        "code": "/02/02/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Promise Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/1edj8lstbgrsp1rex2tr2/03.problem.promise-types.mp4?rlkey=kurjx1aaqlidaiktu9spfw8oq&dl=1",
+      "code": "/02/03/problem",
+      "solution": {
+        "title": "Promise Types",
+        "awsUrl": "https://www.dropbox.com/scl/fi/zlk516ibo0yf1p6zkffxa/03.solution.promise-types.mp4?rlkey=vj6jl00muvlla1g7agtg1ltns&dl=1",
+        "code": "/02/03/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Async/Await",
+      "awsUrl": "https://www.dropbox.com/scl/fi/srlt5j3e5zjxtd2p68ymq/99.break.mp4?rlkey=u1l0hsz13uvd9cwcalm6ftdoq&dl=1",
+      "code": null
+    }
+  ],
+  "Modules": [
+    {
+      "type": "lesson",
+      "title": "Intro to Modules",
+      "awsUrl": "https://www.dropbox.com/scl/fi/do2pcco5ujm747okp7hf8/00.intro.mp4?rlkey=8vsrp4m37br9b6tyyi5ymu2e4&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Import Export",
+      "awsUrl": "https://www.dropbox.com/scl/fi/reeoeu7bgti7zs83uv4le/01.problem.import-export.mp4?rlkey=shai7qhburn5n495b70q47spx&dl=1",
+      "code": "/03/01/problem",
+      "solution": {
+        "title": "Import Export",
+        "awsUrl": "https://www.dropbox.com/scl/fi/8s8tld7e6aptsqby1eavf/01.solution.import-export.mp4?rlkey=jvkb94gsj0fs9hyxqa8pyarfs&dl=1",
+        "code": "/03/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Default Vs Named",
+      "awsUrl": "https://www.dropbox.com/scl/fi/hi4ir0xku4a4oteb7kh8f/02.problem.default-vs-named.mp4?rlkey=6apeu6jk7o35jkd6rnx2h91fw&dl=1",
+      "code": "/03/02/problem",
+      "solution": {
+        "title": "Default Vs Named",
+        "awsUrl": "https://www.dropbox.com/scl/fi/669yruj2nsclfozh24mal/02.solution.default-vs-named.mp4?rlkey=6qs4da92mwr9nixrgxrtzy8yk&dl=1",
+        "code": "/03/02/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Type Only Imports",
+      "awsUrl": "https://www.dropbox.com/scl/fi/rb7qzhimvo667yrsf6dwm/03.problem.type-only-imports.mp4?rlkey=iu5fnpzxyxk6glqp956qeuujn&dl=1",
+      "code": "/03/03/problem",
+      "solution": {
+        "title": "Type Only Imports",
+        "awsUrl": "https://www.dropbox.com/scl/fi/k4a7lf425qdsqkhjghfbk/03.solution.type-only-imports.mp4.mp4?rlkey=zoqyqpdr322zjtprktc2mk7b0&dl=1",
+        "code": "/03/03/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Modules",
+      "awsUrl": "https://www.dropbox.com/scl/fi/ce7jeevvfyp7sbrthxjfj/99.break.mp4?rlkey=3kda9tr5i5c7gs71ijq9bf825&dl=1",
+      "code": null
+    }
+  ],
+  "Type Operators": [
+    {
+      "type": "lesson",
+      "title": "Intro to Type Operators",
+      "awsUrl": "https://www.dropbox.com/scl/fi/hm0xew2pntwt4xu02qtaj/00.intro.mp4?rlkey=i77vlt3jsts8ipl2byg7iebqv&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Keyof Typeof",
+      "awsUrl": "https://www.dropbox.com/scl/fi/8hu8jk407xiy14wm2ie57/01.problem.keyof-typeof.mp4?rlkey=rm5qgnu4ay88jykq1tmdpvdmj&dl=1",
+      "code": "/04/01/problem",
+      "solution": {
+        "title": "Keyof Typeof",
+        "awsUrl": "https://www.dropbox.com/scl/fi/rln3qb2nmoiikwo0tr8eh/01.solution.keyof-typeof.mp4?rlkey=jhumzcwc6vfhz6sswwqldctbu&dl=1",
+        "code": "/04/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Index Access",
+      "awsUrl": "https://www.dropbox.com/scl/fi/ff4ee1fsqgn5mzo8korrq/02.problem.index-access.mp4?rlkey=yaa6j6nqwzi9t0kx3cjj4xq0z&dl=1",
+      "code": "/04/02/problem",
+      "solution": {
+        "title": "Index Access",
+        "awsUrl": "https://www.dropbox.com/scl/fi/19snbl3nnlbs7fdzg06is/02.solution.index-access.mp4?rlkey=hlyx3wumseo1u09jdcqcg2n8u&dl=1",
+        "code": "/04/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Type Operators",
+      "awsUrl": "https://www.dropbox.com/scl/fi/iljlzzswop9bht2fhnm13/99.break.mp4?rlkey=f9ks0x3aw4h9yohegly5equ9i&dl=1",
+      "code": null
+    }
+  ],
+  "Utility Types": [
+    {
+      "type": "lesson",
+      "title": "Intro to Utility Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/pn80wdberjukazecrwn3h/00.intro.mp4?rlkey=vg9rr66jwchl8lt1cma64gnai&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Partial Pick",
+      "awsUrl": "https://www.dropbox.com/scl/fi/6pd07h1i78etbn20c8eqk/01.problem.partial-pick.mp4?rlkey=tg1yjn7lwtry3h7t71wmjptdh&dl=1",
+      "code": "/05/01/problem",
+      "solution": {
+        "title": "Partial Pick",
+        "awsUrl": "https://www.dropbox.com/scl/fi/91nfg48ih6ezp4oefi8qq/01.solution.partial-pick.mp4?rlkey=kg9vmljuaht6oks3r8bisq7qh&dl=1",
+        "code": "/05/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "More Utilities",
+      "awsUrl": "https://www.dropbox.com/scl/fi/271uh27i5ui7juv52m275/02.problem.more-utilities.mp4?rlkey=ljordcf1oeq7ybkhm89mc1rbx&dl=1",
+      "code": "/05/02/problem",
+      "solution": {
+        "title": "More Utilities",
+        "awsUrl": "https://www.dropbox.com/scl/fi/5fosdo6zgcishqd18q61k/02.solution.more-utilities.mp4?rlkey=ja4snfp550r9hsw8pa5j2mlvm&dl=1",
+        "code": "/05/02/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Function Utilities",
+      "awsUrl": "https://www.dropbox.com/scl/fi/2w2sb66ijttltngw6gbg0/03.problem.function-utilities.mp4?rlkey=7ghe315okps22djjtob9n7tth&dl=1",
+      "code": "/05/03/problem",
+      "solution": {
+        "title": "Function Utilities",
+        "awsUrl": "https://www.dropbox.com/scl/fi/hp3yymv6w9lj69jvnsi2t/03.solution.function-utilities.mp4?rlkey=38u7txyybe2y0ym2pqn2e6sg7&dl=1",
+        "code": "/05/03/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Creating Mapped Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/vv4040er9c2k74vhvv6yr/04.problem.creating-mapped-types.mp4?rlkey=yv7jxgocg3eug8wkr4sjluqz4&dl=1",
+      "code": "/05/04/problem",
+      "solution": {
+        "title": "Creating Mapped Types",
+        "awsUrl": "https://www.dropbox.com/scl/fi/5c7gvin416slpi8x1lihg/04.solution.creating-mapped-types.mp4?rlkey=8gtn2mll1etl3u1w5f7gwa30j&dl=1",
+        "code": "/05/04/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Utility Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/l2fh7mbg9pktktsfws049/99.break.mp4?rlkey=k4voqigvrptywgfs7e8zsnly8&dl=1",
+      "code": null
+    }
+  ],
+  "Conditional Types": [
+    {
+      "type": "lesson",
+      "title": "Intro to Conditional Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/vl2cgga4fxn40yk6uc9zj/00.intro.mp4?rlkey=8p5utm8crojcevthay87bl85s&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Basic Conditionals",
+      "awsUrl": "https://www.dropbox.com/scl/fi/pedsgt0ydy9plzhzluar1/01.problem.basic-conditionals.mp4?rlkey=b3x3bi7mzi81k26l2e98bwbga&dl=1",
+      "code": "/06/01/problem",
+      "solution": {
+        "title": "Basic Conditionals",
+        "awsUrl": "https://www.dropbox.com/scl/fi/bpvoloeetg9u4cjrpamna/01.solution.basic-conditionals.mp4?rlkey=9avx0av7i4zket9pq5ru3pxhb&dl=1",
+        "code": "/06/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Infer",
+      "awsUrl": "https://www.dropbox.com/scl/fi/1fcfs6ngdqgn0seejk9ef/02.problem.infer.mp4?rlkey=tzymo4ga4769zd4a8k1k4z7qu&dl=1",
+      "code": "/06/02/problem",
+      "solution": {
+        "title": "Infer",
+        "awsUrl": "https://www.dropbox.com/scl/fi/57zitxrlka616fjausgap/02.solution.infer.mp4?rlkey=wpfh0e8b4if9t9qy2vpb4pmu1&dl=1",
+        "code": "/06/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Conditional Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/l838biwe8biu17jbbg28k/99.break.mp4?rlkey=jqg8dgd0dmgo6u7xh3dyo169x&dl=1",
+      "code": null
+    }
+  ],
+  "Outro to Advanced TypeScript": [
+    {
+      "type": "lesson",
+      "title": "Outro to Advanced TypeScript",
+      "awsUrl": "https://www.dropbox.com/scl/fi/5ekul0okc8idixh01a4ie/99.outro.mp4?rlkey=gz63w1og2rczujac6ha06hae6&dl=1",
+      "code": null
+    }
+  ]
+}

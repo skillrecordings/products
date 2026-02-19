@@ -1,0 +1,248 @@
+{
+  "Arrays": [
+    {
+      "type": "lesson",
+      "title": "Intro to Arrays",
+      "awsUrl": "https://www.dropbox.com/scl/fi/gmoh9idbg2rbmpybzoze9/00.intro.mp4?rlkey=ist5j4drkr3gu6d3ptg2rlb7q&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Array Basics",
+      "awsUrl": "https://www.dropbox.com/scl/fi/rpy4102m32znpury39q2t/01.problem.array-basics.mp4?rlkey=pnsc4lumdt32pfd5l2fwel9aa&dl=1",
+      "code": "/02/01/problem",
+      "solution": {
+        "title": "Array Basics",
+        "awsUrl": "https://www.dropbox.com/scl/fi/6jbxt8omi0sj8pebjvhtc/01.solution.array-basics.mp4?rlkey=8ep0v1ni95dx3hx0hump5k7o1&dl=1",
+        "code": "/02/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Array Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/6zs5s7fouh6yj9uhs11ct/02.problem.array-types.mp4?rlkey=oc366o5qma4x6econ4ypgjjn3&dl=1",
+      "code": "/02/02/problem",
+      "solution": {
+        "title": "Array Types",
+        "awsUrl": "https://www.dropbox.com/scl/fi/5cfwbo9xxzhspxn5mgkyt/02.solution.array-types.mp4?rlkey=hkdpp5mzfdt5v77wcsm6iefyr&dl=1",
+        "code": "/02/02/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Iteration",
+      "awsUrl": "https://www.dropbox.com/scl/fi/wp8lr5iorvaq5b7zdxdh7/03.problem.iteration.mp4?rlkey=gbgtthd9sd6lvt4djc0xzodf7&dl=1",
+      "code": "/02/03/problem",
+      "solution": {
+        "title": "Iteration",
+        "awsUrl": "https://www.dropbox.com/scl/fi/8uv04h8tzc36ugllcvtmy/03.solution.iteration.mp4?rlkey=z1wah86cug2jmxkz1vutq7lik&dl=1",
+        "code": "/02/03/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Arrays",
+      "awsUrl": "https://www.dropbox.com/scl/fi/o4k8dzr6x0k8vv5fq28p0/99.break.mp4?rlkey=vo3fjq3vsmf610mvrczxlul3z&dl=1",
+      "code": null
+    }
+  ],
+  "Spread and Rest": [
+    {
+      "type": "lesson",
+      "title": "Intro to Spread and Rest",
+      "awsUrl": "https://www.dropbox.com/scl/fi/rkbf5oh6r7l9ju0grrh5l/00.intro.mp4?rlkey=01g09gj8rvazsm2uyt5ni2opu&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Object Spread",
+      "awsUrl": "https://www.dropbox.com/scl/fi/mqvvfyajqqj8uhpwlsnb1/01.problem.object-spread.mp4?rlkey=uuhevm7dx2tpeoaswgultgfns&dl=1",
+      "code": "/03/01/problem",
+      "solution": {
+        "title": "Object Spread",
+        "awsUrl": "https://www.dropbox.com/scl/fi/e8jmk2cj343x05i458cd9/01.solution.object-spread.mp4?rlkey=5icc66ak9sm9m5xumndls1fmf&dl=1",
+        "code": "/03/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Rest Parameters",
+      "awsUrl": "https://www.dropbox.com/scl/fi/2cx7p39u2stwd3mr5flng/02.problem.rest-parameters.mp4?rlkey=f680ljlsv0fm727c8flsf8asb&dl=1",
+      "code": "/03/02/problem",
+      "solution": {
+        "title": "Rest Parameters",
+        "awsUrl": "https://www.dropbox.com/scl/fi/dryzn8xjgzbjimz99k4dm/02.solution.rest-parameters.mp4?rlkey=rok7ic1tyst16nxz1wkp5sbva&dl=1",
+        "code": "/03/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Spread and Rest",
+      "awsUrl": "https://www.dropbox.com/scl/fi/0hoagmepvwuo591t49og8/99.break.mp4?rlkey=uk35sdixfkfa4b3hwk8axlr07&dl=1",
+      "code": null
+    }
+  ],
+  "Destructuring": [
+    {
+      "type": "lesson",
+      "title": "Intro to Destructuring",
+      "awsUrl": "https://www.dropbox.com/scl/fi/7atl91ob2kftzrl7o2ytc/00.intro.mp4?rlkey=up5d5z9tjkalpyoq6nzcafsah&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Object Destructuring",
+      "awsUrl": "https://www.dropbox.com/scl/fi/p9quchqusayl48v4txen6/01.problem.object-destructuring.mp4?rlkey=bkmv4gu01jd352wrn9hrlkopx&dl=1",
+      "code": "/04/01/problem",
+      "solution": {
+        "title": "Object Destructuring",
+        "awsUrl": "https://www.dropbox.com/scl/fi/n5ohrut2zzp6or3yhsqfy/01.solution.object-destructuring.mp4?rlkey=p2w8klzk5lz1qz56u7cvj4pb6&dl=1",
+        "code": "/04/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Array Destructuring",
+      "awsUrl": "https://www.dropbox.com/scl/fi/w0jon0u4kxpwrtn34req0/02.problem.array-destructuring.mp4?rlkey=79uw355qpwqcp6hocjwo6g64p&dl=1",
+      "code": "/04/02/problem",
+      "solution": {
+        "title": "Array Destructuring",
+        "awsUrl": "https://www.dropbox.com/scl/fi/lnc2clurf8cjkns97bmw1/02.solution.array-destructuring.mp4?rlkey=vo37drj0r3gavi9hp01k7vebz&dl=1",
+        "code": "/04/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Outro",
+      "awsUrl": "https://www.dropbox.com/scl/fi/06cpwakx0gf3zln2wsach/99.outro.mp4?rlkey=mynz0fk10ey1co2p8bvzqzat5&dl=1",
+      "code": null
+    }
+  ],
+  "Array Methods": [
+    {
+      "type": "lesson",
+      "title": "Intro to Array Methods",
+      "awsUrl": "https://www.dropbox.com/scl/fi/3eb0qy53eeo1hd86sdjk3/00.intro.mp4?rlkey=0nhkz1tf88k2qvaajbiro53ny&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Map",
+      "awsUrl": "https://www.dropbox.com/scl/fi/rsaipta4piv9hlbzt7xde/01.problem.map.mp4?rlkey=xg024jsq9zjuc26hu44x7lvtu&dl=1",
+      "code": "/05/01/problem",
+      "solution": {
+        "title": "Map",
+        "awsUrl": "https://www.dropbox.com/scl/fi/jmsvl8a3ni8myjv5m6uz3/01.solution.map.mp4?rlkey=i4l08cf4ijbikb2rriw2uea56&dl=1",
+        "code": "/05/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Filter",
+      "awsUrl": "https://www.dropbox.com/scl/fi/vbtlnc81nu45rokr6lttt/02.problem.filter.mp4?rlkey=zafz8toktkf4qkfz6s6sppm3p&dl=1",
+      "code": "/05/02/problem",
+      "solution": {
+        "title": "Filter",
+        "awsUrl": "https://www.dropbox.com/scl/fi/hwsqdy31p744o3j6067kk/02.solution.filter.mp4?rlkey=flcaeba37sgeabhuu0wba9ix0&dl=1",
+        "code": "/05/02/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Reduce",
+      "awsUrl": "https://www.dropbox.com/scl/fi/dxwhpanh00foss8u6e62a/03.problem.reduce.mp4?rlkey=whygww6purkngzlty8jbs0fc6&dl=1",
+      "code": "/05/03/problem",
+      "solution": {
+        "title": "Reduce",
+        "awsUrl": "https://www.dropbox.com/scl/fi/rzzd9uoz9d85tgtvkstpu/03.solution.reduce.mp4?rlkey=dh5cm2jwsxuwzmlzjv87vrwww&dl=1",
+        "code": "/05/03/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Array Methods",
+      "awsUrl": "https://www.dropbox.com/scl/fi/o4k8dzr6x0k8vv5fq28p0/99.break.mp4?rlkey=vo3fjq3vsmf610mvrczxlul3z&st=ro36e9f2&dl=1",
+      "code": null
+    }
+  ],
+  "Object Methods": [
+    {
+      "type": "lesson",
+      "title": "Intro to .object-methods",
+      "awsUrl": "https://www.dropbox.com/scl/fi/qfrkqlbxzwtyer1hi849r/00.intro.mp4?rlkey=rhzbugbh413v9n6h3y6z1atzf&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Keys Values",
+      "awsUrl": "https://www.dropbox.com/scl/fi/dxrdynfdk9794fg0uo46y/01.problem.keys-values.mp4?rlkey=lc5gbsnftsjjggy4mj7uiwa52&dl=1",
+      "code": "/06/01/problem",
+      "solution": {
+        "title": "Keys Values",
+        "awsUrl": "https://www.dropbox.com/scl/fi/i4yjygkkdsten2osm4vdb/01.solution.keys-values.mp4?rlkey=ikgjgqb6ztska9n3fxga43rhl&dl=1",
+        "code": "/06/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Entries From Entries",
+      "awsUrl": "https://www.dropbox.com/scl/fi/kzsz82kn0h6m4eze8tqtu/02.problem.entries-from-entries.mp4?rlkey=4uw3ry0jaacie6zsf6o82g2ca&dl=1",
+      "code": "/06/02/problem",
+      "solution": {
+        "title": "Entries From Entries",
+        "awsUrl": "https://www.dropbox.com/scl/fi/d8m5qw7jjqvb5mt6deslw/02.solution.entries-from-entries.mp4?rlkey=mvb7g0sq0fh8bnvgfcd52y63g&dl=1",
+        "code": "/06/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Object Methods",
+      "awsUrl": "https://www.dropbox.com/scl/fi/m5phmg6r49cy2an4e79pj/99.break.mp4?rlkey=ut50a7pgevgzdl4kyqn66wyzy&dl=1",
+      "code": null
+    }
+  ],
+  "Maps and Sets": [
+    {
+      "type": "lesson",
+      "title": "Intro to Maps and Sets",
+      "awsUrl": "https://www.dropbox.com/scl/fi/f0obq7lyemevc8dgm59af/00.intro.mp4?rlkey=rw6dz8opbdtpzao6c9urnras9&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Maps",
+      "awsUrl": "https://www.dropbox.com/scl/fi/1y4tar4crgh1yqgfjcd5f/01.problem.maps.mp4?rlkey=wkt0gexm3ystn2qeo5zztb3rl&dl=1",
+      "code": "/07/01/problem",
+      "solution": {
+        "title": "Maps",
+        "awsUrl": "https://www.dropbox.com/scl/fi/vzg4t21gol78zfb82xlgm/01.solution.maps.mp4?rlkey=fes6pklb3jzyot0u84ueokqqu&dl=1",
+        "code": "/07/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Sets",
+      "awsUrl": "https://www.dropbox.com/scl/fi/vguvmtmxr016r23b5fs66/02.problem.sets.mp4?rlkey=fp6rzautkru5if3p84h6mojv9&dl=1",
+      "code": "/07/02/problem",
+      "solution": {
+        "title": "Sets",
+        "awsUrl": "https://www.dropbox.com/scl/fi/2a4ocmj3ndjhw2jlvzss5/02.solution.sets.mp4?rlkey=jfkuh68pjjwsiuffejzs90wdd&dl=1",
+        "code": "/07/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Maps and Sets",
+      "awsUrl": "https://www.dropbox.com/scl/fi/zelosoefv1fdmiax6hymf/99.break.mp4?rlkey=yg1fldlpc6e3caip1k2l6fpdk&dl=1",
+      "code": null
+    }
+  ],
+  "Outro to Structured Data": [
+    {
+      "type": "lesson",
+      "title": "Outro to Structured Data",
+      "awsUrl": "https://www.dropbox.com/scl/fi/o1lstt2enrr908708gs0j/99.outro.mp4?rlkey=mtlp8032ol211go4c4sw87zqd&dl=1",
+      "code": null
+    }
+  ]
+}

@@ -36,6 +36,27 @@ export const processVideoResource = inngest.createFunction(
   async ({event, step}) => {
     const {videoResourceId, originalMediaUrl} = event.data
 
+    // Skip processing if video is already ready (e.g., migrated content)
+    const existingVideo = await step.run(
+      'Check if video already processed',
+      async () => {
+        return sanityWriteClient.fetch(`*[_id == $videoResourceId][0]{state}`, {
+          videoResourceId,
+        })
+      },
+    )
+
+    if (existingVideo?.state === 'ready') {
+      console.info(
+        `Skipping video processing for ${videoResourceId} - already in ready state`,
+      )
+      return {
+        videoResourceId,
+        skipped: true,
+        reason: 'Video already in ready state',
+      }
+    }
+
     if (!DEEPGRAM_API_KEY) {
       throw new Error('DEEPGRAM_API_KEY is not configured')
     }

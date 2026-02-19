@@ -1,0 +1,339 @@
+{
+  "Introduction to Type Safety": [
+    {
+      "type": "lesson",
+      "title": "Intro to Type Safety",
+      "awsUrl": "https://www.dropbox.com/scl/fi/l8wxslsa4sb64d2ql5xqc/00.intro.mp4?rlkey=4dtymjjmc00kt0p93bxxp7ikm&dl=1",
+      "code": null
+    }
+  ],
+  "Type Aliases": [
+    {
+      "type": "lesson",
+      "title": "Intro to Type Aliases",
+      "awsUrl": "https://www.dropbox.com/scl/fi/dyvudqde697mam7a7i178/00.intro.mp4?rlkey=s15nkgdfsjju544kgcko5apbl&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Naming Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/71o6fcbnxcaa9v33dum2g/01.problem.naming-types.mp4?rlkey=h5p89eipwnin37s71jlj274i5&dl=1",
+      "code": "/01/01/problem",
+      "solution": {
+        "title": "Naming Types (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/t2xlg2gmss3q5haj17p27/01.solution.naming-types.mp4?rlkey=vuxze813246iiqunkclqzp7ls&dl=1",
+        "code": "/01/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Composition",
+      "awsUrl": "https://www.dropbox.com/scl/fi/5u9p4qyw6robopkei02ld/02.problem.composition.mp4?rlkey=i60bncv7if72m4jq805yigrl1&dl=1",
+      "code": "/01/02/problem",
+      "solution": {
+        "title": "Composition (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/a5zx48k6hs1hfg9y8ezww/02.solution.composition.mp4?rlkey=9vplcplm89mv6bfo79zcd4rq9&dl=1",
+        "code": "/01/02/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Record Type",
+      "awsUrl": "https://www.dropbox.com/scl/fi/92ria5y2r0rp9239esdik/03.problem.record-type.mp4?rlkey=psfsqpa4axx732silseyz11zj&dl=1",
+      "code": "/01/03/problem",
+      "solution": {
+        "title": "Record Type (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/igv0bgu9frdlqy7dyn3ln/03.solution.record-type.mp4?rlkey=1xy75cnbnnetrvcl0ztuqx0f7&dl=1",
+        "code": "/01/03/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Type Aliases",
+      "awsUrl": "https://www.dropbox.com/scl/fi/67ahqz484c16bfx0yq28b/99.break.mp4?rlkey=yonuzw364g1kpxb1610zby9z1&dl=1",
+      "code": null
+    }
+  ],
+  "Union Types": [
+    {
+      "type": "lesson",
+      "title": "Intro to Union Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/44igrs62vv7op8m5pnfcs/00.intro.mp4?rlkey=yrzfl3vi62xb4g8cpprucbz9c&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Multiple Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/3xtbv0o7ibkt1c1ffvvl8/01.problem.multiple-types.mp4?rlkey=1e2yxndmccmetbl75hc56t4wq&dl=1",
+      "code": "/02/01/problem",
+      "solution": {
+        "title": "Multiple Types (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/x31w5b2jia2j0uir0a8lb/01.solution.multiple-types.mp4?rlkey=f39pggaz1h2lx7ixnj7ftpncw&dl=1",
+        "code": "/02/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Narrowing",
+      "awsUrl": "https://www.dropbox.com/scl/fi/gvlzhgikredcrrz13k8ww/02.problem.narrowing.mp4?rlkey=b8le5jfmpho9a4xycwvv55o9i&dl=1",
+      "code": "/02/02/problem",
+      "solution": {
+        "title": "Narrowing (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/50ki1xmckqfg0dz0enoik/02.solution.narrowing.mp4?rlkey=8zvrzxq4jpcv825ccjj5knpdo&dl=1",
+        "code": "/02/02/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Type Guards",
+      "awsUrl": "https://www.dropbox.com/scl/fi/a78rx0wdb05zonaf3nv21/03.problem.type-guards.mp4?rlkey=71aankf0s5ykub9szdavtffq6&dl=1",
+      "code": "/02/03/problem",
+      "solution": {
+        "title": "Type Guards (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/zicela2ffak2lz5es5man/03.solution.type-guards.mp4?rlkey=555xbww9y7jjkm99ujl8joe95&dl=1",
+        "code": "/02/03/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Discriminated Unions",
+      "awsUrl": "https://www.dropbox.com/scl/fi/cly75jp0z7qa5s3w5kgwa/04.problem.discriminated-unions.mp4?rlkey=bhy0sgysr24grkh6wwiams0gu&dl=1",
+      "code": "/02/04/problem",
+      "solution": {
+        "title": "Discriminated Unions (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/144srfrf1f0diujpu1km1/04.solution.discriminated-unions.mp4?rlkey=td3nz6vy8db9djcb8lfbxca0o&dl=1",
+        "code": "/02/04/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Union Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/8o77x8chi7407mcbskxfu/99.break.mp4?rlkey=ciosm9o6s5ea70wsjwpuzfwhn&dl=1",
+      "code": null
+    }
+  ],
+  "Literal Types": [
+    {
+      "type": "lesson",
+      "title": "Intro to Literal Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/gd4m9pch5dfv1e9sxiakn/00.intro.mp4?rlkey=ml02jmz6shbwyhk4afe90a8nc&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Preserve Literals",
+      "awsUrl": "https://www.dropbox.com/scl/fi/mgrsqg9x3snqcqsc16edf/01.problem.preserve-literals.mp4?rlkey=wvr0ul38u7jhi104b8lrly1mt&dl=1",
+      "code": "/03/01/problem",
+      "solution": {
+        "title": "Preserve Literals (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/7rpc64dsddkxl9f94u6wo/01.solution.preserve-literals.mp4?rlkey=7mnlcgg5jmhls7dxkbxzc2r6w&dl=1",
+        "code": "/03/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Single Source Of Truth",
+      "awsUrl": "https://www.dropbox.com/scl/fi/0qb1k0p7j3qp0wy1m00al/02.problem.single-source-of-truth.mp4?rlkey=4odioxxa7q69e4c94qz2iknsz&dl=1",
+      "code": "/03/02/problem",
+      "solution": {
+        "title": "Single Source Of Truth (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/u4dkdmg2h9l2c7kxwtfzp/02.solution.single-source-of-truth.mp4?rlkey=vfmplop7le6p36zxkmzecpgbj&dl=1",
+        "code": "/03/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Literal Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/7hhnav2j7sjzind6swz67/99.break.mp4?rlkey=fz9u4ryewe4of7r7m68v7hxxh&dl=1",
+      "code": null
+    }
+  ],
+  "Intersection Types": [
+    {
+      "type": "lesson",
+      "title": "Intro to Intersection Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/wstdrrejmb203vwttddym/00.intro.mp4?rlkey=q087pfp4xdzcewldmc7trhulv&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Combining Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/8z3waw0dk134g8ij98avk/01.problem.combining-types.mp4?rlkey=f5f7qstemq422e1px4dd7ocsn&dl=1",
+      "code": "/04/01/problem",
+      "solution": {
+        "title": "Combining Types (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/zqvmaryhbr5rnhd3k72qj/01.solution.combining-types.mp4?rlkey=55nd049ahiethq3c4d3m3yvh4&dl=1",
+        "code": "/04/01/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Intersection Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/jxx9h6vcr6bsiy9bab37r/99.break.mp4?rlkey=cx92juyjd8wftp193vn294w26&dl=1",
+      "code": null
+    }
+  ],
+  "Any vs Unknown": [
+    {
+      "type": "lesson",
+      "title": "Intro to Any vs Unknown",
+      "awsUrl": "https://www.dropbox.com/scl/fi/t8w3f86hdj7rwrf4upre5/00.intro.mp4?rlkey=8zvja31sethd4y2uomza5mit2&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Escape Hatches",
+      "awsUrl": "https://www.dropbox.com/scl/fi/xj0vc23ksq76ltjlh8vti/01.problem.escape-hatches.mp4?rlkey=uw5cv1aus5yit9jugyredb5u7&dl=1",
+      "code": "/05/01/problem",
+      "solution": {
+        "title": "Escape Hatches (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/0s28k35pncxf9hn6zne9z/01.solution.escape-hatches.mp4?rlkey=02zrqqgq0w54u5x5g4em3pvcg&dl=1",
+        "code": "/05/01/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Any vs Unknown",
+      "awsUrl": "https://www.dropbox.com/scl/fi/hin8gy9tseirud61xjo11/99.break.mp4?rlkey=3mx5m4t7300xxphbcs2nsblsc&dl=1",
+      "code": null
+    }
+  ],
+  "Generics": [
+    {
+      "type": "lesson",
+      "title": "Intro to Generics",
+      "awsUrl": "https://www.dropbox.com/scl/fi/75649t43o3qlezlsgmu76/00.intro.mp4?rlkey=svq8gs80wbq84ar1ktz6j5gp4&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Generic Functions",
+      "awsUrl": "https://www.dropbox.com/scl/fi/02roua92npnkvrvo4wdo3/01.problem.generic-functions.mp4?rlkey=wdg7foe1blypv56cq8xnsxzwp&dl=1",
+      "code": "/06/01/problem",
+      "solution": {
+        "title": "Generic Functions (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/v9fa4llgv344e4oo1dwmo/01.solution.generic-functions.mp4?rlkey=2xdn9hpp97yh4qgt0nvqh3lhv&dl=1",
+        "code": "/06/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Generic Types",
+      "awsUrl": "https://www.dropbox.com/scl/fi/3anroklmg8lifzmq5jogt/02.problem.generic-types.mp4?rlkey=n1dk6p9iuce4x319upyh4xvm4&dl=1",
+      "code": "/06/02/problem",
+      "solution": {
+        "title": "Generic Types (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/kf6vlgbe8qvvgp0fmpoij/02.solution.generic-types.mp4?rlkey=g4kbj7b0u1ziwtj55b6nscbgw&dl=1",
+        "code": "/06/02/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Constraints",
+      "awsUrl": "https://www.dropbox.com/scl/fi/9k7wqj85v7664e34vps9l/03.problem.constraints.mp4?rlkey=h6fz508q50c5fkiz1qcvvvsrj&dl=1",
+      "code": "/06/03/problem",
+      "solution": {
+        "title": "Constraints (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/3zxt9oavqeak33hz5ewv2/03.solution.constraints.mp4?rlkey=ibqlha70cey5yih45no0yyysw&dl=1",
+        "code": "/06/03/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Generics",
+      "awsUrl": "https://www.dropbox.com/scl/fi/mehq7eju6guhjvxq6wzud/99.break.mp4?rlkey=dnm6qfncqtrozsycfaeo61mlg&dl=1",
+      "code": null
+    }
+  ],
+  "Interfaces": [
+    {
+      "type": "lesson",
+      "title": "Intro to Interfaces",
+      "awsUrl": "https://www.dropbox.com/scl/fi/lfr0ac0fiq8pmc1giobaf/00.intro.mp4?rlkey=2fy5vgjhqcuy18miqtlk94w79&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Object Shapes",
+      "awsUrl": "https://www.dropbox.com/scl/fi/rsew3q7bd518mhr020mme/01.problem.object-shapes.mp4?rlkey=qwd1n618x7dsinxaqntohfkqh&dl=1",
+      "code": "/07/01/problem",
+      "solution": {
+        "title": "Object Shapes (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/uiwie9o5stmeu96ayxi3r/01.solution.object-shapes.mp4?rlkey=49fkgyu71ve9dly4vjcfbxks8&dl=1",
+        "code": "/07/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Extending Interfaces",
+      "awsUrl": "https://www.dropbox.com/scl/fi/vdq97r837n8pf97wefqhf/02.problem.extending-interfaces.mp4?rlkey=g8mlvil103jo8dcubmmk7712k&dl=1",
+      "code": "/07/02/problem",
+      "solution": {
+        "title": "Extending Interfaces (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/dnnfqps9nckanvoasar08/02.solution.extending-interfaces.mp4?rlkey=ex2uc3jrkk57spl5na53z2ys6&dl=1",
+        "code": "/07/02/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Declaration Merging",
+      "awsUrl": "https://www.dropbox.com/scl/fi/896e7zolboytej0vkzpdv/03.problem.declaration-merging.mp4?rlkey=52tysz4bmkk1hnyef3cw1shzw&dl=1",
+      "code": "/07/03/problem",
+      "solution": {
+        "title": "Declaration Merging (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/oaovz110wwu2to6wwc31d/03.solution.declaration-merging.mp4?rlkey=h8yzo1cawad63wvlnv42bu080&dl=1",
+        "code": "/07/03/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Interfaces",
+      "awsUrl": "https://www.dropbox.com/scl/fi/q0bjjzk42pwkx694kizbn/99.break.mp4?rlkey=divhegxmfulfup41c65xz0tsf&dl=1",
+      "code": null
+    }
+  ],
+  "Enums": [
+    {
+      "type": "lesson",
+      "title": "Intro to Enums",
+      "awsUrl": "https://www.dropbox.com/scl/fi/6vlgxzsh1toghhpjvl01n/00.intro.mp4?rlkey=7l2nmld6t61ljevcmto6n3ihw&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "String Enums",
+      "awsUrl": "https://www.dropbox.com/scl/fi/z64v5jhkecnc3ui8c0zl1/01.problem.string-enums.mp4?rlkey=m26wxqibofhnkvwvndzgguvuf&dl=1",
+      "code": "/08/01/problem",
+      "solution": {
+        "title": "String Enums (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/aw7w4vsr4pf0xn9jue02i/01.solution.string-enums.mp4?rlkey=pugo278clzydedkjstaekab9r&dl=1",
+        "code": "/08/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Enum Vs Union",
+      "awsUrl": "https://www.dropbox.com/scl/fi/mz0xp2iqi1y3whz4s6x9o/02.problem.enum-vs-union.mp4?rlkey=gtozmdhjv00mm2yg995h3d6pr&dl=1",
+      "code": "/08/02/problem",
+      "solution": {
+        "title": "Enum Vs Union (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/4k1w0bs7f5ekf61fn6tc7/02.solution.enum-vs-union.mp4?rlkey=jji2w73kdx8adzdfjv7p8p4wk&dl=1",
+        "code": "/08/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Enums",
+      "awsUrl": "https://www.dropbox.com/scl/fi/8ebddvam2g9zphdi47gr6/99.break.mp4?rlkey=7xfdd36kjdp5vtbs79wufihya&dl=1",
+      "code": null
+    }
+  ],
+  "Outro to Type Safety": [
+    {
+      "type": "lesson",
+      "title": "Outro to Type Safety",
+      "awsUrl": "https://www.dropbox.com/scl/fi/8hyh73zzts5ldf9syki6p/99.outro.mp4?rlkey=04jnocj7dwn9w9rlu22095bat&dl=1",
+      "code": null
+    }
+  ]
+}

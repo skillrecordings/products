@@ -1,0 +1,173 @@
+{
+  "Introduction to Object Oriented TypeScript": [
+    {
+      "type": "lesson",
+      "title": "Intro to Object Oriented TypeScript",
+      "awsUrl": "https://www.dropbox.com/scl/fi/tga4jkx7qub5mxam25f86/00.intro.mp4?rlkey=id1gh95ontc37gfbgh8afh2sx&dl=1",
+      "code": null
+    }
+  ],
+  "Classes": [
+    {
+      "type": "lesson",
+      "title": "Intro to Classes",
+      "awsUrl": "https://www.dropbox.com/scl/fi/fkegx5t29vraf1c5d87e4/00.intro.mp4?rlkey=2738g7o41on61czih34cz2l3b&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Class Basics",
+      "awsUrl": "https://www.dropbox.com/scl/fi/n9i6v7a7cm6sc7mlqiykw/01.problem.class-basics.mp4?rlkey=cdh515e0wjcrq3faeysoxzuod&dl=1",
+      "code": "/01/01/problem",
+      "solution": {
+        "title": "Class Basics (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/nmnra8ugge511k9xjwahh/01.solution.class-basics.mp4?rlkey=h4berdqt81kcno7ewci5761l4&dl=1",
+        "code": "/01/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Private Fields And Defaults",
+      "awsUrl": "https://www.dropbox.com/scl/fi/dn6jfq0nv1zwi4dbhklsn/02.problem.private-fields-and-defaults.mp4?rlkey=ri12al0zr9gfesntvpluq9479&dl=1",
+      "code": "/01/02/problem",
+      "solution": {
+        "title": "Private Fields And Defaults (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/0fucakut8r3dt7ex1jlyk/02.solution.private-fields-and-defaults.mp4?rlkey=bz5d4vp0p75uff0o237kxjokc&dl=1",
+        "code": "/01/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Classes",
+      "awsUrl": "https://www.dropbox.com/scl/fi/iwwy4a4b8sks5zkn3irga/99.break.mp4?rlkey=11pastn535k3itk5qqv9qwm74&dl=1",
+      "code": null
+    }
+  ],
+  "Interfaces and Classes": [
+    {
+      "type": "lesson",
+      "title": "Intro to Interfaces and Classes",
+      "awsUrl": "https://www.dropbox.com/scl/fi/8ooh7wxl6xppop5clzwla/00.intro.mp4?rlkey=x8q8ohcgodej2utnucfi1fh8w&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Implementing Interfaces",
+      "awsUrl": "https://www.dropbox.com/scl/fi/2jlhw9cuhmo0gkk9jamoh/01.problem.implementing-interfaces.mp4?rlkey=gpzzsja8c4qu6hxjdt1l17qbf&dl=1",
+      "code": "/02/01/problem",
+      "solution": {
+        "title": "Implementing Interfaces (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/kpvhtofza1g1c07ilgeot/01.solution.implementing-interfaces.mp4?rlkey=m49ip63pt8cadip3rjczfojf0&dl=1",
+        "code": "/02/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Programming To Abstractions",
+      "awsUrl": "https://www.dropbox.com/scl/fi/ubzvlgj46w2dppip3q6uo/02.problem.programming-to-abstractions.mp4?rlkey=hnbmgn5frimevsithb95wbjhr&dl=1",
+      "code": "/02/02/problem",
+      "solution": {
+        "title": "Programming To Abstractions (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/wpqzxa3ug9afq8lxcaib0/02.solution.programming-to-abstractions.mp4?rlkey=l4ytwq5x3solzceciq44wuplz&dl=1",
+        "code": "/02/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Interfaces and Classes",
+      "awsUrl": "https://www.dropbox.com/scl/fi/r9ven4zf8qldxghe10cnl/99.break.mp4?rlkey=pue36g2huq6vcz28ak5i53ins&dl=1",
+      "code": null
+    }
+  ],
+  "Inheritance and Polymorphism": [
+    {
+      "type": "lesson",
+      "title": "Intro to Inheritance and Polymorphism",
+      "awsUrl": "https://www.dropbox.com/scl/fi/t65v6hmsg7fsayssrkvd5/00.intro.mp4?rlkey=z7xepbmj40ciz3jsxlcf28ada&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "Extends",
+      "awsUrl": "https://www.dropbox.com/scl/fi/x6icrton87o2z30hs98vd/01.problem.extends.mp4?rlkey=693m782spp12ag3s9ynjz8lle&dl=1",
+      "code": "/03/01/problem",
+      "solution": {
+        "title": "Extends (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/va7s9adtimamiibwh21a3/01.solution.extends.mp4?rlkey=ht4um917bjhdd7j1mc8bwoq9f&dl=1",
+        "code": "/03/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Method Overriding",
+      "awsUrl": "https://www.dropbox.com/scl/fi/eec7l0uxitk2afx324dxg/02.problem.method-overriding.mp4?rlkey=hlqocwfxoxzqfc4s07pfdm1ua&dl=1",
+      "code": "/03/02/problem",
+      "solution": {
+        "title": "Method Overriding (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/2i0peebzvfzfgcbamf0ud/02.solution.method-overriding.mp4?rlkey=j197u29zx33sryyf0fui5d8cs&dl=1",
+        "code": "/03/02/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Substitutability",
+      "awsUrl": "https://www.dropbox.com/scl/fi/fpf6nhbxywmhkgoadarof/03.problem.substitutability.mp4?rlkey=l6vk4ez290v6owmublmmlxvl6&dl=1",
+      "code": "/03/03/problem",
+      "solution": {
+        "title": "Substitutability (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/7db1avum97bon2vijl0as/03.solution.substitutability.mp4?rlkey=7nsz1i7nvzwanm81zx953d3a4&dl=1",
+        "code": "/03/03/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Inheritance and Polymorphism",
+      "awsUrl": "https://www.dropbox.com/scl/fi/aaxhvqlwfrescjw0ia7rj/99.break.mp4?rlkey=cwh4zfjum1igijql20vu3kcu3&dl=1",
+      "code": null
+    }
+  ],
+  "Composition vs Inheritance": [
+    {
+      "type": "lesson",
+      "title": "Intro to Composition vs Inheritance",
+      "awsUrl": "https://www.dropbox.com/scl/fi/ea6ptzqwebgufs3xj41uj/00.intro.mp4?rlkey=xk647j3rz35lax1y3infowhhe&dl=1",
+      "code": null
+    },
+    {
+      "type": "exercise",
+      "title": "When To Use",
+      "awsUrl": "https://www.dropbox.com/scl/fi/zv6atmn507omw4cfv8oqd/01.problem.when-to-use.mp4?rlkey=upz70xj5i41rjbm3pz5phycgi&dl=1",
+      "code": "/04/01/problem",
+      "solution": {
+        "title": "When To Use (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/txptt9du7cctl19plxevh/01.solution.when-to-use.mp4?rlkey=386o4fienhbaowmpe01m9gql1&dl=1",
+        "code": "/04/01/solution"
+      }
+    },
+    {
+      "type": "exercise",
+      "title": "Dependency Injection",
+      "awsUrl": "https://www.dropbox.com/scl/fi/mqe9cwrryyeg01aa1m5cl/02.problem.dependency-injection.mp4?rlkey=gydm2bmb4nja9bslsnudad3jr&dl=1",
+      "code": "/04/02/problem",
+      "solution": {
+        "title": "Dependency Injection (Solution)",
+        "awsUrl": "https://www.dropbox.com/scl/fi/zuztcauuri66v97g8ezp5/02.solution.dependency-injection.mp4?rlkey=cbu18d82b0w6e7tpwk0c2cyyi&dl=1",
+        "code": "/04/02/solution"
+      }
+    },
+    {
+      "type": "lesson",
+      "title": "Break Composition vs Inheritance",
+      "awsUrl": "https://www.dropbox.com/scl/fi/ptndloj2dbbol1rv5txc0/99.break.mp4?rlkey=l29k5z5pk3ki1tj7nxuvewouy&dl=1",
+      "code": null
+    }
+  ],
+  "Outro to Object Oriented TypeScript": [
+    {
+      "type": "lesson",
+      "title": "Outro to Object Oriented TypeScript",
+      "awsUrl": "https://www.dropbox.com/scl/fi/51euvlsdj0yey8nau8xhf/99.outro.mp4?rlkey=rkvku0r0xb8pvv3ofntj6dwie&dl=1",
+      "code": null
+    }
+  ]
+}

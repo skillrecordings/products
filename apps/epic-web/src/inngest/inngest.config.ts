@@ -6,6 +6,10 @@ import {lessonCompleted} from 'inngest/functions/progress/lesson-completed'
 import {writeAnEmail} from 'inngest/functions/ai-email/write-an-email'
 import {purchaseTransferComplete} from 'inngest/functions/purchase/purchase-transfer-complete'
 import {sanityProductFunctions} from 'inngest/functions/sanity/product'
+import {
+  migrateWorkshopContent,
+  migrateWorkshopFromAws,
+} from 'inngest/functions/sanity/workshop-migration'
 import {stripeWebhookReceived} from 'inngest/functions/stripe/webhook-received'
 import {sendWelcomeEmail} from 'inngest/functions/post-purchase-automation/send-welcome-email'
 import {discordAccountLinked} from 'inngest/functions/discord/discord-account-linked'
@@ -51,5 +55,7 @@ export const inngestConfig = {
     syncConversions,
     // Sanity
     ...sanityProductFunctions,
+    migrateWorkshopContent,
+    migrateWorkshopFromAws,
   ],
 }
