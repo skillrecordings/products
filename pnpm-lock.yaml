@@ -207,8 +207,8 @@ importers:
         specifier: '=4.4.1'
         version: 4.4.1(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       next-sitemap:
-        specifier: ^3.0.5
-        version: 3.1.55(@next/env@13.5.6)(next@14.2.35)
+        specifier: ^4.2.3
+        version: 4.2.3(next@14.2.35)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@14.2.35)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -715,8 +715,8 @@ importers:
         specifier: ^4.1.0
         version: 4.4.1(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       next-sitemap:
-        specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.4)(next@14.2.35)
+        specifier: ^4.2.3
+        version: 4.2.3(next@14.2.35)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@14.2.35)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -769,8 +769,8 @@ importers:
         specifier: ^2.6.3
         version: 2.6.3(react@18.3.0-canary-a870b2d54-20240314)
       react-hook-form:
-        specifier: ^7.29.0
-        version: 7.49.3(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: ^7.55.0
+        version: 7.71.1(react@18.3.0-canary-a870b2d54-20240314)
       react-hot-toast:
         specifier: ^2.2.0
         version: 2.4.1(csstype@3.1.3)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -1028,8 +1028,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6(react@18.3.0-canary-a870b2d54-20240314)
       '@hookform/resolvers':
-        specifier: ^2.9.8
-        version: 2.9.11(react-hook-form@7.49.3)
+        specifier: ^3.10.0
+        version: 3.10.0(react-hook-form@7.71.1)
       '@kentcdodds/md-temp':
         specifier: ^5.0.0
         version: 5.0.0
@@ -1307,8 +1307,8 @@ importers:
         specifier: '=4.4.1'
         version: 4.4.1(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       next-sitemap:
-        specifier: ^3.0.5
-        version: 3.1.55(@next/env@13.5.6)(next@14.2.35)
+        specifier: ^4.2.3
+        version: 4.2.3(next@14.2.35)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@14.2.35)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -1355,8 +1355,8 @@ importers:
         specifier: ^2.6.3
         version: 2.6.3(react@18.3.0-canary-a870b2d54-20240314)
       react-hook-form:
-        specifier: ^7.29.0
-        version: 7.49.3(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: ^7.55.0
+        version: 7.71.1(react@18.3.0-canary-a870b2d54-20240314)
       react-hot-toast:
         specifier: ^2.2.0
         version: 2.4.1(csstype@3.1.3)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -1755,8 +1755,8 @@ importers:
         specifier: ^4.24.7
         version: 4.24.7(next@14.2.35)(nodemailer@6.9.8)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       next-sitemap:
-        specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.4)(next@14.2.35)
+        specifier: ^4.2.3
+        version: 4.2.3(next@14.2.35)
       node-fetch:
         specifier: ^2.6.7
         version: 2.7.0(encoding@0.1.13)
@@ -1779,8 +1779,8 @@ importers:
         specifier: 18.3.0-canary-a870b2d54-20240314
         version: 18.3.0-canary-a870b2d54-20240314(react@18.3.0-canary-a870b2d54-20240314)
       react-hook-form:
-        specifier: ^7.29.0
-        version: 7.49.3(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: ^7.55.0
+        version: 7.71.1(react@18.3.0-canary-a870b2d54-20240314)
       react-hot-toast:
         specifier: ^2.2.0
         version: 2.4.1(csstype@3.1.3)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -1972,8 +1972,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6(react@18.3.0-canary-a870b2d54-20240314)
       '@hookform/resolvers':
-        specifier: ^2.9.8
-        version: 2.9.11(react-hook-form@7.49.3)
+        specifier: ^3.10.0
+        version: 3.10.0(react-hook-form@7.71.1)
       '@mdx-js/loader':
         specifier: ^2.3.0
         version: 2.3.0(webpack@5.90.0)
@@ -2251,8 +2251,8 @@ importers:
         specifier: '=4.4.1'
         version: 4.4.1(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       next-sitemap:
-        specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.4)(next@14.2.35)
+        specifier: ^4.2.3
+        version: 4.2.3(next@14.2.35)
       nextjs-node-loader:
         specifier: 1.1.5-alpha.0
         version: 1.1.5-alpha.0(webpack@5.90.0)
@@ -2299,8 +2299,8 @@ importers:
         specifier: ^2.6.3
         version: 2.6.3(react@18.3.0-canary-a870b2d54-20240314)
       react-hook-form:
-        specifier: ^7.29.0
-        version: 7.49.3(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: ^7.55.0
+        version: 7.71.1(react@18.3.0-canary-a870b2d54-20240314)
       react-hot-toast:
         specifier: ^2.2.0
         version: 2.4.1(csstype@3.1.3)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -3953,8 +3953,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6(react@18.3.0-canary-a870b2d54-20240314)
       '@hookform/resolvers':
-        specifier: ^2.9.8
-        version: 2.9.11(react-hook-form@7.49.3)
+        specifier: ^3.10.0
+        version: 3.10.0(react-hook-form@7.71.1)
       '@mdx-js/mdx':
         specifier: ^2.3.0
         version: 2.3.0
@@ -4205,8 +4205,8 @@ importers:
         specifier: 18.3.0-canary-a870b2d54-20240314
         version: 18.3.0-canary-a870b2d54-20240314(react@18.3.0-canary-a870b2d54-20240314)
       react-hook-form:
-        specifier: ^7.29.0
-        version: 7.49.3(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: ^7.55.0
+        version: 7.71.1(react@18.3.0-canary-a870b2d54-20240314)
       react-hot-toast:
         specifier: ^2.2.0
         version: 2.4.1(csstype@3.1.3)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -4455,8 +4455,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6(react@18.3.0-canary-a870b2d54-20240314)
       '@hookform/resolvers':
-        specifier: ^2.9.8
-        version: 2.9.11(react-hook-form@7.49.3)
+        specifier: ^3.10.0
+        version: 3.10.0(react-hook-form@7.71.1)
       '@mdx-js/mdx':
         specifier: ^2.3.0
         version: 2.3.0
@@ -4701,8 +4701,8 @@ importers:
         specifier: 18.3.0-canary-a870b2d54-20240314
         version: 18.3.0-canary-a870b2d54-20240314(react@18.3.0-canary-a870b2d54-20240314)
       react-hook-form:
-        specifier: ^7.29.0
-        version: 7.49.3(react@18.3.0-canary-a870b2d54-20240314)
+        specifier: ^7.55.0
+        version: 7.71.1(react@18.3.0-canary-a870b2d54-20240314)
       react-hot-toast:
         specifier: ^2.2.0
         version: 2.4.1(csstype@3.1.3)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -11311,12 +11311,12 @@ packages:
       react: 18.3.0-canary-a870b2d54-20240314
     dev: false
 
-  /@hookform/resolvers@2.9.11(react-hook-form@7.49.3):
-    resolution: {integrity: sha512-bA3aZ79UgcHj7tFV7RlgThzwSSHZgvfbt2wprldRkYBcMopdMvHyO17Wwp/twcJasNFischFfS7oz8Katz8DdQ==}
+  /@hookform/resolvers@3.10.0(react-hook-form@7.71.1):
+    resolution: {integrity: sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==}
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
-      react-hook-form: 7.49.3(react@18.3.0-canary-a870b2d54-20240314)
+      react-hook-form: 7.71.1(react@18.3.0-canary-a870b2d54-20240314)
     dev: false
 
   /@humanwhocodes/config-array@0.11.14:
@@ -12501,6 +12501,7 @@ packages:
 
   /@next/env@12.3.4:
     resolution: {integrity: sha512-H/69Lc5Q02dq3o+dxxy5O/oNxFsZpdL6WREtOOtOM1B/weonIwDXkekr1KV5DPVPr12IHFPrMrcJQ6bgPMfn7A==}
+    dev: true
 
   /@next/env@13.5.6:
     resolution: {integrity: sha512-Yac/bV5sBGkkEXmAX5FWPS9Mmo2rthrOPRQQNfycJPkjUAUclomCPH7QFVCDQ4Mp2k2K1SSM6m0zrxYrOwtFQw==}
@@ -32515,30 +32516,16 @@ packages:
       - supports-color
     dev: false
 
-  /next-sitemap@3.1.55(@next/env@12.3.4)(next@14.2.35):
-    resolution: {integrity: sha512-ZjkRfkqoSLbU+e8W9TWWe0zfOGNA47lpvm35kNcUCmj73gpLX2PIn51gwHT/B6bgGVAFYY0OXixJDrxIIwcEHw==}
+  /next-sitemap@4.2.3(next@14.2.35):
+    resolution: {integrity: sha512-vjdCxeDuWDzldhCnyFCQipw5bfpl4HmZA7uoo3GAaYGjGgfL4Cxb1CiztPuWGmS+auYs7/8OekRS8C2cjdAsjQ==}
     engines: {node: '>=14.18'}
     hasBin: true
     peerDependencies:
-      '@next/env': '*'
-      next: '*'
-    dependencies:
-      '@corex/deepmerge': 4.0.43
-      '@next/env': 12.3.4
-      minimist: 1.2.8
-      next: 14.2.35(@babel/core@7.25.2)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
-    dev: false
-
-  /next-sitemap@3.1.55(@next/env@13.5.6)(next@14.2.35):
-    resolution: {integrity: sha512-ZjkRfkqoSLbU+e8W9TWWe0zfOGNA47lpvm35kNcUCmj73gpLX2PIn51gwHT/B6bgGVAFYY0OXixJDrxIIwcEHw==}
-    engines: {node: '>=14.18'}
-    hasBin: true
-    peerDependencies:
-      '@next/env': '*'
       next: '*'
     dependencies:
       '@corex/deepmerge': 4.0.43
       '@next/env': 13.5.6
+      fast-glob: 3.3.2
       minimist: 1.2.8
       next: 14.2.35(@babel/core@7.25.2)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
     dev: false
@@ -35464,11 +35451,11 @@ packages:
       react-dom: 18.3.0-canary-a870b2d54-20240314(react@18.3.0-canary-a870b2d54-20240314)
     dev: false
 
-  /react-hook-form@7.49.3(react@18.3.0-canary-a870b2d54-20240314):
-    resolution: {integrity: sha512-foD6r3juidAT1cOZzpmD/gOKt7fRsDhXXZ0y28+Al1CHgX+AY1qIN9VSIIItXRq1dN68QrRwl1ORFlwjBaAqeQ==}
-    engines: {node: '>=18', pnpm: '8'}
+  /react-hook-form@7.71.1(react@18.3.0-canary-a870b2d54-20240314):
+    resolution: {integrity: sha512-9SUJKCGKo8HUSsCO+y0CtqkqI5nNuaDqTxyqPsZPqIwudpj4rCrAz/jZV+jn57bx5gtZKOh3neQu94DXMc+w5w==}
+    engines: {node: '>=18.0.0'}
     peerDependencies:
-      react: ^16.8.0 || ^17 || ^18
+      react: ^16.8.0 || ^17 || ^18 || ^19
     dependencies:
       react: 18.3.0-canary-a870b2d54-20240314
     dev: false
