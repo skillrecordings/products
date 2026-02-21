@@ -29,7 +29,7 @@
     "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
-    "@code-hike/mdx": "^0.9.0",
+
     "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
     "@mdx-js/react": "^2.3.0",

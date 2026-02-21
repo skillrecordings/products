@@ -12,7 +12,6 @@
 @import './video/module-lesson-list.css';
 @import './video/video-overlays.css';
 @import './video/video-transcript.css';
-@import '@code-hike/mdx/dist/index.css';
 @import './team.css';
 @import './commerce.css';
 @import '../purchase-details/purchase-details.css';
@@ -36,19 +35,15 @@
   }
 }
 
-/* code-hike code blocks */
-.prose .ch-code {
-  @apply bg-gray-900 dark:bg-gray-900 !important;
+/* rehype-pretty-code code blocks */
+[data-rehype-pretty-code-figure] pre {
+  @apply bg-gray-900 dark:bg-gray-900 overflow-x-auto scrollbar-thin scrollbar-track-gray-900 scrollbar-thumb-gray-700;
 }
-.prose .ch-code-scroll-parent {
-  @apply scrollbar-thin scrollbar-track-gray-900 scrollbar-thumb-gray-700;
+[data-rehype-pretty-code-figure] pre > code {
+  @apply grid;
 }
-.prose .ch-codeblock {
-  @apply shadow-none;
-}
-
-.prose .ch-code-scroll-parent {
-  @apply leading-relaxed;
+[data-rehype-pretty-code-figure] [data-line] {
+  @apply px-4 leading-relaxed;
 }
 
 .prose > pre > code {

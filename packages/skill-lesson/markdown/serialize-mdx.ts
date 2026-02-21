@@ -1,4 +1,4 @@
-import {remarkCodeHike} from '@code-hike/mdx'
+import rehypePrettyCode from 'rehype-pretty-code'
 import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {nodeTypes} from '@mdx-js/mdx'
 import {serialize} from 'next-mdx-remote/serialize'
@@ -28,11 +28,10 @@ import remarkGfm from 'remark-gfm'
  * const mdx = await serializeMDX('# Hello World', {theme: 'github-light', lineNumbers: true, showCopyButton: true})
  */
 
-type RemarkCodeHikePluginOptions = {
+type RehypePrettyCodePluginOptions = {
   theme?: ShikiTheme
   lineNumbers?: boolean
   showCopyButton?: boolean
-  autoImport?: boolean
 }
 
 type SerializeMDXProps = {
@@ -44,7 +43,7 @@ type SerializeMDXProps = {
     }
   | {
       useShikiTwoslash?: false
-      syntaxHighlighterOptions?: RemarkCodeHikePluginOptions
+      syntaxHighlighterOptions?: RehypePrettyCodePluginOptions
     }
 )
 
@@ -82,36 +81,23 @@ const serializeMDX = async (
     ])
     return mdxContent as MDXRemoteSerializeResult
   } else {
-    const lineNumbers =
-      syntaxHighlighterOptions && 'lineNumbers' in syntaxHighlighterOptions
-        ? syntaxHighlighterOptions.lineNumbers
-        : false
-
-    const showCopyButton =
-      syntaxHighlighterOptions && 'showCopyButton' in syntaxHighlighterOptions
-        ? syntaxHighlighterOptions.showCopyButton
-        : false
-
     const theme = syntaxHighlighterOptions?.theme
     const mdxContent = await serialize(text, {
       scope,
       blockJS: false,
       mdxOptions: {
         useDynamicImport: true,
-        rehypePlugins: [rehypeSlug] as any,
-        remarkPlugins: [
+        rehypePlugins: [
           [
-            remarkCodeHike,
+            rehypePrettyCode,
             {
               theme: theme || 'dark-plus',
-              autoImport: false,
-              lineNumbers,
-              showCopyButton,
-              // ...syntaxHighlighterOptions,
-            } as RemarkCodeHikePluginOptions,
+              keepBackground: true,
+            },
           ],
-          remarkGfm,
+          rehypeSlug,
         ] as any,
+        remarkPlugins: [remarkGfm] as any,
       },
     })
     return mdxContent

@@ -47,9 +47,6 @@ importers:
 
   apps/badass:
     dependencies:
-      '@code-hike/mdx':
-        specifier: ^0.9.0
-        version: 0.9.0(react@18.3.0-canary-a870b2d54-20240314)
       '@headlessui/react':
         specifier: ^1.6.1
         version: 1.7.18(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -435,9 +432,6 @@ importers:
       '@amplitude/analytics-browser':
         specifier: ^1.3.0
         version: 1.13.4
-      '@code-hike/mdx':
-        specifier: ^0.9.0
-        version: 0.9.0(react@18.3.0-canary-a870b2d54-20240314)
       '@codemirror/state':
         specifier: ^6.4.1
         version: 6.4.1
@@ -1015,9 +1009,6 @@ importers:
       '@cloudinary/react':
         specifier: ^1.5.0
         version: 1.11.2(react@18.3.0-canary-a870b2d54-20240314)
-      '@code-hike/mdx':
-        specifier: ^0.9.0
-        version: 0.9.0(react@18.3.0-canary-a870b2d54-20240314)
       '@codemirror/state':
         specifier: ^6.4.1
         version: 6.4.1
@@ -1953,9 +1944,6 @@ importers:
       '@casl/ability':
         specifier: ^6.3.2
         version: 6.5.0
-      '@code-hike/mdx':
-        specifier: ^0.9.0
-        version: 0.9.0(react@18.3.0-canary-a870b2d54-20240314)
       '@codemirror/state':
         specifier: ^6.4.1
         version: 6.4.1
@@ -3946,9 +3934,6 @@ importers:
       '@casl/ability':
         specifier: ^6.3.2
         version: 6.5.0
-      '@code-hike/mdx':
-        specifier: ^0.9.0
-        version: 0.9.0(react@18.3.0-canary-a870b2d54-20240314)
       '@heroicons/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.3.0-canary-a870b2d54-20240314)
@@ -4225,6 +4210,9 @@ importers:
       refractor:
         specifier: ^4.5.0
         version: 4.8.1
+      rehype-pretty-code:
+        specifier: ^0.14.0
+        version: 0.14.1(shiki@1.6.2)
       rehype-raw:
         specifier: ^6.1.1
         version: 6.1.1
@@ -4448,9 +4436,6 @@ importers:
       '@casl/ability':
         specifier: ^6.3.2
         version: 6.5.0
-      '@code-hike/mdx':
-        specifier: ^0.9.0
-        version: 0.9.0(react@18.3.0-canary-a870b2d54-20240314)
       '@heroicons/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.3.0-canary-a870b2d54-20240314)
@@ -9642,22 +9627,6 @@ packages:
       exec-sh: 0.3.6
       minimist: 1.2.8
 
-  /@code-hike/lighter@0.7.0:
-    resolution: {integrity: sha512-64O07rIORKQLB+5T/GKAmKcD9sC0N9yHFJXa0Hs+0Aee1G+I4bSXxTccuDFP6c/G/3h5Pk7yv7PoX9/SpzaeiQ==}
-    dev: false
-
-  /@code-hike/mdx@0.9.0(react@18.3.0-canary-a870b2d54-20240314):
-    resolution: {integrity: sha512-0wg68ZCjVWAkWT4gBUZJ8Mwktjen/XeWyqBQCrhA2IZSbZZnMYsEI6JJEFb/nZoNI3comB3JdxPLykZRq3qT2A==}
-    peerDependencies:
-      react: ^16.8.3 || ^17 || ^18
-    dependencies:
-      '@code-hike/lighter': 0.7.0
-      node-fetch: 2.7.0(encoding@0.1.13)
-      react: 18.3.0-canary-a870b2d54-20240314
-    transitivePeerDependencies:
-      - encoding
-    dev: false
-
   /@codemirror/autocomplete@6.12.0(@codemirror/language@6.10.0)(@codemirror/state@6.4.1)(@codemirror/view@6.23.1)(@lezer/common@1.2.1):
     resolution: {integrity: sha512-r4IjdYFthwbCQyvqnSlx0WBHRHi8nBvU+WjJxFUij81qsBfhNudf/XKKmmC2j3m0LaOYUQTf3qiEK1J8lO1sdg==}
     peerDependencies:
@@ -12319,7 +12288,7 @@ packages:
     dependencies:
       '@mdx-js/mdx': 2.3.0
       source-map: 0.7.4
-      webpack: 5.90.0(esbuild@0.21.5)(uglify-js@3.19.3)
+      webpack: 5.90.0(esbuild@0.21.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -16539,7 +16508,7 @@ packages:
       resolve: 1.22.8
       rollup: 2.78.0
       stacktrace-parser: 0.1.10
-      webpack: 5.90.0(esbuild@0.21.5)(uglify-js@3.19.3)
+      webpack: 5.90.0(esbuild@0.21.5)
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -26727,6 +26696,17 @@ packages:
     dependencies:
       function-bind: 1.1.2
 
+  /hast-util-from-html@2.0.3:
+    resolution: {integrity: sha512-CUSRHXyKjzHov8yKsQjGOElXy/3EKpyX56ELnkHH34vDVw1N1XSQ1ZcAvTyAPtGqLTuKP/uxM+aLkSPqF/EtMw==}
+    dependencies:
+      '@types/hast': 3.0.4
+      devlop: 1.1.0
+      hast-util-from-parse5: 8.0.3
+      parse5: 7.1.2
+      vfile: 6.0.1
+      vfile-message: 4.0.2
+    dev: false
+
   /hast-util-from-parse5@6.0.1:
     resolution: {integrity: sha512-jeJUWiN5pSxW12Rh01smtVkZgZr33wBokLzKLwinYOUfSzm1Nl/c3GUGebDyOKjdsRgMvoVbV0VpAcpjF4NrJA==}
     dependencies:
@@ -26747,6 +26727,19 @@ packages:
       property-information: 6.4.1
       vfile: 5.3.7
       vfile-location: 4.1.0
+      web-namespaces: 2.0.1
+    dev: false
+
+  /hast-util-from-parse5@8.0.3:
+    resolution: {integrity: sha512-3kxEVkEKt0zvcZ3hCRYI8rqrgwtlIOFMWkbclACvjlDw8Li9S2hk/d51OI0nr/gIpdMHNepwgOKqZ/sy0Clpyg==}
+    dependencies:
+      '@types/hast': 3.0.4
+      '@types/unist': 3.0.2
+      devlop: 1.1.0
+      hastscript: 9.0.1
+      property-information: 7.1.0
+      vfile: 6.0.1
+      vfile-location: 5.0.3
       web-namespaces: 2.0.1
     dev: false
 
@@ -26779,6 +26772,12 @@ packages:
     resolution: {integrity: sha512-jdlwBjEexy1oGz0aJ2f4GKMaVKkA9jwjr4MjAAI22E5fM/TXVZHuS5OpONtdeIkRKqAaryQ2E9xNQxijoThSZA==}
     dependencies:
       '@types/hast': 2.3.9
+    dev: false
+
+  /hast-util-parse-selector@4.0.0:
+    resolution: {integrity: sha512-wkQCkSYoOGCRKERFWcxMVMOcYE2K1AaNLU8DXS9arxnLOUEWbOXKXiJUNzEpqZ3JOKpnha3jkFrumEjVliDe7A==}
+    dependencies:
+      '@types/hast': 3.0.4
     dev: false
 
   /hast-util-raw@7.2.3:
@@ -26919,7 +26918,6 @@ packages:
     resolution: {integrity: sha512-OGkAxX1Ua3cbcW6EJ5pT/tslVb90uViVkcJ4ZZIMW/R33DX/AkcJcRrPebPwJkHYwlDHXz4aIwvAAaAdtrACFA==}
     dependencies:
       '@types/hast': 3.0.4
-    dev: true
 
   /hast-util-whitespace@1.0.4:
     resolution: {integrity: sha512-I5GTdSfhYfAPNztx2xJRQpG8cuDSNt599/7YUn7Gx/WxNMsG+a835k97TDkFgk123cwjfwINaZknkKkphx/f2A==}
@@ -26956,6 +26954,16 @@ packages:
       comma-separated-tokens: 2.0.3
       hast-util-parse-selector: 3.1.1
       property-information: 6.4.1
+      space-separated-tokens: 2.0.2
+    dev: false
+
+  /hastscript@9.0.1:
+    resolution: {integrity: sha512-g7df9rMFX/SPi34tyGCyUBREQoKkapwdY/T04Qn9TDWfHhAYt4/I0gMVirzK5wEzeUqIjEB+LXC/ypb7Aqno5w==}
+    dependencies:
+      '@types/hast': 3.0.4
+      comma-separated-tokens: 2.0.3
+      hast-util-parse-selector: 4.0.0
+      property-information: 7.1.0
       space-separated-tokens: 2.0.2
     dev: false
 
@@ -31009,7 +31017,7 @@ packages:
       micromark-util-sanitize-uri: 2.0.0
       trim-lines: 3.0.1
       unist-util-position: 5.0.0
-      unist-util-visit: 5.0.0
+      unist-util-visit: 5.1.0
       vfile: 6.0.1
     dev: false
 
@@ -31034,7 +31042,7 @@ packages:
       mdast-util-phrasing: 4.0.0
       mdast-util-to-string: 4.0.0
       micromark-util-decode-string: 2.0.0
-      unist-util-visit: 5.0.0
+      unist-util-visit: 5.1.0
       zwitch: 2.0.4
     dev: false
 
@@ -36591,6 +36599,29 @@ packages:
       unified: 10.1.2
     dev: false
 
+  /rehype-parse@9.0.1:
+    resolution: {integrity: sha512-ksCzCD0Fgfh7trPDxr2rSylbwq9iYDkSn8TCDmEJ49ljEUBxDVCzCHv7QNzZOfODanX4+bWQ4WZqLCRWYLfhag==}
+    dependencies:
+      '@types/hast': 3.0.4
+      hast-util-from-html: 2.0.3
+      unified: 11.0.5
+    dev: false
+
+  /rehype-pretty-code@0.14.1(shiki@1.6.2):
+    resolution: {integrity: sha512-IpG4OL0iYlbx78muVldsK86hdfNoht0z63AP7sekQNW2QOTmjxB7RbTO+rhIYNGRljgHxgVZoPwUl6bIC9SbjA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      shiki: ^1.0.0 || ^2.0.0 || ^3.0.0
+    dependencies:
+      '@types/hast': 3.0.4
+      hast-util-to-string: 3.0.0
+      parse-numeric-range: 1.3.0
+      rehype-parse: 9.0.1
+      shiki: 1.6.2
+      unified: 11.0.5
+      unist-util-visit: 5.1.0
+    dev: false
+
   /rehype-raw@6.1.1:
     resolution: {integrity: sha512-d6AKtisSRtDRX4aSPsJGTfnzrX2ZkHQLE5kiUuGOeEoLpbEulFF4hj0mLPbsa+7vmguDKOVVEQdHKDSwoaIDsQ==}
     dependencies:
@@ -39062,6 +39093,7 @@ packages:
       terser: 5.27.0
       uglify-js: 3.19.3
       webpack: 5.90.0(esbuild@0.21.5)(uglify-js@3.19.3)
+    dev: true
 
   /terser-webpack-plugin@5.3.10(esbuild@0.21.5)(webpack@5.90.0):
     resolution: {integrity: sha512-BKFPWlPDndPs+NGGCr1U59t0XScL5317Y0UReNrHaw9/FwhPENlq6bfgs+4yPfyP51vqC1bQ4rp1EfXW5ZSH9w==}
@@ -40386,6 +40418,18 @@ packages:
       trough: 2.1.0
       vfile: 6.0.1
 
+  /unified@11.0.5:
+    resolution: {integrity: sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA==}
+    dependencies:
+      '@types/unist': 3.0.2
+      bail: 2.0.2
+      devlop: 1.1.0
+      extend: 3.0.2
+      is-plain-obj: 4.1.0
+      trough: 2.1.0
+      vfile: 6.0.1
+    dev: false
+
   /unified@9.2.2:
     resolution: {integrity: sha512-Sg7j110mtefBD+qunSLO1lqOEKdrwBFBrR6Qd8f4uwkhWNlbkaqwHse6e7QvD3AP/MNoJdEDLaf8OxYyoWgorQ==}
     dependencies:
@@ -40485,7 +40529,7 @@ packages:
     resolution: {integrity: sha512-Hp5Kh3wLxv0PHj9m2yZhhLt58KzPtEYKQQ4yxfYFEO7EvHwzyDYnduhHnY1mDxoqr7VUwVuHXk9RXKIiYS1N8Q==}
     dependencies:
       '@types/unist': 3.0.2
-      unist-util-visit: 5.0.0
+      unist-util-visit: 5.1.0
     dev: false
 
   /unist-util-remove@4.0.0:
@@ -41036,6 +41080,13 @@ packages:
       vfile: 5.3.7
     dev: false
 
+  /vfile-location@5.0.3:
+    resolution: {integrity: sha512-5yXvWDEgqeiYiBe1lbxYF7UMAIm/IcopxMHrMQDq3nvKcjPKIhZklUKL+AE7J7uApI4kwe2snsK+eI6UTj9EHg==}
+    dependencies:
+      '@types/unist': 3.0.2
+      vfile: 6.0.1
+    dev: false
+
   /vfile-matter@3.0.1:
     resolution: {integrity: sha512-CAAIDwnh6ZdtrqAuxdElUqQRQDQgbbIrYtDYI8gCjXS1qQ+1XdLoK8FIZWxJwn0/I+BkSSZpar3SOgjemQz4fg==}
     dependencies:
@@ -41333,6 +41384,7 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
+    dev: true
 
   /whatwg-encoding@1.0.5:
     resolution: {integrity: sha512-b5lim54JOPN9HtzvK9HFXvBma/rnfFeqsic0hSpjtDbVxR3dJKLc+KB4V6GgiGOvl7CY/KNh8rxSo9DKQrnUEw==}

@@ -97,7 +97,6 @@
 }
 
 @tailwind components;
-@import '@code-hike/mdx/dist/index.css';
 @import './survey.css';
 @import './newsletter.css';
 @import './nprogress.css';
@@ -134,17 +133,15 @@ since they tend to clash with prism-theme.css */
   @apply rounded border border-gray-100 bg-background dark:border-0 dark:bg-white/5 !important;
 }
 
-/* code-hike code blocks */
-.ch-code {
-  @apply rounded border border-gray-100 bg-background dark:border-0 dark:bg-white/5 !important;
+/* rehype-pretty-code code blocks */
+[data-rehype-pretty-code-figure] pre {
+  @apply rounded border border-gray-100 bg-background dark:border-0 dark:bg-white/5 overflow-x-auto scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-500/75;
 }
-
-.ch-codeblock {
-  @apply rounded shadow-none;
+[data-rehype-pretty-code-figure] pre > code {
+  @apply grid;
 }
-
-.ch-code-scroll-parent {
-  @apply scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-500/75;
+[data-rehype-pretty-code-figure] [data-line] {
+  @apply px-4 text-base leading-relaxed;
 }
 
 body {

@@ -10,7 +10,6 @@
 @import './video/video-overlays.css';
 @import './video/module-navigator.css';
 @import './focus-visible.css';
-@import '@code-hike/mdx/dist/index.css';
 @import './ui/button.css';
 @import './login.css';
 @import './lesson-completion-toggle.css';
@@ -312,17 +311,16 @@
   }
 }
 
-/* code-hike code blocks */
-.ch-code {
-  @apply rounded-[5px] border border-[#2f3d56] bg-[#142035] !important;
-}
-.ch-codeblock {
-  @apply overflow-visible shadow-none;
+/* rehype-pretty-code code blocks */
+[data-rehype-pretty-code-figure] pre {
+  @apply rounded-[5px] border border-[#2f3d56] bg-[#142035] overflow-x-auto scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-500/75;
   tab-size: 2;
 }
-
-.ch-code-scroll-parent {
-  @apply text-base leading-relaxed scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-500/75;
+[data-rehype-pretty-code-figure] pre > code {
+  @apply grid;
+}
+[data-rehype-pretty-code-figure] [data-line] {
+  @apply px-4 text-base leading-relaxed;
 }
 
 .prose

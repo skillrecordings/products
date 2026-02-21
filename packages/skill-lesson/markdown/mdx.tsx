@@ -5,11 +5,9 @@ import {
   MDXRemoteSerializeResult,
   type MDXRemoteProps,
 } from 'next-mdx-remote'
-import {CH} from '@code-hike/mdx/components'
 import mdxComponents from './mdx-components'
 
 const defaultComponents = {
-  CH,
   ...mdxComponents,
 }
 
