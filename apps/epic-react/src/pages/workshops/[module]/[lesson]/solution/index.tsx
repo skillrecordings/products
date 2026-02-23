@@ -48,6 +48,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const solutionBodySerialized =
     typeof solution?.body === 'string' &&
     (await serialize(solution.body, {
+      blockJS: false,
       mdxOptions: {
         rehypePlugins: [
           trimCodeBlocks,
