@@ -21,7 +21,6 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const emails = await getAllEmails()
   const {data, content} = matter(email?.body || '')
   const emailBodySerialized = await serialize(content, {
-    blockJS: false,
     scope: {...data, subscriber: 'there'},
   })
   const {html, errors} = getEmailHtml(emailBodySerialized, email)

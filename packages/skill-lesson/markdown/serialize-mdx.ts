@@ -57,9 +57,6 @@ const serializeMDX = async (
     const mdxContent = await Promise.race([
       serialize(text, {
         scope,
-        // Allow JS expressions in MDX (required for dynamic content, scope variables)
-        // This is trusted content from our CMS, not user-generated
-        blockJS: false,
         mdxOptions: {
           rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}], rehypeSlug],
           remarkPlugins: [
@@ -93,9 +90,6 @@ const serializeMDX = async (
     const theme = syntaxHighlighterOptions?.theme
     const mdxContent = await serialize(text, {
       scope,
-      // Allow JS expressions in MDX (required for dynamic content, scope variables)
-      // This is trusted content from our CMS, not user-generated
-      blockJS: false,
       mdxOptions: {
         rehypePlugins: [rehypeSlug],
         remarkPlugins: [
