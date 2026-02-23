@@ -20,6 +20,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const lessonBodySerialized =
     typeof lesson.body === 'string' &&
     (await serialize(lesson.body, {
+      blockJS: false,
       mdxOptions: {
         rehypePlugins: [],
       },

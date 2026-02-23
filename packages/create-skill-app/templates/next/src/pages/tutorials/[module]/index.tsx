@@ -11,7 +11,8 @@ export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const tutorial = await getTutorial(params?.module as string)
-  const tutorialBody = tutorial.body && (await serialize(tutorial.body))
+  const tutorialBody =
+    tutorial.body && (await serialize(tutorial.body, {blockJS: false}))
 
   return {
     props: {tutorial, tutorialBody},

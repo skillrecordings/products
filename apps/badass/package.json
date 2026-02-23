@@ -81,7 +81,7 @@
     "mdx-prism": "^0.3.4",
     "mjml": "^4.12.0",
     "next": "14.2.35",
-    "next-mdx-remote": "^5.0.0",
+    "next-mdx-remote": "^6.0.0",
     "next-sitemap": "^4.2.3",
     "next-themes": "^0.2.1",
     "nextjs-node-loader": "1.1.5-alpha.0",
