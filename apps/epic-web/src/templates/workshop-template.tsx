@@ -185,7 +185,12 @@ const WorkshopTemplate: React.FC<{
               )}
 
               {workshop && (
-                <Collection.Root module={workshop as unknown as Module}>
+                <Collection.Root
+                  module={workshop as unknown as Module}
+                  numberFormatter={(lessonIndex, sectionIndex) =>
+                    `${sectionIndex}.${lessonIndex + 1}`
+                  }
+                >
                   <div className="flex w-full items-center justify-between pb-3">
                     <h3 className="text-xl font-bold">Contents</h3>
                     <Collection.Metadata className="font-mono text-xs font-medium uppercase" />

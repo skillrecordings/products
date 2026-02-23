@@ -335,6 +335,9 @@ const LessonList: React.FC<{
         >
           <Collection.Root
             module={module}
+            numberFormatter={(lessonIndex, sectionIndex) =>
+              `${sectionIndex}.${lessonIndex + 1}`
+            }
             resourcesRenderer={(type) => {
               return (
                 <>
