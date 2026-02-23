@@ -60,6 +60,9 @@ const serializeMDX = async (
         blockJS: false,
         mdxOptions: {
           useDynamicImport: true,
+          remarkRehypeOptions: {
+            allowDangerousHtml: true,
+          },
           rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}], rehypeSlug],
           remarkPlugins: [
             [
