@@ -72,6 +72,7 @@ export type SRTReadyEvent = {
     srt: string
     muxAssetId: string
     videoResourceId: string
+    attempt?: number
   }
 }
 

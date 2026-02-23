@@ -3,10 +3,6 @@ import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-serv
 import {createMuxAsset} from '@skillrecordings/skill-lesson/lib/mux'
 import {VIDEO_RESOURCE_CREATED_EVENT} from 'inngest/events'
 
-const DEEPGRAM_API_KEY = process.env.DEEPGRAM_API_KEY!
-const CALLBACK_BASE_URL =
-  process.env.NEXT_PUBLIC_URL || process.env.COURSEBUILDER_URL!
-
 async function getVideoResource(videoResourceId: string) {
   return await sanityWriteClient.fetch(`*[_id == $videoResourceId][0]`, {
     videoResourceId,
@@ -31,10 +27,15 @@ export const processVideoResource = inngest.createFunction(
     id: 'process-video-resource',
     name: 'Process Video Resource (Mux + Deepgram)',
     retries: 3,
+    idempotency: 'event.data.videoResourceId',
   },
   {event: VIDEO_RESOURCE_CREATED_EVENT},
   async ({event, step}) => {
     const {videoResourceId, originalMediaUrl} = event.data
+
+    const DEEPGRAM_API_KEY = process.env.DEEPGRAM_API_KEY
+    const CALLBACK_BASE_URL =
+      process.env.NEXT_PUBLIC_URL || process.env.COURSEBUILDER_URL
 
     if (!DEEPGRAM_API_KEY) {
       throw new Error('DEEPGRAM_API_KEY is not configured')
@@ -101,7 +102,7 @@ export const processVideoResource = inngest.createFunction(
         })
 
         console.info(
-          `Ordering transcript for ${videoResourceId} with callback: ${callbackUrl}`,
+          `Ordering transcript for ${videoResourceId} with Deepgram callback: ${callbackUrl}`,
         )
 
         const response = await fetch(

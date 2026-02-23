@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/nextjs'
 import {inngest} from 'inngest/inngest.server'
 import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-server'
 import {processDeepgramResults} from 'lib/deepgram'
+import {DeepgramCallbackSchema} from 'lib/deepgram/types'
 import {
   VIDEO_TRANSCRIPT_READY_EVENT,
   VIDEO_SRT_READY_EVENT,
@@ -13,7 +14,8 @@ import {
  * Deepgram Webhook Handler
  *
  * Receives transcription results from Deepgram when async transcription completes.
- * - Validates the payload
+ * - Validates the payload with Zod schema
+ * - Checks idempotency (skips if transcript already exists)
  * - Processes transcript into text and SRT formats
  * - Updates the Sanity videoResource document
  * - Emits Inngest events for downstream processing (SRT to Mux, SEO description)
@@ -40,48 +42,31 @@ export default async function deepgramWebhookHandler(
       `Deepgram webhook received for videoResourceId: ${videoResourceId}`,
     )
 
-    // Log the raw payload for debugging
-    console.log(
-      'Deepgram webhook: Raw payload received:',
-      JSON.stringify(req.body, null, 2).slice(0, 3000),
-    )
-    console.log('Deepgram webhook: Payload keys:', Object.keys(req.body || {}))
-
     // Check if this is an error response from Deepgram
     if (req.body?.err_code || req.body?.error) {
       console.error('Deepgram webhook: Received error from Deepgram:', req.body)
       return res
-        .status(200)
+        .status(400)
         .json({success: false, error: 'Deepgram transcription failed'})
     }
 
-    // Skip strict validation for now - just check we have results
-    if (!req.body?.results?.channels?.[0]?.alternatives?.[0]) {
-      console.error('Deepgram webhook: Missing expected results structure')
+    // Validate payload with Zod schema
+    const parseResult = DeepgramCallbackSchema.safeParse(req.body)
+    if (!parseResult.success) {
       console.error(
-        'Deepgram webhook: Full body:',
-        JSON.stringify(req.body, null, 2),
+        'Deepgram webhook: Invalid payload:',
+        parseResult.error.format(),
       )
       return res.status(400).json({error: 'Invalid payload structure'})
     }
 
-    const deepgramResults = req.body
+    const deepgramResults = parseResult.data
 
-    // Process transcript into different formats
-    const {text, srt} = processDeepgramResults(deepgramResults)
-
-    console.info(
-      `Deepgram webhook: Processed transcript for ${videoResourceId}`,
-      {
-        textLength: text.length,
-        srtLength: srt.length,
-      },
-    )
-
-    // Fetch current video resource to get muxAssetId
+    // Fetch video resource and check idempotency
     const videoResource = await sanityWriteClient.fetch(
       `*[_id == $videoResourceId][0]{
         _id,
+        transcript,
         muxAsset
       }`,
       {videoResourceId},
@@ -93,6 +78,31 @@ export default async function deepgramWebhookHandler(
       )
       return res.status(404).json({error: 'Video resource not found'})
     }
+
+    // Idempotency: skip if transcript already exists
+    if (videoResource.transcript?.text && videoResource.transcript?.srt) {
+      console.info(
+        `Deepgram webhook: Transcript already exists for ${videoResourceId}, skipping`,
+      )
+      return res
+        .status(200)
+        .json({
+          success: true,
+          skipped: true,
+          reason: 'Transcript already exists',
+        })
+    }
+
+    // Process transcript into different formats
+    const {text, srt} = processDeepgramResults(deepgramResults)
+
+    console.info(
+      `Deepgram webhook: Processed transcript for ${videoResourceId}`,
+      {
+        textLength: text.length,
+        srtLength: srt.length,
+      },
+    )
 
     // Update Sanity with transcript data
     await sanityWriteClient
