@@ -41,7 +41,7 @@ const twoslash = createTwoslashFromCDN({
 
 const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
   renderer: rendererClassic(),
-  throws: true,
+  throws: false, // Don't throw on TypeScript errors in code samples
   onTwoslashError: (error: unknown, code: string, lang: string) => {
     console.debug('Twoslash error', error)
     return code
