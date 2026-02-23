@@ -7,9 +7,11 @@ import {
 } from 'next-mdx-remote'
 import {CH} from '@code-hike/mdx/components'
 import mdxComponents from './mdx-components'
+import {ShikiCode} from './shiki-code'
 
 const defaultComponents = {
   CH,
+  ShikiCode,
   ...mdxComponents,
 }
 

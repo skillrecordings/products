@@ -41,7 +41,7 @@ const twoslash = createTwoslashFromCDN({
 
 const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
   renderer: rendererClassic(),
-  throws: true,
+  throws: false, // Don't throw on TypeScript errors in code samples
   onTwoslashError: (error: unknown, code: string, lang: string) => {
     console.debug('Twoslash error', error)
     return code
@@ -110,6 +110,44 @@ const prepHighlighter = async (theme: string | undefined) => {
 
 const CUT_REGEX = /\/\/ ---cut---\n\n/g
 
+/**
+ * Create an MDX JSX element that renders highlighted code via a ShikiCode component.
+ * This bypasses MDX parsing issues with inline style attributes by passing HTML as a string prop.
+ */
+function createShikiCodeElement(html: string): any {
+  return {
+    type: 'mdxJsxFlowElement',
+    name: 'ShikiCode',
+    attributes: [
+      {
+        type: 'mdxJsxAttribute',
+        name: 'html',
+        value: {
+          type: 'mdxJsxAttributeValueExpression',
+          value: JSON.stringify(html),
+          data: {
+            estree: {
+              type: 'Program',
+              body: [
+                {
+                  type: 'ExpressionStatement',
+                  expression: {
+                    type: 'Literal',
+                    value: html,
+                    raw: JSON.stringify(html),
+                  },
+                },
+              ],
+              sourceType: 'module',
+            },
+          },
+        },
+      },
+    ],
+    children: [],
+  }
+}
+
 export function shikiTwoslashPlugin(
   opts: ShikiTwoslashPluginOptions,
 ): Transformer {
@@ -130,9 +168,8 @@ export function shikiTwoslashPlugin(
             theme: opts.theme || defaultTheme,
           })
 
-          node.type = 'html'
-          node.value = html
-          node.children = []
+          // Use MDX JSX element to bypass style attribute parsing
+          Object.assign(node, createShikiCodeElement(html))
 
           return
         }
@@ -151,9 +188,8 @@ export function shikiTwoslashPlugin(
           transformers: [transformerTwoslash],
         })
 
-        node.type = 'html'
-        node.value = html
-        node.children = []
+        // Use MDX JSX element to bypass style attribute parsing
+        Object.assign(node, createShikiCodeElement(html))
       } catch (e) {
         console.error('Failed to run twoslash')
         console.error(e)
