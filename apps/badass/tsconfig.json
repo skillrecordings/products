@@ -4,6 +4,7 @@
   ],
   "extends": "@skillrecordings/tsconfig/nextjs.json",
   "compilerOptions": {
+    "moduleResolution": "bundler",
     "baseUrl": "./src/",
     "rootDir": "src",
     "outDir": "dist",

@@ -1,6 +1,8 @@
 import * as React from 'react'
-import {PortableText} from '@portabletext/react'
-import {type PortableTextComponents as PortableTextComponentsType} from '@portabletext/react/src/types'
+import {
+  PortableText,
+  type PortableTextComponents as PortableTextComponentsType,
+} from '@portabletext/react'
 import {hmsToSeconds} from '@skillrecordings/time'
 import ReactMarkdown from 'react-markdown'
 import {useMuxPlayer} from '../hooks/use-mux-player'

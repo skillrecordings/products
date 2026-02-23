@@ -1,9 +1,10 @@
 import * as React from 'react'
 import cx from 'classnames'
-import MuxPlayer, {
-  type MuxPlayerRefAttributes,
-  type MuxPlayerProps,
+import type {
+  MuxPlayerRefAttributes,
+  MuxPlayerProps,
 } from '@mux/mux-player-react'
+import MuxPlayer from '@mux/mux-player-react/lazy'
 import {useMuxPlayer} from '../hooks/use-mux-player'
 import {useVideoResource} from '../hooks/use-video-resource'
 import {useLesson} from '../hooks/use-lesson'

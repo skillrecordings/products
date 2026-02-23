@@ -19,6 +19,7 @@ import Testimonials from '@/testimonials'
 import pluralize from 'pluralize'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {MDXComponents} from '@/components/mdx'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {
   PriceCheckProvider,
@@ -104,7 +105,10 @@ const WorkshopTemplate: React.FC<{
             />
           )}
           <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
-            <MDX contents={workshopBodySerialized} />
+            <MDX
+              contents={workshopBodySerialized}
+              components={{...MDXComponents}}
+            />
           </article>
           {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
