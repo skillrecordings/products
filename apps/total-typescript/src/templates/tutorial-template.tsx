@@ -16,6 +16,7 @@ import Balancer from 'react-wrap-balancer'
 import Testimonials from '@/testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {MDXComponents} from '@/components/mdx'
 import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import ModuleCertificate from '@/certificate/module-certificate'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
@@ -54,7 +55,10 @@ const TutorialTemplate: React.FC<{
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="px-5">
           <article className="prose prose-lg w-full max-w-none lg:max-w-xl">
-            <MDX contents={tutorialBodySerialized} />
+            <MDX
+              contents={tutorialBodySerialized}
+              components={{...MDXComponents}}
+            />
           </article>
           {testimonials && testimonials?.length > 0 && (
             <Testimonials

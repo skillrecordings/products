@@ -219,7 +219,7 @@ const GetStartedVideo: React.FC<{
           </motion.div>
         )}
         <MuxPlayer
-          onLoadedData={(e) => {
+          onLoadedData={() => {
             // sometimes teh time was missing so parsing it so it won't crash
             muxPlayerRef.current?.addCuePoints(
               cuePoints.map((cuePoint: any) => ({
@@ -228,8 +228,8 @@ const GetStartedVideo: React.FC<{
               })),
             )
           }}
-          onCuePointChange={(e) => {
-            setCuePoint(e.detail.value)
+          onCuePointChange={() => {
+            setCuePoint(muxPlayerRef.current?.activeCuePoint?.value)
           }}
           metadata={{
             video_title: `${moduleSlug} - Get Started Video`,

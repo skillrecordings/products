@@ -16,13 +16,7 @@ import {
 } from '@skillrecordings/ui'
 import toast from 'react-hot-toast'
 import {Icon} from '../icons'
-import {
-  ClientSafeProvider,
-  LiteralUnion,
-  signIn,
-  useSession,
-} from 'next-auth/react'
-import {BuiltInProviderType} from 'next-auth/providers'
+import {ClientSafeProvider, signIn, useSession} from 'next-auth/react'
 import Link from 'next/link'
 
 const formSchema = z.object({
@@ -176,7 +170,4 @@ const EditProfileForm: React.FC<{providers: Providers}> = ({providers}) => {
 
 export default EditProfileForm
 
-type Providers = Record<
-  LiteralUnion<BuiltInProviderType, string>,
-  ClientSafeProvider
-> | null
+type Providers = Record<string, ClientSafeProvider> | null

@@ -6,7 +6,6 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from '@/lib/sections'
-import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {getAllWorkshops, getWorkshop} from '@/lib/workshops'
 import {serialize} from 'next-mdx-remote/serialize'
 
@@ -21,6 +20,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const lessonBodySerialized =
     typeof lesson.body === 'string' &&
     (await serialize(lesson.body, {
+      blockJS: false,
       mdxOptions: {
         rehypePlugins: [],
       },
@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async (context) => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const tutorials = await getAllWorkshops()
 
   const paths = tutorials.flatMap((tutorial: any) => {

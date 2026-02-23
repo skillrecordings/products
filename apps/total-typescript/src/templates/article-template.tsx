@@ -14,6 +14,7 @@ import '@/styles/shiki-twoslash.css'
 import {
   FeedbackFormButton,
   linkedHeadingComponents,
+  MDXComponents,
   ShareImageMDX,
 } from '@/components/mdx'
 import {cn} from '@skillrecordings/ui/utils/cn'
@@ -200,6 +201,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
                 <MDX
                   contents={articleBodyDisplay}
                   components={{
+                    ...MDXComponents,
                     ShareImage: ShareImageMDX,
                     ArticleBodyCTA: ({children, ...props}) => (
                       <ArticleBodyCTA {...props}>{children}</ArticleBodyCTA>

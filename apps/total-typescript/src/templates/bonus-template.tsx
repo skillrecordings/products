@@ -15,6 +15,7 @@ import cx from 'classnames'
 import Balancer from 'react-wrap-balancer'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {MDXComponents} from '@/components/mdx'
 import {LockClosedIcon} from '@heroicons/react/solid'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import {Skeleton} from '@skillrecordings/ui'
@@ -45,7 +46,7 @@ const BonusTemplate: React.FC<{
       <Header bonus={bonus} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <article className="prose prose-lg w-full max-w-none px-5 text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
-          <MDX contents={bonusBodySerialized} />
+          <MDX contents={bonusBodySerialized} components={{...MDXComponents}} />
         </article>
         <div className="flex w-full flex-col px-5 pt-8 lg:max-w-xs lg:px-0 lg:pt-0">
           {bonus && (

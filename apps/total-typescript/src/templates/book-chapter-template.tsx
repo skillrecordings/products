@@ -22,6 +22,7 @@ import {ChapterPagination} from '@/components/book/chapter-pagination'
 import {MobileChapterToC} from '@/components/book/mobile-chapter-toc'
 import slugify from '@sindresorhus/slugify'
 import {InlineProEssentialsBanner} from '@/components/book/pro-essentials-banner'
+import {MDXComponents} from '@/components/mdx'
 
 const BookChapterTemplate = ({
   chapter,
@@ -116,6 +117,7 @@ const BookChapterTemplate = ({
               <MDX
                 contents={chapterBody}
                 components={{
+                  ...MDXComponents,
                   Exercise: ({
                     filePath,
                     title,
