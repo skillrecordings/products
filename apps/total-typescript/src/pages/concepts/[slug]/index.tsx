@@ -11,7 +11,11 @@ import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import Link from 'next/link'
 import {getOgImage} from '@/utils/get-og-image'
 import '@/styles/shiki-twoslash.css'
-import {FeedbackFormButton, linkedHeadingComponents} from '@/components/mdx'
+import {
+  FeedbackFormButton,
+  linkedHeadingComponents,
+  MDXComponents,
+} from '@/components/mdx'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const concept = await getConcept(params?.slug as string)
@@ -84,6 +88,7 @@ export default function TipPage({
           <MDX
             contents={conceptBodySerialized}
             components={{
+              ...MDXComponents,
               ...linkedHeadingComponents,
               FeedbackFormButton: (props) => <FeedbackFormButton {...props} />,
             }}

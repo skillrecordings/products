@@ -3,6 +3,7 @@ import Layout from '@/components/app/layout'
 import {BookmarkIcon} from '@heroicons/react/outline'
 import {getBook, type Book} from '@/lib/book'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {MDXComponents} from '@/components/mdx'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {Button} from '@skillrecordings/ui'
@@ -147,7 +148,7 @@ const BookRoute: React.FC<{
         <div className="flex grid-cols-8 flex-col-reverse gap-10 py-8 md:grid">
           <article className="prose col-span-5 max-w-none sm:prose-lg">
             {bookBody ? (
-              <MDX contents={bookBody} />
+              <MDX contents={bookBody} components={{...MDXComponents}} />
             ) : (
               <p>No description found.</p>
             )}

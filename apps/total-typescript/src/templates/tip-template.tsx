@@ -38,6 +38,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {MDXComponents} from '@/components/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {trpc} from '@/trpc/trpc.client'
@@ -168,7 +169,10 @@ const TipTemplate: React.FC<{
                   {tipBodySerialized && (
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-200">
-                        <MDX contents={tipBodySerialized} />
+                        <MDX
+                          contents={tipBodySerialized}
+                          components={{...MDXComponents}}
+                        />
                       </div>
                       <Hr
                         className={
@@ -186,7 +190,10 @@ const TipTemplate: React.FC<{
                 <div className="col-span-5 w-full">
                   <div className="prose prose-lg w-full max-w-none pb-5 font-medium lg:prose-xl prose-p:text-gray-200">
                     {tipSummarySerialized && (
-                      <MDX contents={tipSummarySerialized} />
+                      <MDX
+                        contents={tipSummarySerialized}
+                        components={{...MDXComponents}}
+                      />
                     )}
                   </div>
                   <ReplyOnTwitter tweet={tweet} />
