@@ -335,9 +335,13 @@ const LessonList: React.FC<{
         >
           <Collection.Root
             module={module}
-            numberFormatter={(lessonIndex, sectionIndex) =>
-              `${sectionIndex}.${lessonIndex + 1}`
-            }
+            numberFormatter={(lessonIndex, sectionIndex, totalSections) => {
+              // Intro (first) and outro (last) sections get plain numbering
+              if (sectionIndex === 0 || sectionIndex === totalSections - 1) {
+                return `${lessonIndex + 1}`
+              }
+              return `${sectionIndex}.${lessonIndex}`
+            }}
             resourcesRenderer={(type) => {
               return (
                 <>

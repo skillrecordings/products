@@ -61,6 +61,7 @@ type CollectionContextValue = {
   numberFormatter?: (
     lessonIndex: number,
     sectionIndex: number,
+    totalSections: number,
   ) => React.ReactNode
 }
 const [CollectionProvider, useCollectionContext] =
@@ -87,6 +88,7 @@ interface CollectionProps extends PrimitiveDivProps {
   numberFormatter?: (
     lessonIndex: number,
     sectionIndex: number,
+    totalSections: number,
   ) => React.ReactNode
 }
 
@@ -557,7 +559,8 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
     } = useCollectionContext(COLLECTION_NAME, __scopeCollection)
     const moduleProgress = useModuleProgress()
 
-    // Compute sectionIndex locally from module data
+    // Compute sectionIndex and totalSections locally from module data
+    const totalSections = module.sections?.length ?? 0
     const sectionIndex = React.useMemo(() => {
       if (!section || !module.sections) return 0
       const idx = module.sections.findIndex(
@@ -690,7 +693,11 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                             aria-hidden="true"
                           >
                             {numberFormatter ? (
-                              numberFormatter(Number(index), sectionIndex)
+                              numberFormatter(
+                                Number(index),
+                                sectionIndex,
+                                totalSections,
+                              )
                             ) : withNumbers ? (
                               <>{Number(index) + 1}</>
                             ) : (
@@ -728,7 +735,11 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                         aria-hidden="true"
                       >
                         {numberFormatter ? (
-                          numberFormatter(Number(index), sectionIndex)
+                          numberFormatter(
+                            Number(index),
+                            sectionIndex,
+                            totalSections,
+                          )
                         ) : withNumbers ? (
                           <>{Number(index) + 1}</>
                         ) : (
