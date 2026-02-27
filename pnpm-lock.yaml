@@ -1575,7 +1575,7 @@ importers:
         specifier: ^3.4.1
         version: 3.4.1(ts-node@10.9.2)
       tsx:
-        specifier: ^3.7.1
+        specifier: ^3.14.0
         version: 3.14.0
       typescript:
         specifier: 5.5.4
