@@ -257,7 +257,11 @@ const Header: React.FC<
           </h1>
           {personalPurchase && product?.modules[0] && (
             <Link
-              href={`/workshops/${product.modules[0].slug.current}`}
+              href={`/${
+                product.modules[0].moduleType === 'tutorial'
+                  ? 'tutorials'
+                  : 'workshops'
+              }/${product.modules[0].slug.current}`}
               className="bg-brand-red  mt-8 rounded-full px-8 py-3 text-lg font-bold text-white shadow-xl shadow-black/10 transition hover:brightness-110"
             >
               Start Learning

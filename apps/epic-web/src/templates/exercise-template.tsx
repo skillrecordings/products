@@ -83,7 +83,7 @@ const ExerciseTemplate: React.FC<{
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
         moduleSlug: module.slug.current,
-        moduleType: 'workshop',
+        moduleType: module.moduleType,
         lessonSlug: lesson.slug,
         isSolution: lesson._type === 'solution',
         sectionSlug: section?.slug,

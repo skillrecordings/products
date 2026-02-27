@@ -20,6 +20,11 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {Skeleton} from '@skillrecordings/ui'
 import ResourceContributor from 'components/resource-contributor'
 import {CogIcon} from '@heroicons/react/solid'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {useRouter} from 'next/router'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
@@ -31,6 +36,25 @@ const TutorialTemplate: React.FC<{
     trpc.moduleProgress.bySlug.useQuery({
       slug: tutorial.slug.current,
     })
+
+  const product = (tutorial as any)?.product as SanityProduct | undefined
+  const router = useRouter()
+  const {data: commerceProps} = trpc.pricing.propsForCommerce.useQuery({
+    ...(product?.productId && {productId: product.productId}),
+    ...(router.query.code && {code: router.query.code as string}),
+  })
+  const {validCoupon} = useCoupon(commerceProps?.couponFromCode)
+  const couponId =
+    commerceProps?.couponIdFromCoupon ||
+    (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
+  const purchases = commerceProps?.purchases || []
+  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+  const upgradableTo = product?.upgradableTo
+  const pricingProduct = (upgradableTo || product) as SanityProduct | undefined
+  const ALLOW_PURCHASE =
+    router.query.allowPurchase === 'true' || product?.state === 'active'
+  const hasPurchased =
+    pricingProduct && purchasedProductIds.includes(pricingProduct.productId)
 
   return (
     <Layout
@@ -53,9 +77,9 @@ const TutorialTemplate: React.FC<{
           </div>
         </div>
       )}
-      <Header tutorial={tutorial} />
-      <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <div className="w-full px-5">
+      <main className="z-10 flex flex-col gap-5 lg:flex-row">
+        <div className="w-full flex-grow px-5">
+          <Header tutorial={tutorial} />
           <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
             <MDX contents={tutorialBodySerialized} />
           </article>
@@ -63,10 +87,44 @@ const TutorialTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="w-full px-5 lg:max-w-sm xl:px-0">
+        <aside
+          className="relative right-0 w-full px-5 lg:max-w-sm lg:px-0"
+          data-workshop=""
+        >
+          {tutorial.image && !product && (
+            <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0 lg:-mr-5">
+              <Image
+                priority
+                src={tutorial.image}
+                alt={tutorial.title}
+                width={360}
+                height={360}
+                quality={100}
+              />
+            </div>
+          )}
+          {pricingProduct && ALLOW_PURCHASE && !hasPurchased && (
+            <div className="mb-8">
+              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+                <div data-pricing-container="" id="buy">
+                  <Pricing
+                    id="workshop-pricing"
+                    allowPurchase={ALLOW_PURCHASE}
+                    userId={commerceProps?.userId}
+                    product={pricingProduct}
+                    options={{withImage: true, withGuaranteeBadge: true}}
+                    cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
+                    purchased={hasPurchased}
+                    couponId={couponId}
+                    couponFromCode={commerceProps?.couponFromCode}
+                  />
+                </div>
+              </PriceCheckProvider>
+            </div>
+          )}
           {tutorial && (
             <Collection.Root module={tutorial}>
-              <div className="flex w-full items-center justify-between pb-3">
+              <div className="flex w-full items-center justify-between pb-3 md:mt-5">
                 {(tutorial.lessons || tutorial.sections) && (
                   <h3 className="text-xl font-bold">Contents</h3>
                 )}
@@ -84,7 +142,7 @@ const TutorialTemplate: React.FC<{
                 )}
               </Collection.Sections>
               {/* Used if module has either none or single section so they can be styled differently */}
-              <Collection.Lessons>
+              <Collection.Lessons className="border-t">
                 {moduleProgressStatus === 'success' ? (
                   <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
                 ) : (
@@ -93,7 +151,7 @@ const TutorialTemplate: React.FC<{
               </Collection.Lessons>
             </Collection.Root>
           )}
-        </div>
+        </aside>
       </main>
     </Layout>
   )
@@ -102,7 +160,7 @@ const TutorialTemplate: React.FC<{
 export default TutorialTemplate
 
 const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
-  const {title, slug, sections, image, github, instructor} = tutorial
+  const {title, slug, sections, image, github, instructor, product} = tutorial
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: tutorial.slug.current,
@@ -118,14 +176,37 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 pt-8 sm:pb-16 sm:pt-12 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between pb-10 pt-8 sm:pb-16 sm:pt-12 md:flex-row">
         <div className="w-full text-center md:text-left">
-          <Link
-            href="/tutorials"
-            className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-emerald-500 dark:text-emerald-300"
-          >
-            Free Tutorial
-          </Link>
+          {tutorial.image && (
+            <div className="flex w-full items-center justify-center lg:hidden lg:items-start lg:justify-start">
+              <Image
+                src={tutorial.image}
+                alt={tutorial.title}
+                width={360}
+                height={360}
+              />
+            </div>
+          )}
+          <div className="flex items-center justify-center gap-2 pb-4 text-center md:justify-start md:text-left">
+            <Link
+              href="/tutorials"
+              className="text-xs font-bold uppercase tracking-wide text-emerald-500 dark:text-emerald-300"
+            >
+              Free Tutorial
+            </Link>
+            {product?.slug && (
+              <>
+                <span className="text-xs text-muted-foreground">·</span>
+                <Link
+                  href={`/${product.slug}`}
+                  className="text-xs font-medium text-muted-foreground transition hover:text-foreground"
+                >
+                  Part of {product.name}
+                </Link>
+              </>
+            )}
+          </div>
           <h1 className="font-text text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
             <Balancer>{title}</Balancer>
           </h1>
@@ -203,18 +284,6 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
             </div>
           </div>
         </div>
-        {image && (
-          <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0 lg:-mr-5">
-            <Image
-              priority
-              src={image}
-              alt={title}
-              width={360}
-              height={360}
-              quality={100}
-            />
-          </div>
-        )}
       </header>
     </>
   )
