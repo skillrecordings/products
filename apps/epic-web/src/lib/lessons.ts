@@ -9,6 +9,11 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import {z} from 'zod'
 import * as Sentry from '@sentry/nextjs'
+import * as mysql from 'mysql2/promise'
+
+const access: mysql.ConnectionOptions = {
+  uri: process.env.COURSE_BUILDER_DATABASE_URL,
+}
 
 const VideoResourceSchema = z.object({
   transcript: z.coerce.string(),
@@ -70,7 +75,46 @@ export async function getLessonVideoForDevice({
         {id: lesson.videoResourceId as string},
       )
 
-      const result = VideoResourceSchema.safeParse(sanityResponse)
+      let result = VideoResourceSchema.safeParse(sanityResponse)
+
+      // MySQL fallback for course-builder video resources
+      if (
+        !result.success &&
+        lesson.videoResourceId &&
+        process.env.COURSE_BUILDER_DATABASE_URL
+      ) {
+        try {
+          const connection = await mysql.createConnection(access)
+          const [rows] = await connection.execute(
+            `SELECT fields FROM zEW_ContentResource WHERE id = ? AND type = 'videoResource' AND deletedAt IS NULL LIMIT 1`,
+            [lesson.videoResourceId],
+          )
+          await connection.end()
+
+          if (Array.isArray(rows) && rows.length > 0) {
+            const videoFields =
+              typeof (rows[0] as any).fields === 'string'
+                ? JSON.parse((rows[0] as any).fields)
+                : (rows[0] as any).fields || {}
+
+            result = VideoResourceSchema.safeParse({
+              muxPlaybackId: videoFields.muxPlaybackId || '',
+              transcript:
+                videoFields.transcript?.text ||
+                (typeof videoFields.transcript === 'string'
+                  ? videoFields.transcript
+                  : '') ||
+                (lesson as any).transcript ||
+                '',
+            })
+          }
+        } catch (err) {
+          console.error(
+            '[getLessonVideoForDevice] MySQL video fallback error:',
+            err,
+          )
+        }
+      }
 
       if (result.success) {
         const videoResource = result.data
