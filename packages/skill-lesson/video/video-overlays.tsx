@@ -567,7 +567,9 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
   const canViewRegionRestriction = ability.can('view', 'RegionRestriction')
   const workshops =
     product?.modules &&
-    product.modules.filter(({moduleType}) => moduleType === 'workshop')
+    product.modules.filter(
+      ({moduleType}) => moduleType === 'workshop' || moduleType === 'tutorial',
+    )
   const bonuses =
     product?.modules &&
     product.modules.filter(({moduleType}) => moduleType === 'bonus')
@@ -635,7 +637,11 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
                         <Link
                           key={module.slug}
                           data-type={module.moduleType}
-                          href={`/workshops/${
+                          href={`/${
+                            module.moduleType === 'tutorial'
+                              ? 'tutorials'
+                              : 'workshops'
+                          }/${
                             typeof module.slug === 'string'
                               ? module.slug
                               : // @ts-expect-error
