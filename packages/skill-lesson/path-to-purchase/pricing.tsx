@@ -325,7 +325,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
 
   const workshops = modules?.filter(
     (module) =>
-      module.moduleType === 'workshop' || module.moduleType === 'legacy-module',
+      module.moduleType === 'workshop' ||
+      module.moduleType === 'tutorial' ||
+      module.moduleType === 'legacy-module',
   )
   const moduleBonuses = modules?.filter(
     (module) => module.moduleType === 'bonus',
@@ -792,7 +794,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                           <li key={module.slug}>
                             <Link
                               href={{
-                                pathname: `/workshops/[slug]`,
+                                pathname: `/${
+                                  module.moduleType === 'tutorial'
+                                    ? 'tutorials'
+                                    : 'workshops'
+                                }/[slug]`,
                                 query: {
                                   slug: module.slug,
                                 },
