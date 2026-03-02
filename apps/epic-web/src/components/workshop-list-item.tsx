@@ -37,7 +37,7 @@ export function WorkshopListItem({
   const path = moduleTypePaths[moduleType] || `${moduleType}s`
 
   return (
-    <li className="not-prose flex flex-col items-center gap-8 pb-16 sm:-mx-10 lg:-mx-16 lg:flex-row lg:items-start">
+    <li className="not-prose flex flex-col items-center gap-8 pb-16 lg:flex-row lg:items-start">
       {image?.url && (
         <Link
           href={`/${path}/${slug}`}
@@ -59,7 +59,7 @@ export function WorkshopListItem({
         </h4>
         {sections.length > 0 && (
           <>
-            <p className="pt-2 text-center font-mono text-sm uppercase lg:text-left">
+            <p className="pt-2 text-center font-mono text-sm uppercase text-blue-900 dark:text-blue-200 lg:text-left">
               {sections.length} Sections
             </p>
             <ul className="w-full px-8 pt-8 sm:px-0">
