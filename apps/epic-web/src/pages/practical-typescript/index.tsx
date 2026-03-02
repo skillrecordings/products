@@ -23,6 +23,7 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {WorkshopListItem} from 'components/workshop-list-item'
+import SaleCountdown from '@skillrecordings/skill-lesson/path-to-purchase/sale-countdown'
 
 const productId = 'e2f18c94-012f-45b5-8962-4d5f320b510f'
 
@@ -125,6 +126,18 @@ const Index: NextPage<{
                           )}
                           index={i}
                           couponId={couponId}
+                          couponFromCode={commerceProps?.couponFromCode}
+                          options={{
+                            saleCountdownRenderer: (props: any) => {
+                              return (
+                                <SaleCountdown
+                                  data-pricing-product-sale-countdown=""
+                                  size="lg"
+                                  {...props}
+                                />
+                              )
+                            },
+                          }}
                         />
                       </div>
                     </PriceCheckProvider>
