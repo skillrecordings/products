@@ -158,9 +158,9 @@ const WorkshopTemplate: React.FC<{
                     </>
                   ) : (
                     <>
-                      <h3 className="mb-3 text-xl font-bold">
+                      {/* <h3 className="mb-3 text-xl font-bold">
                         Individual Workshop
-                      </h3>
+                      </h3> */}
                       <PriceCheckProvider
                         purchasedProductIds={purchasedProductIds}
                       >

@@ -620,7 +620,40 @@ export const getTutorial = async (slug: string) => {
           }
         },
         "resources": resources[@->._type in ['linkResource']]->
-      }
+      },
+      'product': *[_type == 'product' && references(^._id)] | order(count(modules) asc)[0]{
+        _id,
+        "name": title,
+        "slug": slug.current,
+        productId,
+        state,
+        description,
+        action,
+        image,
+        unitAmount,
+        upgradableTo[0]->{
+          ...,
+          "name": title,
+          productId,
+          "slug": slug.current,
+          modules[]->{
+            ...,
+            "description": "",
+            "image": image.asset->{url},
+          }
+        },
+        modules[]->{
+          "slug": slug.current,
+          moduleType,
+          title,
+          "image": image.asset->{url, alt},
+          state,
+        },
+        features[]{
+          value,
+          icon
+        }
+      },
     }`,
     {slug: `${slug}`},
   )

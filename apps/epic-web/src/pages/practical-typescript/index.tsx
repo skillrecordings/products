@@ -175,6 +175,13 @@ const Article: React.FC<{
             </ul>
           ),
           WorkshopAppScreenshot,
+          TypeScriptError: ({children}) => {
+            return (
+              <pre className="rounded-lg !bg-red-500/10 p-4 !text-sm leading-relaxed !text-red-900 outline outline-red-500/50 scrollbar-thin scrollbar-track-red-500/10 scrollbar-thumb-red-500/50 dark:!text-red-100">
+                {children}
+              </pre>
+            )
+          },
         }}
       />
     </article>

@@ -139,6 +139,23 @@ Don’t forget to check out our exclusive podcast series. These aren’t just an
     : ''
 }   
             `
+        case 'e2f18c94-012f-45b5-8962-4d5f320b510f':
+          return `
+You've just unlocked a complete TypeScript learning path designed to take you from programming foundations all the way to advanced TypeScript. This isn't just theory, it's hands-on, practical exercises across tutorials and workshops that will build your TypeScript skills step by step.
+
+The content is designed to be completed in a linear fashion. Starting from the beginning and working through to the end will provide the best experience.
+
+**What's included:**
+
+- **[Programming Foundations](https://www.epicweb.dev/tutorials/programming-foundations)**: Build a solid base with expressions, variables, types, functions, and more—all in TypeScript from day one.
+- **[Structured Data](https://www.epicweb.dev/tutorials/structured-data)**: Master objects, arrays, destructuring, and essential data manipulation techniques.
+- **[Type Safety](https://www.epicweb.dev/workshops/type-safety)**: Explore type aliases, unions, generics, interfaces, and more for precise type modeling.
+- **[Object Oriented TypeScript](https://www.epicweb.dev/workshops/object-oriented-typescript)**: Learn classes, inheritance, polymorphism, and composition patterns for organizing code at scale.
+- **[Advanced TypeScript](https://www.epicweb.dev/workshops/advanced-typescript)**: Level up with async/await, modules, utility types, and conditional types for professional-level development.
+
+P.S. Are you brand new to software development? Great! Welcome. We've got a tutorial for you to follow to get your computer set up to build software: [Setting Up Your First Development Environment](https://www.epicweb.dev/setting-up-your-first-development-environment-d0ga4)
+
+          `
         case 'cf54eeca-309b-493d-9628-1c31289a7515':
           return `
 This bundle is your key to transforming testing from a frustrating chore into a powerful tool that gives you confidence in every line of code.
@@ -157,6 +174,7 @@ In this bundle, you’ll dive deep into testing fundamentals, mocking strategies
 
 For each of our Epic Web workshops, there's a corresponding Workshop App repository available for you to clone and run on your own computer.
           `
+
         default:
           return ''
       }
@@ -279,6 +297,8 @@ ${calendarInvite}
       ) {
         return `Thank you for purchasing the ${product.title} Bundle${forTeam}!`
       } else if (product.productId === 'cf54eeca-309b-493d-9628-1c31289a7515') {
+        return `Thank you for purchasing the ${product.title} Bundle${forTeam}!`
+      } else if (product.productId === 'e2f18c94-012f-45b5-8962-4d5f320b510f') {
         return `Thank you for purchasing the ${product.title}${forTeam}!`
       } else {
         return `Thank you for purchasing the [${product.title}](https://www.epicweb.dev/workshops/${product.slug}) Workshop${forTeam}!`
