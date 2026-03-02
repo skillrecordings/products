@@ -59,6 +59,7 @@ export const searchRouter = router({
       description,
       _score,
       _id,
+      _createdAt,
       title,
       slug,
       _type,
