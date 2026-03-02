@@ -24,6 +24,7 @@ import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {WorkshopListItem} from 'components/workshop-list-item'
 import SaleCountdown from '@skillrecordings/skill-lesson/path-to-purchase/sale-countdown'
+import MuxPlayer from '@mux/mux-player-react'
 
 const productId = 'e2f18c94-012f-45b5-8962-4d5f320b510f'
 
@@ -234,6 +235,13 @@ const Header = ({
         <span className="font-medium text-gray-600 dark:text-gray-400">
           Kent C. Dodds
         </span>
+      </div>
+      <div className="mt-8 w-full max-w-3xl overflow-hidden rounded-lg">
+        <MuxPlayer
+          playbackId="c2ULVxF9sNep6qllGwoY00a3fSkg01IyacrxYEnFrK3oM"
+          metadata={{video_title: 'Practical TypeScript Introduction'}}
+          accentColor="#3b82f6"
+        />
       </div>
     </header>
   )
