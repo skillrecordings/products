@@ -969,9 +969,12 @@ export const TalkIcon: React.FC<IconProps> = ({isHovered, theme}) => {
 export const productOnSalePathBuilder = (product: {
   slug: string
   type: 'live' | 'self-paced'
+  productId?: string
   modules?: {slug: {current: string}}[]
 }) => {
-  if (product.type === 'live') {
+  if (product.productId === 'e2f18c94-012f-45b5-8962-4d5f320b510f') {
+    return '/practical-typescript'
+  } else if (product.type === 'live') {
     return `/events/${product.slug}`
   } else if (product.modules && product.modules.length > 1) {
     return `/${product.slug}`
@@ -999,9 +1002,7 @@ export const Banner: React.FC<{
   const {bannerHeight, scrollDirection} = useGlobalBanner()
   const code = router.query.code
   const productOnSale = currentSale?.product
-  const productPath = siteWideSale
-    ? '/2025-50'
-    : productOnSale && productOnSalePathBuilder(productOnSale)
+  const productPath = productOnSale && productOnSalePathBuilder(productOnSale)
 
   if (!currentSale && !activeEvent) return null
 
@@ -1030,8 +1031,6 @@ export const Banner: React.FC<{
   if (router.pathname === `/${productOnSale?.slug}`) {
     return null
   }
-
-  console.log('cta', cta)
 
   return (
     <div
