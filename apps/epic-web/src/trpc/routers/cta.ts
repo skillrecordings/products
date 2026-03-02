@@ -414,7 +414,7 @@ export const ctaRouter = router({
         },
       })
 
-      const SITE_WIDE_SALE = activeDefaultCoupons.length > 1
+      const SITE_WIDE_SALE = activeDefaultCoupons.length > 0
 
       return {
         CURRENT_ACTIVE_LIVE_EVENT,
