@@ -408,6 +408,7 @@ export const ctaRouter = router({
       const activeDefaultCoupons = await prisma.coupon.findMany({
         where: {
           default: true,
+          restrictedToProductId: null,
           expires: {
             gt: new Date(),
           },
