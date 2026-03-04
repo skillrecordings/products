@@ -241,6 +241,7 @@ const Header = ({
           playbackId="c2ULVxF9sNep6qllGwoY00a3fSkg01IyacrxYEnFrK3oM"
           metadata={{video_title: 'Practical TypeScript Introduction'}}
           accentColor="#3b82f6"
+          thumbnailTime={0}
         />
       </div>
     </header>
