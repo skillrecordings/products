@@ -129,172 +129,224 @@ function BundleGrid() {
     <section
       aria-label="bundle grid"
       id="bundles"
-      className="not-prose mx-auto mt-16 grid w-full max-w-screen-lg grid-cols-1 gap-5 md:grid-cols-5 md:gap-6"
+      className="not-prose mx-auto mt-16 w-full max-w-screen-lg"
     >
       <Link
-        href="/full-stack"
-        className="group h-full w-full overflow-hidden rounded-lg md:col-span-2"
+        href="/practical-typescript"
+        className="group mb-5 flex h-full w-full overflow-hidden rounded-lg shadow-soft-3xl dark:shadow-none md:mb-6"
       >
-        <article className="relative flex h-full flex-col items-center justify-start overflow-hidden bg-gradient-to-b from-[#23378E] to-[#08195F] text-white transition-all duration-300 ease-in-out group-hover:from-[#273E9F] group-hover:to-[#0A1E73]">
-          <div className="relative z-10 flex h-1/2 flex-col items-center justify-center px-10 pb-16 pt-16 text-center md:pb-0 md:pt-0">
-            <h2 className="mb-3 text-balance text-xl font-bold">
-              Production Ready Full Stack Web Development Masterclass
+        <article className="relative flex h-full w-full flex-col items-center justify-center rounded-lg bg-gradient-to-bl from-[#302A51] to-[#160E42] p-8 text-center text-white transition duration-300 ease-in-out hover:bg-gray-100 hover:from-[#423B6E] hover:to-[#1E1456] md:flex-row md:gap-8 md:text-left">
+          <div className="relative flex flex-shrink-0 items-center justify-center">
+            <Image
+              src={
+                'https://res.cloudinary.com/epic-web/image/upload/v1772197738/practical-typescript-bundle.png'
+              }
+              priority
+              width={340}
+              height={340}
+              alt=""
+              aria-hidden="true"
+              className="absolute blur-[100px]"
+            />
+            <Image
+              src={
+                'https://res.cloudinary.com/epic-web/image/upload/v1772197738/practical-typescript-bundle.png'
+              }
+              priority
+              width={340}
+              height={340}
+              alt=""
+              aria-hidden="true"
+              className="relative z-10"
+            />
+          </div>
+          <div className="flex max-w-sm flex-col items-center xl:items-start">
+            <h2 className="mb-3 text-balance text-2xl font-bold sm:text-3xl">
+              Practical TypeScript: Foundations to Fluency
             </h2>
-            <h3 className="text-balance text-base text-[#D3DCFF] text-opacity-80">
-              An epic guide to professional web development by{' '}
+            <h3 className="max-w-xl text-balance text-base text-opacity-80">
+              Go from fighting the compiler to fluency across five focused
+              workshops with
               <Image
                 src={require('../../public/kent-c-dodds.png')}
                 width={28}
                 height={28}
                 alt="Kent C. Dodds"
                 priority
-                className="inline-block rounded-full bg-background"
+                className="ml-1 inline-block rounded-full bg-background"
               />{' '}
               Kent C. Dodds.
             </h3>
-            <div
-              // href="/full-stack"
-              // className="mt-8 flex items-center justify-center rounded bg-[linear-gradient(81deg,_#1F8AEB_9.18%,_#224BFF_115.75%)] px-7 py-3 text-center font-semibold text-white shadow-soft-lg transition duration-300 ease-in-out group-hover:brightness-110"
-              className="mt-5 inline-flex items-center text-base font-medium"
-            >
-              Become an Epic Web Dev <ChevronRight className="ml-1 h-3 w-3" />
-            </div>
-          </div>
-          <div className="-gap-10 flex items-center justify-center">
-            <Image
-              src={
-                'https://cdn.sanity.io/images/i1a93n76/production/44ce2b7bb8601b4229774928821f1e100dfa476a-700x700.png'
-              }
-              alt=""
-              aria-hidden="true"
-              quality={100}
-              priority
-              width={200}
-              height={200}
-              className="drop-shadow-xl"
-            />
-            <Image
-              src={
-                'https://res.cloudinary.com/epic-web/image/upload/v1688549362/workshop-image-authentication-strategies-and-implementation_2x.png'
-              }
-              alt=""
-              aria-hidden="true"
-              quality={100}
-              priority
-              width={250}
-              height={250}
-              className="-ml-8 drop-shadow-xl"
-            />
-            <Image
-              src={
-                'https://res.cloudinary.com/epic-web/image/upload/v1688138013/workshop-image-full-stack-foundations_2x.png'
-              }
-              alt=""
-              aria-hidden="true"
-              quality={100}
-              priority
-              width={200}
-              height={200}
-              className="drop-shadow-xl"
-            />
           </div>
         </article>
       </Link>
-      <div className="flex h-full w-full grid-cols-1 grid-rows-2 flex-col gap-5 md:col-span-3 md:grid md:gap-6">
+
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-5 md:gap-6">
         <Link
-          href="/testing"
-          className="group h-full w-full overflow-hidden rounded-lg shadow-soft-3xl dark:shadow-none"
+          href="/full-stack"
+          className="group h-full w-full overflow-hidden rounded-lg md:col-span-2"
         >
-          <article className="relative flex h-full w-full flex-col items-center justify-center bg-white p-8 text-center transition duration-300 ease-in-out hover:bg-gray-100 dark:bg-gradient-to-bl dark:from-[#1C2030] dark:to-[#11131E] dark:hover:from-[#292E46] dark:hover:to-[#202338] xl:flex-row xl:gap-8 xl:text-left">
-            <div className="relative flex flex-shrink-0 items-center justify-center">
-              <Image
-                src={
-                  'https://res.cloudinary.com/epic-web/image/upload/v1728574021/mocking_techniques.png'
-                }
-                priority
-                width={200}
-                height={200}
-                alt=""
-                aria-hidden="true"
-                className="absolute blur-[100px]"
-              />
-              <Image
-                src={
-                  'https://res.cloudinary.com/epic-web/image/upload/v1728574021/mocking_techniques.png'
-                }
-                priority
-                width={200}
-                height={200}
-                alt=""
-                aria-hidden="true"
-                className="relative z-10"
-              />
-            </div>
-            <div className="flex max-w-sm flex-col items-center xl:items-start">
-              <h2 className="mb-3 text-balance text-xl font-bold dark:text-white">
-                Professional Web Application Testing with Vitest
+          <article className="relative flex h-full flex-col items-center justify-start overflow-hidden bg-gradient-to-b from-[#23378E] to-[#08195F] text-white transition-all duration-300 ease-in-out group-hover:from-[#273E9F] group-hover:to-[#0A1E73]">
+            <div className="relative z-10 flex h-1/2 flex-col items-center justify-center px-10 pb-16 pt-16 text-center md:pb-0 md:pt-0">
+              <h2 className="mb-3 text-balance text-xl font-bold">
+                Production Ready Full Stack Web Development Masterclass
               </h2>
-              <h3 className="max-w-xl text-balance text-base text-opacity-80">
-                Learn from the creator and maintainer of Mock Service Worker,{' '}
+              <h3 className="text-balance text-base text-[#D3DCFF] text-opacity-80">
+                An epic guide to professional web development by{' '}
                 <Image
-                  src={require('../../public/artem.jpg')}
+                  src={require('../../public/kent-c-dodds.png')}
                   width={28}
                   height={28}
-                  alt="Artem Zakharchenko"
+                  alt="Kent C. Dodds"
                   priority
-                  className="inline-block rounded-full"
+                  className="inline-block rounded-full bg-background"
                 />{' '}
-                Artem Zakharchenko.
+                Kent C. Dodds.
               </h3>
-              {/* <div className="mt-8 flex items-center justify-center rounded bg-white px-10 py-3 text-center font-semibold shadow-soft-lg transition duration-300 ease-in-out group-hover:bg-gray-100 dark:bg-[#272B40] dark:group-hover:bg-[#3C415B]">
-                Learn more
-              </div> */}
+              <div
+                // href="/full-stack"
+                // className="mt-8 flex items-center justify-center rounded bg-[linear-gradient(81deg,_#1F8AEB_9.18%,_#224BFF_115.75%)] px-7 py-3 text-center font-semibold text-white shadow-soft-lg transition duration-300 ease-in-out group-hover:brightness-110"
+                className="mt-5 inline-flex items-center text-base font-medium"
+              >
+                Become an Epic Web Dev <ChevronRight className="ml-1 h-3 w-3" />
+              </div>
+            </div>
+            <div className="-gap-10 flex items-center justify-center">
+              <Image
+                src={
+                  'https://cdn.sanity.io/images/i1a93n76/production/44ce2b7bb8601b4229774928821f1e100dfa476a-700x700.png'
+                }
+                alt=""
+                aria-hidden="true"
+                quality={100}
+                priority
+                width={200}
+                height={200}
+                className="drop-shadow-xl"
+              />
+              <Image
+                src={
+                  'https://res.cloudinary.com/epic-web/image/upload/v1688549362/workshop-image-authentication-strategies-and-implementation_2x.png'
+                }
+                alt=""
+                aria-hidden="true"
+                quality={100}
+                priority
+                width={250}
+                height={250}
+                className="-ml-8 drop-shadow-xl"
+              />
+              <Image
+                src={
+                  'https://res.cloudinary.com/epic-web/image/upload/v1688138013/workshop-image-full-stack-foundations_2x.png'
+                }
+                alt=""
+                aria-hidden="true"
+                quality={100}
+                priority
+                width={200}
+                height={200}
+                className="drop-shadow-xl"
+              />
             </div>
           </article>
         </Link>
-        <Link
-          href="/workshops/pixel-perfect-figma-to-tailwind"
-          className="group flex h-full w-full items-center justify-center overflow-hidden rounded-lg shadow-soft-3xl dark:shadow-none"
-        >
-          <article className="relative flex h-full w-full flex-col items-center justify-center bg-white p-8 text-center transition duration-300 ease-in-out hover:bg-gray-100 dark:bg-gradient-to-bl dark:from-[#1C2030] dark:to-[#11131E] dark:hover:from-[#292E46] dark:hover:to-[#202338] xl:flex-row xl:gap-8 xl:text-left">
-            <div className="relative flex flex-shrink-0 items-center justify-center">
-              <Image
-                src={
-                  'https://res.cloudinary.com/epic-web/image/upload/v1711581753/events/pixel-perfect-figma-to-tailwind_2x.png'
-                }
-                priority
-                width={200}
-                height={200}
-                alt=""
-                aria-hidden="true"
-                className="absolute blur-[100px]"
-              />
-              <Image
-                src={
-                  'https://res.cloudinary.com/epic-web/image/upload/v1711581753/events/pixel-perfect-figma-to-tailwind_2x.png'
-                }
-                priority
-                width={200}
-                height={200}
-                alt=""
-                aria-hidden="true"
-                className="relative z-10"
-              />
-            </div>
+        <div className="flex h-full w-full grid-cols-1 grid-rows-2 flex-col gap-5 md:col-span-3 md:grid md:gap-6">
+          <Link
+            href="/testing"
+            className="group h-full w-full overflow-hidden rounded-lg shadow-soft-3xl dark:shadow-none"
+          >
+            <article className="relative flex h-full w-full flex-col items-center justify-center bg-white p-8 text-center transition duration-300 ease-in-out hover:bg-gray-100 dark:bg-gradient-to-bl dark:from-[#1C2030] dark:to-[#11131E] dark:hover:from-[#292E46] dark:hover:to-[#202338] xl:flex-row xl:gap-8 xl:text-left">
+              <div className="relative flex flex-shrink-0 items-center justify-center">
+                <Image
+                  src={
+                    'https://res.cloudinary.com/epic-web/image/upload/v1728574021/mocking_techniques.png'
+                  }
+                  priority
+                  width={200}
+                  height={200}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute blur-[100px]"
+                />
+                <Image
+                  src={
+                    'https://res.cloudinary.com/epic-web/image/upload/v1728574021/mocking_techniques.png'
+                  }
+                  priority
+                  width={200}
+                  height={200}
+                  alt=""
+                  aria-hidden="true"
+                  className="relative z-10"
+                />
+              </div>
+              <div className="flex max-w-sm flex-col items-center xl:items-start">
+                <h2 className="mb-3 text-balance text-xl font-bold dark:text-white">
+                  Professional Web Application Testing with Vitest
+                </h2>
+                <h3 className="max-w-xl text-balance text-base text-opacity-80">
+                  Learn from the creator and maintainer of Mock Service Worker,{' '}
+                  <Image
+                    src={require('../../public/artem.jpg')}
+                    width={28}
+                    height={28}
+                    alt="Artem Zakharchenko"
+                    priority
+                    className="inline-block rounded-full"
+                  />{' '}
+                  Artem Zakharchenko.
+                </h3>
+                {/* <div className="mt-8 flex items-center justify-center rounded bg-white px-10 py-3 text-center font-semibold shadow-soft-lg transition duration-300 ease-in-out group-hover:bg-gray-100 dark:bg-[#272B40] dark:group-hover:bg-[#3C415B]">
+                Learn more
+              </div> */}
+              </div>
+            </article>
+          </Link>
+          <Link
+            href="/workshops/pixel-perfect-figma-to-tailwind"
+            className="group flex h-full w-full items-center justify-center overflow-hidden rounded-lg shadow-soft-3xl dark:shadow-none"
+          >
+            <article className="relative flex h-full w-full flex-col items-center justify-center bg-white p-8 text-center transition duration-300 ease-in-out hover:bg-gray-100 dark:bg-gradient-to-bl dark:from-[#1C2030] dark:to-[#11131E] dark:hover:from-[#292E46] dark:hover:to-[#202338] xl:flex-row xl:gap-8 xl:text-left">
+              <div className="relative flex flex-shrink-0 items-center justify-center">
+                <Image
+                  src={
+                    'https://res.cloudinary.com/epic-web/image/upload/v1711581753/events/pixel-perfect-figma-to-tailwind_2x.png'
+                  }
+                  priority
+                  width={200}
+                  height={200}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute blur-[100px]"
+                />
+                <Image
+                  src={
+                    'https://res.cloudinary.com/epic-web/image/upload/v1711581753/events/pixel-perfect-figma-to-tailwind_2x.png'
+                  }
+                  priority
+                  width={200}
+                  height={200}
+                  alt=""
+                  aria-hidden="true"
+                  className="relative z-10"
+                />
+              </div>
 
-            <div className="flex max-w-sm flex-col items-center xl:items-start">
-              <h2 className="mb-3 text-balance text-xl font-bold dark:text-white">
-                Layout and Styling with Tailwind
-              </h2>
-              <h3 className="max-w-xl text-balance text-base text-opacity-80">
-                Make pixel-perfect design implementations with Tailwind.
-              </h3>
-              {/* <div className="mt-8 flex items-center justify-center rounded bg-white px-10 py-3 text-center font-semibold shadow-soft-lg transition duration-300 ease-in-out group-hover:bg-gray-100 dark:bg-[#272B40] dark:group-hover:bg-[#3C415B]">
+              <div className="flex max-w-sm flex-col items-center xl:items-start">
+                <h2 className="mb-3 text-balance text-xl font-bold dark:text-white">
+                  Layout and Styling with Tailwind
+                </h2>
+                <h3 className="max-w-xl text-balance text-base text-opacity-80">
+                  Make pixel-perfect design implementations with Tailwind.
+                </h3>
+                {/* <div className="mt-8 flex items-center justify-center rounded bg-white px-10 py-3 text-center font-semibold shadow-soft-lg transition duration-300 ease-in-out group-hover:bg-gray-100 dark:bg-[#272B40] dark:group-hover:bg-[#3C415B]">
                 Learn more
               </div> */}
-            </div>
-          </article>
-        </Link>
+              </div>
+            </article>
+          </Link>
+        </div>
       </div>
     </section>
   )

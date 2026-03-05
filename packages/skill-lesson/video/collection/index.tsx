@@ -58,6 +58,11 @@ type CollectionContextValue = {
   path?: string
   ignoreSections?: boolean
   withNumbers?: boolean
+  numberFormatter?: (
+    lessonIndex: number,
+    sectionIndex: number,
+    totalSections: number,
+  ) => React.ReactNode
 }
 const [CollectionProvider, useCollectionContext] =
   createCollectionContext<CollectionContextValue>(COLLECTION_NAME)
@@ -80,6 +85,11 @@ interface CollectionProps extends PrimitiveDivProps {
   ) => {pathname: string; query: {[key: string]: string}}
   ignoreSections?: boolean
   withNumbers?: boolean
+  numberFormatter?: (
+    lessonIndex: number,
+    sectionIndex: number,
+    totalSections: number,
+  ) => React.ReactNode
 }
 
 const Collection = React.forwardRef<CollectionElement, CollectionProps>(
@@ -90,6 +100,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       children,
       ignoreSections = false,
       withNumbers = true,
+      numberFormatter,
       checkIconRenderer = () => (
         <CheckIcon
           className="relative z-10 flex-shrink-0"
@@ -189,6 +200,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
         lessonPathBuilder={lessonPathBuilder}
         ignoreSections={ignoreSections}
         withNumbers={withNumbers}
+        numberFormatter={numberFormatter}
       >
         <TooltipProvider>
           {children ? (
@@ -543,8 +555,19 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
       lessonPathBuilder,
       ignoreSections,
       withNumbers,
+      numberFormatter,
     } = useCollectionContext(COLLECTION_NAME, __scopeCollection)
     const moduleProgress = useModuleProgress()
+
+    // Compute sectionIndex and totalSections locally from module data
+    const totalSections = module.sections?.length ?? 0
+    const sectionIndex = React.useMemo(() => {
+      if (!section || !module.sections) return 0
+      const idx = module.sections.findIndex(
+        (s) => s._id === section._id || s.slug === section.slug,
+      )
+      return idx >= 0 ? idx : 0
+    }, [section, module.sections])
 
     const useAbilities = () => {
       const {data: abilityRules, status: abilityRulesStatus} =
@@ -669,7 +692,17 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                             data-index={`${index}`}
                             aria-hidden="true"
                           >
-                            {withNumbers ? <>{Number(index) + 1}</> : '•'}
+                            {numberFormatter ? (
+                              numberFormatter(
+                                Number(index),
+                                sectionIndex,
+                                totalSections,
+                              )
+                            ) : withNumbers ? (
+                              <>{Number(index) + 1}</>
+                            ) : (
+                              '•'
+                            )}
                           </span>
                         ) : null}
                       </>
@@ -701,7 +734,17 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                         data-index={`${index}`}
                         aria-hidden="true"
                       >
-                        {withNumbers ? <>{Number(index) + 1}</> : '•'}
+                        {numberFormatter ? (
+                          numberFormatter(
+                            Number(index),
+                            sectionIndex,
+                            totalSections,
+                          )
+                        ) : withNumbers ? (
+                          <>{Number(index) + 1}</>
+                        ) : (
+                          '•'
+                        )}
                       </span>
                     ) : null}
                   </>
