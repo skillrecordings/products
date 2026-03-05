@@ -16,28 +16,40 @@ import {syncConversions} from 'inngest/functions/sync-conversions'
 import {megaBundle} from './functions/post-purchase-automation/mega-bundle'
 import {liveEventBundle} from './functions/post-purchase-automation/live-event-bundle'
 import {chargeRefunded} from './functions/post-purchase-automation/charge-refunded'
+// Video processing functions
+import {processVideoResource} from 'inngest/functions/video/order-transcript'
+import {autoGenerateSeoDescription} from 'inngest/functions/seo/auto-generate-description'
 
 export const inngestConfig = {
   client: inngest,
   functions: [
+    // Video processing
     processNewTip,
     addSrtToMuxAsset,
+    processVideoResource,
+    autoGenerateSeoDescription,
+    // Stripe
     stripeCheckoutCompleted,
     stripeWebhookReceived,
-    // inactivityAfterPurchase,
-    // resumeProgressAfterInactivity,
+    // Progress
     lessonCompleted,
+    // AI
     writeAnEmail,
+    // Purchase
     purchaseTransferComplete,
     sendWelcomeEmail,
-    discordAccountLinked,
-    syncDiscordRoles,
-    slackDailyReporter,
-    slackMonthlyReporter,
-    syncConversions,
     megaBundle,
     liveEventBundle,
     chargeRefunded,
+    // Discord
+    discordAccountLinked,
+    syncDiscordRoles,
+    // Reporting
+    slackDailyReporter,
+    slackMonthlyReporter,
+    // Sync
+    syncConversions,
+    // Sanity
     ...sanityProductFunctions,
   ],
 }
