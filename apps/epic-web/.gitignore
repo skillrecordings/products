@@ -51,3 +51,6 @@ yarn-error.log*
 # Sanity
 .sanity
 .env*.local
+
+# QA reports
+scripts/qa-reports/
