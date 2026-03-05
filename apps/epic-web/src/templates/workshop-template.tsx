@@ -158,9 +158,9 @@ const WorkshopTemplate: React.FC<{
                     </>
                   ) : (
                     <>
-                      <h3 className="mb-3 text-xl font-bold">
+                      {/* <h3 className="mb-3 text-xl font-bold">
                         Individual Workshop
-                      </h3>
+                      </h3> */}
                       <PriceCheckProvider
                         purchasedProductIds={purchasedProductIds}
                       >
@@ -185,7 +185,23 @@ const WorkshopTemplate: React.FC<{
               )}
 
               {workshop && (
-                <Collection.Root module={workshop as unknown as Module}>
+                <Collection.Root
+                  module={workshop as unknown as Module}
+                  numberFormatter={(
+                    lessonIndex,
+                    sectionIndex,
+                    totalSections,
+                  ) => {
+                    // Intro (first) and outro (last) sections get plain numbering
+                    if (
+                      sectionIndex === 0 ||
+                      sectionIndex === totalSections - 1
+                    ) {
+                      return `${lessonIndex + 1}`
+                    }
+                    return `${sectionIndex}.${lessonIndex}`
+                  }}
+                >
                   <div className="flex w-full items-center justify-between pb-3">
                     <h3 className="text-xl font-bold">Contents</h3>
                     <Collection.Metadata className="font-mono text-xs font-medium uppercase" />

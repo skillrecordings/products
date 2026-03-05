@@ -408,13 +408,14 @@ export const ctaRouter = router({
       const activeDefaultCoupons = await prisma.coupon.findMany({
         where: {
           default: true,
+          restrictedToProductId: null,
           expires: {
             gt: new Date(),
           },
         },
       })
 
-      const SITE_WIDE_SALE = activeDefaultCoupons.length > 1
+      const SITE_WIDE_SALE = activeDefaultCoupons.length > 0
 
       return {
         CURRENT_ACTIVE_LIVE_EVENT,

@@ -75,7 +75,7 @@ const ContributorBio: React.FC<{
   return (
     <section
       className={twMerge(
-        'mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-10 px-5 py-20 sm:gap-16 sm:py-32 md:flex-row',
+        'mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-10 px-5 py-16 sm:gap-16 sm:py-24 md:flex-row',
         className,
       )}
     >
