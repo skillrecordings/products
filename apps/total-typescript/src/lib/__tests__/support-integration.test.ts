@@ -74,7 +74,7 @@ jest.mock('@skillrecordings/skill-lesson/utils/sanity-client', () => ({
 import {prisma} from '@skillrecordings/database'
 import {createVerificationUrl} from '@skillrecordings/skill-api'
 
-const mockPrisma = prisma as jest.Mocked<typeof prisma>
+const mockPrisma = jest.mocked(prisma)
 const mockCreateVerificationUrl = createVerificationUrl as jest.MockedFunction<
   typeof createVerificationUrl
 >
