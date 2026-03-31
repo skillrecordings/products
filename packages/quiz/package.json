@@ -31,7 +31,7 @@
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/react": "workspace:*",
-    "axios": "^1.4.0",
+    "axios": "1.6.7",
     "eslint-config-skill-recordings": "workspace:*",
     "formik": "2.2.9",
     "query-string": "^7.1.1",
