@@ -14,16 +14,16 @@
     "lint": "eslint ./src --fix"
   },
   "dependencies": {
-    "inngest": "3.22.13"
+    "inngest": "3.54.1"
   },
   "devDependencies": {
-    "@skillrecordings/tsconfig": "workspace:*",
-    "@types/node": "^22.0.0",
     "@sanity/client": "^6.1.1",
     "@sanity/types": "^2.29.5",
-    "groq": "^2.15.0",
+    "@skillrecordings/tsconfig": "workspace:*",
+    "@types/node": "^22.0.0",
     "eslint": "^8.12.0",
     "eslint-config-skill-recordings": "workspace:*",
+    "groq": "^2.15.0",
     "rimraf": "^3.0.2",
     "tsup": "^5.11.13",
     "tsx": "^3.7.1",

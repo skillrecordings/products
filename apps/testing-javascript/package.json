@@ -71,7 +71,7 @@
     "framer-motion": "^10.12.4",
     "groq": "^2.15.0",
     "human-readable-ids": "^1.0.4",
-    "inngest": "3.22.13",
+    "inngest": "3.54.1",
     "lodash": "^4.17.21",
     "micromark": "^3.1.0",
     "mjml": "^4.12.0",
@@ -102,7 +102,7 @@
     "tailwindcss-radix": "^2.8.0",
     "uuid": "^9.0.0",
     "yup": "^0.32.11",
-    "zod": "^3.21.4"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@next/env": "^12.2.2",

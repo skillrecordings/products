@@ -128,7 +128,7 @@
     "groq": "^2.15.0",
     "hast": "^1.0.0",
     "human-readable-ids": "^1.0.4",
-    "inngest": "3.22.13",
+    "inngest": "3.54.1",
     "js-cookie": "^3.0.1",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
@@ -186,7 +186,7 @@
     "unist-util-visit": "^5.0.0",
     "uuid": "^9.0.0",
     "yup": "^0.32.11",
-    "zod": "^3.21.4"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@next/env": "^13.1.2",
