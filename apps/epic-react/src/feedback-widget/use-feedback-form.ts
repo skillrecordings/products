@@ -1,7 +1,7 @@
 import {useRouter} from 'next/router'
 import React from 'react'
 import {FormikHelpers} from 'formik'
-import {sendFeedback} from '@skillrecordings/skill-api/dist/client'
+import {sendFeedback} from '@skillrecordings/skill-api/dist/client/send-feedback'
 import {FeedbackFormValues} from './form'
 
 export const useFeedbackForm = ({location}: {location: string}) => {

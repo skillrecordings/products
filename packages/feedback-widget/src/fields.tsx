@@ -1,5 +1,5 @@
 import React from 'react'
-import {useEditor, EditorContent} from '@tiptap/react'
+import {useEditor, EditorContent, AnyExtension} from '@tiptap/react'
 import {CheckIcon} from '@heroicons/react/solid'
 import * as RadioGroup from '@radix-ui/react-radio-group'
 // import {RadioGroup} from '@headlessui/react'
@@ -9,7 +9,7 @@ import Highlight from '@tiptap/extension-highlight'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import cx from 'classnames'
-import {getEmoji} from '@skillrecordings/skill-api/dist/client'
+import {getEmoji} from '@skillrecordings/skill-api/dist/client/get-feedback-emoji'
 
 export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
   label = 'Your feedback',
@@ -21,7 +21,7 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
   const [field] = useField({name: 'text'})
   const editor = useEditor({
     // @ts-ignore
-    extensions: [StarterKit, Highlight, Typography, Link],
+    extensions: [StarterKit, Highlight, Typography, Link] as AnyExtension[],
     content: field.value,
     onUpdate: ({editor}) => {
       field.onChange({target: {value: editor.getHTML(), name: 'text'}})
@@ -136,7 +136,7 @@ export const OptionalTextField: React.FC<React.PropsWithChildren<any>> = ({
   const [field] = useField({name: 'text'})
   const editor = useEditor({
     // @ts-ignore
-    extensions: [StarterKit, Highlight, Typography, Link],
+    extensions: [StarterKit, Highlight, Typography, Link] as AnyExtension[],
     content: field.value,
     onUpdate: ({editor}) => {
       field.onChange({target: {value: editor.getHTML(), name: 'text'}})

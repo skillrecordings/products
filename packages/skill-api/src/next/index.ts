@@ -2,7 +2,7 @@ import type {
   SkillRecordingsRequest,
   SkillRecordingsResponse,
 } from '../core/types'
-import {getDecodedToken} from '../client'
+import {getDecodedToken} from '../client/get-decoded-token'
 import {IncomingRequest, SkillRecordingsHandler} from '../core'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {NextAuthOptions} from 'next-auth'

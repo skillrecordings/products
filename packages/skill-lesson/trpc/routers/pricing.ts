@@ -25,6 +25,7 @@ const PricingFormattedInputSchema = z.object({
   productId: z.string().optional(),
   quantity: z.number(),
   couponId: z.string().optional(),
+  code: z.string().optional(),
   merchantCoupon: merchantCouponSchema.optional(),
   upgradeFromPurchaseId: z.string().optional(),
   autoApplyPPP: z.boolean().default(false),
