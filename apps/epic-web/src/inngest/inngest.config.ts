@@ -9,6 +9,7 @@ import {sanityProductFunctions} from 'inngest/functions/sanity/product'
 import {
   migrateWorkshopContent,
   migrateWorkshopFromAws,
+  migrateWorkshopFlat,
 } from 'inngest/functions/sanity/workshop-migration'
 import {stripeWebhookReceived} from 'inngest/functions/stripe/webhook-received'
 import {sendWelcomeEmail} from 'inngest/functions/post-purchase-automation/send-welcome-email'
@@ -57,5 +58,6 @@ export const inngestConfig = {
     ...sanityProductFunctions,
     migrateWorkshopContent,
     migrateWorkshopFromAws,
+    migrateWorkshopFlat,
   ],
 }

@@ -24,3 +24,12 @@ export {
   type AwsContentItem,
   type AwsSolution,
 } from './workshop-aws-migration-events'
+
+// Flat-Dropbox migration
+export {migrateWorkshopFlat} from './migrate-workshop-flat'
+export {
+  WORKSHOP_FLAT_MIGRATION_EVENT,
+  WorkshopFlatMigrationDataSchema,
+  type WorkshopFlatMigrationData,
+  type WorkshopFlatMigrationEvent,
+} from './workshop-flat-migration-events'

@@ -56,6 +56,8 @@ import {
   type WorkshopAwsMigrationEvent,
   WORKSHOP_AWS_SECTION_EVENT,
   type WorkshopAwsSectionEvent,
+  WORKSHOP_FLAT_MIGRATION_EVENT,
+  type WorkshopFlatMigrationEvent,
 } from './functions/sanity/workshop-migration'
 
 export type IngestEvents = {
@@ -89,6 +91,7 @@ export type IngestEvents = {
   [WORKSHOP_MIGRATION_EVENT]: WorkshopMigrationEvent
   [WORKSHOP_AWS_MIGRATION_EVENT]: WorkshopAwsMigrationEvent
   [WORKSHOP_AWS_SECTION_EVENT]: WorkshopAwsSectionEvent
+  [WORKSHOP_FLAT_MIGRATION_EVENT]: WorkshopFlatMigrationEvent
   // Auth events
   [OAUTH_PROVIDER_ACCOUNT_LINKED_EVENT]: OauthProviderAccountLinked
   'user/login': {}

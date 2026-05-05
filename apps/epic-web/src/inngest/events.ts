@@ -2,6 +2,12 @@ import {ModuleProgress} from '@skillrecordings/skill-lesson/video/module-progres
 import OpenAI from 'openai'
 import {Account, User} from 'next-auth'
 import {AdapterUser} from 'next-auth/adapters'
+import {
+  WORKSHOP_FLAT_MIGRATION_EVENT,
+  type WorkshopFlatMigrationEvent,
+} from './functions/sanity/workshop-migration/workshop-flat-migration-events'
+
+export {WORKSHOP_FLAT_MIGRATION_EVENT, type WorkshopFlatMigrationEvent}
 
 export const OAUTH_PROVIDER_ACCOUNT_LINKED_EVENT =
   'user/oauth-provider-account-linked'
@@ -169,3 +175,4 @@ export type InngestEvents =
   | VideoSrtReady
   | SeoDescriptionGenerationRequested
   | SeoDescriptionGenerated
+  | WorkshopFlatMigrationEvent
