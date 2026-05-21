@@ -14,7 +14,9 @@ export const metadata = {
   icons: [{rel: 'icon', url: '/favicon.ico'}],
 }
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
+export default async function RootLayout({children}: {children: React.ReactNode}) {
+  const headersList = await headers()
+
   return (
     <Providers>
       <html lang="en" className="dark antialiased">
@@ -24,7 +26,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           className={`relative font-sans ${larsseit.variable} ${magnatHead.variable} ${magnatText.variable}`}
         >
           {/* <Party /> */}
-          <TRPCReactProvider headers={headers()}>
+          <TRPCReactProvider headers={headersList}>
             <Navigation />
             <main className="flex h-full min-h-screen flex-grow flex-col">
               {children}
