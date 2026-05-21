@@ -35,8 +35,8 @@ const buildCustomStringError = (key: string) => {
 
 const nullUserId = 'EFAEA7AA-2D37-481B-883E-E2D0DAF5ACD4' as string
 
-const zDefaultString = (base: Zod.Schema, defaultValue: string) => {
-  return base.nullish().transform((val) => val ?? defaultValue)
+const zDefaultString = (base: z.ZodString, defaultValue: string) => {
+  return base.nullish().transform((val): string => val ?? defaultValue)
 }
 
 const PurchaseSchema = z
