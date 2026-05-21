@@ -5,7 +5,7 @@ import {getUser} from './get-user'
 import {getDiscordUser} from 'lib/discord-query'
 
 export async function GET(request: Request) {
-  const headersList = headers()
+  const headersList = await headers()
   const deviceAccessToken = headersList.get('Authorization')?.split(' ')[1]
 
   if (deviceAccessToken) {
