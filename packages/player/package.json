@@ -30,7 +30,7 @@
     "@tippyjs/react": "^4.2.6",
     "classnames": "^2.3.1",
     "hls.js": "1.1.5",
-    "js-cookie": "^3.0.1",
+    "js-cookie": "^3.0.7",
     "prism-react-renderer": "^1.2.1",
     "react-markdown": "^5.0.3",
     "screenfull": "5.2.0"
