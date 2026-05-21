@@ -15,7 +15,7 @@
     "dev:email": "[ \"$WITH_EMAIL\" = \"TRUE\" ] && email dev --dir ./src/emails || true",
     "dev:sanity": "sanity dev",
     "dev:setup": "vercel env pull .env.local && sed -i.bak '/^VERCEL/d' .env.local",
-    "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "lint": "eslint src/**/*.{ts,tsx} --fix --quiet && tsc --noEmit",
     "start": "next start -p 3021",
     "test": "jest"
   },
