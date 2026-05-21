@@ -4,14 +4,16 @@ import {TRPCReactProvider} from 'trpc/trpc.client'
 import {headers} from 'next/headers'
 import {Providers} from './_components/providers'
 
-const RootLayout: React.FC<React.PropsWithChildren> = ({children}) => {
+const RootLayout = async ({children}: React.PropsWithChildren) => {
+  const headersList = await headers()
+
   return (
     <Providers>
       <html lang="en">
         <body
           className={`font-sans text-gray-800 antialiased dark:text-gray-200`}
         >
-          <TRPCReactProvider headers={headers()}>{children}</TRPCReactProvider>
+          <TRPCReactProvider headers={headersList}>{children}</TRPCReactProvider>
         </body>
       </html>
     </Providers>
