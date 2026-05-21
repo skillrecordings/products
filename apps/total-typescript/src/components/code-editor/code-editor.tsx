@@ -129,7 +129,7 @@ export const EagerlyLoadedEditor = (props: CodeEditorProps) => {
 
         // Enable prettier
         monaco.languages.registerDocumentFormattingEditProvider('typescript', {
-          provideDocumentFormattingEdits: async (model) => {
+          provideDocumentFormattingEdits: async (model: any) => {
             try {
               return [
                 {
