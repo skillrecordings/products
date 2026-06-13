@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const hasValidatedCouponForCurrentProduct = Boolean(
     product.state === 'active' &&
       commerceProps.couponFromCode?.isValid &&
-      couponProductId === product.productId,
+      (!couponProductId || couponProductId === product.productId),
   )
 
   if (!userId && !hasValidatedCouponForCurrentProduct) {
