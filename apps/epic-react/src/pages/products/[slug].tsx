@@ -65,11 +65,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   })
 
   const userId = token?.sub
-  const hasCouponFromQuery = Boolean(
-    commerceProps.couponFromCode?.isValid || commerceProps.couponIdFromCoupon,
-  )
+  const hasValidCouponFromCode = Boolean(commerceProps.couponFromCode?.isValid)
 
-  if (!userId && !hasCouponFromQuery) {
+  if (!userId && !hasValidCouponFromCode) {
     return {
       redirect: {
         destination: `/buy`,
