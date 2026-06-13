@@ -66,11 +66,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const userId = token?.sub
   // propsForCommerce validates both ?code= and ?coupon= into couponFromCode.
-  const hasValidatedCouponFromQuery = Boolean(
-    commerceProps.couponFromCode?.isValid,
+  const couponProductId = commerceProps.couponFromCode?.restrictedToProductId
+  const hasValidatedCouponForCurrentProduct = Boolean(
+    product.state === 'active' &&
+      commerceProps.couponFromCode?.isValid &&
+      couponProductId === product.productId,
   )
 
-  if (!userId && !hasValidatedCouponFromQuery) {
+  if (!userId && !hasValidatedCouponForCurrentProduct) {
     return {
       redirect: {
         destination: `/buy`,
