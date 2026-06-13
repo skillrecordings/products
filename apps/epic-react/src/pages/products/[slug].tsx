@@ -64,8 +64,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     products,
   })
 
-  if (!token?.sub) {
-    // return {props: {...commerceProps.props, product}}
+  const userId = token?.sub
+  const hasValidCouponFromCode = Boolean(commerceProps.couponFromCode?.isValid)
+
+  if (!userId && !hasValidCouponFromCode) {
     return {
       redirect: {
         destination: `/buy`,
@@ -80,13 +82,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   )
 
-  if (!purchaseForProduct) {
+  if (!purchaseForProduct || !userId) {
     return {props: {...commerceProps, product}}
   }
 
   const {purchase, existingPurchase} = await getPurchaseDetails(
     purchaseForProduct.id,
-    token.sub,
+    userId,
   )
 
   if (!purchase) {
