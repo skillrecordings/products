@@ -18,7 +18,20 @@ import {ContributorSchema} from './contributors'
 // Establish connection options for the course-builder database (same as articles)
 const access: mysql.ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
+  connectTimeout: 10_000,
 }
+
+const courseBuilderPool = process.env.COURSE_BUILDER_DATABASE_URL
+  ? mysql.createPool({
+      ...access,
+      connectionLimit: 2,
+      waitForConnections: true,
+      queueLimit: 0,
+    })
+  : null
+
+const getErrorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : String(error)
 
 // Helper to build a Contributor object from name / image and ids
 const buildContributor = ({
@@ -85,10 +98,12 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
   // --------------------------
   // 1. Fetch tips from database
   // --------------------------
-  const connection = await mysql.createConnection(access)
+  let transformedTipPosts: Tip[] = []
 
-  const [rows] = await connection.execute(
-    `
+  if (courseBuilderPool) {
+    try {
+      const [rows] = await courseBuilderPool.execute(
+        `
     SELECT
       tip.*,
       (
@@ -118,111 +133,117 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
     WHERE
       JSON_EXTRACT(tip.fields, "$.postType") = 'tip'
   `,
-  )
+      )
 
-  const tipPosts = z.array(TipPostSchema.passthrough()).parse(rows)
+      const tipPosts = z.array(TipPostSchema.passthrough()).parse(rows)
 
-  const instructorsMap: Record<string, Contributor | null> = {}
-  for (const post of tipPosts) {
-    const userLookupId = post.createdById ?? null
-    const membershipLookupId = post.createdByOrganizationMembershipId ?? null
-    const instructorKey = userLookupId ?? membershipLookupId
+      const instructorsMap: Record<string, Contributor | null> = {}
+      for (const post of tipPosts) {
+        const userLookupId = post.createdById ?? null
+        const membershipLookupId =
+          post.createdByOrganizationMembershipId ?? null
+        const instructorKey = userLookupId ?? membershipLookupId
 
-    if (instructorKey && !instructorsMap[instructorKey]) {
-      try {
-        // 0. Try to get contributor directly from Sanity using userId
-        if (userLookupId) {
-          const directContributor = await fetchContributorFromSanityByUserId(
-            userLookupId,
-          )
-          if (directContributor) {
-            instructorsMap[instructorKey] = directContributor
-            continue
-          }
-        }
+        if (instructorKey && !instructorsMap[instructorKey]) {
+          try {
+            // 0. Try to get contributor directly from Sanity using userId
+            if (userLookupId) {
+              const directContributor =
+                await fetchContributorFromSanityByUserId(userLookupId)
+              if (directContributor) {
+                instructorsMap[instructorKey] = directContributor
+                continue
+              }
+            }
 
-        let cbUser: any = null
-        if (userLookupId) {
-          // fetch user directly
-          const [userRows] = await connection.execute(
-            'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
-            [userLookupId],
-          )
-          if (Array.isArray(userRows) && userRows.length > 0) {
-            cbUser = userRows[0]
-          }
-        }
-
-        // If not found by direct id but we have organization membership id, resolve through membership table
-        if (!cbUser && membershipLookupId) {
-          const [membershipRows] = await connection.execute(
-            `SELECT userId FROM zEW_OrganizationMembership WHERE id = ? LIMIT 1`,
-            [membershipLookupId],
-          )
-          if (Array.isArray(membershipRows) && membershipRows.length > 0) {
-            const {userId} = membershipRows[0] as any
-            if (userId) {
-              const [userRows] = await connection.execute(
+            let cbUser: any = null
+            if (userLookupId) {
+              // fetch user directly
+              const [userRows] = await courseBuilderPool.execute(
                 'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
-                [userId],
+                [userLookupId],
               )
               if (Array.isArray(userRows) && userRows.length > 0) {
                 cbUser = userRows[0]
               }
             }
+
+            // If not found by direct id but we have organization membership id, resolve through membership table
+            if (!cbUser && membershipLookupId) {
+              const [membershipRows] = await courseBuilderPool.execute(
+                `SELECT userId FROM zEW_OrganizationMembership WHERE id = ? LIMIT 1`,
+                [membershipLookupId],
+              )
+              if (Array.isArray(membershipRows) && membershipRows.length > 0) {
+                const {userId} = membershipRows[0] as any
+                if (userId) {
+                  const [userRows] = await courseBuilderPool.execute(
+                    'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
+                    [userId],
+                  )
+                  if (Array.isArray(userRows) && userRows.length > 0) {
+                    cbUser = userRows[0]
+                  }
+                }
+              }
+            }
+
+            if (cbUser) {
+              // try to find matching user in product DB
+              let productUser = null
+              if (cbUser.email) {
+                productUser = await prisma.user.findUnique({
+                  where: {email: cbUser.email as string},
+                })
+              }
+
+              let contributor: Contributor | null = null
+              if (productUser?.id) {
+                contributor = await fetchContributorFromSanityByUserId(
+                  productUser.id,
+                )
+              }
+
+              if (!contributor) {
+                contributor = buildContributor({
+                  id: productUser?.id || cbUser.id,
+                  name:
+                    productUser?.name || cbUser.name || cbUser.fullName || null,
+                  image:
+                    productUser?.image ||
+                    cbUser.avatar_url ||
+                    cbUser.avatarUrl ||
+                    null,
+                })
+              }
+
+              if (instructorKey) instructorsMap[instructorKey] = contributor
+            } else {
+              if (instructorKey) instructorsMap[instructorKey] = null
+            }
+          } catch (error) {
+            console.error('Error fetching instructor for tip', error)
+            if (instructorKey) instructorsMap[instructorKey] = null
           }
         }
-
-        if (cbUser) {
-          // try to find matching user in product DB
-          let productUser = null
-          if (cbUser.email) {
-            productUser = await prisma.user.findUnique({
-              where: {email: cbUser.email as string},
-            })
-          }
-
-          let contributor: Contributor | null = null
-          if (productUser?.id) {
-            contributor = await fetchContributorFromSanityByUserId(
-              productUser.id,
-            )
-          }
-
-          if (!contributor) {
-            contributor = buildContributor({
-              id: productUser?.id || cbUser.id,
-              name: productUser?.name || cbUser.name || cbUser.fullName || null,
-              image:
-                productUser?.image ||
-                cbUser.avatar_url ||
-                cbUser.avatarUrl ||
-                null,
-            })
-          }
-
-          if (instructorKey) instructorsMap[instructorKey] = contributor
-        } else {
-          if (instructorKey) instructorsMap[instructorKey] = null
-        }
-      } catch (error) {
-        console.error('Error fetching instructor for tip', error)
-        if (instructorKey) instructorsMap[instructorKey] = null
       }
+
+      transformedTipPosts = tipPosts.map((post) => {
+        const transformed = transformTipPost(post)
+        const key = post.createdById ?? post.createdByOrganizationMembershipId
+        if (key && instructorsMap[key]) {
+          transformed.instructor = instructorsMap[key]
+        }
+        return transformed
+      })
+    } catch (error) {
+      console.warn(
+        `[getAllTips] Failed to read Course Builder tips, falling back to Sanity only: ${getErrorMessage(
+          error,
+        )}`,
+      )
     }
   }
-
-  const transformedTipPosts = tipPosts.map((post) => {
-    const transformed = transformTipPost(post)
-    const key = post.createdById ?? post.createdByOrganizationMembershipId
-    if (key && instructorsMap[key]) {
-      transformed.instructor = instructorsMap[key]
-    }
-    return transformed
-  })
-
-  // Close the connection as soon as we're done
-  await connection.end()
 
   // -------------------------
   // 2. Fetch tips from Sanity
@@ -279,7 +300,6 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
       new Date(a._createdAt || '').getTime(),
   )
 
-  await connection.end()
   return TipsSchema.parse(allTips)
 }
 
@@ -287,10 +307,10 @@ export const getTip = async (slug: string): Promise<Tip> => {
   // --------------------------
   // 1. Try to fetch from DB
   // --------------------------
-  const connection = await mysql.createConnection(access)
-
-  const [rows] = await connection.execute(
-    `
+  if (courseBuilderPool) {
+    try {
+      const [rows] = await courseBuilderPool.execute(
+        `
     SELECT
       tip.*,
       (
@@ -320,86 +340,95 @@ export const getTip = async (slug: string): Promise<Tip> => {
     WHERE
       JSON_EXTRACT(tip.fields, "$.postType") = 'tip' AND JSON_EXTRACT(tip.fields, "$.slug") = ?
   `,
-    [slug],
-  )
+        [slug],
+      )
 
-  const tipPostsParsed = z.array(TipPostSchema.passthrough()).safeParse(rows)
+      const tipPostsParsed = z
+        .array(TipPostSchema.passthrough())
+        .safeParse(rows)
 
-  if (tipPostsParsed.success && tipPostsParsed.data.length > 0) {
-    const dbTip = transformTipPost(tipPostsParsed.data[0])
-    try {
-      const keyId = tipPostsParsed.data[0].createdById || null
-      if (keyId) {
-        const directContributor = await fetchContributorFromSanityByUserId(
-          keyId,
-        )
-        if (directContributor) {
-          dbTip.instructor = directContributor
-          await connection.end()
-          return dbTip
-        }
-      }
-
-      let cbUser: any = null
-      if (keyId) {
-        const [userRows] = await connection.execute(
-          'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
-          [keyId],
-        )
-        if (Array.isArray(userRows) && userRows.length > 0) {
-          cbUser = userRows[0]
-        }
-      }
-      const membershipId =
-        tipPostsParsed.data[0].createdByOrganizationMembershipId || null
-      if (!cbUser && membershipId) {
-        const [membershipRows] = await connection.execute(
-          `SELECT userId FROM zEW_OrganizationMembership WHERE id = ? LIMIT 1`,
-          [membershipId],
-        )
-        if (Array.isArray(membershipRows) && membershipRows.length > 0) {
-          const {userId} = membershipRows[0] as any
-          const [userRows] = await connection.execute(
-            'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
-            [userId],
-          )
-          if (Array.isArray(userRows) && userRows.length > 0) {
-            cbUser = userRows[0]
+      if (tipPostsParsed.success && tipPostsParsed.data.length > 0) {
+        const dbTip = transformTipPost(tipPostsParsed.data[0])
+        try {
+          const keyId = tipPostsParsed.data[0].createdById || null
+          if (keyId) {
+            const directContributor = await fetchContributorFromSanityByUserId(
+              keyId,
+            )
+            if (directContributor) {
+              dbTip.instructor = directContributor
+              return dbTip
+            }
           }
+
+          let cbUser: any = null
+          if (keyId) {
+            const [userRows] = await courseBuilderPool.execute(
+              'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
+              [keyId],
+            )
+            if (Array.isArray(userRows) && userRows.length > 0) {
+              cbUser = userRows[0]
+            }
+          }
+          const membershipId =
+            tipPostsParsed.data[0].createdByOrganizationMembershipId || null
+          if (!cbUser && membershipId) {
+            const [membershipRows] = await courseBuilderPool.execute(
+              `SELECT userId FROM zEW_OrganizationMembership WHERE id = ? LIMIT 1`,
+              [membershipId],
+            )
+            if (Array.isArray(membershipRows) && membershipRows.length > 0) {
+              const {userId} = membershipRows[0] as any
+              const [userRows] = await courseBuilderPool.execute(
+                'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
+                [userId],
+              )
+              if (Array.isArray(userRows) && userRows.length > 0) {
+                cbUser = userRows[0]
+              }
+            }
+          }
+          if (cbUser) {
+            let productUser = null
+            if (cbUser.email) {
+              productUser = await prisma.user.findUnique({
+                where: {email: cbUser.email as string},
+              })
+            }
+            let contributor: Contributor | null = null
+            if (productUser?.id) {
+              contributor = await fetchContributorFromSanityByUserId(
+                productUser.id,
+              )
+            }
+            if (!contributor) {
+              contributor = buildContributor({
+                id: productUser?.id || cbUser.id,
+                name:
+                  productUser?.name || cbUser.name || cbUser.fullName || null,
+                image:
+                  productUser?.image ||
+                  cbUser.avatar_url ||
+                  cbUser.avatarUrl ||
+                  null,
+              })
+            }
+            dbTip.instructor = contributor
+          }
+        } catch (error) {
+          console.error('Error fetching instructor for tip', error)
         }
-      }
-      if (cbUser) {
-        let productUser = null
-        if (cbUser.email) {
-          productUser = await prisma.user.findUnique({
-            where: {email: cbUser.email as string},
-          })
-        }
-        let contributor: Contributor | null = null
-        if (productUser?.id) {
-          contributor = await fetchContributorFromSanityByUserId(productUser.id)
-        }
-        if (!contributor) {
-          contributor = buildContributor({
-            id: productUser?.id || cbUser.id,
-            name: productUser?.name || cbUser.name || cbUser.fullName || null,
-            image:
-              productUser?.image ||
-              cbUser.avatar_url ||
-              cbUser.avatarUrl ||
-              null,
-          })
-        }
-        dbTip.instructor = contributor
+        return dbTip
       }
     } catch (error) {
-      console.error('Error fetching instructor for tip', error)
+      console.warn(
+        `[getTip] Failed to read Course Builder tip for slug (${slug}), falling back to Sanity: ${getErrorMessage(
+          error,
+        )}`,
+      )
     }
-    await connection.end()
-    return dbTip
   }
-
-  await connection.end()
 
   // --------------------------
   // 2. Fallback to Sanity

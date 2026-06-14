@@ -11,7 +11,20 @@ import type {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 
 const access: mysql.ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
+  connectTimeout: 10_000,
 }
+
+const courseBuilderPool = process.env.COURSE_BUILDER_DATABASE_URL
+  ? mysql.createPool({
+      ...access,
+      connectionLimit: 2,
+      waitForConnections: true,
+      queueLimit: 0,
+    })
+  : null
+
+const getErrorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : String(error)
 
 const buildContributor = ({
   id,
@@ -115,11 +128,10 @@ const transformTutorialPost = async (
     instructor = await fetchContributorFromSanityByUserId(post.createdById)
   }
 
-  if (!instructor && post.createdById) {
-    const connection = await mysql.createConnection(access)
+  if (!instructor && post.createdById && courseBuilderPool) {
     try {
       let cbUser: any = null
-      const [userRows] = await connection.execute(
+      const [userRows] = await courseBuilderPool.execute(
         'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
         [post.createdById],
       )
@@ -128,14 +140,14 @@ const transformTutorialPost = async (
       }
 
       if (!cbUser && post.createdByOrganizationMembershipId) {
-        const [membershipRows] = await connection.execute(
+        const [membershipRows] = await courseBuilderPool.execute(
           `SELECT userId FROM zEW_OrganizationMembership WHERE id = ? LIMIT 1`,
           [post.createdByOrganizationMembershipId],
         )
         if (Array.isArray(membershipRows) && membershipRows.length > 0) {
           const {userId} = membershipRows[0] as any
           if (userId) {
-            const [userRows] = await connection.execute(
+            const [userRows] = await courseBuilderPool.execute(
               'SELECT * FROM zEW_User WHERE id = ? LIMIT 1',
               [userId],
             )
@@ -170,10 +182,8 @@ const transformTutorialPost = async (
           })
         }
       }
-      await connection.end()
     } catch (error) {
       console.error('Error fetching instructor for tutorial', error)
-      if (connection) await connection.end()
     }
   }
 
@@ -209,9 +219,10 @@ const transformTutorialPost = async (
 }
 
 const fetchTutorialSections = async (tutorialId: string): Promise<any[]> => {
-  const connection = await mysql.createConnection(access)
+  if (!courseBuilderPool) return []
+
   try {
-    const [allResourceRows] = await connection.execute(
+    const [allResourceRows] = await courseBuilderPool.execute(
       `
       SELECT
         crr.resourceId,
@@ -298,7 +309,7 @@ const fetchTutorialSections = async (tutorialId: string): Promise<any[]> => {
           resources: [],
         }
 
-        const [sectionResourceRows] = await connection.execute(
+        const [sectionResourceRows] = await courseBuilderPool.execute(
           `
           SELECT
             crr.resourceId,
@@ -415,15 +426,15 @@ const fetchTutorialSections = async (tutorialId: string): Promise<any[]> => {
       error,
     )
     return []
-  } finally {
-    await connection.end()
   }
 }
 
 export const getAllTutorials = async (onlyPublished = true) => {
-  const connection = await mysql.createConnection(access)
+  let transformedTutorialPosts: any[] = []
 
-  const query = `SELECT * FROM zEW_ContentResource 
+  if (courseBuilderPool) {
+    try {
+      const query = `SELECT * FROM zEW_ContentResource
      WHERE type = 'tutorial'
      ${
        onlyPublished
@@ -433,19 +444,27 @@ export const getAllTutorials = async (onlyPublished = true) => {
      AND deletedAt IS NULL
      ORDER BY createdAt DESC`
 
-  const [rows] = await connection.execute(query)
+      const [rows] = await courseBuilderPool.execute(query)
 
-  const tutorialPosts = z.array(TutorialPostSchema.passthrough()).parse(rows)
+      const tutorialPosts = z
+        .array(TutorialPostSchema.passthrough())
+        .parse(rows)
 
-  const transformedTutorialPosts = await Promise.all(
-    tutorialPosts.map(async (post) => {
-      const sections = await fetchTutorialSections(post.id || '')
+      transformedTutorialPosts = await Promise.all(
+        tutorialPosts.map(async (post) => {
+          const sections = await fetchTutorialSections(post.id || '')
 
-      return await transformTutorialPost(post, sections)
-    }),
-  )
-
-  await connection.end()
+          return await transformTutorialPost(post, sections)
+        }),
+      )
+    } catch (error) {
+      console.warn(
+        `[getAllTutorials] Failed to read Course Builder tutorials, falling back to Sanity only: ${getErrorMessage(
+          error,
+        )}`,
+      )
+    }
+  }
 
   const sanityTutorials = await sanityClient.fetch(
     groq`*[_type == "module" && moduleType == 'tutorial' ${
@@ -526,32 +545,38 @@ export const getAllTutorials = async (onlyPublished = true) => {
   return allTutorials
 }
 export const getTutorial = async (slug: string) => {
-  const connection = await mysql.createConnection(access)
-
-  const [rows] = await connection.execute(
-    `SELECT * FROM zEW_ContentResource 
-     WHERE type = 'tutorial' 
+  if (courseBuilderPool) {
+    try {
+      const [rows] = await courseBuilderPool.execute(
+        `SELECT * FROM zEW_ContentResource
+     WHERE type = 'tutorial'
      AND JSON_EXTRACT(fields, "$.slug") = ?
      AND deletedAt IS NULL`,
-    [slug],
-  )
+        [slug],
+      )
 
-  const tutorialPostsParsed = z
-    .array(TutorialPostSchema.passthrough())
-    .safeParse(rows)
+      const tutorialPostsParsed = z
+        .array(TutorialPostSchema.passthrough())
+        .safeParse(rows)
 
-  if (tutorialPostsParsed.success && tutorialPostsParsed.data.length > 0) {
-    const post = tutorialPostsParsed.data[0]
-    const sections = await fetchTutorialSections(post.id || '')
-    const dbTutorial = await transformTutorialPost(post, sections)
-    await connection.end()
-    return dbTutorial
-  } else {
-    console.error(
-      '[getTutorial] Failed to parse or no tutorial found in database, error:',
-      tutorialPostsParsed.success ? 'none' : tutorialPostsParsed.error,
-    )
-    await connection.end()
+      if (tutorialPostsParsed.success && tutorialPostsParsed.data.length > 0) {
+        const post = tutorialPostsParsed.data[0]
+        const sections = await fetchTutorialSections(post.id || '')
+        const dbTutorial = await transformTutorialPost(post, sections)
+        return dbTutorial
+      } else {
+        console.error(
+          '[getTutorial] Failed to parse or no tutorial found in database, error:',
+          tutorialPostsParsed.success ? 'none' : tutorialPostsParsed.error,
+        )
+      }
+    } catch (error) {
+      console.warn(
+        `[getTutorial] Failed to read Course Builder tutorial for slug (${slug}), falling back to Sanity: ${getErrorMessage(
+          error,
+        )}`,
+      )
+    }
   }
 
   const sanityTutorial = await sanityClient.fetch(
