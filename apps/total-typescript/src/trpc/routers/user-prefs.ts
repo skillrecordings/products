@@ -1,9 +1,6 @@
 import {publicProcedure, router} from '@skillrecordings/skill-lesson'
-import {
-  getLocalUserPrefs,
-  localPrefsFieldsSchema,
-  setLocalUserPrefs,
-} from '@/lib/user-prefs'
+import {getLocalUserPrefs, setLocalUserPrefs} from '@/lib/user-prefs'
+import {localPrefsFieldsSchema} from '@/lib/user-prefs-schema'
 import {getToken} from 'next-auth/jwt'
 import {z} from 'zod'
 

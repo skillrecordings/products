@@ -7,7 +7,20 @@ import * as mysql from 'mysql2/promise'
 
 const access: mysql.ConnectionOptions = {
   uri: process.env.COURSE_BUILDER_DATABASE_URL,
+  connectTimeout: 10_000,
 }
+
+const courseBuilderPool = process.env.COURSE_BUILDER_DATABASE_URL
+  ? mysql.createPool({
+      ...access,
+      connectionLimit: 2,
+      waitForConnections: true,
+      queueLimit: 0,
+    })
+  : null
+
+const getErrorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : String(error)
 
 const fetchContributorFromSanityByUserId = async (
   userId: string,
@@ -129,14 +142,24 @@ const transformArticlePost = async (post: ArticlePost): Promise<Article> => {
 }
 
 export const getAllArticles = async (): Promise<Article[]> => {
-  const connection = await mysql.createConnection(access)
+  let articlePosts: ArticlePost[] = []
 
-  const [rows] = await connection.execute(
-    'SELECT * FROM zEW_ContentResource WHERE JSON_EXTRACT(fields, "$.postType") = ? AND JSON_EXTRACT(fields, "$.state") = ?',
-    ['article', 'published'],
-  )
+  if (courseBuilderPool) {
+    try {
+      const [rows] = await courseBuilderPool.execute(
+        'SELECT * FROM zEW_ContentResource WHERE JSON_EXTRACT(fields, "$.postType") = ? AND JSON_EXTRACT(fields, "$.state") = ?',
+        ['article', 'published'],
+      )
 
-  const articlePosts = ArticlePostsSchema.parse(rows)
+      articlePosts = ArticlePostsSchema.parse(rows)
+    } catch (error) {
+      console.warn(
+        `[getAllArticles] Failed to read Course Builder articles, falling back to Sanity only: ${getErrorMessage(
+          error,
+        )}`,
+      )
+    }
+  }
 
   const data =
     await sanityClient.fetch(groq`*[_type == "article" && state == "published"] | order(_createdAt desc) {
@@ -182,9 +205,9 @@ export const getAllArticles = async (): Promise<Article[]> => {
       const article = await transformArticlePost(post)
 
       // Fetch related videos from the database
-      if (post.id) {
+      if (post.id && courseBuilderPool) {
         try {
-          const [videoRows] = await connection.execute(
+          const [videoRows] = await courseBuilderPool.execute(
             `
             SELECT
               resource.id,
@@ -247,28 +270,27 @@ export const getAllArticles = async (): Promise<Article[]> => {
     ),
   )
 
-  await connection.end()
   return allArticles
 }
 
 export const getArticle = async (slug: string): Promise<Article | null> => {
-  const connection = await mysql.createConnection(access)
+  if (courseBuilderPool) {
+    try {
+      const [rows] = await courseBuilderPool.execute(
+        'SELECT * FROM zEW_ContentResource WHERE JSON_EXTRACT(fields, "$.postType") = ? AND JSON_EXTRACT(fields, "$.slug") = ? AND JSON_EXTRACT(fields, "$.state") = ?',
+        ['article', slug, 'published'],
+      )
 
-  const [rows] = await connection.execute(
-    'SELECT * FROM zEW_ContentResource WHERE JSON_EXTRACT(fields, "$.postType") = ? AND JSON_EXTRACT(fields, "$.slug") = ? AND JSON_EXTRACT(fields, "$.state") = ?',
-    ['article', slug, 'published'],
-  )
+      const articlePost = ArticlePostsSchema.parse(rows)[0]
 
-  const articlePost = ArticlePostsSchema.parse(rows)[0]
+      if (articlePost) {
+        const article = await transformArticlePost(articlePost)
 
-  if (articlePost) {
-    const article = await transformArticlePost(articlePost)
-
-    // Fetch related videos from the database
-    if (articlePost.id) {
-      try {
-        const [videoRows] = await connection.execute(
-          `
+        // Fetch related videos from the database
+        if (articlePost.id) {
+          try {
+            const [videoRows] = await courseBuilderPool.execute(
+              `
           SELECT
             resource.id,
             resource.fields
@@ -283,43 +305,51 @@ export const getArticle = async (slug: string): Promise<Article | null> => {
             AND resource.deletedAt IS NULL
           LIMIT 1
           `,
-          [articlePost.id],
-        )
+              [articlePost.id],
+            )
 
-        if (Array.isArray(videoRows) && videoRows.length > 0) {
-          const videoRow = videoRows[0] as any
-          const videoFields =
-            typeof videoRow.fields === 'string'
-              ? JSON.parse(videoRow.fields)
-              : videoRow.fields || {}
+            if (Array.isArray(videoRows) && videoRows.length > 0) {
+              const videoRow = videoRows[0] as any
+              const videoFields =
+                typeof videoRow.fields === 'string'
+                  ? JSON.parse(videoRow.fields)
+                  : videoRow.fields || {}
 
-          // Format video resource to match expected structure
-          article.resources = [
-            {
-              _id: videoRow.id,
-              type: 'videoResource',
-              fields: {
-                muxPlaybackId: videoFields.muxPlaybackId || null,
-                transcript:
-                  videoFields.transcript?.text ||
-                  videoFields.castingwords?.transcript ||
-                  null,
-                poster: videoFields.poster || null,
-                duration: videoFields.duration || null,
-              },
-            },
-          ]
+              // Format video resource to match expected structure
+              article.resources = [
+                {
+                  _id: videoRow.id,
+                  type: 'videoResource',
+                  fields: {
+                    muxPlaybackId: videoFields.muxPlaybackId || null,
+                    transcript:
+                      videoFields.transcript?.text ||
+                      videoFields.castingwords?.transcript ||
+                      null,
+                    poster: videoFields.poster || null,
+                    duration: videoFields.duration || null,
+                  },
+                },
+              ]
+            }
+          } catch (error) {
+            console.error(
+              '[getArticle] Error fetching video for article:',
+              error,
+            )
+          }
         }
-      } catch (error) {
-        console.error('[getArticle] Error fetching video for article:', error)
+
+        return article
       }
+    } catch (error) {
+      console.warn(
+        `[getArticle] Failed to read Course Builder article for slug (${slug}), falling back to Sanity: ${getErrorMessage(
+          error,
+        )}`,
+      )
     }
-
-    await connection.end()
-    return article
   }
-
-  await connection.end()
 
   const article = await sanityClient.fetch(
     groq`*[_type == "article" && slug.current == $slug && state == "published"][0] {
