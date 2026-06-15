@@ -19,6 +19,7 @@ export const ContributorSchema = z.object({
   _createdAt: z.string(),
   name: z.string(),
   slug: z.string(),
+  userId: z.string().optional().nullable(),
   bio: z.string().optional().nullable(),
   twitterHandle: z.string().optional().nullable(),
   links: z
@@ -77,6 +78,7 @@ export const getContributor = async (
         _updatedAt,
         _createdAt,
         name,
+        userId,
         bio,
         twitterHandle,
         links[]{
@@ -122,31 +124,6 @@ export const ContributorResourcesSchema = z.array(ContributorResourceSchema)
 
 export type ContributorResource = z.infer<typeof ContributorResourceSchema>
 
-export const getContributorResources = async (
-  id: string,
-): Promise<ContributorResource[] | null> => {
-  const resources = await sanityClient.fetch(
-    groq`*[$id in contributors[].contributor._ref && _type in ["article", "tip", "module", "talk"] && state == 'published'] | order(_createdAt desc) {
-            _id,
-            _type,
-            _updatedAt,
-            _createdAt,
-            title,
-            description,
-            summary,
-            "slug": slug.current,
-            "moduleType": moduleType,
-            "image": coalesce(image.asset->url, image.secure_url),
-            "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
-    }`,
-    {id},
-  )
-
-  const result = ContributorResourcesSchema.safeParse(resources)
-
-  if (result.success) {
-    return result.data
-  } else {
-    return null
-  }
-}
+// `getContributorResources` lives in lib/contributors.server.ts because it
+// queries the Course Builder MySQL DB (mysql2). Keeping that import out of this
+// module is what keeps it safe to import from client components.
