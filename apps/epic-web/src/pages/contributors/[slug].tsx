@@ -5,8 +5,8 @@ import {
   ContributorResource,
   getAllContributors,
   getContributor,
-  getContributorResources,
 } from 'lib/contributors'
+import {getContributorResources} from 'lib/contributors.server'
 import ContributorTemplate from 'templates/contributor-template'
 
 export const getStaticPaths = async () => {
