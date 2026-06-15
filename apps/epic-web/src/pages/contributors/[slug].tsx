@@ -20,7 +20,10 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const contributor = await getContributor(params?.slug as string)
-  const resources = await getContributorResources(contributor?._id as string)
+  const resources = await getContributorResources(
+    contributor?._id as string,
+    contributor?.userId,
+  )
 
   return {props: {contributor, resources}, revalidate: 10}
 }
