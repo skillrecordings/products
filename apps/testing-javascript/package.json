@@ -80,7 +80,7 @@
     "next-auth": "^4.24.7",
     "next-sitemap": "^4.2.3",
     "node-fetch": "^2.6.7",
-    "nodemailer": "^6.7.2",
+    "nodemailer": "^8.0.9",
     "nodemailer-postmark-transport": "^5.2.1",
     "nprogress": "^0.2.0",
     "react": "18.3.0-canary-a870b2d54-20240314",
