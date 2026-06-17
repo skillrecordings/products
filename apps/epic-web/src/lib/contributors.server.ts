@@ -1,7 +1,13 @@
 import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
 import * as mysql from 'mysql2/promise'
+import getReadingTime from 'reading-time'
 import {ContributorResource, ContributorResourcesSchema} from './contributors'
+
+// Whole-minute reading estimate for an article body, or null when there's no
+// body (matches how /articles and /[article] surface "~ N minutes").
+const toReadingTime = (body?: string | null): number | null =>
+  body ? Math.max(1, Math.round(getReadingTime(body).minutes)) : null
 
 // Establish connection options for the course-builder database (same as articles)
 const access: mysql.ConnectionOptions = {
@@ -85,6 +91,7 @@ const getContributorCourseBuilderArticles = async (
           moduleType: null,
           image: null,
           muxPlaybackId,
+          readingTime: toReadingTime(fields.body),
         }
       }),
     )
@@ -106,6 +113,7 @@ export const getContributorResources = async (
             title,
             description,
             summary,
+            body,
             "slug": slug.current,
             "moduleType": moduleType,
             "image": coalesce(image.asset->url, image.secure_url),
@@ -113,6 +121,18 @@ export const getContributorResources = async (
     }`,
     {id},
   )
+
+  // Compute reading time from the article body, then drop the body so it never
+  // ships to the client (the schema parse below also strips it).
+  const sanityResourcesWithReadingTime = (
+    Array.isArray(sanityResources) ? sanityResources : []
+  ).map((resource: any) => {
+    const {body, ...rest} = resource
+    return {
+      ...rest,
+      readingTime: resource._type === 'article' ? toReadingTime(body) : null,
+    }
+  })
 
   let courseBuilderResources: ContributorResource[] = []
   if (userId) {
@@ -129,10 +149,7 @@ export const getContributorResources = async (
   // Merge both sources, drop duplicate slugs (an article may exist in both
   // after a migration), and keep the newest-to-oldest ordering of the page.
   const seen = new Set<string>()
-  const merged = [
-    ...(Array.isArray(sanityResources) ? sanityResources : []),
-    ...courseBuilderResources,
-  ]
+  const merged = [...sanityResourcesWithReadingTime, ...courseBuilderResources]
     .filter((resource: any) => {
       const slug = resource?.slug
       if (!slug) return true

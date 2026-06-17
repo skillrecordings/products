@@ -118,6 +118,9 @@ export const ContributorResourceSchema = z.object({
   moduleType: z.string().optional().nullable(),
   image: z.string().optional().nullable(),
   muxPlaybackId: z.string().optional().nullable(),
+  // Estimated reading time in whole minutes, computed from the article body on
+  // the server. Null for resources without a body (talks, modules, etc.).
+  readingTime: z.number().optional().nullable(),
 })
 
 export const ContributorResourcesSchema = z.array(ContributorResourceSchema)
