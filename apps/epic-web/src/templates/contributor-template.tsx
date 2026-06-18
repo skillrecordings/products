@@ -6,7 +6,6 @@ import ReactMarkdown from 'react-markdown'
 import pluralize from 'pluralize'
 import Link from 'next/link'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import {ShieldCheckIcon} from '@heroicons/react/solid'
 import {getOgImage} from 'utils/get-og-image'
 
 // Build the canonical path for a resource, mirroring the route structure:
@@ -188,7 +187,6 @@ const ContributorTemplate: React.FC<{
   contributor: Contributor
   resources: ContributorResource[]
 }> = ({contributor, resources}) => {
-  const isKent = contributor.slug === 'kent-c-dodds'
   const ogImage = getOgImage({
     title: contributor.name,
     image: contributor?.picture?.url,
@@ -229,11 +227,6 @@ const ContributorTemplate: React.FC<{
                 className="rounded-full bg-foreground/5 object-cover ring-2 ring-background"
                 priority
               />
-              {isKent && (
-                <div className="absolute bottom-1 right-1 flex items-center justify-center rounded-full border bg-background p-1.5">
-                  <ShieldCheckIcon className="w-5 text-indigo-500 dark:text-amber-300" />
-                </div>
-              )}
             </div>
           )}
           <div className="flex flex-col items-center md:items-start">
