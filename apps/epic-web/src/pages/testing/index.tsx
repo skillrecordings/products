@@ -222,13 +222,15 @@ const Article: React.FC<{
                 <div className="mt-5 flex w-full items-center justify-between gap-1.5 text-base">
                   <div className="flex items-center gap-2">
                     {author.image ? (
-                      <Image
-                        src={author.image}
-                        alt={author.name}
-                        width={40}
-                        height={40}
-                        className="!my-0 rounded-full"
-                      />
+                      <div className="!my-0 h-10 w-10 shrink-0 overflow-hidden rounded-full">
+                        <Image
+                          src={author.image}
+                          alt={author.name}
+                          width={40}
+                          height={40}
+                          className="!my-0 h-full w-full object-cover"
+                        />
+                      </div>
                     ) : (
                       <span className="opacity-75">—</span>
                     )}
