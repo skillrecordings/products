@@ -21,7 +21,7 @@
     "testEnvironment": "jsdom"
   },
   "dependencies": {
-    "@babel/core": "^7.16.5",
+    "@babel/core": "^7.29.6",
     "@emotion/react": "^11.5.0",
     "@radix-ui/react-dropdown-menu": "^1.0.0",
     "@reach/slider": "^0.17.0",
