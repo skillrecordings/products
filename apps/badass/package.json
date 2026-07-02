@@ -79,7 +79,7 @@
     "keen-slider": "^6.8.6",
     "lodash": "^4.17.21",
     "mdx-prism": "^0.3.4",
-    "mjml": "^4.12.0",
+    "mjml": "^5.0.0",
     "next": "15.5.16",
     "next-mdx-remote": "^6.0.0",
     "next-sitemap": "^4.2.3",
