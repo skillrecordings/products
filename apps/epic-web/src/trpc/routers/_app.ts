@@ -6,6 +6,7 @@ import {
 import {tipResourcesRouter} from './tip-resources'
 import {lessonResourcesRouter} from './lesson-resources'
 import {tipsRouter} from 'trpc/routers/tips'
+import {contributorsRouter} from 'trpc/routers/contributors'
 import {abilitiesRouter} from 'trpc/routers/abilities'
 import {moduleResourcesRouter} from './module-resources'
 import {deviceVerificationRouter} from 'trpc/routers/device-verification'
@@ -22,6 +23,7 @@ export const appRouter = mergeRouters(
     lessonResources: lessonResourcesRouter,
     moduleResources: moduleResourcesRouter,
     tips: tipsRouter,
+    contributors: contributorsRouter,
     abilities: abilitiesRouter,
     deviceVerification: deviceVerificationRouter,
     search: searchRouter,

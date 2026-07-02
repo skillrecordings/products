@@ -12,6 +12,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@skillrecordings/ui'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
@@ -30,6 +35,7 @@ const CreateTipForm: React.FC = () => {
   const formSchema = z.object({
     video: z.string().optional(),
     title: z.string().min(1),
+    contributorId: z.string().optional(),
   })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,8 +49,16 @@ const CreateTipForm: React.FC = () => {
     useFileChange()
   const [progress, setProgress] = React.useState(0)
   const {mutate: createTip} = trpc.tips.create.useMutation()
+  const {data: contributors} = trpc.contributors.all.useQuery()
 
-  const handleSubmit = async (values: {title: string}) => {
+  const defaultContributor =
+    contributors?.find(({slug}) => slug === 'kent-c-dodds') ||
+    contributors?.find(({name}) => name === 'Kent C. Dodds')
+
+  const handleSubmit = async (values: {
+    title: string
+    contributorId?: string
+  }) => {
     try {
       if (fileType && fileContents) {
         setTipFormState('uploading')
@@ -62,6 +76,10 @@ const CreateTipForm: React.FC = () => {
             s3Url: uploadResponse.secure_url,
             fileName,
             title: values.title,
+            ...(values.contributorId &&
+            values.contributorId !== defaultContributor?._id
+              ? {contributorId: values.contributorId}
+              : {}),
           },
           {
             onSettled: (data) => {
@@ -125,6 +143,35 @@ const CreateTipForm: React.FC = () => {
                   />
                 </FormControl>
                 <FormDescription>Required</FormDescription>
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="contributorId"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>Instructor</FormLabel>
+                <FormControl>
+                  <Select
+                    value={field.value || defaultContributor?._id || ''}
+                    onValueChange={(value) => {
+                      field.onChange(value)
+                    }}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Instructor" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {contributors?.map(({_id, name}) => {
+                        return (
+                          <SelectItem key={_id} value={_id}>
+                            {name}
+                          </SelectItem>
+                        )
+                      })}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
               </FormItem>
             )}
           />
