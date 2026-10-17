@@ -1,7 +1,7 @@
 import React from 'react'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
-import {localPrefsFieldsSchema} from '../../lib/user-prefs'
+import {localPrefsFieldsSchema} from '../../lib/user-prefs-schema'
 import {z} from 'zod'
 import {
   Button,
