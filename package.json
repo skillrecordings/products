@@ -62,7 +62,7 @@
   },
   "packageManager": "pnpm@8.9.0",
   "engines": {
-    "node": "^22.0.0"
+    "node": ">=24.22.1 <25"
   },
   "manypkg": {
     "ignoredRules": [
