@@ -184,7 +184,7 @@
     "tsparticles": "^2.12.0",
     "tsparticles-preset-stars": "^2.12.0",
     "unist-util-visit": "^5.0.0",
-    "uuid": "^9.0.0",
+    "uuid": "^14.0.0",
     "yup": "^0.32.11",
     "zod": "^3.25.76"
   },
