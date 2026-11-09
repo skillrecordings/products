@@ -130,7 +130,7 @@
     "highlight.js": "^11.8.0",
     "inngest": "3.54.1",
     "install": "^0.13.0",
-    "js-cookie": "^3.0.1",
+    "js-cookie": "^3.0.7",
     "jsonwebtoken": "^8.5.1",
     "langchain": "^0.0.75",
     "lodash": "^4.17.21",
