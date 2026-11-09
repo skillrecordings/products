@@ -1,19 +1,27 @@
 describe('Sanity client routing', () => {
-  const originalEnv = process.env
+  const originalEnv = {
+    NEXT_PUBLIC_SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+    NEXT_PUBLIC_SANITY_DATASET_ID: process.env.NEXT_PUBLIC_SANITY_DATASET_ID,
+    NEXT_PUBLIC_SANITY_API_VERSION: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
+    SANITY_API_TOKEN: process.env.SANITY_API_TOKEN,
+  }
 
   beforeEach(() => {
     jest.resetModules()
-    process.env = {
-      ...originalEnv,
-      NEXT_PUBLIC_SANITY_PROJECT_ID: 'testproject',
-      NEXT_PUBLIC_SANITY_DATASET_ID: 'production',
-      NEXT_PUBLIC_SANITY_API_VERSION: '2023-01-01',
-      SANITY_API_TOKEN: 'test-write-token',
-    }
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = 'testproject'
+    process.env.NEXT_PUBLIC_SANITY_DATASET_ID = 'production'
+    process.env.NEXT_PUBLIC_SANITY_API_VERSION = '2023-01-01'
+    process.env.SANITY_API_TOKEN = 'test-write-token'
   })
 
   afterEach(() => {
-    process.env = originalEnv
+    for (const [key, value] of Object.entries(originalEnv)) {
+      if (value === undefined) {
+        delete process.env[key]
+      } else {
+        process.env[key] = value
+      }
+    }
   })
 
   test('public reads use the API CDN without a token', () => {
