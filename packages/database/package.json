@@ -27,7 +27,7 @@
     "decimal.js": "^10.4.3",
     "inngest": "3.54.1",
     "stripe": "^8.186.1",
-    "uuid": "^9.0.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@skillrecordings/inngest": "workspace:*",
