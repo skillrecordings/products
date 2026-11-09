@@ -224,7 +224,7 @@
     "eslint-config-skill-recordings": "workspace:*",
     "lint-staged": "^11.2.6",
     "msw": "^0.35.0",
-    "postcss": "^8.4.14",
+    "postcss": "^8.5.23",
     "prettier": "^2.6.2",
     "prettier-plugin-tailwindcss": "^0.2.5",
     "shiki": "1.1.7",
