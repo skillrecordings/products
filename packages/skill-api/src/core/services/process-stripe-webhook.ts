@@ -261,6 +261,20 @@ export async function receiveStripeWebhooks({
   }
 }
 
+/**
+ * True when a checkout session was created by the Course Builder app that is
+ * replacing this site, and this deployment is set to leave those to it.
+ *
+ * Course Builder stamps `metadata.cbPricingContract` on every checkout
+ * session it creates; sessions created by skill-api never carry it. Opt in
+ * per deployment with `SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS=true`.
+ */
+export const isCourseBuilderCheckoutSession = (checkoutSession: {
+  metadata?: Record<string, string> | null
+}) =>
+  process.env.SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS === 'true' &&
+  Boolean(checkoutSession?.metadata?.cbPricingContract)
+
 type NextAuthOptions =
   SkillRecordingsHandlerParams['options']['nextAuthOptions']
 
@@ -292,7 +306,19 @@ export const processStripeWebhook = async (
     transferPurchasesToNewUser,
   } = getSdk()
 
-  if (eventType === 'checkout.session.completed') {
+  if (
+    eventType === 'checkout.session.completed' &&
+    isCourseBuilderCheckoutSession(eventObject)
+  ) {
+    // The Course Builder app created this session and records it through
+    // its own webhook endpoint. Both apps resolve the same Stripe products,
+    // so recording it here too would create a second purchase for one charge.
+    console.log('skipping Course Builder checkout session', stripeIdentifier)
+    return {
+      status: 200,
+      body: 'not handled: course-builder session',
+    }
+  } else if (eventType === 'checkout.session.completed') {
     const {user, purchase, purchaseInfo} = await recordNewPurchase(
       stripeIdentifier,
       {paymentProvider: stripeProvider},
