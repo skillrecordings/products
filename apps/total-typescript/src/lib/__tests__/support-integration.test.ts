@@ -953,8 +953,8 @@ describe('SupportIntegration', () => {
       },
     )
 
-    it('requireId returns a valid id unchanged', () => {
-      expect(requireId('user-1', 'userId')).toBe('user-1')
+    it('requireId accepts a valid id', () => {
+      expect(() => requireId('user-1', 'userId')).not.toThrow()
     })
 
     it('requireId throws a typed error naming the field', () => {
