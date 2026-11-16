@@ -48,11 +48,13 @@ export class SupportValidationError extends Error {
  * id would otherwise widen a query to every row. Every method keyed on an id
  * or email must call this before touching the database.
  */
-export function requireId(value: unknown, field: string): string {
+export function requireId(
+  value: unknown,
+  field: string,
+): asserts value is string {
   if (typeof value !== 'string' || value.trim() === '') {
     throw new SupportValidationError(field)
   }
-  return value
 }
 
 /**
