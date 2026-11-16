@@ -4,7 +4,11 @@
  * Tests each method of the SupportIntegration implementation.
  * Mocks Prisma client to isolate database operations.
  */
-import {integration} from '../support-integration'
+import {
+  integration,
+  requireId,
+  SupportValidationError,
+} from '../support-integration'
 
 // Mock SDK helpers
 const mockGetDefaultCoupon = jest.fn()
@@ -829,6 +833,141 @@ describe('SupportIntegration', () => {
 
       expect(result!.licenseType).toBe('enterprise')
       expect(result!.totalSeats).toBe(100)
+    })
+  })
+
+  describe('required id validation', () => {
+    const missingValues: unknown[] = [undefined, null, '', '   ', 123, {}]
+
+    const allDataMocks = (): jest.Mock[] => [
+      ...Object.values(mockPrisma).flatMap((model) =>
+        Object.values(model as Record<string, jest.Mock>),
+      ),
+      mockGetDefaultCoupon,
+      mockCouponForIdOrCode,
+      mockGetPurchasesForUser,
+      mockGetLessonProgressForUser,
+      mockGetCouponWithBulkPurchases,
+      mockGetPurchaseWithUser,
+      mockCreateVerificationUrl as unknown as jest.Mock,
+    ]
+
+    const valid = {
+      email: 'user@example.com',
+      userId: 'user-1',
+      purchaseId: 'purchase-1',
+    }
+
+    // [method, field, call(value)]
+    const cases: Array<[string, string, (value: any) => Promise<unknown>]> = [
+      ['lookupUser', 'email', (v) => integration.lookupUser(v)],
+      ['getPurchases', 'userId', (v) => integration.getPurchases(v)],
+      [
+        'revokeAccess',
+        'purchaseId',
+        (v) =>
+          integration.revokeAccess({
+            purchaseId: v,
+            reason: 'r',
+            refundId: 're',
+          }),
+      ],
+      [
+        'transferPurchase',
+        'purchaseId',
+        (v) =>
+          integration.transferPurchase({
+            purchaseId: v,
+            fromUserId: valid.userId,
+            toEmail: valid.email,
+          }),
+      ],
+      [
+        'transferPurchase',
+        'fromUserId',
+        (v) =>
+          integration.transferPurchase({
+            purchaseId: valid.purchaseId,
+            fromUserId: v,
+            toEmail: valid.email,
+          }),
+      ],
+      [
+        'transferPurchase',
+        'toEmail',
+        (v) =>
+          integration.transferPurchase({
+            purchaseId: valid.purchaseId,
+            fromUserId: valid.userId,
+            toEmail: v,
+          }),
+      ],
+      [
+        'generateMagicLink',
+        'email',
+        (v) => integration.generateMagicLink({email: v, expiresIn: 3600}),
+      ],
+      [
+        'updateEmail',
+        'userId',
+        (v) =>
+          integration.updateEmail!({userId: v, newEmail: 'new@example.com'}),
+      ],
+      [
+        'updateEmail',
+        'newEmail',
+        (v) => integration.updateEmail!({userId: valid.userId, newEmail: v}),
+      ],
+      [
+        'updateName',
+        'userId',
+        (v) => integration.updateName!({userId: v, newName: 'Name'}),
+      ],
+      [
+        'getClaimedSeats',
+        'bulkCouponId',
+        (v) => integration.getClaimedSeats!(v),
+      ],
+      [
+        'getProductStatus',
+        'productId',
+        (v) => integration.getProductStatus!(v),
+      ],
+      ['getCouponInfo', 'code', (v) => integration.getCouponInfo!(v)],
+      ['getContentAccess', 'userId', (v) => integration.getContentAccess!(v)],
+      ['getRecentActivity', 'userId', (v) => integration.getRecentActivity!(v)],
+      ['getLicenseInfo', 'purchaseId', (v) => integration.getLicenseInfo!(v)],
+    ]
+
+    it.each(cases)(
+      '%s rejects a missing %s without querying',
+      async (_method, field, call) => {
+        for (const value of missingValues) {
+          await expect(call(value)).rejects.toThrow(
+            new SupportValidationError(field),
+          )
+        }
+        for (const mock of allDataMocks()) {
+          expect(mock).not.toHaveBeenCalled()
+        }
+      },
+    )
+
+    it('requireId returns a valid id unchanged', () => {
+      expect(requireId('user-1', 'userId')).toBe('user-1')
+    })
+
+    it('requireId throws a typed error naming the field', () => {
+      expect.assertions(3)
+      expect(() => requireId(undefined, 'userId')).toThrow(
+        SupportValidationError,
+      )
+      try {
+        requireId('', 'bulkCouponId')
+      } catch (error) {
+        expect(error).toBeInstanceOf(SupportValidationError)
+        expect((error as SupportValidationError).field).toBe('bulkCouponId')
+      }
     })
   })
 
