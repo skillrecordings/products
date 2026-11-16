@@ -1,5 +1,8 @@
 import {
+  decideInvoiceOwnership,
   fulfilInvoice,
+  PaidInvoiceSchema,
+  parseInvoiceCutover,
   type FulfilDeps,
   type FulfilledPurchase,
   type PaidInvoice,
@@ -249,5 +252,149 @@ describe('invoice fulfilment', () => {
   test('a paid invoice without a charge is refused', async () => {
     const plan = await planInvoiceFulfilment(invoice({charge: null}), planDeps)
     expect(plan).toMatchObject({kind: 'refuse'})
+  })
+})
+
+describe('decideInvoiceOwnership', () => {
+  const CUTOVER = '2026-12-08T15:05:00Z'
+  const cutoverSeconds = Date.parse(CUTOVER) / 1000
+  const paidAt = (paid_at: number | null | undefined) =>
+    invoice({status_transitions: {paid_at}})
+
+  test('variable unset: legacy fulfils, paid_at not even needed', () => {
+    expect(
+      decideInvoiceOwnership(paidAt(cutoverSeconds + 60), undefined),
+    ).toEqual({
+      kind: 'ours',
+    })
+    expect(decideInvoiceOwnership(invoice(), undefined)).toEqual({kind: 'ours'})
+  })
+
+  test('paid before the cutoff: legacy fulfils', () => {
+    expect(decideInvoiceOwnership(paidAt(cutoverSeconds - 1), CUTOVER)).toEqual(
+      {
+        kind: 'ours',
+      },
+    )
+  })
+
+  test('paid exactly at the cutoff: Course Builder owns it', () => {
+    expect(decideInvoiceOwnership(paidAt(cutoverSeconds), CUTOVER)).toEqual({
+      kind: 'ignore',
+      invoiceId: 'in_team_order',
+      reason: 'owned-by-course-builder',
+      paidAt: '2026-12-08T15:05:00.000Z',
+      cutoverAt: '2026-12-08T15:05:00.000Z',
+    })
+  })
+
+  test('paid after the cutoff: Course Builder owns it', () => {
+    expect(
+      decideInvoiceOwnership(paidAt(cutoverSeconds + 3600), CUTOVER),
+    ).toMatchObject({kind: 'ignore', reason: 'owned-by-course-builder'})
+  })
+
+  test('a cutoff with milliseconds compares against whole-second paid_at', () => {
+    const at = '2026-12-08T15:05:00.500Z'
+    expect(decideInvoiceOwnership(paidAt(cutoverSeconds), at)).toEqual({
+      kind: 'ours',
+    })
+    expect(
+      decideInvoiceOwnership(paidAt(cutoverSeconds + 1), at),
+    ).toMatchObject({kind: 'ignore'})
+  })
+
+  test.each([
+    ['seconds', '2026-12-08T10:05:00Z', '2026-12-08T10:05:00.000Z'],
+    ['minutes only', '2026-12-08T10:05Z', '2026-12-08T10:05:00.000Z'],
+    ['milliseconds', '2026-12-08T10:05:00.250Z', '2026-12-08T10:05:00.250Z'],
+    [
+      'surrounding whitespace',
+      ' 2026-12-08T10:05:00Z ',
+      '2026-12-08T10:05:00.000Z',
+    ],
+  ])('accepts %s (same set as Course Builder)', (_label, raw, iso) => {
+    expect(parseInvoiceCutover(raw)?.toISOString()).toBe(iso)
+  })
+
+  test('unset is null (legacy owns every invoice)', () => {
+    expect(parseInvoiceCutover(undefined)).toBeNull()
+  })
+
+  // Course Builder's reject list, plus the forms a laxer parser would take
+  // (numeric zero offsets, 4-digit fractions, lowercase t/z, rollover): each
+  // must be an error in both apps.
+  test.each([
+    '',
+    '   ',
+    '2026-12-08',
+    '2026-12-08 10:05:00',
+    '2026-12-08T10:05:00+01:00',
+    '2026-12-08T10:05:00',
+    '2026-02-30T10:00:00Z',
+    '2026-12-08T24:00:00Z',
+    'tomorrow',
+    '1765188300',
+    '2026-12-08T10:05:00+00:00',
+    '2026-12-08T10:05:00+0000',
+    '2026-12-08T10:05:00.1234Z',
+    '2026-13-45T25:00:00Z',
+    '2026-12-08t10:05:00z',
+  ])('fails loudly on %j instead of picking a side', (raw) => {
+    expect(() => parseInvoiceCutover(raw)).toThrow(
+      expect.objectContaining({
+        name: 'InvoiceOwnershipError',
+        code: 'invalid-cutover',
+        message: expect.stringMatching(/EPIC_WEB_INVOICE_CUTOVER_AT/),
+      }),
+    )
+    expect(() => decideInvoiceOwnership(paidAt(cutoverSeconds), raw)).toThrow(
+      expect.objectContaining({code: 'invalid-cutover'}),
+    )
+  })
+
+  test.each([
+    ['missing status_transitions', undefined],
+    ['null status_transitions', null],
+    ['null paid_at', {paid_at: null}],
+    ['missing paid_at', {}],
+  ])(
+    'a paid invoice with %s is an error, not a guess',
+    (_label, transitions) => {
+      expect(() =>
+        decideInvoiceOwnership(
+          invoice({status_transitions: transitions as any}),
+          CUTOVER,
+        ),
+      ).toThrow(
+        expect.objectContaining({
+          name: 'InvoiceOwnershipError',
+          code: 'paid-at-missing',
+        }),
+      )
+    },
+  )
+
+  test('an unpaid invoice is left to the planner (which ignores it)', () => {
+    expect(decideInvoiceOwnership(invoice({status: 'open'}), CUTOVER)).toEqual({
+      kind: 'ours',
+    })
+  })
+
+  test('the schema keeps status_transitions.paid_at from a re-fetched invoice', () => {
+    const parsed = PaidInvoiceSchema.parse({
+      ...invoice(),
+      status_transitions: {
+        finalized_at: 1796740000,
+        paid_at: cutoverSeconds,
+        voided_at: null,
+      },
+    })
+    expect(parsed.status_transitions?.paid_at).toBe(cutoverSeconds)
+    // an invoice object without the field still parses (older fixtures)
+    const {status_transitions: _omit, ...withoutTransitions} = invoice()
+    expect(PaidInvoiceSchema.parse(withoutTransitions).status_transitions).toBe(
+      undefined,
+    )
   })
 })
