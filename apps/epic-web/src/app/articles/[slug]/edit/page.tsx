@@ -10,11 +10,12 @@ import {getCurrentAbility} from '@skillrecordings/skill-lesson/utils/ability'
 export default async function ArticleEditPage({
   params,
 }: {
-  params: {slug: string}
+  params: Promise<{slug: string}>
 }) {
+  const {slug} = await params
   const session = await getServerAuthSession()
   const ability = getCurrentAbility({user: session?.user})
-  const article = await getArticle(params?.slug as string)
+  const article = await getArticle(slug as string)
 
   if (!article || !ability.can('create', 'Content')) {
     notFound()

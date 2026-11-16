@@ -5,8 +5,8 @@ import {
   ContributorResource,
   getAllContributors,
   getContributor,
-  getContributorResources,
 } from 'lib/contributors'
+import {getContributorResources} from 'lib/contributors.server'
 import ContributorTemplate from 'templates/contributor-template'
 
 export const getStaticPaths = async () => {
@@ -20,7 +20,10 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const contributor = await getContributor(params?.slug as string)
-  const resources = await getContributorResources(contributor?._id as string)
+  const resources = await getContributorResources(
+    contributor?._id as string,
+    contributor?.userId,
+  )
 
   return {props: {contributor, resources}, revalidate: 10}
 }

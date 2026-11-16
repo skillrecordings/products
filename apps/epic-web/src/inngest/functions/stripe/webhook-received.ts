@@ -61,7 +61,16 @@ export const stripeWebhookReceived = inngest.createFunction(
           throw new NonRetriableError('no customer found')
         }
 
+        // Fulfilment lives in stripeInvoicePaid. This notice must never fail
+        // the run: prod has no SLACK_INVOICE_POST_CHANNEL (channel_not_found).
         await step.run('post invoice to slack', async () => {
+          if (
+            !process.env.SLACK_TOKEN ||
+            !process.env.SLACK_INVOICE_POST_CHANNEL
+          ) {
+            return 'no slack invoice channel configured'
+          }
+
           function getInvoiceMessageForType(type: string) {
             switch (type) {
               case 'invoice.sent':
@@ -86,39 +95,45 @@ export const stripeWebhookReceived = inngest.createFunction(
 
           const message = getInvoiceMessageForType(event.data.type)
 
-          return await postToSlack({
-            webClient: new WebClient(process.env.SLACK_TOKEN),
-            channel: process.env.SLACK_INVOICE_POST_CHANNEL,
-            username: 'Epic Web Invoices',
-            icon_emoji: message.icon_emoji,
-            text: `${customer.email} ${message.text}:`,
-            attachments: [
-              {
-                mrkdwn_in: ['text'],
-                text: `The invoice to <https://dashboard.stripe.com/customers/${
-                  customer.id
-                }?account=${stripeAccountId}|${customer.email}> ${
-                  message.text
-                } for ${
-                  invoice.amount_due / 100
-                } ${invoice.currency.toUpperCase()} (<${
-                  invoice.hosted_invoice_url
-                }|payment link>|<${
-                  invoice.invoice_pdf
-                }|pdf>) \n\n- ${invoice.lines.data
-                  .map((line) => `*${line.description}*`)
-                  .join('\n- ')}`,
-                color:
-                  process.env.NODE_ENV === 'production' ? '#4893c9' : '#c97948',
-                title: `Invoice ${invoice.number} for ${
-                  invoice.amount_due / 100
-                } ${invoice.currency.toUpperCase()} ${
-                  process.env.NODE_ENV === 'production' ? '' : '[DEV]'
-                }`,
-                title_link: `https://dashboard.stripe.com/invoices/${invoice.id}?account=${stripeAccountId}`,
-              },
-            ],
-          })
+          try {
+            return await postToSlack({
+              webClient: new WebClient(process.env.SLACK_TOKEN),
+              channel: process.env.SLACK_INVOICE_POST_CHANNEL,
+              username: 'Epic Web Invoices',
+              icon_emoji: message.icon_emoji,
+              text: `${customer.email} ${message.text}:`,
+              attachments: [
+                {
+                  mrkdwn_in: ['text'],
+                  text: `The invoice to <https://dashboard.stripe.com/customers/${
+                    customer.id
+                  }?account=${stripeAccountId}|${customer.email}> ${
+                    message.text
+                  } for ${
+                    invoice.amount_due / 100
+                  } ${invoice.currency.toUpperCase()} (<${
+                    invoice.hosted_invoice_url
+                  }|payment link>|<${
+                    invoice.invoice_pdf
+                  }|pdf>) \n\n- ${invoice.lines.data
+                    .map((line) => `*${line.description}*`)
+                    .join('\n- ')}`,
+                  color:
+                    process.env.NODE_ENV === 'production'
+                      ? '#4893c9'
+                      : '#c97948',
+                  title: `Invoice ${invoice.number} for ${
+                    invoice.amount_due / 100
+                  } ${invoice.currency.toUpperCase()} ${
+                    process.env.NODE_ENV === 'production' ? '' : '[DEV]'
+                  }`,
+                  title_link: `https://dashboard.stripe.com/invoices/${invoice.id}?account=${stripeAccountId}`,
+                },
+              ],
+            })
+          } catch (e) {
+            return `error posting invoice to slack: ${(e as Error).message}`
+          }
         })
 
         return {invoice, customer}

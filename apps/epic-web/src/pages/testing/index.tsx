@@ -24,6 +24,7 @@ import {trpc} from 'trpc/trpc.client'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {useRouter} from 'next/router'
 import {getProduct} from 'lib/products'
+import {getArticle, type Article} from 'lib/articles'
 import {
   SanityProduct,
   SanityProductModule,
@@ -50,17 +51,28 @@ import {Sparkles} from 'pages/buy'
 
 const productId = 'cf54eeca-309b-493d-9628-1c31289a7515'
 
+const INSTRUCTOR_SLUG = 'artem-zakharchenko'
+const INSTRUCTOR_ARTICLE_SLUGS = [
+  'the-golden-rule-of-assertions',
+  'why-i-won-t-use-jsdom',
+  'vitest-browser-mode-vs-playwright',
+]
+
 export const getStaticProps: GetStaticProps = async () => {
   const sanityProduct = await getProduct(productId as string)
   const pricing = await getPricing('epic-testing')
   const products = pricing && pricing.products
   const availableBonuses = await getAvailableBonuses()
+  const instructorArticles = (
+    await Promise.all(INSTRUCTOR_ARTICLE_SLUGS.map((slug) => getArticle(slug)))
+  ).filter((article): article is Article => Boolean(article))
 
   return {
     props: {
       product: sanityProduct,
       products,
       bonuses: availableBonuses,
+      instructorArticles,
     },
     revalidate: 10,
   }
@@ -70,7 +82,8 @@ const Index: NextPage<{
   product: SanityProduct
   products: SanityProduct[]
   bonuses: any[]
-}> = ({product, products, bonuses}) => {
+  instructorArticles: Article[]
+}> = ({product, products, bonuses, instructorArticles}) => {
   const router = useRouter()
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
@@ -122,7 +135,10 @@ const Index: NextPage<{
       >
         <Header />
         <main className="">
-          <Article workshops={product.modules} />
+          <Article
+            workshops={product.modules}
+            instructorArticles={instructorArticles}
+          />
           <section className="relative mt-16 flex flex-col items-center justify-start ">
             <div className="flex flex-col items-center justify-center px-5 pb-0 pt-0">
               <h2 className="max-w-xl text-balance text-center text-3xl font-bold sm:text-3xl lg:text-4xl">
@@ -208,7 +224,8 @@ export const PoweredByStripe = () => (
 
 const Article: React.FC<{
   workshops: SanityProductModule[]
-}> = ({workshops}) => {
+  instructorArticles: Article[]
+}> = ({workshops, instructorArticles}) => {
   return (
     <article className="prose prose-lg mx-auto max-w-none pt-0 dark:prose-invert lg:prose-xl prose-headings:mx-auto prose-headings:max-w-3xl prose-headings:font-bold prose-p:mx-auto prose-p:max-w-3xl prose-p:text-gray-900 prose-ul:mx-auto prose-ul:max-w-3xl prose-ul:pl-0 prose-li:text-gray-900 dark:prose-p:text-gray-300 dark:prose-li:text-gray-300 sm:pt-5">
       <TestingLandingCopy
@@ -222,13 +239,15 @@ const Article: React.FC<{
                 <div className="mt-5 flex w-full items-center justify-between gap-1.5 text-base">
                   <div className="flex items-center gap-2">
                     {author.image ? (
-                      <Image
-                        src={author.image}
-                        alt={author.name}
-                        width={40}
-                        height={40}
-                        className="!my-0 rounded-full"
-                      />
+                      <div className="!my-0 h-10 w-10 shrink-0 overflow-hidden rounded-full">
+                        <Image
+                          src={author.image}
+                          alt={author.name}
+                          width={40}
+                          height={40}
+                          className="!my-0 h-full w-full object-cover"
+                        />
+                      </div>
                     ) : (
                       <span className="opacity-75">—</span>
                     )}
@@ -265,7 +284,7 @@ const Article: React.FC<{
           WorkshopAppScreenshot,
           AboutArtem: ({children}: any) => {
             return (
-              <div className="not-prose relative mx-auto flex max-w-3xl flex-col items-center gap-10 px-5 py-16 sm:flex-row">
+              <div className="not-prose relative mx-auto max-w-3xl px-5 py-16">
                 <div
                   className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"
                   aria-hidden="true"
@@ -274,38 +293,97 @@ const Article: React.FC<{
                   className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"
                   aria-hidden="true"
                 />
-                <Image
-                  src={
-                    'https://cdn.sanity.io/images/i1a93n76/production/0755d7dcfea0aae93b123d1687d02ee05af13dbe-1149x1149.jpg'
-                  }
-                  width={300}
-                  height={300}
-                  alt="Artem Zakharchenko"
-                  className="rounded-lg"
-                />
-                <div className="space-y-5 text-center text-gray-700 dark:text-gray-300 sm:text-left [&_p]:text-base">
-                  <h3 className="text-center text-2xl font-semibold sm:text-left sm:text-2xl lg:text-3xl">
-                    Your Instructor
-                  </h3>
-                  <p>
-                    Hi! My name is Artem, and I love automated testing. So much
-                    so that I've built open-source software to promote the
-                    testing practices I believe in that's now used in Google,
-                    Microsoft, Amazon, Netflix, and by hundreds of thousands of
-                    developers out there.
-                  </p>
-                  <p>
-                    But it wasn't always like that. I used to be afraid of
-                    testing. I didn't know if the tests I was writing made any
-                    sense. Until pattern after pattern, concept after concept,
-                    things "clicked". Almost a decade later, I am here to make
-                    testing click for you.
-                  </p>
-                  <p>
-                    I am honored to be your guide in the vast land of automated
-                    testing. Let's go!
-                  </p>
+                <div className="flex flex-col items-center gap-10 sm:flex-row">
+                  <div className="flex flex-shrink-0 flex-col items-center gap-3">
+                    <Link
+                      href={`/contributors/${INSTRUCTOR_SLUG}`}
+                      className="block rounded-lg transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    >
+                      <Image
+                        src={
+                          'https://cdn.sanity.io/images/i1a93n76/production/0755d7dcfea0aae93b123d1687d02ee05af13dbe-1149x1149.jpg'
+                        }
+                        width={300}
+                        height={300}
+                        alt="Artem Zakharchenko"
+                        className="rounded-lg"
+                      />
+                    </Link>
+                    <Link
+                      href={`/contributors/${INSTRUCTOR_SLUG}`}
+                      className="text-base font-medium text-gray-800 transition hover:text-primary dark:text-gray-200"
+                    >
+                      Artem Zakharchenko
+                    </Link>
+                  </div>
+                  <div className="space-y-5 text-center text-gray-700 dark:text-gray-300 sm:text-left [&_p]:text-base">
+                    <h3 className="text-center text-2xl font-semibold sm:text-left sm:text-2xl lg:text-3xl">
+                      Your Instructor
+                    </h3>
+                    <p>
+                      Hi! My name is Artem, and I love automated testing. So
+                      much so that I've built open-source software to promote
+                      the testing practices I believe in that's now used in
+                      Google, Microsoft, Amazon, Netflix, and by hundreds of
+                      thousands of developers out there.
+                    </p>
+                    <p>
+                      But it wasn't always like that. I used to be afraid of
+                      testing. I didn't know if the tests I was writing made any
+                      sense. Until pattern after pattern, concept after concept,
+                      things "clicked". Almost a decade later, I am here to make
+                      testing click for you.
+                    </p>
+                    <p>
+                      I am honored to be your guide in the vast land of
+                      automated testing. Let's go!
+                    </p>
+                  </div>
                 </div>
+                {instructorArticles.length > 0 && (
+                  <div className="mt-14">
+                    <div className="mb-7 flex items-center gap-4">
+                      <div className="h-px flex-1 bg-gray-200 dark:bg-gray-800" />
+                      <span className="text-sm font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        More from Artem
+                      </span>
+                      <div className="h-px flex-1 bg-gray-200 dark:bg-gray-800" />
+                    </div>
+                    <ul className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                      {instructorArticles.map((article) => (
+                        <li key={article.slug} className="h-full">
+                          <Link
+                            href={`/${article.slug}`}
+                            onClick={() => {
+                              track('clicked instructor article', {
+                                article: article.slug,
+                              })
+                            }}
+                            className="group flex h-full flex-col rounded-lg border bg-card p-5 text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                          >
+                            <h4 className="text-base font-semibold leading-snug tracking-tight">
+                              {article.title}
+                            </h4>
+                            {article.description && (
+                              <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-foreground/60">
+                                {article.description}
+                              </p>
+                            )}
+                            <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-medium text-primary">
+                              Read article
+                              <span
+                                aria-hidden="true"
+                                className="transition-transform duration-200 group-hover:translate-x-1"
+                              >
+                                →
+                              </span>
+                            </span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )
           },

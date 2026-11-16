@@ -21,6 +21,7 @@ export const tipsRouter = router({
         s3Url: z.string(),
         fileName: z.string().nullable(),
         title: z.string(),
+        contributorId: z.string().optional(),
       }),
     )
     .mutation(async ({ctx, input}) => {
@@ -73,6 +74,21 @@ export const tipsRouter = router({
                 _ref: newVideoResource._id,
               },
             ],
+            ...(input.contributorId
+              ? {
+                  contributors: [
+                    {
+                      _key: v4(),
+                      _type: 'contributor',
+                      role: 'instructor',
+                      contributor: {
+                        _type: 'reference',
+                        _ref: input.contributorId,
+                      },
+                    },
+                  ],
+                }
+              : {}),
           })
 
           // load the complete tip from sanity so we can return it
@@ -103,6 +119,7 @@ export const tipsRouter = router({
         body: z.string().optional().nullable(),
         title: z.string().optional(),
         _id: z.string(),
+        contributorId: z.string().optional(),
       }),
     )
     .mutation(async ({ctx, input}) => {
@@ -120,6 +137,21 @@ export const tipsRouter = router({
             slug: {
               current: input.slug,
             },
+            ...(input.contributorId
+              ? {
+                  contributors: [
+                    {
+                      _key: v4(),
+                      _type: 'contributor',
+                      role: 'instructor',
+                      contributor: {
+                        _type: 'reference',
+                        _ref: input.contributorId,
+                      },
+                    },
+                  ],
+                }
+              : {}),
           })
           .commit()
         return await getTip(tip.slug.current)

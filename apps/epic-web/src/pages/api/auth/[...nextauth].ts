@@ -21,6 +21,9 @@ const providers = [
   GitHubProvider({
     clientId: process.env.GITHUB_ID,
     clientSecret: process.env.GITHUB_SECRET,
+    // GitHub sends an RFC 9207 `iss` callback parameter. openid-client rejects
+    // it unless the provider declares the issuer.
+    issuer: 'https://github.com/login/oauth',
     allowDangerousEmailAccountLinking: true,
   }),
   Discord({
