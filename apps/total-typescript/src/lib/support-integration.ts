@@ -29,6 +29,35 @@ import {createVerificationUrl} from '@skillrecordings/skill-api'
 import {nextAuthOptions} from '../pages/api/auth/[...nextauth]'
 
 /**
+ * Thrown when a support request is missing a required identifier.
+ */
+export class SupportValidationError extends Error {
+  readonly field: string
+
+  constructor(field: string) {
+    super(`Missing or invalid required field: ${field}`)
+    this.name = 'SupportValidationError'
+    this.field = field
+  }
+}
+
+/**
+ * Require a non-empty string identifier.
+ *
+ * Prisma treats `undefined` in a `where` clause as "no filter", so a missing
+ * id would otherwise widen a query to every row. Every method keyed on an id
+ * or email must call this before touching the database.
+ */
+export function requireId(
+  value: unknown,
+  field: string,
+): asserts value is string {
+  if (typeof value !== 'string' || value.trim() === '') {
+    throw new SupportValidationError(field)
+  }
+}
+
+/**
  * Map TT purchase status to SDK status
  */
 function mapPurchaseStatus(
@@ -55,6 +84,7 @@ export const integration: SupportIntegration = {
    * Look up user by email address
    */
   async lookupUser(email: string): Promise<User | null> {
+    requireId(email, 'email')
     const user = await prisma.user.findUnique({
       where: {email},
     })
@@ -73,6 +103,7 @@ export const integration: SupportIntegration = {
    * Fetch all purchases for a user
    */
   async getPurchases(userId: string): Promise<Purchase[]> {
+    requireId(userId, 'userId')
     const purchases = await prisma.purchase.findMany({
       where: {userId},
       include: {
@@ -110,6 +141,7 @@ export const integration: SupportIntegration = {
     reason: string
     refundId: string
   }): Promise<ActionResult> {
+    requireId(purchaseId, 'purchaseId')
     try {
       await prisma.purchase.update({
         where: {id: purchaseId},
@@ -148,6 +180,9 @@ export const integration: SupportIntegration = {
     fromUserId: string
     toEmail: string
   }): Promise<ActionResult> {
+    requireId(purchaseId, 'purchaseId')
+    requireId(fromUserId, 'fromUserId')
+    requireId(toEmail, 'toEmail')
     try {
       // Find or create the target user
       let targetUser = await prisma.user.findUnique({
@@ -223,6 +258,7 @@ export const integration: SupportIntegration = {
     email: string
     expiresIn: number
   }): Promise<{url: string}> {
+    requireId(email, 'email')
     // Calculate expiration date
     const expiresAt = new Date(Date.now() + expiresIn * 1000)
 
@@ -249,6 +285,8 @@ export const integration: SupportIntegration = {
     userId: string
     newEmail: string
   }): Promise<ActionResult> {
+    requireId(userId, 'userId')
+    requireId(newEmail, 'newEmail')
     try {
       // Check if email is already in use
       const existingUser = await prisma.user.findUnique({
@@ -285,6 +323,7 @@ export const integration: SupportIntegration = {
     userId: string
     newName: string
   }): Promise<ActionResult> {
+    requireId(userId, 'userId')
     try {
       await prisma.user.update({
         where: {id: userId},
@@ -305,6 +344,7 @@ export const integration: SupportIntegration = {
    * have a purchase with redeemedBulkCouponId pointing to the bulk coupon.
    */
   async getClaimedSeats(bulkCouponId: string): Promise<ClaimedSeat[]> {
+    requireId(bulkCouponId, 'bulkCouponId')
     // Find all purchases that redeemed this bulk coupon
     const claimedPurchases = await prisma.purchase.findMany({
       where: {
@@ -331,6 +371,7 @@ export const integration: SupportIntegration = {
    * for live workshops and cohort-based products.
    */
   async getProductStatus(productId: string): Promise<ProductStatus | null> {
+    requireId(productId, 'productId')
     // Try to find product by ID or slug (key field)
     const product = await prisma.product.findFirst({
       where: {
@@ -520,6 +561,7 @@ export const integration: SupportIntegration = {
    * the merchantCoupon relation.
    */
   async getCouponInfo(code: string): Promise<CouponInfo | null> {
+    requireId(code, 'code')
     const {couponForIdOrCode} = getSdk()
 
     const coupon = await couponForIdOrCode({code})
@@ -586,6 +628,7 @@ export const integration: SupportIntegration = {
    * if you have a valid purchase for a product, you have full access.
    */
   async getContentAccess(userId: string): Promise<ContentAccess> {
+    requireId(userId, 'userId')
     const {getPurchasesForUser} = getSdk()
 
     const purchases = await getPurchasesForUser(userId)
@@ -643,6 +686,7 @@ export const integration: SupportIntegration = {
    * loading all records into memory.
    */
   async getRecentActivity(userId: string): Promise<UserActivity> {
+    requireId(userId, 'userId')
     const {getLessonProgressForUser} = getSdk()
 
     // Efficient count query — don't load all records just to count
@@ -705,6 +749,7 @@ export const integration: SupportIntegration = {
    * redeem seats via the bulk coupon.
    */
   async getLicenseInfo(purchaseId: string): Promise<LicenseInfo | null> {
+    requireId(purchaseId, 'purchaseId')
     const {getPurchaseWithUser} = getSdk()
 
     // getPurchaseWithUser includes user and filters to Valid/Restricted
