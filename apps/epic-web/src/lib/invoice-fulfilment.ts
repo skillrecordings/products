@@ -26,6 +26,12 @@ export const PaidInvoiceSchema = z.object({
     .optional(),
   amount_paid: z.number(),
   currency: z.string(),
+  // paid_at (Unix seconds) is set once, when the invoice is paid, and
+  // decides which app owns it (decideInvoiceOwnership).
+  status_transitions: z
+    .object({paid_at: z.number().nullable().optional()})
+    .nullable()
+    .optional(),
   lines: z.object({
     data: z.array(
       z.object({
@@ -45,6 +51,117 @@ export const PaidInvoiceSchema = z.object({
 })
 
 export type PaidInvoice = z.infer<typeof PaidInvoiceSchema>
+
+/**
+ * During the move to Course Builder both apps receive every invoice event,
+ * and invoices are made by hand in the Stripe dashboard, so nothing on the
+ * invoice says which app it belongs to. Ownership is split by when it was
+ * paid, against one cutoff both apps carry in this variable (ISO-8601,
+ * UTC): paid before the cutoff, legacy fulfils it; at or after it, Course
+ * Builder does. Unset, legacy fulfils every invoice, as it always has.
+ */
+export const INVOICE_CUTOVER_ENV = 'EPIC_WEB_INVOICE_CUTOVER_AT'
+
+/**
+ * The only accepted form: `YYYY-MM-DDTHH:MM[:SS[.mmm]]Z`. It is the same
+ * set Course Builder's parser accepts, so one value can never be valid in
+ * one app and an error in the other: no numeric offsets (not even
+ * `+00:00`), no date-only, no epoch numbers.
+ */
+const ISO_UTC =
+  /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?Z$/
+
+/**
+ * A misconfiguration that must stop fulfilment loudly rather than let this
+ * app silently pick a side.
+ */
+export class InvoiceOwnershipError extends Error {
+  constructor(
+    readonly code: 'invalid-cutover' | 'paid-at-missing',
+    message: string,
+  ) {
+    super(message)
+    this.name = 'InvoiceOwnershipError'
+  }
+}
+
+/**
+ * The cutoff, or null when the variable is unset. Anything else that is not
+ * in the accepted form (an empty string included) throws, and so does an
+ * impossible date such as 2026-02-30 or 24:00, which Date.parse would
+ * otherwise roll over: a typo must not quietly hand every invoice to one
+ * app.
+ */
+export function parseInvoiceCutover(value: string | undefined): Date | null {
+  if (value === undefined) return null
+  const trimmed = value.trim()
+  const match = ISO_UTC.exec(trimmed)
+  const ms = Date.parse(trimmed)
+  const date = new Date(ms)
+  const exact =
+    !!match &&
+    !Number.isNaN(ms) &&
+    date.getUTCFullYear() === Number(match[1]) &&
+    date.getUTCMonth() + 1 === Number(match[2]) &&
+    date.getUTCDate() === Number(match[3]) &&
+    date.getUTCHours() === Number(match[4]) &&
+    date.getUTCMinutes() === Number(match[5]) &&
+    date.getUTCSeconds() === Number(match[6] ?? 0)
+  if (!exact) {
+    throw new InvoiceOwnershipError(
+      'invalid-cutover',
+      `${INVOICE_CUTOVER_ENV} must be an ISO-8601 UTC timestamp like 2026-12-08T10:05:00Z, got ${JSON.stringify(
+        value,
+      )}; refusing to decide invoice ownership`,
+    )
+  }
+  return date
+}
+
+export type InvoiceOwnership =
+  | {kind: 'ours'}
+  | {
+      kind: 'ignore'
+      invoiceId: string
+      reason: 'owned-by-course-builder'
+      paidAt: string
+      cutoverAt: string
+    }
+
+/**
+ * Whether this (legacy) app fulfils the invoice. Decided on the re-fetched
+ * invoice, before anything is written:
+ * - variable unset: ours (today's behaviour);
+ * - invoice not paid: ours to look at (planInvoiceFulfilment ignores it);
+ * - paid_at at or after the cutoff: owned by Course Builder, ignored;
+ * - paid_at before the cutoff: ours.
+ * A paid invoice without paid_at is not guessed about: it throws.
+ */
+export function decideInvoiceOwnership(
+  invoice: PaidInvoice,
+  cutoverValue: string | undefined,
+): InvoiceOwnership {
+  const cutover = parseInvoiceCutover(cutoverValue)
+  if (!cutover) return {kind: 'ours'}
+  if (invoice.status !== 'paid') return {kind: 'ours'}
+  const paidAt = invoice.status_transitions?.paid_at
+  if (typeof paidAt !== 'number' || !Number.isFinite(paidAt)) {
+    throw new InvoiceOwnershipError(
+      'paid-at-missing',
+      `invoice ${invoice.id} is paid but has no status_transitions.paid_at; cannot tell whether it belongs to legacy or Course Builder`,
+    )
+  }
+  if (paidAt * 1000 >= cutover.getTime()) {
+    return {
+      kind: 'ignore',
+      invoiceId: invoice.id,
+      reason: 'owned-by-course-builder',
+      paidAt: new Date(paidAt * 1000).toISOString(),
+      cutoverAt: cutover.toISOString(),
+    }
+  }
+  return {kind: 'ours'}
+}
 
 export type EpicWebMerchantProduct = {
   id: string

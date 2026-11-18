@@ -10,7 +10,10 @@ import {NonRetriableError} from 'inngest'
 import groq from 'groq'
 import {paymentOptions} from 'pages/api/skill/[...skillRecordings]'
 import {
+  decideInvoiceOwnership,
   fulfilInvoice,
+  INVOICE_CUTOVER_ENV,
+  InvoiceOwnershipError,
   PaidInvoiceSchema,
   planInvoiceFulfilment,
 } from 'lib/invoice-fulfilment'
@@ -25,6 +28,10 @@ const stripe = paymentOptions.providers.stripe?.paymentClient
  * Stripe sends both invoice.paid and invoice.payment_succeeded for the same
  * payment, so runs are keyed on the invoice id, and fulfilInvoice checks for
  * an existing purchase before writing anything.
+ *
+ * While Course Builder also receives these events, an invoice paid at or
+ * after EPIC_WEB_INVOICE_CUTOVER_AT is Course Builder's and is ignored here
+ * (see decideInvoiceOwnership). Unset, every invoice is fulfilled here.
  */
 export const stripeInvoicePaid = inngest.createFunction(
   {
@@ -47,6 +54,32 @@ export const stripeInvoicePaid = inngest.createFunction(
         await stripe.invoices.retrieve(event.data.data.object.id),
       )
     })
+
+    // Decided once per run (a step result is memoized), so a variable
+    // changed mid-run cannot flip the answer after a purchase is written.
+    const ownership = await step.run('decide owner', async () => {
+      try {
+        return decideInvoiceOwnership(invoice, process.env[INVOICE_CUTOVER_ENV])
+      } catch (error) {
+        if (error instanceof InvoiceOwnershipError) {
+          console.error(error.message)
+          // A paid invoice without paid_at won't change on retry (the
+          // invoice above is memoized); a bad variable might be fixed, so
+          // that one is left to Inngest's retries and then fails visibly.
+          if (error.code === 'paid-at-missing') {
+            throw new NonRetriableError(error.message)
+          }
+        }
+        throw error
+      }
+    })
+
+    if (ownership.kind === 'ignore') {
+      console.info(
+        `invoice ${ownership.invoiceId} ignored: ${ownership.reason} (paid ${ownership.paidAt}, cutover ${ownership.cutoverAt})`,
+      )
+      return ownership
+    }
 
     const plan = await step.run('plan fulfilment', async () => {
       return planInvoiceFulfilment(invoice, {
