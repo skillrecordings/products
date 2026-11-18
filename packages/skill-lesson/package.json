@@ -89,7 +89,7 @@
     "framer-motion": "^10.12.4",
     "groq": "^2.15.0",
     "inngest": "3.54.1",
-    "js-cookie": "^3.0.1",
+    "js-cookie": "^3.0.7",
     "lodash": "^4.17.21",
     "lucide-react": "^0.378.0",
     "mjml": "^4.12.0",
