@@ -52,7 +52,7 @@
     "inngest": "3.54.1",
     "lodash": "^4.17.21",
     "micro": "^9.3.4",
-    "mjml": "^4.12.0",
+    "mjml": "^5.0.0",
     "node-fetch": "^2.6.7",
     "node-html-markdown": "^1.2.0",
     "pluralize": "^8.0.0",
@@ -109,7 +109,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "peerDependencies": {
-    "mjml": "^4.12.0",
+    "mjml": "^5.0.0",
     "next-auth": "^4.23.2",
     "nodemailer": "^6.6.5",
     "nodemailer-postmark-transport": "^5.2.1",
