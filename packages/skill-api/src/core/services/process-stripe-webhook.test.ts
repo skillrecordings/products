@@ -5,10 +5,13 @@ import {
   receiveStripeWebhooks,
 } from './process-stripe-webhook'
 import {recordNewPurchase} from '@skillrecordings/commerce-server'
+import nodeFetch from 'node-fetch'
+
+const mockUpdatePurchaseStatusForCharge = jest.fn()
 
 jest.mock('@skillrecordings/database', () => ({
   getSdk: () => ({
-    updatePurchaseStatusForCharge: jest.fn(),
+    updatePurchaseStatusForCharge: mockUpdatePurchaseStatusForCharge,
     findOrCreateUser: jest.fn(),
     transferPurchasesToNewUser: jest.fn(),
   }),
@@ -92,6 +95,22 @@ describe('isCourseBuilderCheckoutSession', () => {
     expect(
       isCourseBuilderCheckoutSession({metadata: COURSE_BUILDER_METADATA}),
     ).toBe(false)
+  })
+
+  it('is false for "false"', () => {
+    process.env.SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS = 'false'
+    expect(
+      isCourseBuilderCheckoutSession({metadata: COURSE_BUILDER_METADATA}),
+    ).toBe(false)
+  })
+
+  it('tolerates casing and surrounding whitespace in "true"', () => {
+    for (const value of ['TRUE', 'True', ' true', 'true\n']) {
+      process.env.SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS = value
+      expect(
+        isCourseBuilderCheckoutSession({metadata: COURSE_BUILDER_METADATA}),
+      ).toBe(true)
+    }
   })
 
   it('is true for a marked session when enabled', () => {
@@ -194,4 +213,95 @@ describe('both entry points reach the skip', () => {
     })
     expect(recordNewPurchase).not.toHaveBeenCalled()
   })
+})
+
+const chargeRefunded = (metadata: Record<string, string> | null) => ({
+  id: 'evt_2',
+  type: 'charge.refunded',
+  data: {object: {id: 'ch_1', object: 'charge', metadata}},
+})
+
+describe('charge.refunded', () => {
+  const noPurchase = () =>
+    mockUpdatePurchaseStatusForCharge.mockRejectedValueOnce(
+      new Error('no-purchase-found-for-charge ch_1'),
+    )
+
+  it('answers 200 for a Course Builder charge this app has no purchase for', async () => {
+    process.env.SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS = 'true'
+    noPurchase()
+    const result = await processStripeWebhook(
+      chargeRefunded(COURSE_BUILDER_METADATA),
+      options,
+    )
+    expect(result).toEqual({
+      status: 200,
+      body: 'not handled: course-builder charge',
+    })
+  })
+
+  it('still updates a Course Builder charge this app does have a purchase for', async () => {
+    process.env.SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS = 'true'
+    mockUpdatePurchaseStatusForCharge.mockResolvedValueOnce({id: 'p'})
+    const result = await processStripeWebhook(
+      chargeRefunded(COURSE_BUILDER_METADATA),
+      options,
+    )
+    expect(result).toEqual({status: 200, body: 'success!'})
+    expect(mockUpdatePurchaseStatusForCharge).toHaveBeenCalledWith(
+      'ch_1',
+      'Refunded',
+    )
+  })
+
+  it('still fails for an unknown legacy charge, so Stripe retries', async () => {
+    process.env.SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS = 'true'
+    noPurchase()
+    await expect(
+      processStripeWebhook(chargeRefunded(LEGACY_METADATA), options),
+    ).rejects.toThrow('no-purchase-found-for-charge')
+  })
+
+  it('still fails for a Course Builder charge while the variable is unset', async () => {
+    noPurchase()
+    await expect(
+      processStripeWebhook(chargeRefunded(COURSE_BUILDER_METADATA), options),
+    ).rejects.toThrow('no-purchase-found-for-charge')
+  })
+})
+
+describe('router: other sites are unaffected while enabled', () => {
+  it.each([
+    ['epic-react', 'EPIC_REACT_INTERNAL_STRIPE_URL', 'ER_SKILL_SECRET'],
+    [
+      'testing-javascript',
+      'TESTING_JAVASCRIPT_INTERNAL_STRIPE_URL',
+      'TJS_SKILL_SECRET',
+    ],
+  ])(
+    'forwards a %s checkout session instead of processing it',
+    async (siteName, urlVar, secretVar) => {
+      process.env.SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS = 'true'
+      process.env[urlVar] = `https://${siteName}.example/internal`
+      process.env[secretVar] = 'secret'
+      const event = checkoutCompleted({siteName, productId: 'product-1'})
+      paymentOptions.providers.stripe.paymentClient.webhooks.constructEvent.mockReturnValue(
+        event,
+      )
+      const result = await receiveStripeWebhooks({
+        params: {
+          req: {headers: {'stripe-signature': 'sig'}},
+          rawReq: {},
+          options: {nextAuthOptions: undefined},
+        } as any,
+        paymentOptions,
+      })
+      expect(result).toEqual({status: 200, body: `handled by ${siteName}`})
+      expect(nodeFetch).toHaveBeenCalledTimes(1)
+      expect((nodeFetch as unknown as jest.Mock).mock.calls[0][0]).toBe(
+        `https://${siteName}.example/internal`,
+      )
+      expect(recordNewPurchase).not.toHaveBeenCalled()
+    },
+  )
 })

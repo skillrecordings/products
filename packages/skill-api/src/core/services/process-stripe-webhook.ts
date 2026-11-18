@@ -261,19 +261,26 @@ export async function receiveStripeWebhooks({
   }
 }
 
+const skipCourseBuilderCheckoutSessions = () =>
+  process.env.SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS?.trim().toLowerCase() ===
+  'true'
+
 /**
  * True when a checkout session was created by the Course Builder app that is
  * replacing this site, and this deployment is set to leave those to it.
  *
  * Course Builder stamps `metadata.cbPricingContract` on every checkout
- * session it creates; sessions created by skill-api never carry it. Opt in
- * per deployment with `SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS=true`.
+ * session it creates (and on the payment intent, whose charges carry the
+ * same metadata); sessions created by skill-api never carry it. Opt in per
+ * deployment with `SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS=true`.
  */
 export const isCourseBuilderCheckoutSession = (checkoutSession: {
   metadata?: Record<string, string> | null
 }) =>
-  process.env.SKIP_COURSE_BUILDER_CHECKOUT_SESSIONS === 'true' &&
+  skipCourseBuilderCheckoutSessions() &&
   Boolean(checkoutSession?.metadata?.cbPricingContract)
+
+const NO_PURCHASE_FOUND_FOR_CHARGE = 'no-purchase-found-for-charge'
 
 type NextAuthOptions =
   SkillRecordingsHandlerParams['options']['nextAuthOptions']
@@ -313,7 +320,12 @@ export const processStripeWebhook = async (
     // The Course Builder app created this session and records it through
     // its own webhook endpoint. Both apps resolve the same Stripe products,
     // so recording it here too would create a second purchase for one charge.
-    console.log('skipping Course Builder checkout session', stripeIdentifier)
+    console.log('skipping Course Builder checkout session', {
+      checkoutSessionId: stripeIdentifier,
+      eventId: event.id,
+      cbPricingContract: eventObject.metadata?.cbPricingContract,
+      siteName: eventObject.metadata?.siteName,
+    })
     return {
       status: 200,
       body: 'not handled: course-builder session',
@@ -394,7 +406,28 @@ export const processStripeWebhook = async (
     }
   } else if (eventType === 'charge.refunded') {
     const chargeId = stripeIdentifier
-    await updatePurchaseStatusForCharge(chargeId, 'Refunded')
+    try {
+      await updatePurchaseStatusForCharge(chargeId, 'Refunded')
+    } catch (error: any) {
+      // Course Builder records its own charges, so this app has no purchase
+      // for them. Answer 200 rather than letting Stripe retry for days.
+      // A charge this app does know about is still updated above.
+      if (
+        String(error?.message).startsWith(NO_PURCHASE_FOUND_FOR_CHARGE) &&
+        isCourseBuilderCheckoutSession(eventObject)
+      ) {
+        console.log('skipping refund of Course Builder charge', {
+          chargeId,
+          eventId: event.id,
+          cbPricingContract: eventObject.metadata?.cbPricingContract,
+        })
+        return {
+          status: 200,
+          body: 'not handled: course-builder charge',
+        }
+      }
+      throw error
+    }
 
     if (process.env.INNGEST_EVENT_KEY) {
       const inngest = new Inngest({
