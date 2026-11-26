@@ -26,10 +26,15 @@ import {S3Client} from '@aws-sdk/client-s3'
 import {castingwordsWebhookReceiver} from './castingwords'
 
 const saved = {...process.env}
-const castingwordsFetch = jest.fn(async (url: string) => ({
-  text: async () =>
-    url.includes('.srt') ? '1\n00:00:00,000 --> 00:00:01,000\nhi' : 'hi',
-}))
+type FetchReply = {ok: boolean; status: number; text: () => Promise<string>}
+const castingwordsFetch = jest.fn(
+  async (url: string): Promise<FetchReply> => ({
+    ok: true,
+    status: 200,
+    text: async () =>
+      url.includes('.srt') ? '1\n00:00:00,000 --> 00:00:01,000\nhi' : 'hi',
+  }),
+)
 let s3Send: jest.SpyInstance
 
 beforeEach(() => {
@@ -119,6 +124,24 @@ test('a matched pair writes the transcript and gives Mux our own presigned capti
   expect(url).toMatch(/X-Amz-Signature=[0-9a-f]{64}/)
   expect(url).not.toContain('castingwords.com')
   expect(url).not.toContain('cw-secret-token')
+})
+
+test('writes nothing when CastingWords answers with an error page', async () => {
+  castingwordsFetch.mockImplementationOnce(async () => ({
+    ok: false,
+    status: 401,
+    text: async () => '<html>bad api key</html>',
+  }))
+  mockFetchDoc.mockResolvedValue({
+    _id: 'vr-1',
+    originalMediaUrl: 'https://example.com/a.mp4',
+    castingwords: {orderId: 'real-order', audioFileId: '123'},
+    muxAsset: {muxAssetId: 'mux-1'},
+  })
+  const res = await post({audiofile: '123', order: 'real-order'})
+  expect(res.code).toBe(500)
+  expect(mockCommit).not.toHaveBeenCalled()
+  expect(mockCreateTrack).not.toHaveBeenCalled()
 })
 
 test('creates no caption track rather than leak when the bucket is not configured', async () => {

@@ -17,6 +17,10 @@ export async function getTranscriptText(audiofile: string) {
       audiofile,
     )}/transcript.txt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`,
   ).then((transcript) => {
+    // An error page must not become the transcript. No URL in the message:
+    // it carries our API key.
+    if (!transcript.ok)
+      throw new Error(`CastingWords transcript fetch ${transcript.status}`)
     return transcript.text()
   })
 }
@@ -32,6 +36,8 @@ export async function getSRTText(audiofile: string) {
       audiofile,
     )}/transcript.srt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`,
   )
+  // An error page must not become captions on Mux. No URL in the message.
+  if (!response.ok) throw new Error(`CastingWords SRT fetch ${response.status}`)
   const srt = await response.text()
   return {srt}
 }
