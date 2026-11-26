@@ -12,6 +12,7 @@ import {uniqueId} from 'lodash'
 import {sanityWriteClient} from '../utils/sanity-server'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {createMuxAsset} from './mux'
+import {redactPresignedUrls, storeCaptionForMux} from './upload-media-url'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 
 const VideoResourceSchema = z.object({
@@ -62,14 +63,22 @@ export const writeTranscriptToVideoResource = async (
   order: string,
   asPortableText: boolean = false,
 ) => {
-  const transcript = await getTranscriptText(audiofile)
-  const {srt, srtUrl} = await getSRTText(audiofile)
-
-  const getDocumentQuery = groq`*[_type == "videoResource" && castingwords.orderId == "${order}"][0]`
-
-  const document: VideoResource = VideoResourceSchema.parse(
-    await sanityWriteClient.fetch(getDocumentQuery),
+  // Find the one video resource that holds this exact order and audiofile
+  // pair, as stored from our own order response. The webhook body is
+  // unauthenticated, so both values are query parameters, never interpolated,
+  // and a forged or mismatched pair matches nothing (sec-167).
+  const audiofileNumber = /^\d{1,15}$/.test(audiofile)
+    ? Number(audiofile)
+    : null
+  const found = await sanityWriteClient.fetch(
+    groq`*[_type == "videoResource" && castingwords.orderId == $order && castingwords.audioFileId in [$audiofile, $audiofileNumber]][0]`,
+    {order, audiofile, audiofileNumber},
   )
+  if (!found) return null
+  const document: VideoResource = VideoResourceSchema.parse(found)
+
+  const transcript = await getTranscriptText(audiofile)
+  const {srt} = await getSRTText(audiofile)
 
   const {_id, castingwords, muxAsset} = document
   let assetDuration = 0
@@ -84,16 +93,34 @@ export const writeTranscriptToVideoResource = async (
       (track: any) => track.name === 'English',
     )
 
-    if (!existingSubtitle) {
-      await Video.Assets.createTrack(muxAsset.muxAssetId, {
-        url: srtUrl,
-        type: 'text',
-        text_type: 'subtitles',
-        closed_captions: false,
-        language_code: 'en-US',
-        name: 'English',
-        passthrough: 'English',
-      })
+    // Mux fetches captions from a URL we control and that expires, never the
+    // CastingWords URL, which carries our API key (sec-167).
+    const captionUrl = existingSubtitle
+      ? null
+      : await storeCaptionForMux(srt, {
+          videoResourceId: _id,
+          name: `${audiofile}.srt`,
+        })
+    if (captionUrl) {
+      try {
+        await Video.Assets.createTrack(muxAsset.muxAssetId, {
+          url: captionUrl,
+          type: 'text',
+          text_type: 'subtitles',
+          closed_captions: false,
+          language_code: 'en-US',
+          name: 'English',
+          passthrough: 'English',
+        })
+      } catch (error) {
+        throw new Error(
+          redactPresignedUrls(
+            `Mux caption track create failed: ${
+              error instanceof Error ? error.message : JSON.stringify(error)
+            }`,
+          ),
+        )
+      }
     }
   }
 

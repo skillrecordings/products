@@ -13,17 +13,27 @@ export const CastingwordsWebhookBody = z.object({
 
 export async function getTranscriptText(audiofile: string) {
   return await fetch(
-    `https://castingwords.com/store/API4/audiofile/${audiofile}/transcript.txt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`,
+    `https://castingwords.com/store/API4/audiofile/${encodeURIComponent(
+      audiofile,
+    )}/transcript.txt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`,
   ).then((transcript) => {
     return transcript.text()
   })
 }
 
+/**
+ * The SRT text only. The CastingWords URL carries our API key in its query,
+ * so it never leaves this request: no caller stores it or hands it to Mux
+ * (sec-167).
+ */
 export async function getSRTText(audiofile: string) {
-  const srtUrl = `https://castingwords.com/store/API4/audiofile/${audiofile}/transcript.srt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`
-  const response = await fetch(srtUrl)
+  const response = await fetch(
+    `https://castingwords.com/store/API4/audiofile/${encodeURIComponent(
+      audiofile,
+    )}/transcript.srt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`,
+  )
   const srt = await response.text()
-  return {srt, srtUrl}
+  return {srt}
 }
 
 export function buildCastingwordsOrderUrl({
@@ -105,7 +115,13 @@ export const castingwordsWebhookReceiver = async (
     if (req.body.event === 'TRANSCRIPT_COMPLETE') {
       try {
         const {audiofile, order} = CastingwordsWebhookBody.parse(req.body)
-        await writeTranscriptToVideoResource(audiofile, order)
+        const written = await writeTranscriptToVideoResource(audiofile, order)
+        if (!written) {
+          // No video resource holds this exact order and audiofile pair, the
+          // one we stored when ordering, so it isn't ours to write (sec-167).
+          res.status(404).json({message: 'no matching transcript order'})
+          return
+        }
         res.status(200).json({message: 'video resource updated'})
       } catch (e) {
         res.status(500).json({
