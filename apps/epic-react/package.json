@@ -109,7 +109,7 @@
     "mysql2": "^3.11.3",
     "nanoid": "^4.0.2",
     "next": "15.5.16",
-    "next-auth": "^4.24.7",
+    "next-auth": "^4.24.15",
     "next-mdx-remote": "^6.0.0",
     "next-sitemap": "^4.2.3",
     "next-themes": "^0.2.1",
