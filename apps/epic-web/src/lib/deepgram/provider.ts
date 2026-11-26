@@ -6,6 +6,7 @@ import type {
   DeepgramCallback,
 } from './types'
 import {processDeepgramResults} from './transcript-utils'
+import {deepgramCallbackParams} from './callback-signature'
 import {
   presignUploadGet,
   redactPresignedUrls,
@@ -15,7 +16,7 @@ import {
  * Create a Deepgram provider instance for transcription services
  */
 export function createDeepgramProvider(config: DeepgramConfig) {
-  const {apiKey, callbackBaseUrl} = config
+  const {apiKey, callbackBaseUrl, callbackSecret} = config
 
   return {
     /**
@@ -30,10 +31,14 @@ export function createDeepgramProvider(config: DeepgramConfig) {
     ): Promise<DeepgramInitiateResponse> => {
       const {mediaUrl, videoResourceId} = options
 
-      // Build callback URL with videoResourceId
-      const callbackUrl = `${callbackBaseUrl}/api/webhooks/deepgram/transcript?videoResourceId=${encodeURIComponent(
-        videoResourceId,
-      )}`
+      // Build callback URL with videoResourceId and a signature the webhook
+      // verifies (sec-166). Never log this URL: the signature is a credential.
+      const callbackUrl = `${callbackBaseUrl}/api/webhooks/deepgram/transcript?${new URLSearchParams(
+        {
+          videoResourceId,
+          ...deepgramCallbackParams(callbackSecret, videoResourceId),
+        },
+      ).toString()}`
 
       // Deepgram API parameters
       const params = new URLSearchParams({
@@ -97,9 +102,17 @@ export function getDeepgramProvider() {
     )
   }
 
+  const callbackSecret = process.env.NEXTAUTH_SECRET
+  if (!callbackSecret) {
+    throw new Error(
+      'NEXTAUTH_SECRET is required to sign the Deepgram callback URL',
+    )
+  }
+
   return createDeepgramProvider({
     apiKey,
     callbackBaseUrl,
+    callbackSecret,
   })
 }
 

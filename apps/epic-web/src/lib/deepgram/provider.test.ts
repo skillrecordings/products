@@ -1,4 +1,5 @@
 import {createDeepgramProvider} from './provider'
+import {verifyDeepgramCallback} from './callback-signature'
 
 // sec-165: Deepgram gets a presigned GET for an upload, signed at the call,
 // and neither its reply nor an error carries the signed URL back.
@@ -24,6 +25,7 @@ afterAll(() => {
 const provider = createDeepgramProvider({
   apiKey: 'dg-key',
   callbackBaseUrl: 'https://www.epicweb.dev',
+  callbackSecret: 'test-callback-secret',
 })
 
 function mockFetch(
@@ -53,6 +55,26 @@ test('hands Deepgram a presigned GET for the upload', async () => {
   expect(sent.startsWith(`${objectUrl}?`)).toBe(true)
   expect(sent).toMatch(SIGNED)
   expect(result).toEqual({request_id: 'req-1'})
+})
+
+test('signs the callback URL for this video resource (sec-166)', async () => {
+  const fetchMock = mockFetch(() => ({ok: true, body: {request_id: 'req-1'}}))
+  await provider.initiateTranscription({
+    mediaUrl: objectUrl,
+    videoResourceId: 'vr-1',
+  })
+  const listen = new URL(fetchMock.mock.calls[0][0])
+  const callback = new URL(listen.searchParams.get('callback')!)
+  expect(callback.pathname).toBe('/api/webhooks/deepgram/transcript')
+  expect(callback.searchParams.get('videoResourceId')).toBe('vr-1')
+  const sig = callback.searchParams.get('sig')
+  const exp = callback.searchParams.get('exp')
+  expect(verifyDeepgramCallback('test-callback-secret', 'vr-1', sig, exp)).toBe(
+    true,
+  )
+  expect(verifyDeepgramCallback('test-callback-secret', 'vr-2', sig, exp)).toBe(
+    false,
+  )
 })
 
 test('keeps no signed URL when Deepgram echoes it back', async () => {
