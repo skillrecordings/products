@@ -4,6 +4,7 @@ import {inngest} from 'inngest/inngest.server'
 import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-server'
 import {processDeepgramResults} from 'lib/deepgram'
 import {DeepgramCallbackSchema} from 'lib/deepgram/types'
+import {verifyDeepgramCallback} from 'lib/deepgram/callback-signature'
 import {
   VIDEO_TRANSCRIPT_READY_EVENT,
   VIDEO_SRT_READY_EVENT,
@@ -37,6 +38,22 @@ export default async function deepgramWebhookHandler(
     if (!videoResourceId) {
       console.error('Deepgram webhook: Missing videoResourceId')
       return res.status(400).json({error: 'Missing videoResourceId'})
+    }
+
+    // Only a callback URL we signed when ordering may write a transcript
+    // (sec-166). Deepgram's callbacks carry no signature of their own.
+    if (
+      !verifyDeepgramCallback(
+        process.env.NEXTAUTH_SECRET,
+        videoResourceId,
+        req.query.sig,
+        req.query.exp,
+      )
+    ) {
+      console.warn(
+        `Deepgram webhook: refused unsigned or expired callback for ${videoResourceId}`,
+      )
+      return res.status(401).json({error: 'Invalid callback signature'})
     }
 
     console.info(

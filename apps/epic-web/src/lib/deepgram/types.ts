@@ -124,6 +124,8 @@ export interface TranscriptResult {
 export interface DeepgramConfig {
   apiKey: string
   callbackBaseUrl: string
+  /** Signs the callback URL so the webhook can refuse forgeries (sec-166). */
+  callbackSecret: string
 }
 
 // Options for initiating transcription
