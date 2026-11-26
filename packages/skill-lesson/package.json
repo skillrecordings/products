@@ -12,7 +12,10 @@
   },
   "jest": {
     "preset": "@skillrecordings/scripts/jest/node",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^uuid$": "<rootDir>/node_modules/uuid/dist/index.js"
+    }
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.3.0",

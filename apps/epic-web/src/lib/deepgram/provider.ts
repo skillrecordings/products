@@ -6,6 +6,10 @@ import type {
   DeepgramCallback,
 } from './types'
 import {processDeepgramResults} from './transcript-utils'
+import {
+  presignUploadGet,
+  redactPresignedUrls,
+} from '@skillrecordings/skill-lesson/lib/upload-media-url'
 
 /**
  * Create a Deepgram provider instance for transcription services
@@ -17,6 +21,9 @@ export function createDeepgramProvider(config: DeepgramConfig) {
     /**
      * Initiate an asynchronous transcription request with Deepgram
      * Results will be sent to the callback URL when ready
+     *
+     * An upload URL is signed here, at the call, and the reply and errors
+     * are redacted, so no signed URL is stored or returned (sec-165).
      */
     initiateTranscription: async (
       options: TranscriptionOptions,
@@ -47,16 +54,20 @@ export function createDeepgramProvider(config: DeepgramConfig) {
             'Content-Type': 'application/json',
             Authorization: `Token ${apiKey}`,
           },
-          body: JSON.stringify({url: mediaUrl}),
+          body: JSON.stringify({url: await presignUploadGet(mediaUrl)}),
         },
       )
 
       if (!response.ok) {
         const error = await response.text()
-        throw new Error(`Deepgram API error: ${response.status} - ${error}`)
+        throw new Error(
+          redactPresignedUrls(
+            `Deepgram API error: ${response.status} - ${error}`,
+          ),
+        )
       }
 
-      return response.json()
+      return redactPresignedUrls(await response.json())
     },
 
     /**

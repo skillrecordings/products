@@ -33,7 +33,10 @@
     "useTabs": false
   },
   "jest": {
-    "preset": "@skillrecordings/scripts/jest/next"
+    "preset": "@skillrecordings/scripts/jest/next",
+    "moduleNameMapper": {
+      "^uuid$": "<rootDir>/node_modules/uuid/dist/index.js"
+    }
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.3.0",

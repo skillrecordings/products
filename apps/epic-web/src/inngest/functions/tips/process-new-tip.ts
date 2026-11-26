@@ -7,6 +7,7 @@ import {
   TIP_VIDEO_TRANSCRIPT_CREATED_EVENT,
   TIP_VIDEO_UPLOADED_EVENT,
 } from 'inngest/events'
+import {initiateDeepgramTranscription} from 'lib/deepgram/provider'
 
 async function getVideoResource(videoResourceId: string) {
   return await sanityWriteClient.fetch(`*[_id == $videoResourceId][0]`, {
@@ -57,18 +58,17 @@ export const processNewTip = inngest.createFunction(
         .commit()
     })
 
+    // Order Deepgram directly, as process-video-resource does. The upload URL
+    // is signed inside this step and never leaves it; our Deepgram webhook
+    // sends the transcript-created event this function waits for (sec-165).
     await step.run('Initiate Transcript Order via Deepgram', async () => {
       const videoResource = await getVideoResource(event.data.videoResourceId)
       const {originalMediaUrl, _id} = videoResource
-      return await fetch(
-        `https://deepgram-wrangler.skillstack.workers.dev/transcript?videoUrl=${originalMediaUrl}&videoResourceId=${_id}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
+      const {request_id} = await initiateDeepgramTranscription({
+        mediaUrl: originalMediaUrl,
+        videoResourceId: _id,
+      })
+      return {request_id}
     })
 
     // Promise.all|race to wait for multiple events
