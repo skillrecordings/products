@@ -43,7 +43,7 @@ jest.mock('lib/deepgram/types', () => ({
   },
 }))
 
-import handler from './transcript'
+import handler from 'pages/api/webhooks/deepgram/transcript'
 import {deepgramCallbackParams} from 'lib/deepgram/callback-signature'
 
 const saved = {...process.env}
