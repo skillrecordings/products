@@ -26,6 +26,7 @@ import Footer from '@/components/app/footer'
 import {Skeleton} from '@skillrecordings/ui'
 import WelcomeBanner from '@/components/welcome-banner'
 import CertificateForm from '@/certificate/certificate-form'
+import CourseCertificate from '@/certificate/course-certificate-dialog'
 import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import {getUserAndSubscriber} from '@/lib/users'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
@@ -435,16 +436,7 @@ const Learn: React.FC<{
         />
       )}
       <main className="mx-auto w-full max-w-screen-lg px-4 pb-20 pt-4 sm:px-8 sm:pt-20">
-        {isMounted && showCourseCertificate && (
-          <div className="mb-8 flex sm:mb-16">
-            <Dialog.Root>
-              <Dialog.Trigger className="rounded-lg border-2 border-emerald-600 px-4 py-3 text-base font-semibold text-text hover:bg-indigo-300/25">
-                Course Certificate
-              </Dialog.Trigger>
-              <CertificateForm course />
-            </Dialog.Root>
-          </div>
-        )}
+        {showCourseCertificate && <CourseCertificate />}
         <ul className="grid grid-cols-1 gap-4 sm:gap-16">
           {legacyModules.map((legacyModule) => {
             return (

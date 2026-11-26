@@ -28,10 +28,18 @@ const IMAGE_HOST_DOMAINS = [
   process.env.NEXT_PUBLIC_HOST,
 ]
 
-/**
- * @type {import('next').NextConfig}
- */
+const courseCertificateAssets = [
+  './public/fonts/larsseit.woff',
+  './public/assets/epic-react-certificate-bg.svg',
+  './public/favicons/android-chrome-512x512.png',
+]
+
+/** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingIncludes: {
+    '/api/course-certificate': courseCertificateAssets,
+    '/api/trpc/*': courseCertificateAssets,
+  },
   transpilePackages: ['@skillrecordings/skill-lesson', '@skillrecordings/ui'],
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   eslint: {ignoreDuringBuilds: true},

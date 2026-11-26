@@ -5,9 +5,17 @@ import {cloudinary} from '@/utils/cloudinary'
 import {TRPCError} from '@trpc/server'
 import {COURSE_CERTIFICATE_SLUG} from '@/certificate/course-certificate'
 import {canEarnCourseCertificate} from '@/certificate/course-certificate.server'
-import {renderCertificate} from '@/certificate/certificate-handler.server'
+import {renderCourseCertificate} from '@/certificate/render-course-certificate.server'
 
-const certificateSlug = z.string().regex(/^[a-zA-Z0-9_-]+$/)
+const certificateSlug = z
+  .string()
+  .regex(/^[a-zA-Z0-9_-]+$/)
+  .refine(
+    (slug) =>
+      slug.toLowerCase() !== COURSE_CERTIFICATE_SLUG ||
+      slug === COURSE_CERTIFICATE_SLUG,
+    {message: 'Use the canonical course certificate slug'},
+  )
 
 export const certificateRouter = router({
   upload: publicProcedure
@@ -46,7 +54,7 @@ export const certificateRouter = router({
 
         // Cloudinary cannot fetch the authenticated download URL. Upload
         // server-rendered bytes, never the URL supplied by the client.
-        const image = await renderCertificate(user.name)
+        const image = await renderCourseCertificate(user.name)
         return await cloudinary.uploader.upload(
           `data:image/png;base64,${image.toString('base64')}`,
           uploadOptions(user.id, COURSE_CERTIFICATE_SLUG),
@@ -56,7 +64,9 @@ export const certificateRouter = router({
       return await uploadImage(input.imagePath, user.id, input.moduleSlug)
     }),
   get: publicProcedure
-    .input(z.object({moduleSlug: certificateSlug}))
+    .input(
+      z.object({moduleSlug: certificateSlug, imagePath: z.string().optional()}),
+    )
     .query(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
 
@@ -85,7 +95,11 @@ export const certificateRouter = router({
           `certificate/${user.id}/${input.moduleSlug}`,
         )
       } catch (error: any) {
-        if (error?.error?.http_code === 404) return null
+        if (
+          input.moduleSlug === COURSE_CERTIFICATE_SLUG &&
+          error?.error?.http_code === 404
+        )
+          return null
         throw error
       }
     }),

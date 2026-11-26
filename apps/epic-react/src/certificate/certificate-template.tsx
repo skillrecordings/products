@@ -5,14 +5,18 @@ export function CertificateTemplate({
   issuedDate,
   backgroundImage,
   courseMark,
-  workshop,
 }: {
   name: string
   issuedDate: string
   backgroundImage: string
   courseMark: string
-  workshop?: {title: string; image?: string | null}
 }) {
+  // Budget 1.25 em per code point so even a long, unbroken name fits.
+  const nameFontSize = Math.min(
+    72,
+    1320 / (1.25 * Math.max(1, Array.from(name).length)),
+  )
+
   return (
     <div
       tw="flex w-full relative items-center h-full justify-center"
@@ -23,29 +27,21 @@ export function CertificateTemplate({
         backgroundRepeat: 'no-repeat',
       }}
     >
-      {workshop ? (
-        workshop.image && (
-          <img
-            src={workshop.image}
-            width={350}
-            height={350}
-            tw="absolute top-24"
-          />
-        )
-      ) : (
-        <img src={courseMark} width={280} height={280} tw="absolute top-32" />
-      )}
+      <img src={courseMark} width={280} height={280} tw="absolute top-32" />
       <div tw="flex flex-col items-center justify-center mt-72">
-        <p
-          tw="text-7xl leading-none flex pb-10 text-gray-700"
-          style={{fontWeight: 700, fontFamily: 'Larsseit'}}
+        <div
+          tw="flex items-center justify-center text-gray-700"
+          style={{
+            width: 1320,
+            height: 112,
+            fontSize: nameFontSize,
+            fontFamily: 'Larsseit',
+          }}
         >
           {name}
-        </p>
+        </div>
         <p tw="text-center text-2xl flex" style={{fontFamily: 'Larsseit'}}>
-          {workshop
-            ? `Has successfully completed the ${workshop.title} workshop.`
-            : COURSE_CERTIFICATE_COPY}
+          {COURSE_CERTIFICATE_COPY}
         </p>
       </div>
       <div

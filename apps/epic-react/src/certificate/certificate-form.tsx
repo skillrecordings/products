@@ -14,18 +14,10 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import Image from 'next/image'
 import type {Workshop} from '@/lib/workshops'
 import type {Tutorial} from '@/lib/tutorials'
-import {
-  COURSE_CERTIFICATE_COPY,
-  COURSE_CERTIFICATE_SLUG,
-  EPIC_REACT_COURSE_PRODUCT_ID,
-  EPIC_REACT_CERTIFICATE_MARK,
-} from './course-certificate'
 
 const CertificateForm: React.FC<
-  | {course: true; module?: never}
-  | {course?: never; module: Workshop | Tutorial | Module}
-> = ({course, module}) => {
-  const moduleSlug = module?.slug.current ?? COURSE_CERTIFICATE_SLUG
+  React.PropsWithChildren<{module: Workshop | Tutorial | Module}>
+> = ({module}) => {
   const {data: session, update: updateSession} = useSession()
   const {data: userData, status: userStatus} = trpc.user.currentUser.useQuery()
 
@@ -33,16 +25,12 @@ const CertificateForm: React.FC<
     shouldUseNativeValidation: true,
     defaultValues: {
       name: session?.user?.name || '',
+      certificateUrl: `/api/certificate?moduleId=${module._id}&userId=${userData?.id}&name=${session?.user?.name}`,
     },
   })
-  const [updatedName, setUpdatedName] = React.useState<string>()
-  const savedName =
-    updatedName ?? (userData ? userData.name : session?.user?.name) ?? ''
   const userNameMutation = trpc.user.updateName.useMutation({
     onSuccess: (data) => {
-      const name = data.name ?? ''
-      setUpdatedName(name)
-      form.reset({name})
+      form.setValue('name', data.name as string)
     },
   })
   const {register, watch} = form
@@ -50,7 +38,7 @@ const CertificateForm: React.FC<
   const handleSubmit = async () => {
     return await userNameMutation
       .mutateAsync({
-        name: watch().name.trim(),
+        name: watch().name,
       })
       .then(async (data) => {
         toast.success('Name updated')
@@ -66,25 +54,25 @@ const CertificateForm: React.FC<
       })
   }
 
-  const certificateParams = module
-    ? new URLSearchParams({moduleId: module._id, name: savedName})
-    : new URLSearchParams({productId: EPIC_REACT_COURSE_PRODUCT_ID})
-  const certificateUrl = `/api/certificate?${certificateParams}`
-  const {isDirty, isSubmitting} = form.formState
-  const canGenerate =
-    !!savedName.trim() && (!course || (!!userData?.id && !isDirty))
+  const imagePath = 'https://epicreact.dev' + watch().certificateUrl
 
   React.useEffect(() => {
-    if (!isDirty) form.reset({name: savedName})
-  }, [form, isDirty, savedName])
+    if (userStatus === 'success' && userData?.id) {
+      form.setValue(
+        'certificateUrl',
+        `/api/certificate?moduleId=${module._id}&userId=${userData?.id}&name=${session?.user?.name}`,
+      )
+    }
+  }, [userData, userStatus])
 
   const urlInputRef = React.useRef<HTMLInputElement>(null)
+  const isSubmitting = form.formState.isSubmitting
 
   const uploadCertificate = trpc.certificate.upload.useMutation()
-  const {data: clCert, status: clCertStatus} = trpc.certificate.get.useQuery(
-    {moduleSlug},
-    {enabled: userStatus === 'success' && !!userData?.id},
-  )
+  const {data: clCert, status: clCertStatus} = trpc.certificate.get.useQuery({
+    moduleSlug: module.slug.current as string,
+    imagePath,
+  })
   const copyCertUrlRef = React.useRef<HTMLButtonElement>(null)
   const [certUrl, setCertUrl] = React.useState(clCert?.secure_url)
   React.useEffect(() => {
@@ -92,27 +80,31 @@ const CertificateForm: React.FC<
       setCertUrl(clCert.secure_url)
     }
   }, [clCert, clCertStatus])
-  const isLoading = uploadCertificate.isLoading
-  const handleGenerateCertUrl = () => {
-    uploadCertificate.mutate(
-      module
-        ? {moduleSlug, imagePath: 'https://epicreact.dev' + certificateUrl}
-        : {moduleSlug},
+  // const certUrl = `${process.env.NEXT_PUBLIC_URL}/api/certificate?moduleId=${module._id}&userId=${userData?.id}&name=${session?.user?.name}`
+  const [isLoading, setIsLoading] = React.useState(false)
+  const handleGenerateCertUrl = async () => {
+    setIsLoading(true)
+    await uploadCertificate.mutateAsync(
+      {
+        imagePath, // : 'https://epicreact.dev' + watch().certificateUrl,
+        moduleSlug: module.slug.current as string,
+      },
       {
         onSuccess: (data) => {
-          if (!data?.secure_url) {
-            toast.error('Could not generate certificate URL')
-            return
-          }
           setCertUrl(data.secure_url)
+          setIsLoading(false)
           toast.success('Certificate URL generated')
-          urlInputRef.current?.select()
+          urlInputRef?.current?.select()
         },
-        onError: () => toast.error('Could not generate certificate URL'),
+        onError: (error) => {
+          toast.error('Error: ' + error.message)
+        },
       },
     )
 
-    track('clicked use certificate url', {module: moduleSlug})
+    track('clicked use certificate url', {
+      module: module.slug.current,
+    })
   }
   return (
     <Dialog.Portal container={window.document.getElementById('layout')}>
@@ -129,10 +121,10 @@ const CertificateForm: React.FC<
             alt=""
             className="w-full rounded-lg shadow-xl"
           />
-          {(course || module?.image) && (
+          {module.image && (
             <Image
               className="absolute top-8"
-              src={course ? EPIC_REACT_CERTIFICATE_MARK : module?.image || ''}
+              src={module.image}
               alt=""
               width={75}
               height={75}
@@ -144,14 +136,13 @@ const CertificateForm: React.FC<
                 {form.watch('name')}
               </div>
               <div className="pt-1 text-[0.5rem] text-gray-900">
-                {module
-                  ? `Has successfully completed the ${module.title} ${module.moduleType}.`
-                  : COURSE_CERTIFICATE_COPY}
+                Has successfully completed the {module.title}{' '}
+                {module.moduleType}.
               </div>
             </div>
           </div>
           <div className="absolute bottom-5 right-5 text-[0.4rem] opacity-75">
-            {new Date().toLocaleDateString('en-US', {timeZone: 'UTC'})}
+            {new Date().toLocaleDateString()}
           </div>
         </div>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -166,7 +157,7 @@ const CertificateForm: React.FC<
               <Input
                 {...register('name', {
                   required: true,
-                  validate: (name) => !!name.trim() || 'Please enter your name',
+                  // onChange: handleNameChange,
                 })}
                 type="text"
                 placeholder="Your name"
@@ -189,7 +180,7 @@ const CertificateForm: React.FC<
             {/* Using anchor instead of a button to trigger native download action */}
             <div className="mt-5 flex w-full flex-col items-center justify-start gap-5 dark:border-gray-700">
               <Button
-                disabled={isSubmitting || !canGenerate}
+                disabled={isSubmitting}
                 size="lg"
                 asChild
                 className={cn(
@@ -200,20 +191,12 @@ const CertificateForm: React.FC<
                 )}
               >
                 <a
-                  download={`${moduleSlug}-certificate.png`}
-                  href={
-                    canGenerate && !isSubmitting ? certificateUrl : undefined
-                  }
-                  aria-disabled={!canGenerate || isSubmitting}
+                  download={`${module.slug.current}-certificate.png`}
+                  href={watch().certificateUrl}
                   onClick={() => {
-                    if (canGenerate && !isSubmitting) {
-                      track(
-                        course
-                          ? 'downloaded course certificate'
-                          : 'downloaded workshop certificate',
-                        {module: moduleSlug},
-                      )
-                    }
+                    track('downloaded workshop certificate', {
+                      module: module.slug.current,
+                    })
                   }}
                   className="text-white hover:bg-primary/80 sm:text-base"
                 >
@@ -231,7 +214,7 @@ const CertificateForm: React.FC<
                       <Button
                         type="button"
                         variant={certUrl ? 'outline' : 'ghost'}
-                        disabled={isLoading || isSubmitting || !canGenerate}
+                        disabled={isLoading || certUrl || clCert?.secure_url}
                         ref={copyCertUrlRef}
                         className={cn(
                           ' flex-shrink-0 border-gray-600 px-2 font-semibold',
