@@ -31,8 +31,8 @@ import {getUserAndSubscriber} from '@/lib/users'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
 import groq from 'groq'
 import {z} from 'zod'
-
-export const MODULES_WITH_NO_CERTIFICATE = ['welcome-to-epic-react']
+import {MODULES_WITH_NO_CERTIFICATE} from '@/certificate/course-certificate'
+import {canEarnCourseCertificate} from '@/certificate/course-certificate.server'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -80,8 +80,14 @@ export const getServerSideProps: GetServerSideProps = async ({
     products,
   })
   const productId = 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38'
-  const legacyModules = await getLegacyModulesForProduct({productId})
-  const bonuses = await getBonusesForProduct({productId})
+  const [legacyModules, bonuses, showCourseCertificate] = await Promise.all([
+    getLegacyModulesForProduct({productId}),
+    getBonusesForProduct({productId}),
+    canEarnCourseCertificate(token?.id).catch(() => {
+      console.error('Could not check course certificate eligibility')
+      return false
+    }),
+  ])
 
   return {
     props: {
@@ -89,6 +95,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       bonuses,
       commerceProps,
       productLabels,
+      showCourseCertificate,
     },
   }
 }
@@ -343,10 +350,12 @@ const Learn: React.FC<{
   legacyModules: any[]
   bonuses: any[]
   commerceProps: CommerceProps
+  showCourseCertificate: boolean
 }> = ({
   legacyModules: unparsedLegacyModules,
   bonuses: unparsedBonuses,
   commerceProps,
+  showCourseCertificate,
 }) => {
   const [isMounted, setIsMounted] = React.useState(false)
   const title = 'Learn'
@@ -426,6 +435,16 @@ const Learn: React.FC<{
         />
       )}
       <main className="mx-auto w-full max-w-screen-lg px-4 pb-20 pt-4 sm:px-8 sm:pt-20">
+        {isMounted && showCourseCertificate && (
+          <div className="mb-8 flex sm:mb-16">
+            <Dialog.Root>
+              <Dialog.Trigger className="rounded-lg border-2 border-emerald-600 px-4 py-3 text-base font-semibold text-text hover:bg-indigo-300/25">
+                Course Certificate
+              </Dialog.Trigger>
+              <CertificateForm course />
+            </Dialog.Root>
+          </div>
+        )}
         <ul className="grid grid-cols-1 gap-4 sm:gap-16">
           {legacyModules.map((legacyModule) => {
             return (
