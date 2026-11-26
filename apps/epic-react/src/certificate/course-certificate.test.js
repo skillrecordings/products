@@ -16,7 +16,9 @@ const fetchWorkshops = jest.mocked(sanityClientNoCdn.fetch)
 const getProgress = jest.mocked(getModuleProgress)
 
 beforeEach(() => {
-  fetchWorkshops.mockResolvedValue([...workshops, 'welcome-to-epic-react'])
+  fetchWorkshops.mockResolvedValue(
+    [...workshops, 'welcome-to-epic-react'].map((slug) => ({slug})),
+  )
   getProgress.mockResolvedValue({moduleCompleted: true})
 })
 
@@ -42,24 +44,54 @@ it('stays locked if one lesson is missing', async () => {
 it('stays locked for signed-out learners and an empty catalog', async () => {
   await expect(canEarnCourseCertificate(undefined)).resolves.toBe(false)
   expect(fetchWorkshops).not.toHaveBeenCalled()
-  fetchWorkshops.mockResolvedValue(['welcome-to-epic-react'])
+  fetchWorkshops.mockResolvedValue([{slug: 'welcome-to-epic-react'}])
   await expect(canEarnCourseCertificate('test-user')).resolves.toBe(false)
   expect(getProgress).not.toHaveBeenCalled()
 })
 
-it('renders Epic React course copy and preserves a non-ASCII name', () => {
-  const markup = renderToStaticMarkup(
+it('skips malformed published rows without locking eligible learners out', async () => {
+  const warn = jest.spyOn(console, 'warn').mockImplementation(() => {})
+  try {
+    fetchWorkshops.mockResolvedValue([
+      {slug: 'valid-workshop'},
+      {slug: null},
+      {slug: '  '},
+    ])
+    await expect(canEarnCourseCertificate('test-user')).resolves.toBe(true)
+    expect(warn).toHaveBeenCalledTimes(2)
+    expect(getProgress.mock.calls).toEqual([
+      [{moduleSlug: 'valid-workshop', userId: 'test-user'}],
+    ])
+  } finally {
+    warn.mockRestore()
+  }
+})
+
+function templateMarkup(name) {
+  return renderToStaticMarkup(
     <CertificateTemplate
-      name="Michał Test"
+      name={name}
       issuedDate="11/28/2026"
       backgroundImage="/assets/epic-react-certificate-bg.svg"
       courseMark="/favicons/android-chrome-512x512.png"
     />,
   )
+}
+
+it('renders count-independent Epic React course copy and preserves a non-ASCII name', () => {
+  const markup = templateMarkup('Michał Test')
   expect(markup).toContain('Michał Test')
   expect(markup).toContain(
-    'Has successfully completed all seven Epic React workshops.',
+    'Has successfully completed all of the Epic React workshops.',
   )
   expect(markup).toContain('/assets/epic-react-certificate-bg.svg')
   expect(markup).not.toMatch(/Epic Web|Total TypeScript/i)
+})
+
+it('renders a long unbroken name at a smaller size within the certificate name box', () => {
+  const name = 'W'.repeat(96)
+  const markup = templateMarkup(name)
+  expect(markup).toContain(name)
+  expect(markup).toContain('width:1320px;height:112px;font-size:11px')
+  expect(templateMarkup('Test Learner')).toContain('font-size:72px')
 })
