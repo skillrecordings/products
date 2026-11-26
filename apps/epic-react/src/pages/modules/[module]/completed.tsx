@@ -12,7 +12,7 @@ import Layout from '@/components/app/layout'
 import {getToken} from 'next-auth/jwt'
 import {getModuleProgress} from '@skillrecordings/skill-lesson/lib/module-progress'
 import ModuleCertificate from '@/certificate/module-certificate'
-import {MODULES_WITH_NO_CERTIFICATE} from '@/pages/learn'
+import {MODULES_WITH_NO_CERTIFICATE} from '@/certificate/course-certificate'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 
 const modulesOrderedBySlug = {
