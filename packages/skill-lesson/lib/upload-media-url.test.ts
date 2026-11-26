@@ -130,7 +130,7 @@ describe('redactPresignedUrls', () => {
 
   test('strips an URL-encoded presigned URL inside another query string', () => {
     const inner = `${objectUrl}?X-Amz-Credential=test%2F&X-Amz-Signature=abc`
-    const order = `https://castingwords.com/store/API4/order_url?sku=BULK2&url=${encodeURIComponent(
+    const order = `https://transcriber.example/order?sku=BULK2&url=${encodeURIComponent(
       inner,
     )}&test=1`
     const out = redactPresignedUrls(order)

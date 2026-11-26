@@ -21,7 +21,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_SANITY_DATASET_ID: string
     NEXT_PUBLIC_SANITY_API_VERSION: string
     SANITY_WEBHOOK_SECRET: string
-    CASTINGWORDS_API_TOKEN: string
     EMAIL_SERVER_HOST: string
     EMAIL_SERVER_PORT: number
     POSTMARK_KEY: string
