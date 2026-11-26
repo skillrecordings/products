@@ -1,4 +1,4 @@
-import {GetObjectCommand, S3Client} from '@aws-sdk/client-s3'
+import {GetObjectCommand, PutObjectCommand, S3Client} from '@aws-sdk/client-s3'
 import {getSignedUrl} from '@aws-sdk/s3-request-presigner'
 
 /**
@@ -140,6 +140,66 @@ export async function presignUploadGet(
     expiresIn: options.ttlSeconds ?? UPLOAD_GET_TTL_SECONDS,
     env,
   })
+}
+
+/**
+ * Stores a caption file in this app's upload folder and returns a short-lived
+ * presigned GET for it, so Mux can fetch captions from a URL we control and
+ * that expires, instead of a provider URL carrying our API key (sec-167).
+ * Returns null when the upload bucket or its credentials are not configured.
+ *
+ * @example
+ * const url = await storeCaptionForMux(srt, {videoResourceId, name: '123.srt'})
+ * if (url) await Video.Assets.createTrack(assetId, {url, type: 'text', ...})
+ */
+export async function storeCaptionForMux(
+  srt: string,
+  target: {videoResourceId: string; name: string},
+  options: {env?: UploadBucketEnv; client?: Pick<S3Client, 'send'>} = {},
+): Promise<string | null> {
+  const env = options.env ?? process.env
+  const bucket = env.AWS_VIDEO_UPLOAD_BUCKET
+  const region = env.AWS_VIDEO_UPLOAD_REGION
+  if (
+    !bucket ||
+    !region ||
+    !env.AWS_VIDEO_UPLOAD_ACCESS_KEY_ID ||
+    !env.AWS_VIDEO_UPLOAD_SECRET_ACCESS_KEY
+  ) {
+    console.warn('captions.store-skipped', {
+      reason: 'upload bucket or credentials not configured',
+    })
+    return null
+  }
+  const safe = (part: string) => part.replace(/[^A-Za-z0-9._-]/g, '_')
+  const folder = (env.AWS_VIDEO_UPLOAD_FOLDER || 'partner-uploads').replace(
+    /\/+$/,
+    '',
+  )
+  const key = `${folder}/captions/${safe(target.videoResourceId)}/${safe(
+    target.name,
+  )}`
+  const client =
+    options.client ??
+    new S3Client({
+      region,
+      credentials: {
+        accessKeyId: env.AWS_VIDEO_UPLOAD_ACCESS_KEY_ID,
+        secretAccessKey: env.AWS_VIDEO_UPLOAD_SECRET_ACCESS_KEY,
+      },
+    })
+  await client.send(
+    new PutObjectCommand({
+      Bucket: bucket,
+      Key: key,
+      Body: srt,
+      ContentType: 'application/x-subrip',
+    }),
+  )
+  return defaultSign(
+    {bucket, region, key},
+    {expiresIn: UPLOAD_GET_TTL_SECONDS, env},
+  )
 }
 
 /**
