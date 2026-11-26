@@ -38,7 +38,6 @@ const courseCertificateAssets = [
 const nextConfig = {
   outputFileTracingIncludes: {
     '/api/course-certificate': courseCertificateAssets,
-    '/api/trpc/*': courseCertificateAssets,
   },
   transpilePackages: ['@skillrecordings/skill-lesson', '@skillrecordings/ui'],
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],

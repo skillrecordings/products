@@ -3,15 +3,24 @@ import {getToken} from 'next-auth/jwt'
 import {prisma} from '@skillrecordings/database'
 import {renderCourseCertificate} from '@/certificate/render-course-certificate.server'
 import {canEarnCourseCertificate} from '@/certificate/course-certificate.server'
+import {COURSE_CERTIFICATE_SLUG} from '@/certificate/course-certificate'
+import {cloudinary} from '@/utils/cloudinary'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   res.setHeader('Cache-Control', 'private, no-store')
-  if (req.method !== 'GET') {
-    res.setHeader('Allow', 'GET')
+  if (req.method !== 'GET' && req.method !== 'POST') {
+    res.setHeader('Allow', 'GET, POST')
     return res.status(405).end()
+  }
+  // Cross-origin forms cannot send JSON. This route does not grant CORS access.
+  if (
+    req.method === 'POST' &&
+    req.headers['content-type']?.split(';')[0].trim() !== 'application/json'
+  ) {
+    return res.status(415).end()
   }
 
   try {
@@ -28,6 +37,18 @@ export default async function handler(
       return res.status(400).send('Please save your name')
 
     const image = await renderCourseCertificate(user.name)
+    if (req.method === 'POST') {
+      // Cloudinary cannot fetch the authenticated endpoint. Send only the PNG
+      // rendered from the authenticated learner's saved name.
+      const {secure_url} = await cloudinary.uploader.upload(
+        `data:image/png;base64,${image.toString('base64')}`,
+        {
+          public_id: `certificate/${userId}/${COURSE_CERTIFICATE_SLUG}`,
+          overwrite: true,
+        },
+      )
+      return res.json({secure_url})
+    }
     res.setHeader('Content-Type', 'image/png')
     return res.send(image)
   } catch {
