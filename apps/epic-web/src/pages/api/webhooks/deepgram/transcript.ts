@@ -8,6 +8,7 @@ import {
   VIDEO_TRANSCRIPT_READY_EVENT,
   VIDEO_SRT_READY_EVENT,
   TIP_VIDEO_SRT_READY_EVENT,
+  TIP_VIDEO_TRANSCRIPT_CREATED_EVENT,
 } from 'inngest/events'
 
 /**
@@ -132,6 +133,15 @@ export default async function deepgramWebhookHandler(
           videoResourceId,
           srt,
           muxAssetId: videoResource.muxAsset?.muxAssetId,
+        },
+      },
+      // process-new-tip waits for this. It used to come from the external
+      // deepgram-wrangler worker, which tips no longer use (sec-165).
+      {
+        name: TIP_VIDEO_TRANSCRIPT_CREATED_EVENT,
+        data: {
+          videoResourceId,
+          transcript: {text, srt},
         },
       },
       // Backwards compatibility: triggers existing addSrtToMuxAsset function

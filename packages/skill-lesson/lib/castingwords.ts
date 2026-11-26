@@ -1,6 +1,10 @@
 import {z} from 'zod'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {writeTranscriptToVideoResource} from './sanity'
+import {
+  CASTINGWORDS_GET_TTL_SECONDS,
+  presignUploadGet,
+} from './upload-media-url'
 
 export const CastingwordsWebhookBody = z.object({
   audiofile: z.string(),
@@ -62,7 +66,11 @@ export async function orderTranscript(
   // BULK2 is a quick transcript order. There is also BULK6 but it is slower
   // BCAPTION3 orders captions
   const skus = [expedite ? 'BULK2' : 'BULK6', 'BCAPTION3']
-  const url = buildCastingwordsOrderUrl({skus, originalMediaUrl})
+  // Signed here, at the order, so the URL is never stored (sec-165).
+  const mediaUrl = await presignUploadGet(originalMediaUrl, {
+    ttlSeconds: CASTINGWORDS_GET_TTL_SECONDS,
+  })
+  const url = buildCastingwordsOrderUrl({skus, originalMediaUrl: mediaUrl})
   const headers = new Headers()
   headers.append('Content-Type', 'application/json')
 

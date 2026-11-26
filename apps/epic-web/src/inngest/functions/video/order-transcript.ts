@@ -2,6 +2,7 @@ import {inngest} from 'inngest/inngest.server'
 import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-server'
 import {createMuxAsset} from '@skillrecordings/skill-lesson/lib/mux'
 import {VIDEO_RESOURCE_CREATED_EVENT} from 'inngest/events'
+import {initiateDeepgramTranscription} from 'lib/deepgram/provider'
 
 async function getVideoResource(videoResourceId: string) {
   return await sanityWriteClient.fetch(`*[_id == $videoResourceId][0]`, {
@@ -33,15 +34,11 @@ export const processVideoResource = inngest.createFunction(
   async ({event, step}) => {
     const {videoResourceId, originalMediaUrl} = event.data
 
-    const DEEPGRAM_API_KEY = process.env.DEEPGRAM_API_KEY
-    const CALLBACK_BASE_URL =
-      process.env.NEXT_PUBLIC_URL || process.env.COURSEBUILDER_URL
-
-    if (!DEEPGRAM_API_KEY) {
+    if (!process.env.DEEPGRAM_API_KEY) {
       throw new Error('DEEPGRAM_API_KEY is not configured')
     }
 
-    if (!CALLBACK_BASE_URL) {
+    if (!process.env.NEXT_PUBLIC_URL && !process.env.COURSEBUILDER_URL) {
       throw new Error('NEXT_PUBLIC_URL or COURSEBUILDER_URL is not configured')
     }
 
@@ -84,47 +81,16 @@ export const processVideoResource = inngest.createFunction(
         .commit()
     })
 
-    // Initiate Deepgram transcription with callback
+    // Initiate Deepgram transcription with callback. The provider signs the
+    // upload URL inside this step and redacts the reply (sec-165).
     const deepgramResponse = await step.run(
       'Initiate Deepgram transcription',
       async () => {
-        const callbackUrl = `${CALLBACK_BASE_URL}/api/webhooks/deepgram/transcript?videoResourceId=${encodeURIComponent(
+        console.info(`Ordering Deepgram transcript for ${videoResourceId}`)
+        return initiateDeepgramTranscription({
+          mediaUrl: originalMediaUrl,
           videoResourceId,
-        )}`
-
-        const params = new URLSearchParams({
-          model: 'nova-2',
-          punctuate: 'true',
-          paragraphs: 'true',
-          utterances: 'true',
-          smart_format: 'true',
-          callback: callbackUrl,
         })
-
-        console.info(
-          `Ordering transcript for ${videoResourceId} with Deepgram callback: ${callbackUrl}`,
-        )
-
-        const response = await fetch(
-          `https://api.deepgram.com/v1/listen?${params}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Token ${DEEPGRAM_API_KEY}`,
-            },
-            body: JSON.stringify({url: originalMediaUrl}),
-          },
-        )
-
-        if (!response.ok) {
-          const errorText = await response.text()
-          throw new Error(
-            `Deepgram API error: ${response.status} - ${errorText}`,
-          )
-        }
-
-        return response.json()
       },
     )
 
