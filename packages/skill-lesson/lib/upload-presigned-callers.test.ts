@@ -10,8 +10,12 @@ jest.mock('@mux/mux-node', () =>
 const mockSet = jest.fn()
 const mockCommit = jest.fn()
 const mockPatch = jest.fn()
+const mockFetchDoc = jest.fn()
 jest.mock('../utils/sanity-server', () => ({
-  sanityWriteClient: {patch: (...args: unknown[]) => mockPatch(...args)},
+  sanityWriteClient: {
+    patch: (...args: unknown[]) => mockPatch(...args),
+    fetch: (...args: unknown[]) => mockFetchDoc(...args),
+  },
 }))
 jest.mock('@sanity/webhook', () => ({
   SIGNATURE_HEADER_NAME: 'sanity-webhook-signature',
@@ -32,6 +36,7 @@ beforeEach(() => {
   mockSet.mockReset().mockReturnValue({commit: mockCommit})
   mockCommit.mockReset().mockResolvedValue({})
   mockPatch.mockReset().mockReturnValue({set: mockSet})
+  mockFetchDoc.mockReset().mockResolvedValue(null)
   // Answers like a CastingWords order would, so any code path that still
   // orders a transcript gets far enough to show up in these tests.
   fetchMock.mockReset().mockResolvedValue({
@@ -137,6 +142,28 @@ describe('sanityVideoResourceWebhook (CastingWords retired)', () => {
       muxAsset: {muxAssetId: 'mux-2', muxPlaybackId: 'pb-2'},
     })
     // No transcription service is called: CastingWords is gone.
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
+
+  test('a resend of the creation body writes nothing when the stored resource has a Mux asset', async () => {
+    // Sanity's resend carries the original creation body: no muxAsset in it.
+    mockFetchDoc.mockResolvedValue({
+      muxAsset: {muxAssetId: 'mux-old', muxPlaybackId: 'pb-old'},
+    })
+    const res = webhookResponse()
+    await sanityVideoResourceWebhook(
+      {
+        headers: {'sanity-webhook-signature': 'sig'},
+        body: {_id: 'vr-old', originalMediaUrl: objectUrl},
+      } as any,
+      res,
+    )
+    expect(mockFetchDoc).toHaveBeenCalledWith(expect.any(String), {
+      id: 'vr-old',
+    })
+    expect(res.status).toHaveBeenCalledWith(200)
+    expect(assetsCreate).not.toHaveBeenCalled()
+    expect(mockPatch).not.toHaveBeenCalled()
     expect(fetchMock).not.toHaveBeenCalled()
   })
 
