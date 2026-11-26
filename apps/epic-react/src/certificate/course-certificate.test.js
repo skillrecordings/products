@@ -19,7 +19,7 @@ beforeEach(() => {
   fetchWorkshops.mockResolvedValue(
     [...workshops, 'welcome-to-epic-react'].map((slug) => ({slug})),
   )
-  getProgress.mockResolvedValue({moduleCompleted: true})
+  getProgress.mockResolvedValue({moduleCompleted: true, lessonCount: 10})
 })
 
 it('unlocks for an authenticated learner who completed every published workshop', async () => {
@@ -62,6 +62,32 @@ it('skips malformed published rows without locking eligible learners out', async
     expect(getProgress.mock.calls).toEqual([
       [{moduleSlug: 'valid-workshop', userId: 'test-user'}],
     ])
+  } finally {
+    warn.mockRestore()
+  }
+})
+
+it('skips throwing and empty workshops but still requires a completed workshop', async () => {
+  const warn = jest.spyOn(console, 'warn').mockImplementation(() => {})
+  try {
+    const broken = [{slug: 'broken-workshop'}, {slug: 'empty-workshop'}]
+    fetchWorkshops.mockResolvedValue([...broken, {slug: 'valid-workshop'}])
+    getProgress.mockImplementation(async ({moduleSlug}) => {
+      if (moduleSlug === 'broken-workshop') throw new Error('Test learner data')
+      return {
+        moduleCompleted: true,
+        lessonCount: moduleSlug === 'empty-workshop' ? 0 : 10,
+      }
+    })
+    await expect(canEarnCourseCertificate('test-user')).resolves.toBe(true)
+    expect(warn.mock.calls).toEqual(
+      broken.map(({slug}) => [
+        'Skipping published workshop with unusable progress:',
+        slug,
+      ]),
+    )
+    fetchWorkshops.mockResolvedValue(broken)
+    await expect(canEarnCourseCertificate('test-user')).resolves.toBe(false)
   } finally {
     warn.mockRestore()
   }

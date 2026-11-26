@@ -39,28 +39,35 @@ beforeEach(() => {
   renderCourseCertificate.mockResolvedValue(png)
 })
 
-function download(query) {
+function request(method, fields = {}) {
   const res = {
     setHeader: jest.fn(),
     status: jest.fn().mockReturnThis(),
     end: jest.fn(),
     send: jest.fn(),
+    json: jest.fn(),
   }
-  return handler({method: 'GET', query}, res).then(() => res)
+  return handler(
+    {method, headers: {'content-type': 'application/json'}, ...fields},
+    res,
+  ).then(() => res)
 }
 
-it('rejects anonymous and incomplete course downloads before rendering', async () => {
-  getToken.mockResolvedValueOnce(null)
-  expect((await download({})).status).toHaveBeenCalledWith(401)
-  canEarnCourseCertificate.mockResolvedValueOnce(false)
-  expect((await download({})).status).toHaveBeenCalledWith(403)
-  expect(renderCourseCertificate).not.toHaveBeenCalled()
-})
+it.each(['GET', 'POST'])(
+  'rejects anonymous and incomplete course requests (%s)',
+  async (method) => {
+    getToken.mockResolvedValueOnce(null)
+    expect((await request(method)).status).toHaveBeenCalledWith(401)
+    canEarnCourseCertificate.mockResolvedValueOnce(false)
+    expect((await request(method)).status).toHaveBeenCalledWith(403)
+    expect(renderCourseCertificate).not.toHaveBeenCalled()
+    expect(cloudinary.uploader.upload).not.toHaveBeenCalled()
+  },
+)
 
 it('renders a private download for the authenticated learner, ignoring query identity', async () => {
-  const res = await download({
-    userId: 'other-user',
-    name: 'Test Learner',
+  const res = await request('GET', {
+    query: {userId: 'other-user', name: 'Test Learner'},
   })
   expect(canEarnCourseCertificate).toHaveBeenCalledWith(user.id)
   expect(renderCourseCertificate).toHaveBeenCalledWith(user.name)
@@ -72,26 +79,50 @@ it('renders a private download for the authenticated learner, ignoring query ide
   expect(res.send).toHaveBeenCalledWith(png)
 })
 
-it('shares only server-rendered bytes for eligible learners in the reserved course slot', async () => {
-  const caller = certificateRouter.createCaller({req: {}, prisma})
-  const input = {
-    moduleSlug: COURSE_CERTIFICATE_SLUG,
-    imagePath: 'https://example.com/not-a-certificate.png',
-  }
-  canEarnCourseCertificate.mockResolvedValueOnce(false)
-  await expect(caller.upload(input)).rejects.toMatchObject({code: 'FORBIDDEN'})
-  expect(cloudinary.uploader.upload).not.toHaveBeenCalled()
-
-  cloudinary.uploader.upload.mockResolvedValue({
-    secure_url: 'https://example.com/certificate.png',
+it('shares only server-rendered bytes from the course endpoint', async () => {
+  const result = {secure_url: 'https://example.com/certificate.png'}
+  cloudinary.uploader.upload.mockResolvedValue(result)
+  const res = await request('POST', {
+    body: {
+      name: 'Test Learner',
+      imagePath: 'https://example.com/not-a-certificate.png',
+    },
   })
-  await caller.upload(input)
+  expect(renderCourseCertificate).toHaveBeenCalledWith(user.name)
+  expect(res.json).toHaveBeenCalledWith(result)
   expect(cloudinary.uploader.upload).toHaveBeenCalledWith(
     `data:image/png;base64,${png.toString('base64')}`,
     expect.objectContaining({
       public_id: 'certificate/test-user/epic-react-pro',
     }),
   )
+})
+
+it('refuses cross-origin form-compatible uploads before rendering', async () => {
+  const res = await request('POST', {
+    headers: {'content-type': 'application/x-www-form-urlencoded'},
+  })
+  expect(res.status).toHaveBeenCalledWith(415)
+  expect(renderCourseCertificate).not.toHaveBeenCalled()
+})
+
+it('reserves the canonical course slot from tRPC writes but allows authenticated lookups', async () => {
+  const caller = certificateRouter.createCaller({req: {}, prisma})
+  const input = {
+    moduleSlug: COURSE_CERTIFICATE_SLUG,
+    imagePath: 'https://example.com/test.png',
+  }
+  await expect(caller.upload(input)).rejects.toMatchObject({
+    code: 'BAD_REQUEST',
+  })
+  canEarnCourseCertificate.mockResolvedValueOnce(false)
+  await expect(caller.get(input)).rejects.toMatchObject({code: 'FORBIDDEN'})
+  expect(cloudinary.api.resource).not.toHaveBeenCalled()
+  await caller.get(input)
+  expect(cloudinary.api.resource).toHaveBeenCalledWith(
+    'certificate/test-user/epic-react-pro',
+  )
+  expect(cloudinary.uploader.upload).not.toHaveBeenCalled()
 })
 
 it('rejects mixed-case course slugs before upload or lookup', async () => {

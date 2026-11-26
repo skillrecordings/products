@@ -5,7 +5,6 @@ import {cloudinary} from '@/utils/cloudinary'
 import {TRPCError} from '@trpc/server'
 import {COURSE_CERTIFICATE_SLUG} from '@/certificate/course-certificate'
 import {canEarnCourseCertificate} from '@/certificate/course-certificate.server'
-import {renderCourseCertificate} from '@/certificate/render-course-certificate.server'
 
 const certificateSlug = z
   .string()
@@ -21,8 +20,11 @@ export const certificateRouter = router({
   upload: publicProcedure
     .input(
       z.object({
-        imagePath: z.string().optional(),
-        moduleSlug: certificateSlug,
+        imagePath: z.string(),
+        moduleSlug: certificateSlug.refine(
+          (slug) => slug !== COURSE_CERTIFICATE_SLUG,
+          {message: 'Use the course certificate endpoint'},
+        ),
       }),
     )
     .mutation(async ({ctx, input}) => {
@@ -41,26 +43,6 @@ export const certificateRouter = router({
 
       if (!user) return null
 
-      if (input.moduleSlug === COURSE_CERTIFICATE_SLUG) {
-        if (!(await canEarnCourseCertificate(user.id))) {
-          throw new TRPCError({code: 'FORBIDDEN'})
-        }
-        if (!user.name?.trim()) {
-          throw new TRPCError({
-            code: 'BAD_REQUEST',
-            message: 'Please save your name first',
-          })
-        }
-
-        // Cloudinary cannot fetch the authenticated download URL. Upload
-        // server-rendered bytes, never the URL supplied by the client.
-        const image = await renderCourseCertificate(user.name)
-        return await cloudinary.uploader.upload(
-          `data:image/png;base64,${image.toString('base64')}`,
-          uploadOptions(user.id, COURSE_CERTIFICATE_SLUG),
-        )
-      }
-      if (!input.imagePath) throw new TRPCError({code: 'BAD_REQUEST'})
       return await uploadImage(input.imagePath, user.id, input.moduleSlug)
     }),
   get: publicProcedure

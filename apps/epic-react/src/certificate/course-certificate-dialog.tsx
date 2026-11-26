@@ -44,13 +44,25 @@ function CourseCertificateForm() {
     },
     onError: () => toast.error('Could not save your name'),
   })
-  const upload = trpc.certificate.upload.useMutation({
-    onSuccess: (result) => {
-      if (result?.secure_url) setShareUrl(result.secure_url)
-      else toast.error('Could not generate a share link')
-    },
-    onError: () => toast.error('Could not generate a share link'),
-  })
+  const [isUploading, setIsUploading] = React.useState(false)
+  async function generateShareLink() {
+    setIsUploading(true)
+    try {
+      const response = await fetch(COURSE_CERTIFICATE_PATH, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: '{}',
+      })
+      if (!response.ok) throw new Error('Could not upload certificate')
+      const {secure_url} = await response.json()
+      if (!secure_url) throw new Error('Missing share URL')
+      setShareUrl(secure_url)
+    } catch {
+      toast.error('Could not generate a share link')
+    } finally {
+      setIsUploading(false)
+    }
+  }
 
   React.useEffect(() => {
     if (!savedName.trim()) return
@@ -65,7 +77,7 @@ function CourseCertificateForm() {
       })
       if (
         !response.ok ||
-        response.headers.get('content-type') !== 'image/png'
+        !response.headers.get('content-type')?.startsWith('image/png')
       ) {
         throw new Error('Could not load course certificate')
       }
@@ -165,10 +177,10 @@ function CourseCertificateForm() {
           <Button
             variant="outline"
             type="button"
-            disabled={!canIssue || upload.isLoading}
-            onClick={() => upload.mutate({moduleSlug: COURSE_CERTIFICATE_SLUG})}
+            disabled={!canIssue || isUploading}
+            onClick={generateShareLink}
           >
-            {upload.isLoading ? 'Generating link…' : 'Generate Share Link'}
+            {isUploading ? 'Generating link…' : 'Generate Share Link'}
           </Button>
         )}
         <Dialog.Close asChild>

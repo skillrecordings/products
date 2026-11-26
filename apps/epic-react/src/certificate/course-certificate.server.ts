@@ -28,7 +28,20 @@ export async function canEarnCourseCertificate(userId: unknown) {
   if (!requiredSlugs.length) return false
 
   const progress = await Promise.all(
-    requiredSlugs.map((moduleSlug) => getModuleProgress({moduleSlug, userId})),
+    requiredSlugs.map(async (moduleSlug) => {
+      try {
+        const progress = await getModuleProgress({moduleSlug, userId})
+        if (progress.lessonCount > 0) return progress.moduleCompleted
+      } catch {
+        // Don't log the error: it may contain a learner ID or database data.
+      }
+      console.warn(
+        'Skipping published workshop with unusable progress:',
+        moduleSlug,
+      )
+      return null
+    }),
   )
-  return progress.every(({moduleCompleted}) => moduleCompleted)
+  const evaluated = progress.filter((completed) => completed !== null)
+  return evaluated.length > 0 && evaluated.every(Boolean)
 }
